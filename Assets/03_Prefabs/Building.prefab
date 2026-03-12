@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 2100000, guid: 477dd0c6f66822541b994eead2a68500, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}

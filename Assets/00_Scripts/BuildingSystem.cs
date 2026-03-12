@@ -15,20 +15,41 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private Building buildingPrefab;
     [SerializeField] private BuildingGrid grid;
     private BuildingPreview preview;
+    private Building lastHovered;
+    private bool destroy = false;
 
     private void Update()
     {
         Vector3 mousePos = GetMouseWorldPosition();
 
-        if (Input.GetKeyDown(KeyCode.Alpha0) && preview != null)
+        // Right-click destroys preview
+        if (Input.GetMouseButtonDown(1) && preview != null)
         {
             Destroy(preview.gameObject);
             preview = null;
             return;
         }
 
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            destroy = !destroy;
+
+            // Reset last hovered building if turning destroy mode off
+            if (!destroy && lastHovered != null)
+            {
+                lastHovered.ChangeState(Building.BuildingState.BUILT);
+                lastHovered = null;
+            }
+        }
+
+        if (destroy)
+        {
+            HandleDestroyMode();
+            return;
+        }
+
         if (preview != null)
-        {   
+        {
             HandlePreview(mousePos);
             return;
         }
@@ -51,15 +72,78 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
+    private void HandleDestroyMode()
+    {
+        // Raycast to find building under mouse
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
+        {
+            Building hovered = hit.collider.GetComponentInParent<Building>();
+
+            if (hovered != lastHovered)
+            {
+                // Reset previous hover
+                if (lastHovered != null)
+                    lastHovered.ChangeState(Building.BuildingState.BUILT);
+
+                // Set new hover
+                if (hovered != null)
+                    hovered.ChangeState(Building.BuildingState.DESTROYHOVER);
+
+                lastHovered = hovered;
+            }
+
+            // Left-click destroys it
+            if (hovered != null && Input.GetMouseButtonDown(0))
+            {
+                grid.RemBuilding(hovered.transform.position); // remove from grid
+                Destroy(hovered.gameObject);
+                lastHovered = null; // clear hover since it's gone
+            }
+        }
+        else
+        {
+            // No building under cursor — reset lastHovered
+            if (lastHovered != null)
+            {
+                lastHovered.ChangeState(Building.BuildingState.BUILT);
+                lastHovered = null;
+            }
+        }
+    }
+
     private void HandlePreview(Vector3 mouseWorldPosition)
     {
+        if (destroy && Input.GetMouseButtonDown(0))
+        {
+            RemoveBuilding(mouseWorldPosition);
+            return;
+        }
+        if (destroy)
+        {
+            // Raycast to find building under mouse
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
+            {
+                Building b = hit.collider.GetComponentInParent<Building>();
+                if (b != null)
+                {
+                    b.ChangeState(Building.BuildingState.DESTROYHOVER);
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        grid.RemBuilding(b.transform.position);
+                        Destroy(b.gameObject);
+                    }
+                }
+            }
+            return; // exit so preview doesn't move
+        }
+
         preview.transform.position = mouseWorldPosition;
-        List<Vector3> buildPosition = preview.BuildingModel.GetAllBuildingPositions();
+        Vector3 buildPosition = preview.BuildingModel.GetAllBuildingPositions().First(); //road is only 1 tile
         bool canBuild = grid.CanBuild(buildPosition);
-        if ( canBuild)
+        if ( canBuild && !destroy)
         {
             preview.transform.position = GetSnappedCenterPosition(buildPosition);
-            preview.ChangeState(BuildingPreview.BuildingPrevioewState.POSITIVE);
+            preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
             if (Input.GetMouseButtonDown(0))
             {
                 PlaceBuilding(buildPosition);
@@ -67,7 +151,7 @@ public class BuildingSystem : MonoBehaviour
         }
         else
         {
-            preview.ChangeState(BuildingPreview.BuildingPrevioewState.NEGATIVE);
+            preview.ChangeState(BuildingPreview.BuildingPreviewState.NEGATIVE);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -75,16 +159,23 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
-    private void PlaceBuilding(List<Vector3> buildingPositions)
+    private void PlaceBuilding(Vector3 buildingPosition)
     {
-        Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity);
+        Vector3 snappedPos = GetSnappedCenterPosition(buildingPosition);
+        Building building = Instantiate(buildingPrefab, snappedPos, Quaternion.identity);
         building.Setup(preview.Data, preview.BuildingModel.Rotation);
-        grid.SetBuilding(building, buildingPositions);
+        grid.SetBuilding(building, snappedPos);
         Destroy(preview.gameObject);
         preview = null;
     }
 
-    private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPositions)
+    private void RemoveBuilding(Vector3 mouseWorldPosition)
+    {
+        Vector3 snappedPos = GetSnappedCenterPosition(mouseWorldPosition);
+        grid.RemBuilding(snappedPos);
+    }
+
+    private Vector3 GetSnappedCenterPosition(Vector3 buildingPosition)
     {
         //List<int> xs = allBuildingPositions.Select(p => Mathf.FloorToInt(p.x)).ToList();
         //List<int> zs = allBuildingPositions.Select(p => Mathf.FloorToInt(p.z)).ToList();
@@ -92,13 +183,9 @@ public class BuildingSystem : MonoBehaviour
         //float centerZ = (zs.Min() + zs.Max()) / 2f + CellSize / 2f;
         //return new Vector3(centerX, 0, centerZ);
 
-        // Compute raw center of building
-        float rawX = allBuildingPositions.Average(p => p.x);
-        float rawZ = allBuildingPositions.Average(p => p.z);
-
         // Snap to nearest grid cell center
-        float snappedX = Mathf.Floor(rawX / CellSize) * CellSize + CellSize / 2f;
-        float snappedZ = Mathf.Floor(rawZ / CellSize) * CellSize + CellSize / 2f;
+        float snappedX = Mathf.Floor(buildingPosition.x / CellSize) * CellSize + CellSize / 2f;
+        float snappedZ = Mathf.Floor(buildingPosition.z / CellSize) * CellSize + CellSize / 2f;
 
         return new Vector3(snappedX, 0, snappedZ);
     }
