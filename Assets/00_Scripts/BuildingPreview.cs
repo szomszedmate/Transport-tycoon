@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuildingPreview : MonoBehaviour
 {
-    public enum BuildingPrevioewState
+    public enum BuildingPreviewState
     {
         POSITIVE,
         NEGATIVE
@@ -13,7 +13,7 @@ public class BuildingPreview : MonoBehaviour
     private Material positiveMaterial;
     [SerializeField]
     private Material negativeMaterial;
-    public BuildingPrevioewState State { get; private set; } = BuildingPrevioewState.NEGATIVE;
+    public BuildingPreviewState State { get; private set; } = BuildingPreviewState.NEGATIVE;
     public BuildingData Data { get; private set; }
     public BuildingModel BuildingModel { get; private set; }
     private List<Renderer> renderers = new();
@@ -21,9 +21,6 @@ public class BuildingPreview : MonoBehaviour
 
     public void Setup(BuildingData data)
     {
-        Debug.Log(data.name);
-        Debug.Log(data);
-
         Data = data;
         BuildingModel = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
         renderers.AddRange(BuildingModel.GetComponentsInChildren<Renderer>());
@@ -36,7 +33,7 @@ public class BuildingPreview : MonoBehaviour
         SetPreviewMaterial(State);
     }
 
-    public void ChangeState(BuildingPrevioewState newState)
+    public void ChangeState(BuildingPreviewState newState)
     {
         if (newState == State ) { return; }
         State = newState;
@@ -47,9 +44,9 @@ public class BuildingPreview : MonoBehaviour
         BuildingModel.Rotate(rotationStep);
     }
 
-    private void SetPreviewMaterial(BuildingPrevioewState newState)
+    private void SetPreviewMaterial(BuildingPreviewState newState)
     {
-        Material previewMat = newState == BuildingPrevioewState.POSITIVE ? positiveMaterial : negativeMaterial;
+        Material previewMat = newState == BuildingPreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
         foreach (var rend in renderers)
         {
             Material[] mats = new Material[rend.sharedMaterials.Length];

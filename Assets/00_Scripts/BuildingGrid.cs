@@ -21,13 +21,16 @@ public class BuildingGrid : MonoBehaviour
         }
     }
 
-    public void SetBuilding(Building building, List<Vector3> allBuildingPositions)
+    public void SetBuilding(Building building, Vector3 buildingPosition)
     {
-        foreach (var p in allBuildingPositions)
-        {
-            (int x, int y) = WorldToGridPosition(p);
+            (int x, int y) = WorldToGridPosition(buildingPosition);
             grid[x, y].SetBuilding(building);
-        }
+    }
+
+    public void RemBuilding(Vector3 buildingPosition)
+    {
+        (int x, int y) = WorldToGridPosition(buildingPosition);
+        grid[x, y].Cell_RemBuilding();
     }
     private (int x, int y) WorldToGridPosition(Vector3 worldPosition)
     {
@@ -36,14 +39,11 @@ public class BuildingGrid : MonoBehaviour
         return (x, y);
     }
 
-    public bool CanBuild(List<Vector3> allBuildingPositions)
+    public bool CanBuild(Vector3 buildingPosition)
     {
-        foreach (var p in allBuildingPositions)
-        {
-            (int x, int y) = WorldToGridPosition(p);
-            if (x < 0 || x >= width || y < 0 || y >= height) return false;
-            if (!grid[x, y].IsEmpty()) return false;
-        }
+        (int x, int y) = WorldToGridPosition(buildingPosition);
+        if (x < 0 || x >= width || y < 0 || y >= height) return false;
+        if (!grid[x, y].IsEmpty()) return false;
         return true;
     }
 
@@ -73,6 +73,13 @@ public class BuildingGridCell
     public void SetBuilding(Building build)
     {
         this.building = build;
+    }
+
+    public void Cell_RemBuilding()
+    {
+        if (building == null) return;
+        Object.Destroy(building.gameObject);
+        building = null;
     }
 
     public bool IsEmpty()
