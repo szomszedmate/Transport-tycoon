@@ -2681,19 +2681,7 @@ MonoBehaviour:
     - m_Data: 61436
     m_LastClickedID:
       m_Data: 61436
-    m_ExpandedIDs:
-    - m_Data: 0
-    - m_Data: 46192
-    - m_Data: 46194
-    - m_Data: 46196
-    - m_Data: 46198
-    - m_Data: 46200
-    - m_Data: 46202
-    - m_Data: 46204
-    - m_Data: 46206
-    - m_Data: 46208
-    - m_Data: 46210
-    - m_Data: 46212
+    m_ExpandedIDs: []
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2724,19 +2712,7 @@ MonoBehaviour:
     m_SelectedIDs: []
     m_LastClickedID:
       m_Data: 0
-    m_ExpandedIDs:
-    - m_Data: 0
-    - m_Data: 46192
-    - m_Data: 46194
-    - m_Data: 46196
-    - m_Data: 46198
-    - m_Data: 46200
-    - m_Data: 46202
-    - m_Data: 46204
-    - m_Data: 46206
-    - m_Data: 46208
-    - m_Data: 46210
-    - m_Data: 46212
+    m_ExpandedIDs: []
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

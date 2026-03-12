@@ -54,14 +54,14 @@ public class BuildingGrid : MonoBehaviour
         Vector3 origin = transform.position;
         for (int y = 0; y < height; y++)
         {
-            Vector3 start = origin + new Vector3(0, 0.1f, y * BuildingSystem.CellSize);
-            Vector3 end = origin + new Vector3(width * BuildingSystem.CellSize, 0.1f, y * BuildingSystem.CellSize);
+            Vector3 start = origin + new Vector3(0, 0.01f, y * BuildingSystem.CellSize);
+            Vector3 end = origin + new Vector3(width * BuildingSystem.CellSize, 0.01f, y * BuildingSystem.CellSize);
             Gizmos.DrawLine(start, end);
         }
         for (int x = 0; x < width; x++)
         { 
-            Vector3 start = origin + new Vector3(x * BuildingSystem.CellSize, 0.1f, 0);
-            Vector3 end = origin + new Vector3(x * BuildingSystem.CellSize, 0.1f, height * BuildingSystem.CellSize);
+            Vector3 start = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, 0);
+            Vector3 end = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, height * BuildingSystem.CellSize);
             Gizmos.DrawLine(start, end);
         }
     }

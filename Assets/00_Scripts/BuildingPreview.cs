@@ -21,6 +21,9 @@ public class BuildingPreview : MonoBehaviour
 
     public void Setup(BuildingData data)
     {
+        Debug.Log(data.name);
+        Debug.Log(data);
+
         Data = data;
         BuildingModel = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
         renderers.AddRange(BuildingModel.GetComponentsInChildren<Renderer>());
