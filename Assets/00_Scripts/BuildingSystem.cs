@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class BuildingSystem : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BuildingData BuildingData1;
     [SerializeField] private BuildingData BuildingData2;
     [SerializeField] private BuildingData BuildingData3;
+    [SerializeField] private BuildingData BuildingData4;
     [SerializeField] private BuildingPreview previewPrefab;
     [SerializeField] private Building buildingPrefab;
     [SerializeField] private BuildingGrid grid;
@@ -17,21 +19,35 @@ public class BuildingSystem : MonoBehaviour
     private void Update()
     {
         Vector3 mousePos = GetMouseWorldPosition();
+
+        if (Input.GetKeyDown(KeyCode.Alpha0) && preview != null)
+        {
+            Destroy(preview.gameObject);
+            preview = null;
+            return;
+        }
+
         if (preview != null)
-        {
+        {   
             HandlePreview(mousePos);
-        } else
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                preview = CreatePreview(BuildingData1, mousePos);
-            } else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                preview = CreatePreview(BuildingData2, mousePos);
-            } else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                preview = CreatePreview(BuildingData3, mousePos);
-            }
+            preview = CreatePreview(BuildingData1, mousePos);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            preview = CreatePreview(BuildingData2, mousePos);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            preview = CreatePreview(BuildingData3, mousePos);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            preview = CreatePreview(BuildingData4, mousePos);
         }
     }
 
