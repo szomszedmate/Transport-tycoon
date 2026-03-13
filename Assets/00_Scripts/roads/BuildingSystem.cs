@@ -92,12 +92,13 @@ public class BuildingSystem : MonoBehaviour
                 lastHovered = hovered;
             }
 
-            // Left-click destroys it
+            // Left click destroys it
             if (hovered != null && Input.GetMouseButtonDown(0))
             {
+                if (grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
                 grid.RemBuilding(hovered.transform.position); // remove from grid
                 Destroy(hovered.gameObject);
-                lastHovered = null; // clear hover since it's gone
+                lastHovered = null; // clear hover since its gone
             }
         }
         else
@@ -124,11 +125,12 @@ public class BuildingSystem : MonoBehaviour
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
             {
                 Building b = hit.collider.GetComponentInParent<Building>();
-                if (b != null)
+                if (b != null && !b.IsCityRoad)
                 {
                     b.ChangeState(Building.BuildingState.DESTROYHOVER);
                     if (Input.GetMouseButtonDown(0))
                     {
+                        
                         grid.RemBuilding(b.transform.position);
                         Destroy(b.gameObject);
                     }
@@ -186,7 +188,7 @@ public class BuildingSystem : MonoBehaviour
         // Snap to nearest grid cell center
         float snappedX = Mathf.Floor(buildingPosition.x / CellSize) * CellSize + CellSize / 2f;
         float snappedZ = Mathf.Floor(buildingPosition.z / CellSize) * CellSize + CellSize / 2f;
-
+        Debug.Log("Coordinates: " + snappedX + ", " + snappedZ);
         return new Vector3(snappedX, 0, snappedZ);
     }
 

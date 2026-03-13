@@ -19,12 +19,35 @@ public class BuildingGrid : MonoBehaviour
                 grid[i, j] = new();
             }
         }
+        RegisterExistingBuildings();
+    }
+
+    private void RegisterExistingBuildings()
+    {
+        Building[] buildings = GameObject.FindObjectsByType<Building>(FindObjectsSortMode.None);
+
+        foreach (var building in buildings)
+        {
+            Vector3 pos = building.transform.position;
+            (int x, int y) = WorldToGridPosition(pos);
+
+            if (x >= 0 && x < width && y >= 0 && y < height)
+            {
+                grid[x, y].SetBuilding(building);
+            }
+        }
     }
 
     public void SetBuilding(Building building, Vector3 buildingPosition)
     {
             (int x, int y) = WorldToGridPosition(buildingPosition);
             grid[x, y].SetBuilding(building);
+    }
+
+    public bool IsCityRoad(Vector3 buildingPosition)
+    {
+        (int x, int y) = WorldToGridPosition(buildingPosition);
+        return grid[x, y].Cell_IsCityRoad();
     }
 
     public void RemBuilding(Vector3 buildingPosition)
@@ -73,6 +96,11 @@ public class BuildingGridCell
     public void SetBuilding(Building build)
     {
         this.building = build;
+    }
+
+    public bool Cell_IsCityRoad()
+    {
+        return building.IsCityRoad;
     }
 
     public void Cell_RemBuilding()

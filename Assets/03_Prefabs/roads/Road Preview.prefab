@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4922124203991902569
+--- !u!1 &2869983941609470786
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 258552541137499780}
-  - component: {fileID: 2383794928318383345}
+  - component: {fileID: 656671155142045994}
+  - component: {fileID: 4501084694000386825}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Road Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &258552541137499780
+--- !u!4 &656671155142045994
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4922124203991902569}
+  m_GameObject: {fileID: 2869983941609470786}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -168.80447, y: 543.9357, z: 81.46625}
@@ -32,17 +32,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2383794928318383345
+--- !u!114 &4501084694000386825
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4922124203991902569}
+  m_GameObject: {fileID: 2869983941609470786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Script: {fileID: 11500000, guid: 49fba80f3b8d9f943a14fdb3280453ff, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Building
-  builtMaterial: {fileID: 2100000, guid: 477dd0c6f66822541b994eead2a68500, type: 2}
-  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingPreview
+  positiveMaterial: {fileID: 2100000, guid: f357f3e5ac805cf409c0bc23ecd5a5db, type: 2}
+  negativeMaterial: {fileID: 2100000, guid: 62b8878af1858704ba57b53318bd2771, type: 2}

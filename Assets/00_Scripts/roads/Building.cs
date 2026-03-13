@@ -19,6 +19,9 @@ public class Building : MonoBehaviour
     private Material builtMaterial;
     [SerializeField]
     private Material destroyHoverMaterial;
+    [SerializeField]
+    private bool isCityRoad;
+    public bool IsCityRoad => isCityRoad;
     private List<Renderer> renderers = new();
 
     public void Setup(BuildingData data, float rotation)
@@ -37,9 +40,12 @@ public class Building : MonoBehaviour
         SetBuildingMaterial(BuildingState.BUILT);
     }
 
+
+
     public void ChangeState(BuildingState newState)
     {
-        if (newState == State) { return; }
+        if (isCityRoad) return;
+        if (newState == State) return;
         State = newState;
         SetBuildingMaterial(State);
     }
