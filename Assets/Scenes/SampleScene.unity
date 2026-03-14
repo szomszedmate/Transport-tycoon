@@ -119,6 +119,26 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10837302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7742714944120603708, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &10837304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10837302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &31135999
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +352,106 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 48940154}
   m_CullTransparentMesh: 1
+--- !u!1 &109653130 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7750345893731424080, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &109653132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109653130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &174607134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4773291863719797185, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &174607136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174607134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &198055457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6592136184588139922, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &198055459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198055457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &262037925 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 522277076282463770, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &262037927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262037925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &301716269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1508318608115494817, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &301716271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301716269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +539,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3535534, y: 0.61237246, z: -0.3535534, w: 0.61237246}
-  m_LocalPosition: {x: -40, y: 89.33, z: 0}
+  m_LocalPosition: {x: -50, y: 150, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -596,6 +716,26 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &443532642 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4773291863719797185, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &443532644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443532642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &452326048
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +815,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &584737029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1620081446480580267, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &584737031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584737029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &643531219 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7071431521595628927, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &643531221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643531219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &646231091
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +1062,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674808833}
   m_CullTransparentMesh: 1
+--- !u!1 &689772514 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5532593397418871383, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &689772516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689772514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &698548440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,6 +1352,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 707157855}
   m_CullTransparentMesh: 1
+--- !u!1 &726322930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3089140485712767930, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &726322932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726322930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &728456872 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6592136184588139922, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &728456874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728456872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &759895002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6975216231258083062, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &759895004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759895002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &766094213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1437,7 @@ Transform:
   m_GameObject: {fileID: 766094213}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.95353, y: -0, z: 0.41271}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1185,6 +1445,26 @@ Transform:
   - {fileID: 1668360213}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &802097627 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7742714944120603708, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &802097629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802097627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &825181619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1477,12 +1757,37 @@ Transform:
   m_GameObject: {fileID: 832575517}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.95353, y: 0, z: -0.41271}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1290202658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &842648406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &842648407 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &842648408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842648406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b98f896e33490c47b9187417f204871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::City
+  height: 5
+  width: 5
+  population: 30
 --- !u!1 &847431098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,6 +1925,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847431098}
   m_CullTransparentMesh: 1
+--- !u!1 &884787475 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7071431521595628927, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &884787477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884787475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &905125922
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,6 +1996,31 @@ MonoBehaviour:
   previewPrefab: {fileID: 4501084694000386825, guid: baeef1379d13a494e80731c61809ea7a, type: 3}
   buildingPrefab: {fileID: 2383794928318383345, guid: edac8ca26d30c3a4c9ba5e61b008eff3, type: 3}
   grid: {fileID: 1668360212}
+--- !u!1 &907949497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &939659766 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3173484362937691356, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &939659768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939659766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &1011012290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1810,6 +2160,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011012290}
   m_CullTransparentMesh: 1
+--- !u!1 &1068813922 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6975216231258083062, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1068813924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068813922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &1132645377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7750345893731424080, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1132645379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132645377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &1157139567
 GameObject:
   m_ObjectHideFlags: 0
@@ -1942,6 +2332,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157139567}
   m_CullTransparentMesh: 1
+--- !u!1 &1160006900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5842187587949292964, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1160006902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160006900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &1184516475 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1620081446480580267, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1184516477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184516475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &1186702629
 GameObject:
   m_ObjectHideFlags: 0
@@ -2369,7 +2799,7 @@ Transform:
   m_GameObject: {fileID: 1290202657}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.95353, y: -0, z: 0.41271}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2377,8 +2807,69 @@ Transform:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1662067162}
+  - {fileID: 842648407}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1331804113 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2394057306634357756, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1331804115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331804113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &1343660074 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 894585332657878484, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1343660079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343660074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 0
+--- !u!1 &1380935186 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8446344341466353160, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1380935188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380935186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &1385070307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2516,6 +3007,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1385070307}
   m_CullTransparentMesh: 1
+--- !u!1 &1396122951 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 522277076282463770, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1396122953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396122951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &1445814464 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3089140485712767930, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1445814466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445814464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1 &1478234327
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,11 +3244,46 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1602177929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1508318608115494817, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1602177931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602177929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!4 &1662067162 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
   m_PrefabInstance: {fileID: 5803251002926565133}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1662067163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907949497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b98f896e33490c47b9187417f204871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::City
+  height: 5
+  width: 5
+  population: 300
 --- !u!1 &1668360211
 GameObject:
   m_ObjectHideFlags: 0
@@ -2764,6 +3330,288 @@ Transform:
   m_Children: []
   m_Father: {fileID: 766094214}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1761329700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8446344341466353160, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1761329702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761329700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &1834912923 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4585462473953930096, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1834912925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834912923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &1993380207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2394057306634357756, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1993380209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993380207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &1998196022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5532593397418871383, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1998196024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998196022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &2016430261 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5842187587949292964, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 5803251002926565133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2016430263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016430261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1 &2058847188 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3173484362937691356, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2058847190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058847188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
+--- !u!1001 &2064738054
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1290202658}
+    m_Modifications:
+    - target: {fileID: 1493680300803787257, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493680300803787257, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493680300803787257, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493680300803787257, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493680300803787257, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.682
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493680300803787257, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931512654338314573, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_Name
+      value: City2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8118287138706395941, guid: e9abece64feef694596d981e5b665051, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 842648408}
+    - targetCorrespondingSourceObject: {fileID: 894585332657878484, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1343660079}
+    - targetCorrespondingSourceObject: {fileID: 2057978160484838956, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3173484362937691356, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2058847190}
+    - targetCorrespondingSourceObject: {fileID: 3089140485712767930, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 726322932}
+    - targetCorrespondingSourceObject: {fileID: 7742714944120603708, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 802097629}
+    - targetCorrespondingSourceObject: {fileID: 5842187587949292964, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1160006902}
+    - targetCorrespondingSourceObject: {fileID: 7750345893731424080, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 109653132}
+    - targetCorrespondingSourceObject: {fileID: 5532593397418871383, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1998196024}
+    - targetCorrespondingSourceObject: {fileID: 4585462473953930096, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2113172130}
+    - targetCorrespondingSourceObject: {fileID: 2394057306634357756, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1993380209}
+    - targetCorrespondingSourceObject: {fileID: 1508318608115494817, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 301716271}
+    - targetCorrespondingSourceObject: {fileID: 522277076282463770, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 262037927}
+    - targetCorrespondingSourceObject: {fileID: 7071431521595628927, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 884787477}
+    - targetCorrespondingSourceObject: {fileID: 1620081446480580267, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1184516477}
+    - targetCorrespondingSourceObject: {fileID: 4773291863719797185, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 174607136}
+    - targetCorrespondingSourceObject: {fileID: 6592136184588139922, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 198055459}
+    - targetCorrespondingSourceObject: {fileID: 8446344341466353160, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1380935188}
+    - targetCorrespondingSourceObject: {fileID: 6975216231258083062, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1068813924}
+  m_SourcePrefab: {fileID: 100100000, guid: e9abece64feef694596d981e5b665051, type: 3}
+--- !u!1 &2113172128 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4585462473953930096, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 2064738054}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2113172130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113172128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  builtMaterial: {fileID: 0}
+  destroyHoverMaterial: {fileID: 0}
+  isCityRoad: 1
 --- !u!1001 &5803251002926565133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2848,9 +3696,60 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1662067163}
     - targetCorrespondingSourceObject: {fileID: 2057978160484838956, guid: e9abece64feef694596d981e5b665051, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 3173484362937691356, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 939659768}
+    - targetCorrespondingSourceObject: {fileID: 3089140485712767930, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1445814466}
+    - targetCorrespondingSourceObject: {fileID: 7742714944120603708, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 10837304}
+    - targetCorrespondingSourceObject: {fileID: 5842187587949292964, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2016430263}
+    - targetCorrespondingSourceObject: {fileID: 7750345893731424080, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1132645379}
+    - targetCorrespondingSourceObject: {fileID: 5532593397418871383, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 689772516}
+    - targetCorrespondingSourceObject: {fileID: 4585462473953930096, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1834912925}
+    - targetCorrespondingSourceObject: {fileID: 2394057306634357756, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1331804115}
+    - targetCorrespondingSourceObject: {fileID: 1508318608115494817, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1602177931}
+    - targetCorrespondingSourceObject: {fileID: 522277076282463770, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1396122953}
+    - targetCorrespondingSourceObject: {fileID: 7071431521595628927, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 643531221}
+    - targetCorrespondingSourceObject: {fileID: 1620081446480580267, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 584737031}
+    - targetCorrespondingSourceObject: {fileID: 4773291863719797185, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 443532644}
+    - targetCorrespondingSourceObject: {fileID: 6592136184588139922, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 728456874}
+    - targetCorrespondingSourceObject: {fileID: 8446344341466353160, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1761329702}
+    - targetCorrespondingSourceObject: {fileID: 6975216231258083062, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 759895004}
   m_SourcePrefab: {fileID: 100100000, guid: e9abece64feef694596d981e5b665051, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
