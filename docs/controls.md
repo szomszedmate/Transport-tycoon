@@ -9,3 +9,11 @@ Right Click : Cancel preview
 ## Destroy Mode
 X : Toggle destroy mode
 Left Click : Destroy building
+
+## Camera
+W : Forward
+A : Left
+S : Back
+D : Right
+E : Up
+Q : Down
