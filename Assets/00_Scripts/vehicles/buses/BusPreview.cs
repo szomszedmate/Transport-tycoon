@@ -17,7 +17,9 @@ public class BusPreview : MonoBehaviour, IPreview
     public void Setup(BusData data)
     {
         Data = data;
-        BusModel = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
+        BusModel = Instantiate(data.Model, transform);
+        BusModel.transform.localPosition = Vector3.zero;
+        BusModel.transform.localRotation = Quaternion.Euler(-90, 0, 0);
         renderers.AddRange(BusModel.GetComponentsInChildren<Renderer>());
         colliders.AddRange(BusModel.GetComponentsInChildren<Collider>());
 

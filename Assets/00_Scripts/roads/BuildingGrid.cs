@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.FilePathAttribute;
 
 public class BuildingGrid : MonoBehaviour
 {
@@ -8,6 +11,8 @@ public class BuildingGrid : MonoBehaviour
     [SerializeField]
     private int height;
     private BuildingGridCell[,] grid;
+    private List<ILocation> locations;
+    private List<Building> roads;
 
     private void Start()
     {
@@ -19,22 +24,33 @@ public class BuildingGrid : MonoBehaviour
                 grid[i, j] = new();
             }
         }
-        RegisterExistingBuildings();
+        RegisterExistingObjects();
     }
 
-    private void RegisterExistingBuildings()
+    private void RegisterExistingObjects()
     {
-        Building[] buildings = GameObject.FindObjectsByType<Building>(FindObjectsSortMode.None);
+        locations = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ILocation>().ToList();
 
-        foreach (var building in buildings)
+        foreach (var location in locations)
         {
-            Vector3 pos = building.transform.position;
+            Vector3 pos = ((MonoBehaviour)location).transform.position;
             (int x, int y) = WorldToGridPosition(pos);
 
             if (x >= 0 && x < width && y >= 0 && y < height)
             {
-                grid[x, y].SetBuilding(building);
-                Debug.Log(x+","+y + " is " + building.tag);
+                grid[x, y].RegLocation(location);
+            }
+        }
+
+        roads = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<Building>().ToList();
+        foreach (var road in roads)
+        {
+            Vector3 pos = ((MonoBehaviour)road).transform.position;
+            (int x, int y) = WorldToGridPosition(pos);
+
+            if (x >= 0 && x < width && y >= 0 && y < height)
+            {
+                grid[x, y].SetBuilding(road);
             }
         }
     }
@@ -69,11 +85,31 @@ public class BuildingGrid : MonoBehaviour
         return (x, y);
     }
 
+    public bool CanBuildBus(Vector3 busPosition)
+    {
+        (int x, int y) = WorldToGridPosition(busPosition);
+        if (x < 0 || x >= width || y < 0 || y >= height) return false;
+        if (!grid[x, y].IsEmpty()) return true;
+        return false;
+    }
+
     public bool CanBuild(Vector3 buildingPosition)
     {
         (int x, int y) = WorldToGridPosition(buildingPosition);
         if (x < 0 || x >= width || y < 0 || y >= height) return false;
+        //if (!grid[x, y].Cell_IsCityRoad()) return false;
+        //Debug.Log($"Cell {x},{y} empty: {grid[x, y].IsEmpty()}");
         if (!grid[x, y].IsEmpty()) return false;
+        foreach (ILocation location in locations)
+        {
+            foreach (Vector3 pos in location.GetAllBuildingPositions())
+            {
+                if (Vector3.Distance(pos, buildingPosition) < BuildingSystem.CellSize * 0.76f)
+                {
+                    return false; // too close, inside a city
+                }
+            }
+        }
         return true;
     }
 
@@ -100,7 +136,13 @@ public class BuildingGrid : MonoBehaviour
 public class BuildingGridCell
 {
     private Building building;
+    private ILocation location;
     private IVehicle vehicle;
+
+    public void RegLocation(ILocation location)
+    {
+        this.location = location;
+    }
 
     public void SetVehicle(IVehicle vehicle)
     {
@@ -126,6 +168,6 @@ public class BuildingGridCell
 
     public bool IsEmpty()
     {
-        return this.building == null;
+        return this.building == null && this.location == null;
     }
 }

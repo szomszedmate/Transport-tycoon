@@ -249,8 +249,8 @@ MonoBehaviour:
     y: 0
     width: 781
     height: 678
-  m_MinSize: {x: 276, y: 76}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -405,18 +405,18 @@ MonoBehaviour:
       y: 21
       width: 944
       height: 631
-    m_Scale: {x: 0.49166667, y: 0.4916667}
-    m_Translation: {x: 472, y: 315.5}
+    m_Scale: {x: 1.419549, y: 1.419549}
+    m_Translation: {x: 472.00003, y: 315.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -960
-      y: -641.6949
-      width: 1920
-      height: 1283.3898
+      x: -332.5
+      y: -222.2537
+      width: 664.99994
+      height: 444.5074
     m_MinimalGUI: 1
   m_defaultScale: 0.49166667
   m_LastWindowPixelSize: {x: 944, y: 652}
@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 0
+    y: 43
     width: 1920
     height: 36
   m_SerializedDataModeController:
@@ -964,8 +964,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 194
-    y: 24
+    x: 193
+    y: 79
     width: 944
     height: 652
   m_SerializedDataModeController:
@@ -1482,9 +1482,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 7.2749996, y: 2.25, z: 5}
+    m_Target: {x: 5, y: 2, z: -3.25}
     speed: 2
-    m_Value: {x: 7.2749996, y: 2.25, z: 5}
+    m_Value: {x: 5, y: 2, z: -3.25}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1530,13 +1530,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.5803014, y: -0.088725604, z: 0.063798144, w: 0.8070374}
+    m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: -0.5803014, y: 0.0887256, z: -0.063798144, w: -0.8070374}
+    m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 124.27108
+    m_Target: 15.529694
     speed: 2
-    m_Value: 124.27108
+    m_Value: 15.529694
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1647,7 +1647,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
+    y: 79
     width: 192
     height: 652
   m_SerializedDataModeController:
@@ -1666,21 +1666,30 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: []
+      m_SelectedIDs:
+      - m_Data: -101064
       m_LastClickedID:
-        m_Data: 0
+        m_Data: -101064
       m_ExpandedIDs:
-      - m_Data: -30424
-      - m_Data: -28528
-      - m_Data: -27600
-      - m_Data: -1298
+      - m_Data: -12102
+      - m_Data: -12078
+      - m_Data: -12076
+      - m_Data: -10154
       - m_Data: -1296
-      - m_Data: 46302
-      - m_Data: 46370
+      - m_Data: 46276
+      - m_Data: 46332
+      - m_Data: 46400
+      - m_Data: 46432
+      - m_Data: 55196
+      - m_Data: 55228
+      - m_Data: 55252
+      - m_Data: 55320
+      - m_Data: 55328
+      - m_Data: 55352
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: City1
+        m_OriginalName: City1
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
@@ -1688,10 +1697,10 @@ MonoBehaviour:
           width: 0
           height: 0
         m_UserData:
-          m_Data: 0
+          m_Data: 55252
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 4}
@@ -1724,7 +1733,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 702
+    y: 757
     width: 1920
     height: 277
   m_SerializedDataModeController:
@@ -1751,7 +1760,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/00_Scripts/locations
+    - Assets/00_Scripts/locations/cities
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1761,31 +1770,39 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/00_Scripts/locations
+  - Assets/00_Scripts/locations/cities
   m_LastFoldersGridSize: 16
   m_LastProjectPath: S:\Unity\Projects\Transport Tycoon
   m_LockTracker:
     m_IsLocked: 0
   m_LastLocalAssetsSearchArea: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 95}
+    scrollPos: {x: 0, y: 143}
     m_SelectedIDs:
-    - m_Data: 47530
+    - m_Data: 55036
     m_LastClickedID:
-      m_Data: 47530
+      m_Data: 55036
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 47368
-    - m_Data: 47370
-    - m_Data: 47372
-    - m_Data: 47374
-    - m_Data: 47376
-    - m_Data: 47378
-    - m_Data: 47380
-    - m_Data: 47382
-    - m_Data: 47384
-    - m_Data: 47386
-    - m_Data: 47388
+    - m_Data: 47390
+    - m_Data: 47392
+    - m_Data: 47394
+    - m_Data: 47396
+    - m_Data: 47398
+    - m_Data: 47400
+    - m_Data: 47402
+    - m_Data: 47404
+    - m_Data: 47408
+    - m_Data: 47410
+    - m_Data: 47412
+    - m_Data: 47414
+    - m_Data: 47416
+    - m_Data: 47528
+    - m_Data: 47532
+    - m_Data: 47534
+    - m_Data: 48778
+    - m_Data: 55020
+    - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1818,17 +1835,20 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 47368
-    - m_Data: 47370
-    - m_Data: 47372
-    - m_Data: 47374
-    - m_Data: 47376
-    - m_Data: 47378
-    - m_Data: 47380
-    - m_Data: 47382
-    - m_Data: 47384
-    - m_Data: 47386
-    - m_Data: 47388
+    - m_Data: 47390
+    - m_Data: 47392
+    - m_Data: 47394
+    - m_Data: 47396
+    - m_Data: 47398
+    - m_Data: 47400
+    - m_Data: 47402
+    - m_Data: 47404
+    - m_Data: 47406
+    - m_Data: 47408
+    - m_Data: 47410
+    - m_Data: 47412
+    - m_Data: 47414
+    - m_Data: 47416
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1856,14 +1876,16 @@ MonoBehaviour:
       m_ResourceFile: 
   m_ListAreaState:
     m_SelectedInstanceIDs:
-    - m_Data: 47570
-    m_LastClickedInstanceID: 47570
+    - m_Data: -101064
+    m_LastClickedInstanceID: -101064
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: []
+    m_ExpandedInstanceIDs:
+    - m_Data: 49862
+    - m_Data: 53528
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: CityModel
+      m_OriginalName: CityModel
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
@@ -1871,10 +1893,10 @@ MonoBehaviour:
         width: 0
         height: 0
       m_UserData:
-        m_Data: 0
+        m_Data: 77088
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
       m_ClientGUIView: {fileID: 2}
@@ -1910,8 +1932,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1140
-    y: 24
+    x: 1139
+    y: 79
     width: 780
     height: 652
   m_SerializedDataModeController:
@@ -1930,7 +1952,7 @@ MonoBehaviour:
   m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 
   m_PreviewResizer:
-    m_CachedPref: 278
+    m_CachedPref: 211
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1

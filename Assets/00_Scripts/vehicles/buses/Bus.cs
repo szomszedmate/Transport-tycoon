@@ -25,8 +25,11 @@ public class Bus : MonoBehaviour, IVehicle
         this.data = data;
 
         // Instantiate the actual model first
-        model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
-        model.Rotate(rotation);
+        //model = Instantiate(data.Model, transform.position, Quaternion.Euler(0, 0, 0), transform);
+        //model.Rotate(rotation);
+        model = Instantiate(data.Model, transform);
+        model.transform.localPosition = Vector3.zero;
+        model.transform.localRotation = Quaternion.Euler(-90, 0, 0);
 
         // Grab all renderers from the instantiated model
         renderers.Clear();

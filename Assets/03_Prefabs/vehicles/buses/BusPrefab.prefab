@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1453293754084541482
+--- !u!1 &5545714708559063959
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6668518550831043562}
-  - component: {fileID: -2418359423220520996}
+  - component: {fileID: 3857028113668127362}
+  - component: {fileID: 3880707210839052634}
   m_Layer: 0
-  m_Name: BusModel1
+  m_Name: BusPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6668518550831043562
+--- !u!4 &3857028113668127362
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453293754084541482}
+  m_GameObject: {fileID: 5545714708559063959}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2418359423220520996
+--- !u!114 &3880707210839052634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1453293754084541482}
+  m_GameObject: {fileID: 5545714708559063959}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc05c892cf535ce46a5a5ed71de36662, type: 3}
+  m_Script: {fileID: 11500000, guid: fabc5507b40337c4ab532229bcc7c681, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BusModel
+  m_EditorClassIdentifier: Assembly-CSharp::Bus
+  builtMaterial: {fileID: 2100000, guid: 99778bb32a22e7045bee29507ccb8644, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: 0e9f2a87bb7ef244b9657942a1167dbf, type: 2}

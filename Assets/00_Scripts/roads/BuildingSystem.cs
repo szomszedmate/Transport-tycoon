@@ -239,7 +239,7 @@ public class BuildingSystem : MonoBehaviour
         {
             ((BusPreview)preview).transform.position = mouseWorldPosition;
             Vector3 busPosition = ((BusPreview)preview).BusModel.GetBusPosition();
-            bool canBuild = grid.CanBuild(busPosition);
+            bool canBuild = grid.CanBuildBus(busPosition);
             if (canBuild && !destroy)
             {
                 ((BusPreview)preview).transform.position = GetSnappedCenterPosition(busPosition);
