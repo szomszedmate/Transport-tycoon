@@ -45,6 +45,12 @@ public class BuildingGrid : MonoBehaviour
             grid[x, y].SetBuilding(building);
     }
 
+    public void SetVehicle(IVehicle vehicle, Vector3 vehiclePosition)
+    {
+        (int x, int y) = WorldToGridPosition(vehiclePosition);
+        grid[x, y].SetVehicle(vehicle);
+    }
+
     public bool IsCityRoad(Vector3 buildingPosition)
     {
         (int x, int y) = WorldToGridPosition(buildingPosition);
@@ -94,6 +100,13 @@ public class BuildingGrid : MonoBehaviour
 public class BuildingGridCell
 {
     private Building building;
+    private IVehicle vehicle;
+
+    public void SetVehicle(IVehicle vehicle)
+    {
+        this.vehicle = vehicle;
+    }
+
     public void SetBuilding(Building build)
     {
         this.building = build;
