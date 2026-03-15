@@ -36,6 +36,7 @@ public class CameraMovement : MonoBehaviour
             if (transform.position.y+speed * mousescrollmultiplier * Time.deltaTime < maxdist)
             {
                 transform.position += Vector3.up * speed* mousescrollmultiplier * Time.deltaTime;
+               
             }
             else
             {
