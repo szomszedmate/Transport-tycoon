@@ -12,7 +12,7 @@ public class BuildingGrid : MonoBehaviour
     private int height;
     private BuildingGridCell[,] grid;
     private List<ILocation> locations;
-    private List<Building> roads;
+    private List<Road> roads;
 
     private void Start()
     {
@@ -42,7 +42,7 @@ public class BuildingGrid : MonoBehaviour
             }
         }
 
-        roads = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<Building>().ToList();
+        roads = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<Road>().ToList();
         foreach (var road in roads)
         {
             Vector3 pos = ((MonoBehaviour)road).transform.position;
@@ -50,15 +50,15 @@ public class BuildingGrid : MonoBehaviour
 
             if (x >= 0 && x < width && y >= 0 && y < height)
             {
-                grid[x, y].SetBuilding(road);
+                grid[x, y].SetRoad(road);
             }
         }
     }
 
-    public void SetBuilding(Building building, Vector3 buildingPosition)
+    public void SetRoad(Road road, Vector3 roadPosition)
     {
-            (int x, int y) = WorldToGridPosition(buildingPosition);
-            grid[x, y].SetBuilding(building);
+            (int x, int y) = WorldToGridPosition(roadPosition);
+            grid[x, y].SetRoad(road);
     }
 
     public void SetVehicle(IVehicle vehicle, Vector3 vehiclePosition)
@@ -67,16 +67,16 @@ public class BuildingGrid : MonoBehaviour
         grid[x, y].SetVehicle(vehicle);
     }
 
-    public bool IsCityRoad(Vector3 buildingPosition)
+    public bool IsCityRoad(Vector3 roadPosition)
     {
-        (int x, int y) = WorldToGridPosition(buildingPosition);
+        (int x, int y) = WorldToGridPosition(roadPosition);
         return grid[x, y].Cell_IsCityRoad();
     }
 
-    public void RemBuilding(Vector3 buildingPosition)
+    public void RemRoad(Vector3 roadPosition)
     {
-        (int x, int y) = WorldToGridPosition(buildingPosition);
-        grid[x, y].Cell_RemBuilding();
+        (int x, int y) = WorldToGridPosition(roadPosition);
+        grid[x, y].Cell_RemRoad();
     }
     private (int x, int y) WorldToGridPosition(Vector3 worldPosition)
     {
@@ -135,7 +135,7 @@ public class BuildingGrid : MonoBehaviour
 
 public class BuildingGridCell
 {
-    private Building building;
+    private Road road;
     private ILocation location;
     private IVehicle vehicle;
 
@@ -149,25 +149,25 @@ public class BuildingGridCell
         this.vehicle = vehicle;
     }
 
-    public void SetBuilding(Building build)
+    public void SetRoad(Road road)
     {
-        this.building = build;
+        this.road = road;
     }
 
     public bool Cell_IsCityRoad()
     {
-        return building.IsCityRoad;
+        return road.IsCityRoad;
     }
 
-    public void Cell_RemBuilding()
+    public void Cell_RemRoad()
     {
-        if (building == null) return;
-        Object.Destroy(building.gameObject);
-        building = null;
+        if (road == null) return;
+        Object.Destroy(road.gameObject);
+        road = null;
     }
 
     public bool IsEmpty()
     {
-        return this.building == null && this.location == null;
+        return this.road == null && this.location == null;
     }
 }

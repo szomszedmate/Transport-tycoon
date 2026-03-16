@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static BuildingPreview;
+using static RoadPreview;
 
 public class BusPreview : MonoBehaviour, IPreview
 {
@@ -8,7 +8,7 @@ public class BusPreview : MonoBehaviour, IPreview
     private Material positiveMaterial;
     [SerializeField]
     private Material negativeMaterial;
-    public BuildingPreviewState State { get; private set; } = BuildingPreviewState.NEGATIVE;
+    public RoadPreviewState State { get; private set; } = RoadPreviewState.NEGATIVE;
     public BusData Data { get; private set; }
     public BusModel BusModel { get; private set; }
     private List<Renderer> renderers = new();
@@ -30,7 +30,7 @@ public class BusPreview : MonoBehaviour, IPreview
         SetPreviewMaterial(State);
     }
 
-    public void ChangeState(BuildingPreviewState newState)
+    public void ChangeState(RoadPreviewState newState)
     {
         if (newState == State) { return; }
         State = newState;
@@ -41,9 +41,9 @@ public class BusPreview : MonoBehaviour, IPreview
         BusModel.Rotate(degrees);
     }
 
-    private void SetPreviewMaterial(BuildingPreviewState newState)
+    private void SetPreviewMaterial(RoadPreviewState newState)
     {
-        Material previewMat = newState == BuildingPreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
+        Material previewMat = newState == RoadPreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
         foreach (var rend in renderers)
         {
             Material[] mats = new Material[rend.sharedMaterials.Length];

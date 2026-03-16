@@ -1,60 +1,65 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static Road;
+using UnityEngine.InputSystem.LowLevel;
+using static RoadPreview;
 
-public class Bus : MonoBehaviour, IVehicle
+public class Road : MonoBehaviour
 {
-    public enum BusState
+    public enum RoadState
     {
         BUILT,
         DESTROYHOVER
     }
     public string Description => data.Description;
     public int Cost => data.Cost;
-    private BusModel model;
-    private BusData data;
-    public BusState State { get; private set; } = BusState.BUILT;
+    private RoadModel model;
+    private RoadData data;
+    public RoadState State { get; private set; } = RoadState.BUILT;
     [SerializeField]
     private Material builtMaterial;
     [SerializeField]
     private Material destroyHoverMaterial;
+    [SerializeField]
+    private bool isCityRoad;
+    public bool IsCityRoad => isCityRoad;
     private List<Renderer> renderers = new();
 
-    public void Setup(BusData data, float rotation)
+    public void Setup(RoadData data, float rotation)
     {
         this.data = data;
 
         // Instantiate the actual model first
-        //model = Instantiate(data.Model, transform.position, Quaternion.Euler(0, 0, 0), transform);
-        //model.Rotate(rotation);
-        model = Instantiate(data.Model, transform);
-        model.transform.localPosition = Vector3.zero;
-        model.transform.localRotation = Quaternion.Euler(-90, 0, 0);
+        model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
+        model.Rotate(rotation);
 
         // Grab all renderers from the instantiated model
         renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
         // Set the default material
-        SetRoadMaterial(BusState.BUILT);
+        SetRoadMaterial(RoadState.BUILT);
     }
 
-    public void ChangeState(BusState newState)
+
+
+    public void ChangeState(RoadState newState)
     {
+        if (isCityRoad) return;
         if (newState == State) return;
         State = newState;
         SetRoadMaterial(State);
     }
 
-    private void SetRoadMaterial(BusState newState)
+    private void SetRoadMaterial(RoadState newState)
     {
+        // Make sure your materials are assigned
         if (builtMaterial == null || destroyHoverMaterial == null)
         {
             Debug.LogWarning("Materials not assigned!");
             return;
         }
 
-        Material targetMat = (newState == BusState.BUILT) ? builtMaterial : destroyHoverMaterial;
+        Material targetMat = (newState == RoadState.BUILT) ? builtMaterial : destroyHoverMaterial;
 
         foreach (var rend in renderers)
         {

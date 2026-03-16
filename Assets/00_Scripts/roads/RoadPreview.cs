@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 
-public class BuildingPreview : MonoBehaviour, IPreview
+public class RoadPreview : MonoBehaviour, IPreview
 {
-    public enum BuildingPreviewState
+    public enum RoadPreviewState
     {
         POSITIVE,
         NEGATIVE
@@ -13,18 +13,18 @@ public class BuildingPreview : MonoBehaviour, IPreview
     private Material positiveMaterial;
     [SerializeField]
     private Material negativeMaterial;
-    public BuildingPreviewState State { get; private set; } = BuildingPreviewState.NEGATIVE;
-    public BuildingData Data { get; private set; }
-    public BuildingModel BuildingModel { get; private set; }
+    public RoadPreviewState State { get; private set; } = RoadPreviewState.NEGATIVE;
+    public RoadData Data { get; private set; }
+    public RoadModel RoadModel { get; private set; }
     private List<Renderer> renderers = new();
     private List<Collider> colliders = new();
 
-    public void Setup(BuildingData data)
+    public void Setup(RoadData data)
     {
         Data = data;
-        BuildingModel = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
-        renderers.AddRange(BuildingModel.GetComponentsInChildren<Renderer>());
-        colliders.AddRange(BuildingModel.GetComponentsInChildren<Collider>());
+        RoadModel = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
+        renderers.AddRange(RoadModel.GetComponentsInChildren<Renderer>());
+        colliders.AddRange(RoadModel.GetComponentsInChildren<Collider>());
         
         foreach (var col in colliders)
         {
@@ -33,7 +33,7 @@ public class BuildingPreview : MonoBehaviour, IPreview
         SetPreviewMaterial(State);
     }
 
-    public void ChangeState(BuildingPreviewState newState)
+    public void ChangeState(RoadPreviewState newState)
     {
         if (newState == State ) { return; }
         State = newState;
@@ -41,12 +41,12 @@ public class BuildingPreview : MonoBehaviour, IPreview
     }
     public void Rotate(int degrees)
     {
-        BuildingModel.Rotate(degrees);
+        RoadModel.Rotate(degrees);
     }
 
-    private void SetPreviewMaterial(BuildingPreviewState newState)
+    private void SetPreviewMaterial(RoadPreviewState newState)
     {
-        Material previewMat = newState == BuildingPreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
+        Material previewMat = newState == RoadPreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
         foreach (var rend in renderers)
         {
             Material[] mats = new Material[rend.sharedMaterials.Length];

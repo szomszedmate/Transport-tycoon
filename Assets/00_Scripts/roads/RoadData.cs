@@ -1,10 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/Buildings/Building")]
-public class BuildingData : ScriptableObject
+[CreateAssetMenu(menuName = "Data/Roads/Road")]
+public class RoadData : ScriptableObject
 {
     [field: SerializeField]
-    public BuildingModel Model {  get; private set; }
+    public RoadModel Model {  get; private set; }
     [field: SerializeField]
     public int Cost { get; private set; }
     [field: SerializeField]
