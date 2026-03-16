@@ -98,10 +98,10 @@ public class BuildingGrid : MonoBehaviour
         (int x, int y) = WorldToGridPosition(buildingPosition);
         if (x < 0 || x >= width || y < 0 || y >= height) return false;
         //if (!grid[x, y].Cell_IsCityRoad()) return false;
-        //Debug.Log($"Cell {x},{y} empty: {grid[x, y].IsEmpty()}");
         if (!grid[x, y].IsEmpty()) return false;
         foreach (ILocation location in locations)
         {
+
             foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
                 if (Vector3.Distance(pos, buildingPosition) < BuildingSystem.CellSize * 0.76f)
