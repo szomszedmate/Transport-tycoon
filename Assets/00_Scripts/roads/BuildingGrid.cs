@@ -31,6 +31,8 @@ public class BuildingGrid : MonoBehaviour
     {
         locations = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ILocation>().ToList();
 
+
+        // init buildings to grid
         foreach (var location in locations)
         {
             Vector3 pos = ((MonoBehaviour)location).transform.position;
@@ -39,9 +41,13 @@ public class BuildingGrid : MonoBehaviour
             if (x >= 0 && x < width && y >= 0 && y < height)
             {
                 grid[x, y].RegLocation(location);
+                Debug.Log(x+":"+y);
+                Debug.Log(location);
             }
         }
 
+
+        // init base map roads to grid
         roads = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<Road>().ToList();
         foreach (var road in roads)
         {
@@ -64,6 +70,7 @@ public class BuildingGrid : MonoBehaviour
     public void SetVehicle(IVehicle vehicle, Vector3 vehiclePosition)
     {
         (int x, int y) = WorldToGridPosition(vehiclePosition);
+        Debug.Log(x + ":"+y);
         grid[x, y].SetVehicle(vehicle);
     }
 
@@ -147,6 +154,8 @@ public class BuildingGridCell
     public void SetVehicle(IVehicle vehicle)
     {
         this.vehicle = vehicle;
+        
+        Debug.Log(this.vehicle);
     }
 
     public void SetRoad(Road road)

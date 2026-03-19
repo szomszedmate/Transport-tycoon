@@ -16,17 +16,17 @@ public class CityModel : MonoBehaviour
 
         if (shapeUnits == null)
         {
-            Debug.LogError($"{name}: shapeUnits is null!");
+           // Debug.LogError($"{name}: shapeUnits is null!");
             return new List<Vector3>();
         }
 
         if (shapeUnits.Length == 0)
         {
-            Debug.LogWarning($"{name}: No BuildingShapeUnits found!");
+            //Debug.LogWarning($"{name}: No BuildingShapeUnits found!");
             return new List<Vector3>();
         }
 
-        Debug.Log($"{name}: Found {shapeUnits.Length} BuildingShapeUnits");
+       // Debug.Log($"{name}: Found {shapeUnits.Length} BuildingShapeUnits");
         return shapeUnits.Select(u => u.transform.position).ToList();
     }
 }

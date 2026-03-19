@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3857028113668127362}
   - component: {fileID: 3880707210839052634}
+  - component: {fileID: 3583464162540983701}
+  - component: {fileID: 6551750218539481651}
   m_Layer: 0
   m_Name: BusPrefab
   m_TagString: Untagged
@@ -46,3 +48,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bus
   builtMaterial: {fileID: 2100000, guid: 99778bb32a22e7045bee29507ccb8644, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: 0e9f2a87bb7ef244b9657942a1167dbf, type: 2}
+--- !u!195 &3583464162540983701
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545714708559063959}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &6551750218539481651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5545714708559063959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b847ef9f7daa14b9318e7e225b177a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
