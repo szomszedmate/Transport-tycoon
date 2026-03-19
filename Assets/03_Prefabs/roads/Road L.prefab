@@ -75,7 +75,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5862834354050569987}
-  - component: {fileID: 6166499212015307792}
+  - component: {fileID: 6011586925184811222}
   m_Layer: 0
   m_Name: Road L
   m_TagString: turn_road
@@ -99,7 +99,7 @@ Transform:
   - {fileID: 618801556334012210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6166499212015307792
+--- !u!114 &6011586925184811222
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,9 +108,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4948154597459050377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5a7f63a61fe5d74e8133b9562f3be4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 35db0516585630b4b9c113d5df01f57a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildingModel
+  m_EditorClassIdentifier: Assembly-CSharp::RoadStraight
   wrapper: {fileID: 618801556334012210}
 --- !u!1 &5485482087811521209
 GameObject:
