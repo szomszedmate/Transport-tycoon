@@ -142,6 +142,11 @@ public class BuildingSystem : MonoBehaviour
     {
         if (preview is not RoadPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(roadPosition);
+
+        if (grid.HasTrees(snappedPos))
+        {
+            grid.ClearTrees(snappedPos);
+        }
         Road road = Instantiate(roadPrefab, snappedPos, Quaternion.identity);
         road.Setup(((RoadPreview)preview).Data, ((RoadPreview)preview).RoadModel.Rotation);
         grid.SetRoad(road, snappedPos);
