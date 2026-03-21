@@ -42,21 +42,19 @@ public class BuildingGrid : MonoBehaviour
     {
         locations = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ILocation>().ToList();
 
-
         // init buildings to grid
         foreach (var location in locations)
         {
-            Vector3 pos = ((MonoBehaviour)location).transform.position;
-            (int x, int y) = WorldToGridPosition(pos);
-
-            if (x >= 0 && x < width && y >= 0 && y < height)
+            foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
-                grid[x, y].RegLocation(location);
-                Debug.Log(x+":"+y);
-                Debug.Log(location);
+                (int x, int y) = WorldToGridPosition(pos);
+
+                if (x >= 0 && x < width && y >= 0 && y < height)
+                {
+                    grid[x, y].RegLocation(location);
+                }
             }
         }
-
 
         // init base map roads to grid
         roads = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<Road>().ToList();

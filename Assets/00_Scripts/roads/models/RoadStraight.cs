@@ -8,5 +8,4 @@ public class RoadStraight : RoadModel
     public override Direction[] Inputs => inputs;
     private Direction[] outputs = { Direction.W, Direction.S }; // vehicles going N and W can enter
     public override Direction[] Outputs => outputs;
-    private BuildingShapeUnit[] shapeUnits;
 }
