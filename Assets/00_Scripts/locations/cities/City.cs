@@ -98,18 +98,18 @@ public class City : MonoBehaviour, ILocation
     {
         if (model == null)
         {
-            Debug.LogError($"City {name} has no model assigned!");
+            //Debug.LogError($"City {name} has no model assigned!");
             return new List<Vector3>();
         }
 
         var positions = model.GetAllBuildingPositions();
         if (positions == null)
         {
-            Debug.LogError($"City {name} model returned null positions!");
+            //Debug.LogError($"City {name} model returned null positions!");
             return new List<Vector3>();
         }
 
-        Debug.Log($"City {name} has {positions.Count} building positions.");
+       // Debug.Log($"City {name} has {positions.Count} building positions.");
         return positions;
     }
 
