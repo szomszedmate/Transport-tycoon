@@ -3,7 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.InputSystem;
-
+using UnityEngine.EventSystems;
+using System;
 public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 10f;
@@ -18,32 +19,50 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private Bus busPrefab;
     private IPreview preview;
     private Road lastHovered;
-    private bool destroy = false;
+    public bool destroy = false;
 
-
+    public event EventHandler prevdest;
+    public event EventHandler destroymodeturn;
+    public event EventHandler<int> selectprev;
     private void Update()
     {
         Vector3 mousePos = GetMouseWorldPosition();
 
         // Right-click destroys preview
-        if (Input.GetMouseButtonDown(1) && preview != null)
+        if (Input.GetMouseButtonDown(1)  )
         {
-            Destroy(((MonoBehaviour)preview).gameObject); // Works for buses and roads
+            /*Destroy(((MonoBehaviour)preview).gameObject); // Works for buses and roads
             preview = null;
-            return;
+            return;*/
+            if (destroy)
+            {
+                destroy = false;
+                destroymodeturn?.Invoke(this, EventArgs.Empty);
+                DestroyModeTurnOff();
+            }
+            else
+            {
+                prevdest?.Invoke(this, EventArgs.Empty);
+                DestroyPreview();
+            }
+           
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            destroy = !destroy;
 
+            DestroyMode();
+            /*prevdest?.Invoke(this, EventArgs.Empty);
+            DestroyPreview();
             // Reset last hovered road if turning destroy mode off
             if (!destroy && lastHovered != null)
             {
                 lastHovered.ChangeState(Road.RoadState.BUILT);
                 lastHovered = null;
-            }
+            }*/
         }
+
+
 
         if (destroy)
         {
@@ -59,23 +78,92 @@ public class BuildingSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            preview = CreateRoadPreview(RoadData1, mousePos);
+            CreatePreview(1);
+            //preview = CreateRoadPreview(RoadData1, mousePos);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            preview = CreateRoadPreview(RoadData2, mousePos);
+            CreatePreview(2);
+            //preview = CreateRoadPreview(RoadData2, mousePos);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            preview = CreateRoadPreview(RoadData3, mousePos);
+            CreatePreview(4);
+            //preview = CreateRoadPreview(RoadData3, mousePos);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            preview = CreateRoadPreview(RoadData4, mousePos);
+            CreatePreview(3);
+            //preview = CreateRoadPreview(RoadData4, mousePos);
         }
         else if (Input.GetKeyDown(KeyCode.B))
         {
-            preview = CreateBusPreview(BusData1, mousePos);
+            CreatePreview(5);
+            //preview = CreateBusPreview(BusData1, mousePos);
+        }
+    }
+
+    public void DestroyMode()
+    {
+        destroy = !destroy;
+        destroymodeturn?.Invoke(this, EventArgs.Empty);
+        if (!destroy)
+        {
+            DestroyModeTurnOff();
+        }
+        else
+        {
+            prevdest?.Invoke(this, EventArgs.Empty);
+            DestroyPreview();
+        }
+
+    }
+
+    public void DestroyModeTurnOff()
+    {
+        
+        // Reset last hovered road if turning destroy mode off
+        if (!destroy && lastHovered != null)
+        {
+            lastHovered.ChangeState(Road.RoadState.BUILT);
+            lastHovered = null;
+           
+        }
+    }
+    public void DestroyPreview()
+    {
+        if (preview != null)
+        {
+            Destroy(((MonoBehaviour)preview).gameObject); // Works for buses and roads
+            preview = null;
+            return;
+        }
+       
+    }
+    public void CreatePreview(int type)
+    {
+        Vector3 mousePos = GetMouseWorldPosition();
+        selectprev?.Invoke(this, type);
+        switch (type)
+        {
+            case 1:
+                preview = CreateRoadPreview(RoadData1, mousePos);
+                break;
+            case 2:
+                preview = CreateRoadPreview(RoadData2, mousePos);
+                break;
+            case 3:
+                preview = CreateRoadPreview(RoadData3, mousePos);
+                break;
+            case 4:
+                preview = CreateRoadPreview(RoadData4, mousePos);
+                break;
+            case 5:
+                preview = CreateBusPreview(BusData1, mousePos);
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -97,6 +185,9 @@ public class BuildingSystem : MonoBehaviour
     #endregion
 
     #region Roads
+
+
+
     private void HandleDestroyMode()
     {
         // Raycast to find road under mouse
@@ -150,8 +241,8 @@ public class BuildingSystem : MonoBehaviour
         Road road = Instantiate(roadPrefab, snappedPos, Quaternion.identity);
         road.Setup(((RoadPreview)preview).Data, ((RoadPreview)preview).RoadModel.Rotation);
         grid.SetRoad(road, snappedPos);
-        Destroy(((RoadPreview)preview).gameObject);
-        preview = null;
+       // Destroy(((RoadPreview)preview).gameObject);
+        //preview = null;
     }
 
     private void RemoveRoad(Vector3 mouseWorldPosition)
@@ -180,11 +271,15 @@ public class BuildingSystem : MonoBehaviour
 
     private Vector3 GetMouseWorldPosition()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new(Vector3.up, Vector3.zero);
-        if (groundPlane.Raycast(ray, out float distance))
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            return ray.GetPoint(distance);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Plane groundPlane = new(Vector3.up, Vector3.zero);
+            if (groundPlane.Raycast(ray, out float distance))
+            {
+                return ray.GetPoint(distance);
+            }
+            return Vector3.zero;
         }
         return Vector3.zero;
     }

@@ -7,7 +7,7 @@ public class MainMenuUiFunctions : MonoBehaviour
     {
         
     }
-
+    
     public void StartGame()
     {
         
