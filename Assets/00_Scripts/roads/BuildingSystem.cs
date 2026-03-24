@@ -3,7 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.InputSystem;
-
+using UnityEngine.EventSystems;
+using System;
 public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 10f;
@@ -18,13 +19,85 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private Bus busPrefab;
     public IPreview Preview { get; private set; }
     private Road lastHovered;
-    private bool destroy = false;
+    public bool destroy = false;
 
-
+    public event EventHandler prevdest;
+    public event EventHandler destroymodeturn;
+    public event EventHandler<int> selectprev;
     private void Update()
     {
-
         
+    }
+
+    public void DestroyMode()
+    {
+        destroy = !destroy;
+        destroymodeturn?.Invoke(this, EventArgs.Empty);
+        if (!destroy)
+        {
+            DestroyModeTurnOff();
+        }
+        else
+        {
+            prevdest?.Invoke(this, EventArgs.Empty);
+            DestroyPreview();
+        }
+
+    }
+
+    public void DestroyModeTurnOff()
+    {
+
+        // Reset last hovered road if turning destroy mode off
+        if (!destroy && lastHovered != null)
+        {
+            lastHovered.ChangeState(Road.RoadState.BUILT);
+            lastHovered = null;
+
+        }
+    }
+    public void DestroyPreview()
+    {
+        if (destroy && Preview == null)
+        {
+            destroy = false;
+            destroymodeturn?.Invoke(this, EventArgs.Empty);
+            DestroyModeTurnOff();
+        }
+        else if (Preview != null)
+        {
+            // If we have a preview, just kill the preview and leave destroy mode alone
+            Destroy(((MonoBehaviour)Preview).gameObject);
+            Preview = null;
+            prevdest?.Invoke(this, EventArgs.Empty);
+        }
+
+    }
+    public void CreatePreview(int type)
+    {
+        Vector3 mousePos = GetMouseWorldPosition();
+        selectprev?.Invoke(this, type);
+        switch (type)
+        {
+            case 1:
+                Preview = CreateRoadPreview(RoadData1, mousePos);
+                break;
+            case 2:
+                Preview = CreateRoadPreview(RoadData2, mousePos);
+                break;
+            case 3:
+                Preview = CreateRoadPreview(RoadData3, mousePos);
+                break;
+            case 4:
+                Preview = CreateRoadPreview(RoadData4, mousePos);
+                break;
+            case 5:
+                Preview = CreateBusPreview(BusData1, mousePos);
+                break;
+
+            default:
+                break;
+        }
     }
 
     #region Buses
@@ -40,13 +113,17 @@ public class BuildingSystem : MonoBehaviour
         grid.SetVehicle(bus, snappedPos);
         Destroy(((BusPreview)Preview).gameObject);
         Preview = null;
-        
+
     }
     #endregion
 
     #region Roads
-    private void HandleDestroyMode()
+
+
+
+    public void HandleDestroyMode()
     {
+        Debug.Log("Destroying");
         // Raycast to find road under mouse
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
         {
@@ -76,7 +153,7 @@ public class BuildingSystem : MonoBehaviour
         }
         else
         {
-            // No road under cursor — reset lastHovered
+            // No road under cursor  reset lastHovered
             if (lastHovered != null)
             {
                 lastHovered.ChangeState(Road.RoadState.BUILT);
@@ -85,16 +162,21 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
-    
+
     private void PlaceRoad(Vector3 roadPosition)
     {
         if (Preview is not RoadPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(roadPosition);
+
+        //if (grid.HasTrees(snappedPos))
+        //{
+        //    grid.ClearTrees(snappedPos);
+        //}
         Road road = Instantiate(roadPrefab, snappedPos, Quaternion.identity);
         road.Setup(((RoadPreview)Preview).Data, ((RoadPreview)Preview).RoadModel.Rotation);
         grid.SetRoad(road, snappedPos);
-        Destroy(((RoadPreview)Preview).gameObject);
-        Preview = null;
+        // Destroy(((RoadPreview)preview).gameObject);
+        //preview = null;
     }
 
     private void RemoveRoad(Vector3 mouseWorldPosition)
@@ -106,7 +188,7 @@ public class BuildingSystem : MonoBehaviour
 
     #region Grid
 
-    public Vector3 GetSnappedCenterPosition(Vector3 buildingPosition)
+    private Vector3 GetSnappedCenterPosition(Vector3 buildingPosition)
     {
         //List<int> xs = allBuildingPositions.Select(p => Mathf.FloorToInt(p.x)).ToList();
         //List<int> zs = allBuildingPositions.Select(p => Mathf.FloorToInt(p.z)).ToList();
@@ -123,11 +205,15 @@ public class BuildingSystem : MonoBehaviour
 
     public Vector3 GetMouseWorldPosition()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new(Vector3.up, Vector3.zero);
-        if (groundPlane.Raycast(ray, out float distance))
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            return ray.GetPoint(distance);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Plane groundPlane = new(Vector3.up, Vector3.zero);
+            if (groundPlane.Raycast(ray, out float distance))
+            {
+                return ray.GetPoint(distance);
+            }
+            return Vector3.zero;
         }
         return Vector3.zero;
     }
@@ -192,7 +278,7 @@ public class BuildingSystem : MonoBehaviour
             {
                 ((BusPreview)Preview).transform.position = GetSnappedCenterPosition(busPosition);
                 ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
-                if ( Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0))
                 {
                     PlaceBus(busPosition);
                 }
@@ -207,11 +293,6 @@ public class BuildingSystem : MonoBehaviour
             }
         }
 
-    }
-
-    public void destroyPreview()
-    {
-        Destroy(((MonoBehaviour)Preview).gameObject);
     }
 
     private RoadPreview CreateRoadPreview(RoadData data, Vector3 position)

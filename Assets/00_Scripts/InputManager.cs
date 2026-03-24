@@ -18,55 +18,50 @@ public class InputManager : MonoBehaviour
     {
         Vector3 mousePos = buildingSystem.GetMouseWorldPosition();
         // Right-click destroys preview
-        if (Input.GetMouseButtonDown(1) && buildingSystem.Preview != null)
+        if (Input.GetMouseButtonDown(1))
         {
-            buildingSystem.destroyPreview(); // Works for buses and roads
+            buildingSystem.DestroyPreview();
             return;
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            destroy = !destroy;
-
-            // Reset last hovered road if turning destroy mode off
-            if (!destroy && lastHovered != null)
-            {
-                lastHovered.ChangeState(Road.RoadState.BUILT);
-                lastHovered = null;
-            }
+            buildingSystem.DestroyMode();
+            Debug.Log("X pressed");
         }
 
-        if (destroy)
+        if (buildingSystem.destroy)
         {
-            HandleDestroyMode();
+            Debug.Log("Handling destroy mode");
+            buildingSystem.HandleDestroyMode();
             return;
         }
 
-        if (Preview != null)
+        if (buildingSystem.Preview != null)
         {
-            HandlePreview(mousePos);
+            buildingSystem.HandlePreview(mousePos);
             return;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Preview = CreateRoadPreview(RoadData1, mousePos);
+            buildingSystem.CreatePreview(1);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Preview = CreateRoadPreview(RoadData2, mousePos);
+            buildingSystem.CreatePreview(2);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Preview = CreateRoadPreview(RoadData3, mousePos);
+            buildingSystem.CreatePreview(3);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            Preview = CreateRoadPreview(RoadData4, mousePos);
+            buildingSystem.CreatePreview(4);
         }
         else if (Input.GetKeyDown(KeyCode.B))
         {
-            Preview = CreateBusPreview(BusData1, mousePos);
+            buildingSystem.CreatePreview(5);
         }
     }
 }
