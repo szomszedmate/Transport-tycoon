@@ -16,67 +16,15 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BuildingGrid grid;
     [SerializeField] private BusPreview busPreviewPrefab;
     [SerializeField] private Bus busPrefab;
-    private IPreview preview;
+    public IPreview Preview { get; private set; }
     private Road lastHovered;
     private bool destroy = false;
 
 
     private void Update()
     {
-        Vector3 mousePos = GetMouseWorldPosition();
 
-        // Right-click destroys preview
-        if (Input.GetMouseButtonDown(1) && preview != null)
-        {
-            Destroy(((MonoBehaviour)preview).gameObject); // Works for buses and roads
-            preview = null;
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            destroy = !destroy;
-
-            // Reset last hovered road if turning destroy mode off
-            if (!destroy && lastHovered != null)
-            {
-                lastHovered.ChangeState(Road.RoadState.BUILT);
-                lastHovered = null;
-            }
-        }
-
-        if (destroy)
-        {
-            HandleDestroyMode();
-            return;
-        }
-
-        if (preview != null)
-        {
-            HandlePreview(mousePos);
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            preview = CreateRoadPreview(RoadData1, mousePos);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            preview = CreateRoadPreview(RoadData2, mousePos);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            preview = CreateRoadPreview(RoadData3, mousePos);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            preview = CreateRoadPreview(RoadData4, mousePos);
-        }
-        else if (Input.GetKeyDown(KeyCode.B))
-        {
-            preview = CreateBusPreview(BusData1, mousePos);
-        }
+        
     }
 
     #region Buses
@@ -85,13 +33,13 @@ public class BuildingSystem : MonoBehaviour
 
     private void PlaceBus(Vector3 busPosition)
     {
-        if (preview is not BusPreview) return;
+        if (Preview is not BusPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
         Bus bus = Instantiate(busPrefab, snappedPos, Quaternion.identity);
-        bus.Setup(((BusPreview)preview).Data, ((BusPreview)preview).BusModel.Rotation);
+        bus.Setup(((BusPreview)Preview).Data, ((BusPreview)Preview).BusModel.Rotation);
         grid.SetVehicle(bus, snappedPos);
-        Destroy(((BusPreview)preview).gameObject);
-        preview = null;
+        Destroy(((BusPreview)Preview).gameObject);
+        Preview = null;
         
     }
     #endregion
@@ -140,13 +88,13 @@ public class BuildingSystem : MonoBehaviour
     
     private void PlaceRoad(Vector3 roadPosition)
     {
-        if (preview is not RoadPreview) return;
+        if (Preview is not RoadPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(roadPosition);
         Road road = Instantiate(roadPrefab, snappedPos, Quaternion.identity);
-        road.Setup(((RoadPreview)preview).Data, ((RoadPreview)preview).RoadModel.Rotation);
+        road.Setup(((RoadPreview)Preview).Data, ((RoadPreview)Preview).RoadModel.Rotation);
         grid.SetRoad(road, snappedPos);
-        Destroy(((RoadPreview)preview).gameObject);
-        preview = null;
+        Destroy(((RoadPreview)Preview).gameObject);
+        Preview = null;
     }
 
     private void RemoveRoad(Vector3 mouseWorldPosition)
@@ -158,7 +106,7 @@ public class BuildingSystem : MonoBehaviour
 
     #region Grid
 
-    private Vector3 GetSnappedCenterPosition(Vector3 buildingPosition)
+    public Vector3 GetSnappedCenterPosition(Vector3 buildingPosition)
     {
         //List<int> xs = allBuildingPositions.Select(p => Mathf.FloorToInt(p.x)).ToList();
         //List<int> zs = allBuildingPositions.Select(p => Mathf.FloorToInt(p.z)).ToList();
@@ -173,7 +121,7 @@ public class BuildingSystem : MonoBehaviour
         return new Vector3(snappedX, 0, snappedZ);
     }
 
-    private Vector3 GetMouseWorldPosition()
+    public Vector3 GetMouseWorldPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new(Vector3.up, Vector3.zero);
@@ -186,7 +134,7 @@ public class BuildingSystem : MonoBehaviour
     #endregion
 
     #region Preview
-    private void HandlePreview(Vector3 mouseWorldPosition)
+    public void HandlePreview(Vector3 mouseWorldPosition)
     {
         if (destroy && Input.GetMouseButtonDown(0))
         {
@@ -212,15 +160,15 @@ public class BuildingSystem : MonoBehaviour
             }
             return; // exit so preview doesn't move
         }
-        if (preview is RoadPreview)
+        if (Preview is RoadPreview)
         {
-            ((RoadPreview)preview).transform.position = mouseWorldPosition;
-            Vector3 buildPosition = ((RoadPreview)preview).RoadModel.GetAllBuildingPositions().First(); //road is only 1 tile
+            ((RoadPreview)Preview).transform.position = mouseWorldPosition;
+            Vector3 buildPosition = ((RoadPreview)Preview).RoadModel.GetAllBuildingPositions().First(); //road is only 1 tile
             bool canBuild = grid.CanBuild(buildPosition);
             if (canBuild && !destroy)
             {
-                ((RoadPreview)preview).transform.position = GetSnappedCenterPosition(buildPosition);
-                ((RoadPreview)preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
+                ((RoadPreview)Preview).transform.position = GetSnappedCenterPosition(buildPosition);
+                ((RoadPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
                 if (Input.GetMouseButtonDown(0))
                 {
                     PlaceRoad(buildPosition);
@@ -228,22 +176,22 @@ public class BuildingSystem : MonoBehaviour
             }
             else
             {
-                ((RoadPreview)preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
+                ((RoadPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                preview.Rotate(90);
+                Preview.Rotate(90);
             }
         }
-        else if (preview is BusPreview)
+        else if (Preview is BusPreview)
         {
-            ((BusPreview)preview).transform.position = mouseWorldPosition;
-            Vector3 busPosition = ((BusPreview)preview).BusModel.GetBusPosition();
+            ((BusPreview)Preview).transform.position = mouseWorldPosition;
+            Vector3 busPosition = ((BusPreview)Preview).BusModel.GetBusPosition();
             bool canBuild = grid.CanBuildBus(busPosition);
             if (canBuild && !destroy)
             {
-                ((BusPreview)preview).transform.position = GetSnappedCenterPosition(busPosition);
-                ((BusPreview)preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
+                ((BusPreview)Preview).transform.position = GetSnappedCenterPosition(busPosition);
+                ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
                 if ( Input.GetMouseButtonDown(0))
                 {
                     PlaceBus(busPosition);
@@ -251,14 +199,19 @@ public class BuildingSystem : MonoBehaviour
             }
             else
             {
-                ((BusPreview)preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
+                ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
-                preview.Rotate(90);
+                Preview.Rotate(90);
             }
         }
 
+    }
+
+    public void destroyPreview()
+    {
+        Destroy(((MonoBehaviour)Preview).gameObject);
     }
 
     private RoadPreview CreateRoadPreview(RoadData data, Vector3 position)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using static RoadPreview;
@@ -40,8 +41,6 @@ public class Road : MonoBehaviour
         SetRoadMaterial(RoadState.BUILT);
     }
 
-
-
     public void ChangeState(RoadState newState)
     {
         if (isCityRoad) return;
@@ -70,5 +69,46 @@ public class Road : MonoBehaviour
             }
             rend.materials = mats; // assigns a runtime instance
         }
+    }
+
+    public bool isConnectedTo(Road nextRoad, Direction vehicleDirection)
+    {
+        bool nextToEachOther = false;
+        bool roadsMatching = false;
+        float firstX = transform.position.x;
+        float firstZ = transform.position.z;
+        float nextX = nextRoad.transform.position.x;
+        float nextZ = nextRoad.transform.position.z;
+        switch (vehicleDirection)
+        {
+            case Direction.N:
+                if (firstZ < nextZ && nextZ - firstZ <= 10 && firstX == nextX) // next road is north of it and 1 tile away
+                {
+                    nextToEachOther = true;
+                }
+                break;
+            case Direction.W:
+                if (nextX < firstX && nextX - firstX <= 10 && firstZ == nextZ) // next road is west of it and 1 tile away
+                {
+                    nextToEachOther = true;
+                }
+                break;
+            case Direction.S:
+                if (nextZ < firstZ && nextZ - firstZ <= 10 && firstX == nextX) // next road is south of it and 1 tile away
+                {
+                    nextToEachOther = true;
+                }
+                break;
+            case Direction.E:
+                if (firstX < nextX && nextX - firstX <= 10 && firstZ == nextZ) // next road is east of it and 1 tile away
+                {
+                    nextToEachOther = true;
+                }
+                break;
+            default:
+                break;
+        }
+        if (model.Outputs.Contains<Direction>(vehicleDirection) && nextRoad.model.Inputs.Contains<Direction>(vehicleDirection)) roadsMatching = true; // the vehicle can leave this road and enter next road based on direction
+        return roadsMatching && nextToEachOther;
     }
 }
