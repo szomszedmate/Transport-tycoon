@@ -3,10 +3,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.InputSystem;
+using UnityEditor.Rendering.BuiltIn.ShaderGraph;
 
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private BuildingSystem buildingSystem;
+    private RaycastHit hit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,17 +32,47 @@ public class InputManager : MonoBehaviour
             Debug.Log("X pressed");
         }
 
-        if (buildingSystem.destroy)
+        if (Input.GetMouseButtonDown(0) && buildingSystem.destroy)
         {
-            Debug.Log("Handling destroy mode");
-            buildingSystem.HandleDestroyMode();
+            Debug.Log("Left clicked and destroy enabled");
+            buildingSystem.Destroy();
             return;
         }
 
         if (buildingSystem.Preview != null)
         {
-            buildingSystem.HandlePreview(mousePos);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                buildingSystem.Preview.Rotate(90);
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                buildingSystem.HandlePreview(mousePos, true);
+            }
+            else
+            {
+                buildingSystem.HandlePreview(mousePos, false);
+            }
             return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && buildingSystem.RoutePlanning)
+        {
+            buildingSystem.ResetRoute();
+        }
+
+        if (Input.GetMouseButtonDown(0) && buildingSystem.RoutePlanning)
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
+            {
+                buildingSystem.AddToRoute(hit);
+            }
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && buildingSystem.RoutePlanning)
+        {
+            buildingSystem.BS_ConfirmRoute();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -62,6 +94,13 @@ public class InputManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.B))
         {
             buildingSystem.CreatePreview(5);
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
+            {
+                buildingSystem.SelectBusForPlanning(hit);
+            }
         }
     }
 }

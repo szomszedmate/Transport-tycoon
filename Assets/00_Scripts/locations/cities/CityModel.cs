@@ -26,7 +26,7 @@ public class CityModel : MonoBehaviour
             return new List<Vector3>();
         }
 
-        Debug.Log($"{name}: Found {shapeUnits.Length} BuildingShapeUnits");
+        //Debug.Log($"{name}: Found {shapeUnits.Length} BuildingShapeUnits");
         return shapeUnits.Select(u => u.transform.position).ToList();
     }
 }

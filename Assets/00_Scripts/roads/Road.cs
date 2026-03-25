@@ -9,6 +9,8 @@ public class Road : MonoBehaviour
     public enum RoadState
     {
         BUILT,
+        SELECTED,
+        CONFIRMED, // for confirmed routes
         DESTROYHOVER
     }
     public string Description => data.Description;
@@ -20,10 +22,29 @@ public class Road : MonoBehaviour
     private Material builtMaterial;
     [SerializeField]
     private Material destroyHoverMaterial;
+    [SerializeField] 
+    private Material selectMaterial;
+    [SerializeField] 
+    private Material confirmedMaterial;
     [SerializeField]
     private bool isCityRoad;
     public bool IsCityRoad => isCityRoad;
     private List<Renderer> renderers = new();
+
+    public void Awake()
+    {
+        // If model is still null (pre-placed road), try to find it in children
+        if (model == null)
+        {
+            model = GetComponentInChildren<RoadModel>();
+        }
+
+        // Also grab renderers for pre-placed roads so they can change color
+        if (renderers.Count == 0 && model != null)
+        {
+            renderers.AddRange(model.GetComponentsInChildren<Renderer>());
+        }
+    }
 
     public void Setup(RoadData data, float rotation)
     {
@@ -43,22 +64,35 @@ public class Road : MonoBehaviour
 
     public void ChangeState(RoadState newState)
     {
-        if (isCityRoad) return;
         if (newState == State) return;
+        if (newState == RoadState.DESTROYHOVER) return;
+
         State = newState;
         SetRoadMaterial(State);
     }
 
     private void SetRoadMaterial(RoadState newState)
     {
-        // Make sure your materials are assigned
-        if (builtMaterial == null || destroyHoverMaterial == null)
-        {
-            Debug.LogWarning("Materials not assigned!");
-            return;
-        }
+        Material targetMat;
 
-        Material targetMat = (newState == RoadState.BUILT) ? builtMaterial : destroyHoverMaterial;
+        switch (newState)
+        {
+            case RoadState.BUILT:
+                targetMat = builtMaterial;
+                break;
+            case RoadState.SELECTED:
+                targetMat = selectMaterial;
+                break;
+            case RoadState.DESTROYHOVER:
+                targetMat = destroyHoverMaterial;
+                break;
+            case RoadState.CONFIRMED:
+                targetMat = confirmedMaterial;
+                break;
+            default:
+                targetMat = builtMaterial;
+                break;
+        }
 
         foreach (var rend in renderers)
         {
@@ -71,7 +105,7 @@ public class Road : MonoBehaviour
         }
     }
 
-    public bool isConnectedTo(Road nextRoad, Direction vehicleDirection)
+    public bool IsConnectedTo(Road nextRoad, Direction vehicleDirection)
     {
         bool nextToEachOther = false;
         bool roadsMatching = false;
@@ -88,16 +122,12 @@ public class Road : MonoBehaviour
                 }
                 break;
             case Direction.W:
-                if (nextX < firstX && nextX - firstX <= 10 && firstZ == nextZ) // next road is west of it and 1 tile away
-                {
+                if (nextX < firstX && firstX - nextX <= 10 && firstZ == nextZ)
                     nextToEachOther = true;
-                }
                 break;
             case Direction.S:
-                if (nextZ < firstZ && nextZ - firstZ <= 10 && firstX == nextX) // next road is south of it and 1 tile away
-                {
+                if (nextZ < firstZ && firstZ - nextZ <= 10 && firstX == nextX)
                     nextToEachOther = true;
-                }
                 break;
             case Direction.E:
                 if (firstX < nextX && nextX - firstX <= 10 && firstZ == nextZ) // next road is east of it and 1 tile away
@@ -109,6 +139,25 @@ public class Road : MonoBehaviour
                 break;
         }
         if (model.Outputs.Contains<Direction>(vehicleDirection) && nextRoad.model.Inputs.Contains<Direction>(vehicleDirection)) roadsMatching = true; // the vehicle can leave this road and enter next road based on direction
+        Debug.Log(roadsMatching + " " + nextToEachOther);
+        Debug.Log("First outputs: " + string.Join(", ", model.Outputs));
+        Debug.Log("Second inputs: " + string.Join(", ", nextRoad.model.Inputs));
         return roadsMatching && nextToEachOther;
+    }
+
+    [ContextMenu("Force Setup Pre-placed Road")]
+    public void ForceSetup()
+    {
+        // Try to find the model if it exists
+        model = GetComponentInChildren<RoadModel>();
+
+        // Find all renderers in children
+        renderers.Clear();
+        renderers.AddRange(GetComponentsInChildren<Renderer>());
+
+        // Refresh the material
+        SetRoadMaterial(RoadState.BUILT);
+
+        Debug.Log($"{gameObject.name} has been manually initialized!");
     }
 }

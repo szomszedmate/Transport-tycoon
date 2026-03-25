@@ -17,8 +17,14 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BuildingGrid grid;
     [SerializeField] private BusPreview busPreviewPrefab;
     [SerializeField] private Bus busPrefab;
+    public bool RoutePlanning { get; private set; } = false;
+    private Road hovered;
     public IPreview Preview { get; private set; }
     private Road lastHovered;
+    private Bus lastBusSelected;
+    private Bus busSelected;
+    private Road lastRoadSelected;
+    private Road roadSelected;
     public bool destroy = false;
 
     public event EventHandler prevdest;
@@ -26,7 +32,11 @@ public class BuildingSystem : MonoBehaviour
     public event EventHandler<int> selectprev;
     private void Update()
     {
-        
+        if (destroy)
+        {
+            HandleDestroyMode();
+            return;
+        }
     }
 
     public void DestroyMode()
@@ -60,9 +70,9 @@ public class BuildingSystem : MonoBehaviour
     {
         if (destroy && Preview == null)
         {
-            destroy = false;
-            destroymodeturn?.Invoke(this, EventArgs.Empty);
-            DestroyModeTurnOff();
+            //destroy = false;
+            //destroymodeturn?.Invoke(this, EventArgs.Empty);
+            //DestroyModeTurnOff();
         }
         else if (Preview != null)
         {
@@ -115,6 +125,112 @@ public class BuildingSystem : MonoBehaviour
         Preview = null;
 
     }
+
+    public void SelectBusForPlanning(RaycastHit hit)
+    {
+        Bus hitBus = hit.collider.GetComponentInParent<Bus>();
+
+        // 1. CLEANUP: If we are switching away or clicking away, reset the OLD bus visuals
+        if (lastBusSelected != null && hitBus != lastBusSelected)
+        {
+            foreach (Road road in lastBusSelected.Route)
+            {
+                road.ChangeState(Road.RoadState.BUILT);
+            }
+            lastBusSelected.ChangeState(Bus.BusState.BUILT);
+            roadSelected = null;
+            lastRoadSelected = null;
+        }
+
+        // 2. TOGGLE/OFF: If we hit nothing OR hit the same bus again, turn planning OFF
+        if (hitBus == null)
+        {
+            if (lastBusSelected != null)
+            {
+                // Only reset the actual route data if that's your intended "Cancel" behavior
+                // lastBusSelected.ResetRoute(); 
+                lastBusSelected.ChangeState(Bus.BusState.BUILT);
+            }
+
+            lastBusSelected = null;
+            busSelected = null;
+            RoutePlanning = false;
+            return; // Exit early, we are done
+        }
+
+        // 3. SELECTION: If we hit a NEW bus
+        busSelected = hitBus;
+        lastBusSelected = busSelected;
+
+        busSelected.ChangeState(Bus.BusState.SELECTHOVER);
+        RoutePlanning = true;
+        lastRoadSelected = hitBus.HasRoute().Item2;
+
+        // Highlight the bus's existing route so the player knows where it goes
+        if (busSelected.RouteConfirmed)
+        {
+            foreach (Road road in busSelected.Route)
+            {
+                road.ChangeState(Road.RoadState.CONFIRMED);
+            }
+        } else
+        {
+            foreach (Road road in busSelected.Route)
+            {
+                road.ChangeState(Road.RoadState.SELECTED);
+            }
+        }
+    }
+
+    public void AddToRoute(RaycastHit hit)
+    {
+        roadSelected = hit.collider.GetComponentInParent<Road>();
+        if (roadSelected is null) return;
+
+        if (lastRoadSelected is null && roadSelected.IsCityRoad) // Just add the first road if city road
+        {
+            if (!busSelected.AddToRoute(roadSelected)) return;
+            roadSelected.ChangeState(Road.RoadState.SELECTED);
+            lastRoadSelected = roadSelected;
+        }
+        Direction? direction = grid.GetRelativeDirection(lastRoadSelected, roadSelected);
+        if (direction == null) return;
+        if (lastRoadSelected.IsConnectedTo(roadSelected, (Direction)direction))
+        {
+            busSelected.AddToRoute(roadSelected);
+            roadSelected.ChangeState(Road.RoadState.SELECTED);
+
+            lastRoadSelected = roadSelected;
+        }
+    }
+
+    public void ResetRoute()
+    {
+        if (lastBusSelected != null)
+        {
+            lastBusSelected.ChangeState(Bus.BusState.BUILT);
+        }
+        foreach (Road road in lastBusSelected.Route)
+        {
+            road.ChangeState(Road.RoadState.BUILT);
+        }
+
+        lastBusSelected.ResetRoute();
+        lastBusSelected = null;
+        busSelected = null;
+        roadSelected = null;
+        lastRoadSelected = null;
+        RoutePlanning = false;
+        return; // Exit early, we are done
+    }
+
+    public void BS_ConfirmRoute()
+    {
+        if (busSelected == null) return;
+        if (!busSelected.HasRoute().Item2.IsCityRoad) return; // route has to end with city road
+
+        busSelected.ConfirmRoute();
+    }
     #endregion
 
     #region Roads
@@ -123,11 +239,11 @@ public class BuildingSystem : MonoBehaviour
 
     public void HandleDestroyMode()
     {
-        Debug.Log("Destroying");
+        //Debug.Log("Destroying");
         // Raycast to find road under mouse
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
         {
-            Road hovered = hit.collider.GetComponentInParent<Road>();
+            hovered = hit.collider.GetComponentInParent<Road>();
 
             if (hovered != lastHovered)
             {
@@ -143,13 +259,13 @@ public class BuildingSystem : MonoBehaviour
             }
 
             // Left click destroys it
-            if (hovered != null && Input.GetMouseButtonDown(0))
-            {
-                if (grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
-                grid.RemRoad(hovered.transform.position); // remove from grid
-                Destroy(hovered.gameObject);
-                lastHovered = null; // clear hover since its gone
-            }
+            //if (hovered != null && Input.GetMouseButtonDown(0))
+            //{
+            //    if (grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
+            //    grid.RemRoad(hovered.transform.position); // remove from grid
+            //    Destroy(hovered.gameObject);
+            //    lastHovered = null; // clear hover since its gone
+            //}
         }
         else
         {
@@ -162,6 +278,14 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
+    public void Destroy()
+    {
+        if (Preview != null) return;
+        if (grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
+        grid.RemRoad(hovered.transform.position); // remove from grid
+        Destroy(hovered.gameObject);
+        lastHovered = null; // clear hover since its gone
+    }
 
     private void PlaceRoad(Vector3 roadPosition)
     {
@@ -205,47 +329,48 @@ public class BuildingSystem : MonoBehaviour
 
     public Vector3 GetMouseWorldPosition()
     {
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (Mouse.current == null) return Vector3.zero; // Check if the mouse actually exists and is on screen
+
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        Plane groundPlane = new(Vector3.up, Vector3.zero);
+
+        if (groundPlane.Raycast(ray, out float distance))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new(Vector3.up, Vector3.zero);
-            if (groundPlane.Raycast(ray, out float distance))
-            {
-                return ray.GetPoint(distance);
-            }
-            return Vector3.zero;
+            return ray.GetPoint(distance);
         }
         return Vector3.zero;
     }
     #endregion
 
     #region Preview
-    public void HandlePreview(Vector3 mouseWorldPosition)
+    public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace)
     {
-        if (destroy && Input.GetMouseButtonDown(0))
-        {
-            RemoveRoad(mouseWorldPosition);
-            return;
-        }
-        if (destroy)
-        {
-            // Raycast to find building under mouse
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
-            {
-                Road b = hit.collider.GetComponentInParent<Road>();
-                if (b != null && !b.IsCityRoad)
-                {
-                    b.ChangeState(Road.RoadState.DESTROYHOVER);
-                    if (Input.GetMouseButtonDown(0))
-                    {
+        //if (destroy && Input.GetMouseButtonDown(0))
+        //{
+        //    RemoveRoad(mouseWorldPosition);
+        //    return;
+        //}
+        //if (destroy)
+        //{
+        //    // Raycast to find building under mouse
+        //    if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
+        //    {
+        //        Road b = hit.collider.GetComponentInParent<Road>();
+        //        if (b != null && !b.IsCityRoad)
+        //        {
+        //            b.ChangeState(Road.RoadState.DESTROYHOVER);
+        //            if (Input.GetMouseButtonDown(0))
+        //            {
 
-                        grid.RemRoad(b.transform.position);
-                        Destroy(b.gameObject);
-                    }
-                }
-            }
-            return; // exit so preview doesn't move
-        }
+        //                grid.RemRoad(b.transform.position);
+        //                Destroy(b.gameObject);
+        //            }
+        //        }
+        //    }
+        //    return; // exit so preview doesn't move
+        //}
         if (Preview is RoadPreview)
         {
             ((RoadPreview)Preview).transform.position = mouseWorldPosition;
@@ -255,7 +380,7 @@ public class BuildingSystem : MonoBehaviour
             {
                 ((RoadPreview)Preview).transform.position = GetSnappedCenterPosition(buildPosition);
                 ((RoadPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
-                if (Input.GetMouseButtonDown(0))
+                if (shouldIPlace)
                 {
                     PlaceRoad(buildPosition);
                 }
@@ -263,10 +388,6 @@ public class BuildingSystem : MonoBehaviour
             else
             {
                 ((RoadPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                Preview.Rotate(90);
             }
         }
         else if (Preview is BusPreview)
@@ -286,10 +407,6 @@ public class BuildingSystem : MonoBehaviour
             else
             {
                 ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                Preview.Rotate(90);
             }
         }
 

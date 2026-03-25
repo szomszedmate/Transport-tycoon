@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 1037
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Game
   m_RootView: {fileID: 5}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -219,8 +219,8 @@ MonoBehaviour:
     y: 0
     width: 946
     height: 678
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 102, y: 126}
+  m_MaxSize: {x: 4002, y: 4026}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -405,7 +405,7 @@ MonoBehaviour:
       y: 21
       width: 944
       height: 631
-    m_Scale: {x: 0.49166667, y: 0.4916667}
+    m_Scale: {x: 0.4916667, y: 0.4916667}
     m_Translation: {x: 472, y: 315.5}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -413,9 +413,9 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -960
+      x: -959.99994
       y: -641.6949
-      width: 1920
+      width: 1919.9999
       height: 1283.3898
     m_MinimalGUI: 1
   m_defaultScale: 0.49166667
@@ -1482,9 +1482,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 26.953747, y: -0.000015258789, z: -88.08153}
+    m_Target: {x: 0, y: 275.3, z: 0}
     speed: 2
-    m_Value: {x: 26.953747, y: -0.000015258789, z: -88.08153}
+    m_Value: {x: 0, y: 275.3, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1534,9 +1534,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_Size:
-    m_Target: 81.84566
+    m_Target: 0.024792533
     speed: 2
-    m_Value: 81.84566
+    m_Value: 0.024792533
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1667,13 +1667,31 @@ MonoBehaviour:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs:
-      - m_Data: 50262
+      - m_Data: 46286
       m_LastClickedID:
-        m_Data: 50262
+        m_Data: 46286
       m_ExpandedIDs:
-      - m_Data: -7152
-      - m_Data: -2330
-      - m_Data: 50576
+      - m_Data: -22974
+      - m_Data: -22972
+      - m_Data: -22872
+      - m_Data: -22406
+      - m_Data: -22404
+      - m_Data: -22304
+      - m_Data: -21068
+      - m_Data: -21062
+      - m_Data: -21044
+      - m_Data: -4934
+      - m_Data: -4928
+      - m_Data: -4922
+      - m_Data: -1296
+      - m_Data: 46280
+      - m_Data: 46378
+      - m_Data: 46544
+      - m_Data: 46588
+      - m_Data: 46592
+      - m_Data: 46626
+      - m_Data: 46646
+      - m_Data: 46670
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1748,7 +1766,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/00_Scripts
+    - Assets/02_Materials/roads
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1758,27 +1776,27 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/00_Scripts
+  - Assets/02_Materials/roads
   m_LastFoldersGridSize: 16
-  m_LastProjectPath: S:\Unity\Projects\Transport Tycoon
+  m_LastProjectPath: D:\Unity\Downloads\transport-tycoon
   m_LockTracker:
     m_IsLocked: 0
   m_LastLocalAssetsSearchArea: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
+    scrollPos: {x: 0, y: 173.50006}
     m_SelectedIDs:
-    - m_Data: 49036
+    - m_Data: 47868
     m_LastClickedID:
-      m_Data: 49036
+      m_Data: 47868
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 49034
-    - m_Data: 49036
-    - m_Data: 49038
-    - m_Data: 49040
-    - m_Data: 49042
-    - m_Data: 49044
-    - m_Data: 52576
+    - m_Data: 47734
+    - m_Data: 47736
+    - m_Data: 47738
+    - m_Data: 47740
+    - m_Data: 47870
+    - m_Data: 47872
+    - m_Data: 47896
     - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1812,12 +1830,10 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 49034
-    - m_Data: 49036
-    - m_Data: 49038
-    - m_Data: 49040
-    - m_Data: 49042
-    - m_Data: 49044
+    - m_Data: 47734
+    - m_Data: 47736
+    - m_Data: 47738
+    - m_Data: 47740
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1845,8 +1861,8 @@ MonoBehaviour:
       m_ResourceFile: 
   m_ListAreaState:
     m_SelectedInstanceIDs:
-    - m_Data: 50262
-    m_LastClickedInstanceID: 50262
+    - m_Data: 46286
+    m_LastClickedInstanceID: 46286
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: []
     m_RenameOverlay:

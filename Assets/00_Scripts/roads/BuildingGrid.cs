@@ -131,44 +131,72 @@ public class BuildingGrid : MonoBehaviour
             Gizmos.DrawLine(start, end);
         }
     }
-}
 
-
-public class BuildingGridCell
-{
-    private Road road;
-    private ILocation location;
-    private IVehicle vehicle;
-
-    public void RegLocation(ILocation location)
+    public Direction? GetRelativeDirection(Road firstRoad, Road secondRoad)
     {
-        this.location = location;
+        float firstX = firstRoad.transform.position.x;
+        float firstZ = firstRoad.transform.position.z;
+        float nextX = secondRoad.transform.position.x;
+        float nextZ = secondRoad.transform.position.z;
+        if (firstZ < nextZ && firstX == nextX) // next road is north of it and 1 tile away
+        {
+            return Direction.N;
+        }
+
+        if (nextX < firstX && firstZ == nextZ) // next road is west of it and 1 tile away
+        {
+            return Direction.W;
+        }
+
+        if (nextZ < firstZ && firstX == nextX) // next road is south of it and 1 tile away
+        {
+            return Direction.S;
+        }
+        
+        if (firstX < nextX && nextX - firstX <= 10 && firstZ == nextZ) // next road is east of it and 1 tile away
+        {
+            return Direction.E;
+        }
+        return null;
     }
 
-    public void SetVehicle(IVehicle vehicle)
-    {
-        this.vehicle = vehicle;
-    }
 
-    public void SetRoad(Road road)
+    public class BuildingGridCell
     {
-        this.road = road;
-    }
+        private Road road;
+        private ILocation location;
+        private IVehicle vehicle;
 
-    public bool Cell_IsCityRoad()
-    {
-        return road.IsCityRoad;
-    }
+        public void RegLocation(ILocation location)
+        {
+            this.location = location;
+        }
 
-    public void Cell_RemRoad()
-    {
-        if (road == null) return;
-        Object.Destroy(road.gameObject);
-        road = null;
-    }
+        public void SetVehicle(IVehicle vehicle)
+        {
+            this.vehicle = vehicle;
+        }
 
-    public bool IsEmpty()
-    {
-        return this.road == null && this.location == null;
+        public void SetRoad(Road road)
+        {
+            this.road = road;
+        }
+
+        public bool Cell_IsCityRoad()
+        {
+            return road.IsCityRoad;
+        }
+
+        public void Cell_RemRoad()
+        {
+            if (road == null) return;
+            Object.Destroy(road.gameObject);
+            road = null;
+        }
+
+        public bool IsEmpty()
+        {
+            return this.road == null && this.location == null;
+        }
     }
 }

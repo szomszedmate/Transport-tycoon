@@ -233,6 +233,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6203856880830602805}
+  - component: {fileID: 8679438339930853464}
+  - component: {fileID: 1983348281213271021}
   m_Layer: 0
   m_Name: Corner10
   m_TagString: city_road
@@ -257,6 +259,36 @@ Transform:
   - {fileID: 3068630233888926427}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8679438339930853464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522277076282463770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &1983348281213271021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522277076282463770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &773731582219433609
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +523,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1136752139234859134}
+  - component: {fileID: 3055369191318862347}
+  - component: {fileID: 6714485553028140857}
   m_Layer: 0
   m_Name: Corner9
   m_TagString: city_road
@@ -515,6 +549,36 @@ Transform:
   - {fileID: 4010360290018380918}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3055369191318862347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508318608115494817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &6714485553028140857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508318608115494817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &1620081446480580267
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,6 +588,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4825170675050851041}
+  - component: {fileID: 8242749882776355228}
+  - component: {fileID: 1947302331400725497}
   m_Layer: 0
   m_Name: Corner12
   m_TagString: city_road
@@ -548,6 +614,36 @@ Transform:
   - {fileID: 3332292345462806514}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8242749882776355228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620081446480580267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &1947302331400725497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620081446480580267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &2057978160484838956
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,6 +946,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7372711113883079199}
+  - component: {fileID: 7318044284754317875}
+  - component: {fileID: 5735655984678412114}
   m_Layer: 0
   m_Name: Corner8
   m_TagString: city_road
@@ -874,6 +972,36 @@ Transform:
   - {fileID: 9063932223058649571}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7318044284754317875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394057306634357756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &5735655984678412114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2394057306634357756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &2665539514417119180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,6 +1347,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7695920735785527409}
+  - component: {fileID: 6010609045276414679}
+  - component: {fileID: 5245625295159092645}
   m_Layer: 0
   m_Name: Corner2
   m_TagString: city_road
@@ -1243,6 +1373,36 @@ Transform:
   - {fileID: 8111960373824774714}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6010609045276414679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3089140485712767930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &5245625295159092645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3089140485712767930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &3506809853807423343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1700,6 +1860,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6229662888007527315}
+  - component: {fileID: 2860568375172016312}
+  - component: {fileID: 1580489409672336246}
   m_Layer: 0
   m_Name: Corner7
   m_TagString: city_road
@@ -1724,6 +1886,36 @@ Transform:
   - {fileID: 8144418731741305671}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2860568375172016312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4585462473953930096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &1580489409672336246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4585462473953930096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &4697286447888863427
 GameObject:
   m_ObjectHideFlags: 0
@@ -1845,6 +2037,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 956204113450331241}
+  - component: {fileID: 4042698809743160497}
+  - component: {fileID: 4958297928120899102}
   m_Layer: 0
   m_Name: Corner13
   m_TagString: city_road
@@ -1869,6 +2063,36 @@ Transform:
   - {fileID: 1644581451987634178}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4042698809743160497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4773291863719797185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &4958297928120899102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4773291863719797185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &4867510425600252688
 GameObject:
   m_ObjectHideFlags: 0
@@ -2493,6 +2717,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4200349282170925334}
+  - component: {fileID: 7760230414866935564}
+  - component: {fileID: 3715121586824936790}
   m_Layer: 0
   m_Name: Corner6
   m_TagString: city_road
@@ -2517,6 +2743,36 @@ Transform:
   - {fileID: 7134366554092070038}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7760230414866935564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532593397418871383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &3715121586824936790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5532593397418871383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &5650155706772369929
 GameObject:
   m_ObjectHideFlags: 0
@@ -2750,6 +3006,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6214313027299334835}
+  - component: {fileID: 4788524940089319014}
+  - component: {fileID: 3525937051343575057}
   m_Layer: 0
   m_Name: Corner4
   m_TagString: city_road
@@ -2774,6 +3032,36 @@ Transform:
   - {fileID: 2969956177431594011}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4788524940089319014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5842187587949292964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &3525937051343575057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5842187587949292964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &5848779133660618104
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,6 +3407,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5786513571371497334}
+  - component: {fileID: 3143270768616643346}
+  - component: {fileID: 2501245133635431286}
   m_Layer: 0
   m_Name: Corner14
   m_TagString: city_road
@@ -3143,6 +3433,36 @@ Transform:
   - {fileID: 6753266478457426314}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3143270768616643346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6592136184588139922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &2501245133635431286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6592136184588139922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &6815010074678719610
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,6 +3696,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4591424007532448123}
+  - component: {fileID: 8024033492727798272}
+  - component: {fileID: 6783988395422402857}
   m_Layer: 0
   m_Name: Corner16
   m_TagString: city_road
@@ -3400,6 +3722,36 @@ Transform:
   - {fileID: 3920238988477415923}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8024033492727798272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975216231258083062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &6783988395422402857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975216231258083062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &7071431521595628927
 GameObject:
   m_ObjectHideFlags: 0
@@ -3409,6 +3761,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6764211142598054889}
+  - component: {fileID: 2402322414731714113}
+  - component: {fileID: 5708256429816661986}
   m_Layer: 0
   m_Name: Corner11
   m_TagString: city_road
@@ -3433,6 +3787,36 @@ Transform:
   - {fileID: 282868861892620744}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2402322414731714113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7071431521595628927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &5708256429816661986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7071431521595628927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &7291265061882620589
 GameObject:
   m_ObjectHideFlags: 0
@@ -3778,6 +4162,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 681380206208410393}
+  - component: {fileID: 7300964125630545477}
+  - component: {fileID: 4656295342936663451}
   m_Layer: 0
   m_Name: Corner3
   m_TagString: city_road
@@ -3802,6 +4188,36 @@ Transform:
   - {fileID: 8320841084111338920}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7300964125630545477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7742714944120603708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &4656295342936663451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7742714944120603708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &7750345893731424080
 GameObject:
   m_ObjectHideFlags: 0
@@ -3811,6 +4227,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 984883960607039410}
+  - component: {fileID: 60885909695213345}
+  - component: {fileID: 1642246668911720091}
   m_Layer: 0
   m_Name: Corner5
   m_TagString: city_road
@@ -3835,6 +4253,36 @@ Transform:
   - {fileID: 6955125842204694069}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &60885909695213345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7750345893731424080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &1642246668911720091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7750345893731424080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1 &8113065968610940402
 GameObject:
   m_ObjectHideFlags: 0
@@ -4180,6 +4628,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3400123255418436015}
+  - component: {fileID: 5790584699604073372}
+  - component: {fileID: 6466849026718900898}
   m_Layer: 0
   m_Name: Corner15
   m_TagString: city_road
@@ -4204,6 +4654,36 @@ Transform:
   - {fileID: 2640130891523076828}
   m_Father: {fileID: 2982341002459407124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5790584699604073372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8446344341466353160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
+--- !u!114 &6466849026718900898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8446344341466353160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
 --- !u!1001 &268787951205817156
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4814,7 +5294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1522853311609731036, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1522853311609731036, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4904,13 +5384,54 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5541916218960447469, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4591424007532448123}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5296737913820252197, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6584612423843691662}
+    - targetCorrespondingSourceObject: {fileID: 5296737913820252197, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2710386024800756646}
   m_SourcePrefab: {fileID: 100100000, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
 --- !u!4 &2982341002459407124 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5541916218960447469, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
   m_PrefabInstance: {fileID: 7317135702833095929}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3173484362937691356 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5296737913820252197, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+  m_PrefabInstance: {fileID: 7317135702833095929}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6584612423843691662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3173484362937691356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53891bc04919de4449db8d3eb6a6e131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoadCrossModel
+  wrapper: {fileID: 0}
+--- !u!114 &2710386024800756646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3173484362937691356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Road
+  builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
+  selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
+  confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}
+  isCityRoad: 1
 --- !u!4 &8118287138706395941 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1522853311609731036, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}

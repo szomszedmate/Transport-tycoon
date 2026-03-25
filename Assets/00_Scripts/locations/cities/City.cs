@@ -109,7 +109,7 @@ public class City : MonoBehaviour, ILocation
             return new List<Vector3>();
         }
 
-        Debug.Log($"City {name} has {positions.Count} building positions.");
+        //Debug.Log($"City {name} has {positions.Count} building positions.");
         return positions;
     }
 

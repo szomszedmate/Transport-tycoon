@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bus
   builtMaterial: {fileID: 2100000, guid: 99778bb32a22e7045bee29507ccb8644, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: 0e9f2a87bb7ef244b9657942a1167dbf, type: 2}
+  selectHoverMaterial: {fileID: 2100000, guid: f43551bffa4588e43a3d2e7e559ffb31, type: 2}
+  confirmMaterial: {fileID: 2100000, guid: fe4398b7ed890be44a1b5e342c4c8de1, type: 2}
