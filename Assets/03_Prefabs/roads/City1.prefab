@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8261511203340015143}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner13
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -45,7 +45,8 @@ GameObject:
   - component: {fileID: 3712301634063870112}
   - component: {fileID: 8047785634834789171}
   - component: {fileID: 5671764131950737843}
-  m_Layer: 0
+  - component: {fileID: 100738512679186670}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,6 +146,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &100738512679186670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942891429941356610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 589b73c2339033b43a58358a46d2b96c, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &1075549022925338221
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +190,8 @@ GameObject:
   - component: {fileID: 5187718555296265414}
   - component: {fileID: 5515211581059449396}
   - component: {fileID: 8806027458713551893}
-  m_Layer: 0
+  - component: {fileID: 6723935375148526740}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,6 +291,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6723935375148526740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075549022925338221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 6ab99bdee5a828a45829c259a66c041b, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &1112815700312747266
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +332,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6631865092760160294}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner12
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -302,7 +368,8 @@ GameObject:
   - component: {fileID: 4556351091665691393}
   - component: {fileID: 5223700780737040543}
   - component: {fileID: 7842282815357890139}
-  m_Layer: 0
+  - component: {fileID: 1133410995261982005}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,6 +469,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1133410995261982005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505502736334477698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 9348cf9dc07356141bc5b4695806e220, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &1673984744426591128
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,7 +724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 768752691180864875}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner2
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -658,7 +757,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5323117905260949360}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner14
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -694,7 +793,8 @@ GameObject:
   - component: {fileID: 6634971308103057854}
   - component: {fileID: 8409288152321711243}
   - component: {fileID: 5826057362701259353}
-  m_Layer: 0
+  - component: {fileID: 1428128728957990681}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -794,6 +894,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1428128728957990681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028682726516568951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: c9c66fc16eb7b04499c399034c7649ee, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &2224063762315978764
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1248701885196924708}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner7
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -839,7 +971,8 @@ GameObject:
   - component: {fileID: 1164433647816268698}
   - component: {fileID: 1541696872511842074}
   - component: {fileID: 8225829886407033959}
-  m_Layer: 0
+  - component: {fileID: 6007810484310894849}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -939,6 +1072,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6007810484310894849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2723049978671089804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 92201898d2ce52f418dbd5d966e96bc1, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &2831474359944401267
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,7 +1113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8078117433674545455}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner5
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -984,7 +1149,8 @@ GameObject:
   - component: {fileID: 3393509069432131917}
   - component: {fileID: 6127835745906185822}
   - component: {fileID: 148492642089004976}
-  m_Layer: 0
+  - component: {fileID: 3668961769569950543}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1084,6 +1250,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3668961769569950543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3069894534944612819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 58d0f79947e574743b860667eda80e11, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &3173504010102835482
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,7 +1291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3221260874958049175}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner15
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -1126,7 +1324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4535869125538835818}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner16
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -1162,7 +1360,8 @@ GameObject:
   - component: {fileID: 315817335927770550}
   - component: {fileID: 6425932339184870973}
   - component: {fileID: 1092348307409895313}
-  m_Layer: 0
+  - component: {fileID: 3556480037770558311}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1262,6 +1461,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3556480037770558311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3299185074667080201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 4e9fdd00b36b2684097ee7fb5c5114a7, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &3397253500175251092
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1505,8 @@ GameObject:
   - component: {fileID: 7462423150377619810}
   - component: {fileID: 1637322003815707135}
   - component: {fileID: 2096916520002985847}
-  m_Layer: 0
+  - component: {fileID: 7969912232117760501}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1374,6 +1606,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7969912232117760501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3397253500175251092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 6c4715bcb0a898344be498fd31fd9df3, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &3480885115047026795
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,7 +1647,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1969412149081273318}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner3
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -1419,7 +1683,8 @@ GameObject:
   - component: {fileID: 7031323293016013682}
   - component: {fileID: 3274114240889520924}
   - component: {fileID: 6424711543218791655}
-  m_Layer: 0
+  - component: {fileID: 4800207338563505189}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1519,6 +1784,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4800207338563505189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3682283567719358118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 94f358a4b551a574e8a2f758eaa98796, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &3796235117570070533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,7 +1828,8 @@ GameObject:
   - component: {fileID: 3937795907896150754}
   - component: {fileID: 4777566320999867853}
   - component: {fileID: 452808885694418297}
-  m_Layer: 0
+  - component: {fileID: 6167422653388908239}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1631,6 +1929,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6167422653388908239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796235117570070533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 1ae3d96637b428c4d8c980e65ead1088, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &3919719558007429898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1643,7 +1973,8 @@ GameObject:
   - component: {fileID: 3123660575900750228}
   - component: {fileID: 7314868634385388931}
   - component: {fileID: 273608880823698511}
-  m_Layer: 0
+  - component: {fileID: 72826643371825713}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1743,6 +2074,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &72826643371825713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3919719558007429898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 6e34e86099537fd4fa6d486fcfce66a3, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &3979341872687177665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1755,7 +2118,8 @@ GameObject:
   - component: {fileID: 4842614871784851041}
   - component: {fileID: 6906006865101292269}
   - component: {fileID: 1942522313735947633}
-  m_Layer: 0
+  - component: {fileID: 4498337985526872860}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1855,6 +2219,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4498337985526872860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979341872687177665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 52988c7bd77b72240a8f8b4d07f51e42, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &4068742520036061835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1867,7 +2263,8 @@ GameObject:
   - component: {fileID: 3763918269314265375}
   - component: {fileID: 912355709536497378}
   - component: {fileID: 4840800583606396808}
-  m_Layer: 0
+  - component: {fileID: 193191292336350521}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1967,6 +2364,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &193191292336350521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4068742520036061835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: bd7183097375e6f458851f30c799f0dc, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &4414213982029397828
 GameObject:
   m_ObjectHideFlags: 0
@@ -1979,7 +2408,8 @@ GameObject:
   - component: {fileID: 4754972245831913460}
   - component: {fileID: 7827859118548159033}
   - component: {fileID: 3024600065782377432}
-  m_Layer: 0
+  - component: {fileID: 2370133096140537798}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2079,6 +2509,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2370133096140537798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4414213982029397828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: c181705ef3a9e1e4395b797680010cb0, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &5556264247284871794
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,7 +2553,8 @@ GameObject:
   - component: {fileID: 44481998917711847}
   - component: {fileID: 708020945954550155}
   - component: {fileID: 7027819538137127930}
-  m_Layer: 0
+  - component: {fileID: 7277673520579800241}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2191,6 +2654,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7277673520579800241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5556264247284871794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 86a58f54f4eb7f0479be9b24557a210b, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &5767669976303690149
 GameObject:
   m_ObjectHideFlags: 0
@@ -2203,7 +2698,8 @@ GameObject:
   - component: {fileID: 6339629858635114967}
   - component: {fileID: 7572328165906888976}
   - component: {fileID: 6049605772808156829}
-  m_Layer: 0
+  - component: {fileID: 2797242810424279391}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2303,6 +2799,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2797242810424279391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5767669976303690149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: e587b1a066fedc740a491e931d76a36c, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &5934211197578542688
 GameObject:
   m_ObjectHideFlags: 0
@@ -2315,7 +2843,8 @@ GameObject:
   - component: {fileID: 6167271912126007948}
   - component: {fileID: 336478200233017614}
   - component: {fileID: 1014205272743822006}
-  m_Layer: 0
+  - component: {fileID: 4278349973570341098}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2415,6 +2944,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4278349973570341098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5934211197578542688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 70b46c1178493aa4faf280cec49bb68b, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &6303199671548443611
 GameObject:
   m_ObjectHideFlags: 0
@@ -2427,7 +2988,8 @@ GameObject:
   - component: {fileID: 5418447482012091864}
   - component: {fileID: 2978463060336814156}
   - component: {fileID: 3863275893486145946}
-  m_Layer: 0
+  - component: {fileID: 7494880685387434643}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2527,6 +3089,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7494880685387434643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6303199671548443611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 470ef2e375430be458e778e57de1a84c, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &6478734137532809828
 GameObject:
   m_ObjectHideFlags: 0
@@ -2536,7 +3130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 969988538101510981}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner11
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -2572,7 +3166,8 @@ GameObject:
   - component: {fileID: 1604585431050257618}
   - component: {fileID: 1236498207221992717}
   - component: {fileID: 4983155013964797815}
-  m_Layer: 0
+  - component: {fileID: 489487772518548570}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2672,6 +3267,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &489487772518548570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6591498426117141564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 2ab2fee114d5a694583fbe4f9a5ecb90, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &6591908326695369195
 GameObject:
   m_ObjectHideFlags: 0
@@ -2684,7 +3311,8 @@ GameObject:
   - component: {fileID: 3140880512419581975}
   - component: {fileID: 5164222881618585488}
   - component: {fileID: 7055048911236190809}
-  m_Layer: 0
+  - component: {fileID: 4726639892802160333}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2784,6 +3412,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4726639892802160333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6591908326695369195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: cb730e8981338e540a41b8bdc1d771ea, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &6673297807752194728
 GameObject:
   m_ObjectHideFlags: 0
@@ -2796,7 +3456,8 @@ GameObject:
   - component: {fileID: 6103484931885558817}
   - component: {fileID: 3558805707054952994}
   - component: {fileID: 2496456975637241845}
-  m_Layer: 0
+  - component: {fileID: 3373000749130668616}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2896,6 +3557,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3373000749130668616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6673297807752194728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 5752f12585d54d2479f393afe7996946, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &6935897537386527619
 GameObject:
   m_ObjectHideFlags: 0
@@ -2905,7 +3598,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3407504761390459252}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner8
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -2938,7 +3631,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7555187503333414889}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner4
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -2974,7 +3667,8 @@ GameObject:
   - component: {fileID: 3502652538457975527}
   - component: {fileID: 4243895664178212598}
   - component: {fileID: 8647733159787010504}
-  m_Layer: 0
+  - component: {fileID: 1892111856098141339}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3074,6 +3768,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1892111856098141339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7046929509753789019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: fad0c2fcc31a65642bebd22d061a45be, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &7273230665140233830
 GameObject:
   m_ObjectHideFlags: 0
@@ -3086,7 +3812,8 @@ GameObject:
   - component: {fileID: 6917609017621874928}
   - component: {fileID: 2243164068487208108}
   - component: {fileID: 89384006417659160}
-  m_Layer: 0
+  - component: {fileID: 5988860289296166888}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3186,6 +3913,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5988860289296166888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7273230665140233830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 59956e5b66ccd9a418615fee73ebc607, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &7389079594271450860
 GameObject:
   m_ObjectHideFlags: 0
@@ -3195,7 +3954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3653010164413728073}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner10
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -3231,7 +3990,8 @@ GameObject:
   - component: {fileID: 281435466577267378}
   - component: {fileID: 8793526727366601075}
   - component: {fileID: 6245559529659118192}
-  m_Layer: 0
+  - component: {fileID: 4243574990490028738}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3331,6 +4091,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4243574990490028738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7401648449332653680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: ff109c9a5a153ad4d9f59d6146b8ea1f, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &7531919369377021134
 GameObject:
   m_ObjectHideFlags: 0
@@ -3343,7 +4135,8 @@ GameObject:
   - component: {fileID: 269276569320835753}
   - component: {fileID: 4147450961762660941}
   - component: {fileID: 1558691867474158817}
-  m_Layer: 0
+  - component: {fileID: 3511990366839981246}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3443,6 +4236,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3511990366839981246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7531919369377021134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 5ffbc7028ebe30e46bf2a892329c8bd6, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &7630411865205088109
 GameObject:
   m_ObjectHideFlags: 0
@@ -3452,7 +4277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1540867561779018513}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner6
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -3488,7 +4313,8 @@ GameObject:
   - component: {fileID: 1552883579357815613}
   - component: {fileID: 8987418704543886319}
   - component: {fileID: 3922582390372098845}
-  m_Layer: 0
+  - component: {fileID: 8822038689190386637}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3588,6 +4414,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8822038689190386637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7661071924454024705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: d4684c2edff5514498474ac2415cb25b, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &7980613135895900046
 GameObject:
   m_ObjectHideFlags: 0
@@ -3713,7 +4571,8 @@ GameObject:
   - component: {fileID: 2412759934848138069}
   - component: {fileID: 1533196687296748287}
   - component: {fileID: 8279775432348063417}
-  m_Layer: 0
+  - component: {fileID: 1002726685313267262}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3813,6 +4672,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1002726685313267262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8199825404260815745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: f56dfc0be8401574e8daf1d07ecdfbb9, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &8442214987755498094
 GameObject:
   m_ObjectHideFlags: 0
@@ -3825,7 +4716,8 @@ GameObject:
   - component: {fileID: 7607498123593314874}
   - component: {fileID: 1631575352465136332}
   - component: {fileID: 580608305211388980}
-  m_Layer: 0
+  - component: {fileID: 1907518203582084048}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3925,6 +4817,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1907518203582084048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8442214987755498094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 69530757126fcee40a496041698a9c65, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &8769964428393253663
 GameObject:
   m_ObjectHideFlags: 0
@@ -3934,7 +4858,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2069716292235852075}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Corner9
   m_TagString: city_road
   m_Icon: {fileID: 0}
@@ -3970,7 +4894,8 @@ GameObject:
   - component: {fileID: 8744182929080051524}
   - component: {fileID: 7065683029708488099}
   - component: {fileID: 2020881808786045518}
-  m_Layer: 0
+  - component: {fileID: 11302438794882646}
+  m_Layer: 7
   m_Name: Road2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4070,6 +4995,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11302438794882646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8780159183792686971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: a0a61ac0edc99814fa4aa33012abb2ee, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &9021805044170136031
 GameObject:
   m_ObjectHideFlags: 0
@@ -4082,7 +5039,8 @@ GameObject:
   - component: {fileID: 1987300750864315724}
   - component: {fileID: 943499209034531462}
   - component: {fileID: 1804854120157458234}
-  m_Layer: 0
+  - component: {fileID: 8051035246408972374}
+  m_Layer: 7
   m_Name: Road1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4182,6 +5140,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8051035246408972374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9021805044170136031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: e17a080cdb92061459b37af241acfb1a, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1001 &977757309013964313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4234,13 +5224,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5052603366181305440, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5296737913820252197, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
       propertyPath: m_Name
       value: Corner1
       objectReference: {fileID: 0}
     - target: {fileID: 5296737913820252197, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5296737913820252197, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
       propertyPath: m_TagString
       value: city_road
+      objectReference: {fileID: 0}
+    - target: {fileID: 7076565160533888492, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4290,7 +5292,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5541916218960447469, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4535869125538835818}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5052603366181305440, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8330191206905009314}
+    - targetCorrespondingSourceObject: {fileID: 7076565160533888492, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2035593924876894846}
   m_SourcePrefab: {fileID: 100100000, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
 --- !u!4 &1780032441761120709 stripped
 Transform:
@@ -4302,3 +5310,77 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5541916218960447469, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
   m_PrefabInstance: {fileID: 977757309013964313}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5444784786813766265 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5052603366181305440, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+  m_PrefabInstance: {fileID: 977757309013964313}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8330191206905009314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5444784786813766265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 47715c44ecca7c947a801bbdf6e3d5ad, type: 2}
+  m_BuildHeightMesh: 0
+--- !u!1 &8044752277121448949 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7076565160533888492, guid: 2f5f3fc78f227854dadbd02b6ab99bd1, type: 3}
+  m_PrefabInstance: {fileID: 977757309013964313}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2035593924876894846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8044752277121448949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: e80968572f7469c4daf3eeecdb50f9d3, type: 2}
+  m_BuildHeightMesh: 0

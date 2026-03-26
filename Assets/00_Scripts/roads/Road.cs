@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+
 using static RoadPreview;
 
 public class Road : MonoBehaviour
@@ -14,6 +15,7 @@ public class Road : MonoBehaviour
         DESTROYHOVER
     }
     public string Description => data.Description;
+    
     public int Cost => data.Cost;
     private RoadModel model;
     private RoadData data;
@@ -48,8 +50,9 @@ public class Road : MonoBehaviour
 
     public void Setup(RoadData data, float rotation)
     {
+        
         this.data = data;
-
+       
         // Instantiate the actual model first
         model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
         model.Rotate(rotation);
@@ -60,6 +63,7 @@ public class Road : MonoBehaviour
 
         // Set the default material
         SetRoadMaterial(RoadState.BUILT);
+        
     }
 
     public void ChangeState(RoadState newState)

@@ -187,11 +187,17 @@ public class BuildingSystem : MonoBehaviour
         roadSelected = hit.collider.GetComponentInParent<Road>();
         if (roadSelected is null) return;
 
-        if (lastRoadSelected is null && roadSelected.IsCityRoad) // Just add the first road if city road
+        if (lastRoadSelected is null) // Just add the first road
         {
-            if (!busSelected.AddToRoute(roadSelected)) return;
-            roadSelected.ChangeState(Road.RoadState.SELECTED);
-            lastRoadSelected = roadSelected;
+            if (roadSelected.IsCityRoad)
+            {
+                if (!busSelected.AddToRoute(roadSelected)) return;
+                roadSelected.ChangeState(Road.RoadState.SELECTED);
+                lastRoadSelected = roadSelected;
+            } else // return if first road isnt city road
+            {
+                return;
+            }
         }
         Direction? direction = grid.GetRelativeDirection(lastRoadSelected, roadSelected);
         if (direction == null) return;
