@@ -93,7 +93,7 @@ public abstract class Industry : MonoBehaviour, ILocation
             ConsumeInputs();
             ProduceOutputs();
 
-            Debug.Log($"{name} produced: {string.Join(", ", recipe.Outputs.Select(o => $"{o.Key} x{o.Value}"))}");
+            //Debug.Log($"{name} produced: {string.Join(", ", recipe.Outputs.Select(o => $"{o.Key} x{o.Value}"))}");
         }
     }
 

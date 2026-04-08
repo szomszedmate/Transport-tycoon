@@ -79,7 +79,6 @@ public class BuildingGrid : MonoBehaviour
     public void SetVehicle(IVehicle vehicle, Vector3 vehiclePosition)
     {
         (int x, int y) = WorldToGridPosition(vehiclePosition);
-        Debug.Log(x + ":" + y);
         grid[x, y].SetVehicle(vehicle);
     }
 
@@ -453,8 +452,6 @@ public class BuildingGridCell
     public void SetVehicle(IVehicle vehicle)
     {
         this.vehicle = vehicle;
-
-        Debug.Log(this.vehicle);
     }
 
     public void SetRoad(Road road)

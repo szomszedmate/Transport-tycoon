@@ -29,12 +29,10 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             buildingSystem.DestroyMode();
-            Debug.Log("X pressed");
         }
 
         if (Input.GetMouseButtonDown(0) && buildingSystem.destroy)
         {
-            Debug.Log("Left clicked and destroy enabled");
             buildingSystem.Destroy();
             return;
         }

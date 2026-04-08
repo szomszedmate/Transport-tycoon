@@ -143,9 +143,6 @@ public class Road : MonoBehaviour
                 break;
         }
         if (model.Outputs.Contains<Direction>(vehicleDirection) && nextRoad.model.Inputs.Contains<Direction>(vehicleDirection)) roadsMatching = true; // the vehicle can leave this road and enter next road based on direction
-        Debug.Log(roadsMatching + " " + nextToEachOther);
-        Debug.Log("First outputs: " + string.Join(", ", model.Outputs));
-        Debug.Log("Second inputs: " + string.Join(", ", nextRoad.model.Inputs));
         return roadsMatching && nextToEachOther;
     }
 

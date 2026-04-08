@@ -118,8 +118,14 @@ public class BuildingSystem : MonoBehaviour
     {
         if (Preview is not BusPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
+        Debug.Log(snappedPos.ToString());
         Bus bus = Instantiate(busPrefab, snappedPos, Quaternion.identity);
+
+        var agent = bus.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
+        if (agent != null) agent.enabled = false;
+
         bus.Setup(((BusPreview)Preview).Data, ((BusPreview)Preview).BusModel.Rotation);
+
         grid.SetVehicle(bus, snappedPos);
         Destroy(((BusPreview)Preview).gameObject);
         Preview = null;
@@ -184,6 +190,7 @@ public class BuildingSystem : MonoBehaviour
 
     public void AddToRoute(RaycastHit hit)
     {
+        if (busSelected.RouteConfirmed) return; // TODO display message: route needs reset
         roadSelected = hit.collider.GetComponentInParent<Road>();
         if (roadSelected is null) return;
 
@@ -405,7 +412,7 @@ public class BuildingSystem : MonoBehaviour
             {
                 ((BusPreview)Preview).transform.position = GetSnappedCenterPosition(busPosition);
                 ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
-                if (Input.GetMouseButtonDown(0))
+                if (shouldIPlace)
                 {
                     PlaceBus(busPosition);
                 }
