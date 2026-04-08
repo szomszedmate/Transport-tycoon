@@ -14,6 +14,8 @@
 
 ## Vehicles
 - C : Start / Cancel planning route
+- Enter : Confirm route
+- R : Reset route
 
 ## Camera
 - W : Forward
