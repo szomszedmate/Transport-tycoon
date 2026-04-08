@@ -15,7 +15,6 @@ public class MiniMapNav : MonoBehaviour, IPointerClickHandler
         //csak jobbklikk
         if (eventData.button==PointerEventData.InputButton.Left)
         {
-            Debug.Log("Rákattintottál a minimapra");
             RectTransform minimaptransform = minmap.rectTransform;
             Vector2 localclickpoz;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -26,7 +25,7 @@ public class MiniMapNav : MonoBehaviour, IPointerClickHandler
             );
 
 
-            Debug.Log(localclickpoz);
+            //Debug.Log(localclickpoz);
 
             //minimaptransform.rect tartalmazza a raw image transformját
             float normalizedX = Mathf.InverseLerp(minimaptransform.rect.xMin, minimaptransform.rect.xMax, localclickpoz.x); //Determines where a value lies between two points. (min, max, your point)
@@ -48,8 +47,8 @@ public class MiniMapNav : MonoBehaviour, IPointerClickHandler
              */
 
             float worldZ =(normalizedY - 0.5f) * 2f * minimapcamera.orthographicSize;
-            Debug.Log(normalizedX);
-            Debug.Log(normalizedY);
+            //Debug.Log(normalizedX);
+            //Debug.Log(normalizedY);
             player.transform.position = new Vector3(worldX, player.transform.position.y, worldZ);
 
         }
