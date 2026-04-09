@@ -241,7 +241,7 @@ public class BuildingSystem : MonoBehaviour
     {
         if (busSelected == null) return;
         if (!busSelected.HasRoute().Item2.IsCityRoad) return; // route has to end with city road
-
+        
         busSelected.ConfirmRoute();
     }
     #endregion

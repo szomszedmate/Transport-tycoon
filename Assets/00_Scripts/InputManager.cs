@@ -71,6 +71,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return) && buildingSystem.RoutePlanning)
         {
             buildingSystem.BS_ConfirmRoute();
+           
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
