@@ -1,9 +1,10 @@
 using NUnit.Framework;
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.InputSystem;
 using UnityEditor.Rendering.BuiltIn.ShaderGraph;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
@@ -24,7 +25,6 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         Vector3 mousePos = buildingSystem.GetMouseWorldPosition();
-        // Right-click destroys preview
 
         // for debug
         #region Debug
@@ -124,11 +124,12 @@ public class InputManager : MonoBehaviour
             {
                 buildingSystem.RotatePreview(90);
             }
-            else if (Input.GetMouseButtonDown(0))
+            else if (!EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0)) // cant build if hovering ui
             {
+                
                 buildingSystem.HandlePreview(mousePos, true);
-            } 
-            else if (Input.GetMouseButtonDown(1))
+            }
+            else if (Input.GetMouseButtonDown(1)) // right click destroys preview
             {
                 buildingSystem.DestroyPreview();
                 return;
