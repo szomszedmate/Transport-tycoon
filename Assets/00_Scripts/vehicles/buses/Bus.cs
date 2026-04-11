@@ -15,6 +15,8 @@ public class Bus : MonoBehaviour, IVehicle
     public int Cost => data.Cost;
     private BusModel model;
     private BusData data;
+
+    public BusAiAgent aiAgent;
     public BusState State { get; private set; } = BusState.BUILT;
     [SerializeField]
     private Material builtMaterial;
@@ -24,6 +26,7 @@ public class Bus : MonoBehaviour, IVehicle
     private Material selectHoverMaterial;
     [SerializeField]
     private Material confirmMaterial;
+  
     public List<Road> Route { get; private set; }
     private List<Renderer> renderers = new();
     public bool RouteConfirmed { get; private set; } = false;
@@ -47,6 +50,7 @@ public class Bus : MonoBehaviour, IVehicle
         // Set the default material
         SetBusMaterial(BusState.BUILT);
         Route = new List<Road>();
+        aiAgent = GetComponent<BusAiAgent>();
     }
 
     public void ChangeState(BusState newState)
@@ -126,13 +130,14 @@ public class Bus : MonoBehaviour, IVehicle
     public void ConfirmRoute()
     {
         RouteConfirmed = true;
-
+        
         foreach (Road road in Route)
         {
             road.ChangeState(RoadState.CONFIRMED);
         }
 
         ChangeState(BusState.CONFIRMED);
+        aiAgent.GiveRoute(Route);
     }
 
     public (bool, Road) HasRoute()

@@ -18,7 +18,8 @@ public class Road : MonoBehaviour
     
     public int Cost => data.Cost;
     private RoadModel model;
-    private RoadData data;
+    [SerializeField]
+    public RoadData data;
     public RoadState State { get; private set; } = RoadState.BUILT;
     [SerializeField]
     private Material builtMaterial;
@@ -32,6 +33,8 @@ public class Road : MonoBehaviour
     private bool isCityRoad;
     public bool IsCityRoad => isCityRoad;
     private List<Renderer> renderers = new();
+    public Transform leftLane;
+    public Transform rightLane;
     private BusStop busStop;
 
     public void Awake()
@@ -64,7 +67,12 @@ public class Road : MonoBehaviour
 
         // Set the default material
         SetRoadMaterial(RoadState.BUILT);
-        
+        if (data.Description== "Straight Road")
+        {
+            Debug.Log("asdasdasd");
+            leftLane= transform.Find("Road Straight(Clone)/Wrapper/laneLeft");
+            rightLane = transform.Find("Road Straight(Clone)/Wrapper/laneRigth");
+        }
     }
 
     public void ChangeState(RoadState newState)
