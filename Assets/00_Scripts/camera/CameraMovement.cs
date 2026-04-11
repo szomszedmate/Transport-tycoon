@@ -2,11 +2,28 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public float speed = 10f;
+    private readonly Quaternion baseRotation = Quaternion.Euler(0f, 0f, 0f);
+    private readonly float baseSpeed = 40f;
+    private readonly float speedMultiplier = 3f;
+
+    public float speed;
     public float mindist = 10;
     public float maxdist;
     public float mousescrollmultiplier;
+    public float rotationSensitivity = 5f;
+    private float verticalRotation = 0f;
     public Camera minimapcam;
+
+    public void RotateFreeLook(float mouseX, float mouseY)
+    {
+        transform.Rotate(Vector3.up * mouseX * rotationSensitivity, Space.World); // yaw
+
+        verticalRotation -= mouseY * rotationSensitivity; // pitch
+
+        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f); // limit movement
+
+        transform.localEulerAngles = new Vector3(verticalRotation, transform.localEulerAngles.y, 0);
+    }
 
     public void MoveCameraHorizontally(Direction direction)
     {
@@ -31,7 +48,7 @@ public class CameraMovement : MonoBehaviour
 
     public void MoveCameraVertically(bool up)
     {
-        if (up)
+        if (up) // up
         {
             if (transform.position.y + speed * mousescrollmultiplier * Time.deltaTime < maxdist)
             {
@@ -42,66 +59,41 @@ public class CameraMovement : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, maxdist, transform.position.z);
             }
-        } else
-        {   // for pressing e
-
-        }
-    }
-
-    void Update()
-    {
-        //up
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        } else // down
         {
-            if (transform.position.y+speed * mousescrollmultiplier * Time.deltaTime < maxdist)
-            {
-                transform.position += Vector3.up * speed* mousescrollmultiplier * Time.deltaTime;
-               
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x, maxdist, transform.position.z);
-            }
-        }
-
-        if (Input.GetKey(KeyCode.E))
-        {
-            if (transform.position.y < maxdist)
-            {
-                transform.position += Vector3.up * speed * Time.deltaTime;
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x, maxdist, transform.position.z);
-            }
-
-        }
-
-
-
-        //down
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            if (transform.position.y- speed * mousescrollmultiplier * Time.deltaTime > mindist)
+            if (transform.position.y - speed * mousescrollmultiplier * Time.deltaTime > mindist)
             {
                 transform.position += Vector3.down * speed * mousescrollmultiplier * Time.deltaTime;
             }
             else
             {
-                transform.position = new Vector3(transform.position.x,mindist,transform.position.z);
-            }
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            if (transform.position.y>mindist)
-            {
-                transform.position += Vector3.down * speed * Time.deltaTime;
-            }
-            else
-            {
                 transform.position = new Vector3(transform.position.x, mindist, transform.position.z);
             }
-
         }
+    }
+
+    public void ResetRotation()
+    {
+        transform.rotation = baseRotation;
+    }
+
+    public void IncreaseSpeed()
+    {
+        speed = baseSpeed * speedMultiplier;
+    }
+
+    public void ResetSpeed()
+    {
+        speed = baseSpeed;
+    }
+
+    void Update()
+    {
+
+    }
+
+    private void Start()
+    {
+        speed = baseSpeed;
     }
 }

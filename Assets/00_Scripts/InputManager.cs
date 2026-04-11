@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] private BuildingSystem buildingSystem;
     [SerializeField] private GameUiFunctions ui;
+    [SerializeField] private CameraMovement MainCamera;
     private RaycastHit hit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,6 +45,60 @@ public class InputManager : MonoBehaviour
         {
             ui.OpenMenu();
         }
+
+        #region Camera
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            MainCamera.IncreaseSpeed();
+        } else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            MainCamera.ResetSpeed();
+        }
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            MainCamera.MoveCameraHorizontally(Direction.N);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            MainCamera.MoveCameraHorizontally(Direction.W);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            MainCamera.MoveCameraHorizontally(Direction.S);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            MainCamera.MoveCameraHorizontally(Direction.E);
+        }
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.E))
+        {
+            MainCamera.MoveCameraVertically(true); // up
+        } else if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.Q))
+        {
+            MainCamera.MoveCameraVertically(false); // down
+        }
+
+        if (Input.GetMouseButton(2))
+        {
+            if (Input.GetMouseButton(1))
+            {
+                MainCamera.ResetRotation();
+            }
+
+            float mX = Input.GetAxis("Mouse X");
+            float mY = Input.GetAxis("Mouse Y");
+
+            if (mX != 0 || mY != 0)
+            {
+                MainCamera.RotateFreeLook(mX, mY);
+            }
+        }
+
+        #endregion
+
 
         if (Input.GetMouseButtonDown(1))
         {
