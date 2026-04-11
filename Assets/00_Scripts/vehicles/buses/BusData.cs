@@ -8,7 +8,4 @@ public class BusData : ScriptableObject
 
     [field: SerializeField]
     public int Cost { get; private set; }
-
-    [field: SerializeField]
-    public string Description { get; private set; }
 }

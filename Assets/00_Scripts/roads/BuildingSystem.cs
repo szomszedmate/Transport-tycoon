@@ -8,18 +8,28 @@ using System;
 public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 10f;
+
+
     [SerializeField] private RoadData RoadData1;
     [SerializeField] private RoadData RoadData2;
     [SerializeField] private RoadData RoadData3;
     [SerializeField] private RoadData RoadData4;
+
     [SerializeField] private RoadPreview roadPreviewPrefab;
     [SerializeField] private Road roadPrefab;
+
     [SerializeField] private BuildingGrid grid;
+
     [SerializeField] private BusPreview busPreviewPrefab;
     [SerializeField] private Bus busPrefab;
+
+    [SerializeField] private BusStopPreview busStopPreviewPrefab;
+    [SerializeField] private BusStop busStopPrefab;
     public bool RoutePlanning { get; private set; } = false;
     private Road hovered;
     public IPreview Preview { get; private set; }
+    public BuildingGrid Grid { get => grid; private set => grid = value; } // for debug
+
     private Road lastHovered;
     private Bus lastBusSelected;
     private Bus busSelected;
@@ -104,7 +114,9 @@ public class BuildingSystem : MonoBehaviour
             case 5:
                 Preview = CreateBusPreview(BusData1, mousePos);
                 break;
-
+            case 6:
+                Preview = CreateBusStopPreview(BusStopData1, mousePos);
+                break;
             default:
                 break;
         }
@@ -118,7 +130,6 @@ public class BuildingSystem : MonoBehaviour
     {
         if (Preview is not BusPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
-        Debug.Log(snappedPos.ToString());
         Bus bus = Instantiate(busPrefab, snappedPos, Quaternion.identity);
 
         var agent = bus.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
@@ -126,7 +137,7 @@ public class BuildingSystem : MonoBehaviour
 
         bus.Setup(((BusPreview)Preview).Data, ((BusPreview)Preview).BusModel.Rotation);
 
-        grid.SetVehicle(bus, snappedPos);
+        Grid.SetVehicle(bus, snappedPos);
         Destroy(((BusPreview)Preview).gameObject);
         Preview = null;
 
@@ -175,6 +186,7 @@ public class BuildingSystem : MonoBehaviour
         // Highlight the bus's existing route so the player knows where it goes
         if (busSelected.RouteConfirmed)
         {
+            busSelected.ChangeState(Bus.BusState.CONFIRMED);
             foreach (Road road in busSelected.Route)
             {
                 road.ChangeState(Road.RoadState.CONFIRMED);
@@ -196,17 +208,17 @@ public class BuildingSystem : MonoBehaviour
 
         if (lastRoadSelected is null) // Just add the first road
         {
-            if (roadSelected.IsCityRoad)
+            if (roadSelected.Road_HasBusStop()) // first road must have bus stop
             {
                 if (!busSelected.AddToRoute(roadSelected)) return;
                 roadSelected.ChangeState(Road.RoadState.SELECTED);
                 lastRoadSelected = roadSelected;
-            } else // return if first road isnt city road
+            } else
             {
                 return;
             }
         }
-        Direction? direction = grid.GetRelativeDirection(lastRoadSelected, roadSelected);
+        Direction? direction = Grid.GetRelativeDirection(lastRoadSelected, roadSelected);
         if (direction == null) return;
         if (lastRoadSelected.IsConnectedTo(roadSelected, (Direction)direction))
         {
@@ -240,11 +252,36 @@ public class BuildingSystem : MonoBehaviour
     public void BS_ConfirmRoute()
     {
         if (busSelected == null) return;
-        if (!busSelected.HasRoute().Item2.IsCityRoad) return; // route has to end with city road
+        if (!busSelected.HasRoute().Item2.Road_HasBusStop()) return; // route has to end with city road
 
         busSelected.ConfirmRoute();
     }
     #endregion
+
+    #region Bus stops
+
+    [SerializeField]
+    private BusStopData BusStopData1;
+
+    private void PlaceBusStop(Vector3 busPosition)
+    {
+        if (Preview is not BusStopPreview) return;
+        Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
+        BusStop busStop = Instantiate(busStopPrefab, snappedPos, Quaternion.identity);
+
+        var agent = busStop.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
+        if (agent != null) agent.enabled = false;
+
+        busStop.SetUp(((BusStopPreview)Preview).Data, ((BusStopPreview)Preview).BusStopModel.Rotation);
+
+        Grid.SetBusStop(busStop, snappedPos);
+        Destroy(((BusStopPreview)Preview).gameObject);
+        Preview = null;
+
+    }
+
+    #endregion
+
 
     #region Roads
 
@@ -252,7 +289,6 @@ public class BuildingSystem : MonoBehaviour
 
     public void HandleDestroyMode()
     {
-        //Debug.Log("Destroying");
         // Raycast to find road under mouse
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
         {
@@ -270,15 +306,6 @@ public class BuildingSystem : MonoBehaviour
 
                 lastHovered = hovered;
             }
-
-            // Left click destroys it
-            //if (hovered != null && Input.GetMouseButtonDown(0))
-            //{
-            //    if (grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
-            //    grid.RemRoad(hovered.transform.position); // remove from grid
-            //    Destroy(hovered.gameObject);
-            //    lastHovered = null; // clear hover since its gone
-            //}
         }
         else
         {
@@ -294,8 +321,8 @@ public class BuildingSystem : MonoBehaviour
     public void Destroy()
     {
         if (Preview != null) return;
-        if (grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
-        grid.RemRoad(hovered.transform.position); // remove from grid
+        if (Grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
+        Grid.RemRoad(hovered.transform.position); // remove from grid
         Destroy(hovered.gameObject);
         lastHovered = null; // clear hover since its gone
     }
@@ -311,7 +338,7 @@ public class BuildingSystem : MonoBehaviour
         //}
         Road road = Instantiate(roadPrefab, snappedPos, Quaternion.identity);
         road.Setup(((RoadPreview)Preview).Data, ((RoadPreview)Preview).RoadModel.Rotation);
-        grid.SetRoad(road, snappedPos);
+        Grid.SetRoad(road, snappedPos);
         // Destroy(((RoadPreview)preview).gameObject);
         //preview = null;
     }
@@ -319,7 +346,7 @@ public class BuildingSystem : MonoBehaviour
     private void RemoveRoad(Vector3 mouseWorldPosition)
     {
         Vector3 snappedPos = GetSnappedCenterPosition(mouseWorldPosition);
-        grid.RemRoad(snappedPos);
+        Grid.RemRoad(snappedPos);
     }
     #endregion
 
@@ -336,7 +363,6 @@ public class BuildingSystem : MonoBehaviour
         // Snap to nearest grid cell center
         float snappedX = Mathf.Floor(buildingPosition.x / CellSize) * CellSize + CellSize / 2f;
         float snappedZ = Mathf.Floor(buildingPosition.z / CellSize) * CellSize + CellSize / 2f;
-        //Debug.Log("Coordinates: " + snappedX + ", " + snappedZ);
         return new Vector3(snappedX, 0, snappedZ);
     }
 
@@ -360,35 +386,11 @@ public class BuildingSystem : MonoBehaviour
     #region Preview
     public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace)
     {
-        //if (destroy && Input.GetMouseButtonDown(0))
-        //{
-        //    RemoveRoad(mouseWorldPosition);
-        //    return;
-        //}
-        //if (destroy)
-        //{
-        //    // Raycast to find building under mouse
-        //    if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
-        //    {
-        //        Road b = hit.collider.GetComponentInParent<Road>();
-        //        if (b != null && !b.IsCityRoad)
-        //        {
-        //            b.ChangeState(Road.RoadState.DESTROYHOVER);
-        //            if (Input.GetMouseButtonDown(0))
-        //            {
-
-        //                grid.RemRoad(b.transform.position);
-        //                Destroy(b.gameObject);
-        //            }
-        //        }
-        //    }
-        //    return; // exit so preview doesn't move
-        //}
-        if (Preview is RoadPreview)
+        if (Preview is RoadPreview) // roads
         {
             ((RoadPreview)Preview).transform.position = mouseWorldPosition;
             Vector3 buildPosition = ((RoadPreview)Preview).RoadModel.GetAllBuildingPositions().First(); //road is only 1 tile
-            bool canBuild = grid.CanBuild(buildPosition);
+            bool canBuild = Grid.CanBuild(buildPosition);
             if (canBuild && !destroy)
             {
                 ((RoadPreview)Preview).transform.position = GetSnappedCenterPosition(buildPosition);
@@ -403,11 +405,11 @@ public class BuildingSystem : MonoBehaviour
                 ((RoadPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
             }
         }
-        else if (Preview is BusPreview)
+        else if (Preview is BusPreview) // buses
         {
             ((BusPreview)Preview).transform.position = mouseWorldPosition;
             Vector3 busPosition = ((BusPreview)Preview).BusModel.GetBusPosition();
-            bool canBuild = grid.CanBuildBus(busPosition);
+            bool canBuild = Grid.CanBuildBus(busPosition);
             if (canBuild && !destroy)
             {
                 ((BusPreview)Preview).transform.position = GetSnappedCenterPosition(busPosition);
@@ -420,6 +422,26 @@ public class BuildingSystem : MonoBehaviour
             else
             {
                 ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
+            }
+        }
+        else if (Preview is BusStopPreview) // bus stops
+        {
+            ((BusStopPreview)Preview).transform.position = mouseWorldPosition;
+            Vector3 busStopPosition = ((BusStopPreview)Preview).BusStopModel.GetBusStopPosition();
+            //Debug.Log(Grid.WorldToGridPosition(busStopPosition));
+            bool canBuild = Grid.CanBuildBusStop(busStopPosition);
+            if (canBuild && !destroy)
+            {
+                ((BusStopPreview)Preview).transform.position = GetSnappedCenterPosition(busStopPosition);
+                ((BusStopPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
+                if (shouldIPlace)
+                {
+                    PlaceBusStop(busStopPosition);
+                }
+            }
+            else
+            {
+                ((BusStopPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
             }
         }
 
@@ -437,6 +459,13 @@ public class BuildingSystem : MonoBehaviour
         BusPreview busPreview = Instantiate(busPreviewPrefab, position, Quaternion.identity);
         busPreview.Setup(data);
         return busPreview;
+    }
+
+    private BusStopPreview CreateBusStopPreview(BusStopData data, Vector3 position)
+    {
+        BusStopPreview busStopPreview = Instantiate(busStopPreviewPrefab, position, Quaternion.identity);
+        busStopPreview.Setup(data);
+        return busStopPreview;
     }
     #endregion
 }

@@ -32,6 +32,7 @@ public class Road : MonoBehaviour
     private bool isCityRoad;
     public bool IsCityRoad => isCityRoad;
     private List<Renderer> renderers = new();
+    private BusStop busStop;
 
     public void Awake()
     {
@@ -160,5 +161,20 @@ public class Road : MonoBehaviour
         SetRoadMaterial(RoadState.BUILT);
 
         Debug.Log($"{gameObject.name} has been manually initialized!");
+    }
+
+    public void SetBusStop(BusStop busStop)
+    {
+        this.busStop = busStop;
+    }
+
+    public void RemBusStop()
+    {
+        this.busStop = null;
+    }
+
+    public bool Road_HasBusStop()
+    {
+        return (busStop != null);
     }
 }

@@ -18,16 +18,20 @@ public class BuildingGrid : MonoBehaviour
     private List<Road> roads;
     private TreeVisual[,] treeVisuals;
 
+    public BuildingGridCell[,] Grid { get => grid; private set => grid = value; } // for debug
+    public int Width { get => width; set => width = value; } // for debug
+    public int Height { get => height; set => height = value; } // for debug
+
     private void Start()
     {
-        grid = new BuildingGridCell[width, height];
-        treeVisuals = new TreeVisual[width, height];
+        Grid = new BuildingGridCell[Width, Height];
+        treeVisuals = new TreeVisual[Width, Height];
 
-        for (int i = 0; i < grid.GetLength(0); i++)
+        for (int i = 0; i < Grid.GetLength(0); i++)
         {
-            for (int j = 0; j < grid.GetLength(1); j++)
+            for (int j = 0; j < Grid.GetLength(1); j++)
             {
-                grid[i, j] = new();
+                Grid[i, j] = new();
             }
         }
 
@@ -41,7 +45,7 @@ public class BuildingGrid : MonoBehaviour
     private void RegisterExistingObjects()
     {
         locations = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ILocation>().ToList();
-
+        //Debug.Log("# of locations: " + locations.Count);
         // init buildings to grid
         foreach (var location in locations)
         {
@@ -49,9 +53,9 @@ public class BuildingGrid : MonoBehaviour
             {
                 (int x, int y) = WorldToGridPosition(pos);
 
-                if (x >= 0 && x < width && y >= 0 && y < height)
+                if (x >= 0 && x < Width && y >= 0 && y < Height)
                 {
-                    grid[x, y].RegLocation(location);
+                    Grid[x, y].RegLocation(location);
                 }
             }
         }
@@ -63,9 +67,9 @@ public class BuildingGrid : MonoBehaviour
             Vector3 pos = ((MonoBehaviour)road).transform.position;
             (int x, int y) = WorldToGridPosition(pos);
 
-            if (x >= 0 && x < width && y >= 0 && y < height)
+            if (x >= 0 && x < Width && y >= 0 && y < Height)
             {
-                grid[x, y].SetRoad(road);
+                Grid[x, y].SetRoad(road);
             }
         }
     }
@@ -73,31 +77,37 @@ public class BuildingGrid : MonoBehaviour
     public void SetRoad(Road road, Vector3 roadPosition)
     {
         (int x, int y) = WorldToGridPosition(roadPosition);
-        grid[x, y].SetRoad(road);
+        //Debug.Log("Road position: " + x +  ", " + y);
+        Grid[x, y].SetRoad(road);
     }
 
+    public void SetBusStop(BusStop busStop, Vector3 busStopPosition)
+    {
+        (int x, int y) = WorldToGridPosition(busStopPosition);
+        Grid[x, y].SetBusStop(busStop);
+    }
     public void SetVehicle(IVehicle vehicle, Vector3 vehiclePosition)
     {
         (int x, int y) = WorldToGridPosition(vehiclePosition);
-        grid[x, y].SetVehicle(vehicle);
+        Grid[x, y].SetVehicle(vehicle);
     }
 
     public bool IsCityRoad(Vector3 roadPosition)
     {
         (int x, int y) = WorldToGridPosition(roadPosition);
-        return grid[x, y].Cell_IsCityRoad();
+        return Grid[x, y].Cell_IsCityRoad();
     }
 
     public void RemRoad(Vector3 roadPosition)
     {
         (int x, int y) = WorldToGridPosition(roadPosition);
-        grid[x, y].Cell_RemRoad();
+        Grid[x, y].Cell_RemRoad();
     }
     private bool IsInsideGrid(int col, int row)
     {
-        return col >= 0 && col < width && row >= 0 && row < height;
+        return col >= 0 && col < Width && row >= 0 && row < Height;
     }
-    private (int x, int y) WorldToGridPosition(Vector3 worldPosition)
+    public (int x, int y) WorldToGridPosition(Vector3 worldPosition) // public for debugging
     {
         int x = Mathf.FloorToInt((worldPosition - transform.position).x / BuildingSystem.CellSize);
         int y = Mathf.FloorToInt((worldPosition - transform.position).z / BuildingSystem.CellSize);
@@ -113,12 +123,12 @@ public class BuildingGrid : MonoBehaviour
 
     public int GetWidth()
     {
-        return width;
+        return Width;
     }
 
     public int GetHeight()
     {
-        return height;
+        return Height;
     }
 
     private List<(int, int)> GetNeighbors(int col, int row)
@@ -151,17 +161,40 @@ public class BuildingGrid : MonoBehaviour
     public bool CanBuildBus(Vector3 busPosition)
     {
         (int x, int y) = WorldToGridPosition(busPosition);
-        if (x < 0 || x >= width || y < 0 || y >= height) return false;
-        if (!grid[x, y].IsEmpty()) return true;
+        if (x < 0 || x >= Width || y < 0 || y >= Height) return false;
+        if (Grid[x, y].IsRoad()) return true;
         return false;
     }
 
+    public bool CanBuildBusStop(Vector3 busStopPosition) // checks for city/industry nearby
+    {
+        (int x, int y) = WorldToGridPosition(busStopPosition);
+        if (x < 0 || x >= Width || y < 0 || y >= Height) return false; // out of bounds
+        if (!Grid[x,y].IsRoad()) return false; // false if not road
+
+        for (int i = -1; i <= 1; i++) // check tiles around it
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                int newX = x + i;
+                int newY = y + j;
+                if (newX < 0 || newX >= Width || newY < 0 || newY >= Height) continue; // continue if out of bounds
+                if (Grid[newX, newY].IsLocation())
+                {
+                    //Debug.Log("Location: " + newX + ", " + newY);
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
     public bool CanBuild(Vector3 buildingPosition)
     {
         (int x, int y) = WorldToGridPosition(buildingPosition);
-        if (x < 0 || x >= width || y < 0 || y >= height) return false;
+        if (x < 0 || x >= Width || y < 0 || y >= Height) return false;
         //if (!grid[x, y].Cell_IsCityRoad()) return false;
-        if (!grid[x, y].IsEmpty()) return false;
+        if (!Grid[x, y].IsEmpty()) return false;
         foreach (ILocation location in locations)
         {
 
@@ -179,18 +212,18 @@ public class BuildingGrid : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        if (BuildingSystem.CellSize <= 0 || width <= 0 || height <= 0) return;
+        if (BuildingSystem.CellSize <= 0 || Width <= 0 || Height <= 0) return;
         Vector3 origin = transform.position;
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < Height; y++)
         {
             Vector3 start = origin + new Vector3(0, 0.01f, y * BuildingSystem.CellSize);
-            Vector3 end = origin + new Vector3(width * BuildingSystem.CellSize, 0.01f, y * BuildingSystem.CellSize);
+            Vector3 end = origin + new Vector3(Width * BuildingSystem.CellSize, 0.01f, y * BuildingSystem.CellSize);
             Gizmos.DrawLine(start, end);
         }
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < Width; x++)
         {
             Vector3 start = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, 0);
-            Vector3 end = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, height * BuildingSystem.CellSize);
+            Vector3 end = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, Height * BuildingSystem.CellSize);
             Gizmos.DrawLine(start, end);
         }
     }
@@ -227,7 +260,7 @@ public class BuildingGrid : MonoBehaviour
             return false;
         }
 
-        return grid[col, row].IsEmpty() && !grid[col, row].HasTrees();
+        return Grid[col, row].IsEmpty() && !Grid[col, row].HasTrees();
     }
 
     public int GetTreeCount(Vector3 position)
@@ -235,7 +268,7 @@ public class BuildingGrid : MonoBehaviour
         (int col, int row) = WorldToGridPosition(position);
         if (!IsInsideGrid(col, row)) return 0;
 
-        return grid[col, row].GetTreeCount();
+        return Grid[col, row].GetTreeCount();
     }
 
     public bool HasTrees(Vector3 position)
@@ -243,7 +276,7 @@ public class BuildingGrid : MonoBehaviour
         (int col, int row) = WorldToGridPosition(position);
         if (!IsInsideGrid(col, row)) return false;
 
-        return grid[col, row].HasTrees();
+        return Grid[col, row].HasTrees();
     }
 
     public bool CanSpreadTrees(Vector3 position)
@@ -251,7 +284,7 @@ public class BuildingGrid : MonoBehaviour
         (int col, int row) = WorldToGridPosition(position);
         if (!IsInsideGrid(col, row)) return false;
 
-        return grid[col, row].CanSpreadTrees();
+        return Grid[col, row].CanSpreadTrees();
     }
 
     public void SetTreeCount(Vector3 position, int treeCount)
@@ -259,7 +292,7 @@ public class BuildingGrid : MonoBehaviour
         (int col, int row) = WorldToGridPosition(position);
         if (!IsInsideGrid(col, row)) return;
 
-        grid[col, row].SetTreeCount(treeCount);
+        Grid[col, row].SetTreeCount(treeCount);
         RefreshTreeVisual(col, row);
     }
 
@@ -268,7 +301,7 @@ public class BuildingGrid : MonoBehaviour
         (int col, int row) = WorldToGridPosition(position);
         if (!IsInsideGrid(col, row)) return;
 
-        grid[col, row].IncreaseTreeCount();
+        Grid[col, row].IncreaseTreeCount();
         RefreshTreeVisual(col, row);
     }
 
@@ -277,7 +310,7 @@ public class BuildingGrid : MonoBehaviour
         (int col, int row) = WorldToGridPosition(position);
         if (!IsInsideGrid(col, row)) return;
 
-        grid[col, row].ClearTrees();
+        Grid[col, row].ClearTrees();
         RefreshTreeVisual(col, row);
     }
 
@@ -286,7 +319,7 @@ public class BuildingGrid : MonoBehaviour
     {
         if (!IsInsideGrid(col, row)) return 0;
 
-        return grid[col, row].GetTreeCount();
+        return Grid[col, row].GetTreeCount();
     }
 
     public bool CanSpreadTrees(int col, int row)
@@ -296,7 +329,7 @@ public class BuildingGrid : MonoBehaviour
             return false;
         }
 
-        return grid[col, row].CanSpreadTrees();
+        return Grid[col, row].CanSpreadTrees();
     }
 
     public void SetTreeCount(int col, int row, int treeCount)
@@ -306,7 +339,7 @@ public class BuildingGrid : MonoBehaviour
             return;
         }
 
-        grid[col, row].SetTreeCount(treeCount);
+        Grid[col, row].SetTreeCount(treeCount);
         RefreshTreeVisual(col, row);
     }
 
@@ -319,7 +352,7 @@ public class BuildingGrid : MonoBehaviour
             return;
         }
 
-        grid[col, row].IncreaseTreeCount();
+        Grid[col, row].IncreaseTreeCount();
         RefreshTreeVisual(col, row);
     }
     //vizualiz�vi�
@@ -330,7 +363,7 @@ public class BuildingGrid : MonoBehaviour
             return;
         }
 
-        int treeCount = grid[col, row].GetTreeCount();
+        int treeCount = Grid[col, row].GetTreeCount();
 
         if (treeVisuals[col, row] == null)
         {
@@ -356,9 +389,9 @@ public class BuildingGrid : MonoBehaviour
 
     private void RefreshAllTreeVisuals()
     {
-        for (int col = 0; col < width; col++)
+        for (int col = 0; col < Width; col++)
         {
-            for (int row = 0; row < height; row++)
+            for (int row = 0; row < Height; row++)
             {
                 RefreshTreeVisual(col, row);
             }
@@ -399,9 +432,10 @@ public class BuildingGrid : MonoBehaviour
 
 public class BuildingGridCell
 {
-    private Road road;
+    public Road Road { get; private set; }
     private ILocation location;
     private IVehicle vehicle;
+    private BusStop busStop;
     private int treeCount;
 
     #region TreeMethods
@@ -454,25 +488,41 @@ public class BuildingGridCell
         this.vehicle = vehicle;
     }
 
+    public void SetBusStop(BusStop busStop)
+    {
+        this.busStop = busStop;
+        Road.SetBusStop(busStop);
+    }
+
     public void SetRoad(Road road)
     {
-        this.road = road;
+        this.Road = road;
     }
 
     public bool Cell_IsCityRoad()
     {
-        return road.IsCityRoad;
+        return Road.IsCityRoad;
     }
 
     public void Cell_RemRoad()
     {
-        if (road == null) return;
-        UnityEngine.Object.Destroy(road.gameObject);
-        road = null;
+        if (Road == null) return;
+        UnityEngine.Object.Destroy(Road.gameObject);
+        Road = null;
+    }
+
+    public bool IsLocation()
+    {
+        return this.location != null;
+    }
+
+    public bool IsRoad()
+    {
+        return this.Road != null;
     }
 
     public bool IsEmpty()
     {
-        return this.road == null && this.location == null;
+        return this.Road == null && this.location == null;
     }
 }

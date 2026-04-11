@@ -158,23 +158,25 @@ public class GameUiFunctions : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-    // Update is called once per frame
-    void Update()
+
+    public void OpenMenu()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
             if (!isPauseMenuActive)
             {
                 isPauseMenuActive = true;
                 PauseTime();
                 PauseMenu.SetActive(true);
-                
+
             }
             else
             {
                 Resume();
             }
-           
-        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 }

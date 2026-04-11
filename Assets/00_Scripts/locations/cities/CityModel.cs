@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CityModel : MonoBehaviour
+public class CityModel : MonoBehaviour, ILocation
 {
+    public Vector3 Position { get; }
     private BuildingShapeUnit[] shapeUnits;
     private void Awake()
     {

@@ -12,7 +12,6 @@ public class Bus : MonoBehaviour, IVehicle
         CONFIRMED,
         DESTROYHOVER
     }
-    public string Description => data.Description;
     public int Cost => data.Cost;
     private BusModel model;
     private BusData data;

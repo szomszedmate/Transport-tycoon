@@ -7,29 +7,49 @@ public class CameraMovement : MonoBehaviour
     public float maxdist;
     public float mousescrollmultiplier;
     public Camera minimapcam;
+
+    public void MoveCameraHorizontally(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.N:
+                transform.position += Vector3.forward * speed * Time.deltaTime;
+                break;
+            case Direction.W:
+                transform.position += Vector3.left * speed * Time.deltaTime;
+                break;
+            case Direction.S:
+                transform.position += Vector3.back * speed * Time.deltaTime;
+                break;
+            case Direction.E:
+                transform.position += Vector3.right * speed * Time.deltaTime;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void MoveCameraVertically(bool up)
+    {
+        if (up)
+        {
+            if (transform.position.y + speed * mousescrollmultiplier * Time.deltaTime < maxdist)
+            {
+                transform.position += Vector3.up * speed * mousescrollmultiplier * Time.deltaTime;
+
+            }
+            else
+            {
+                transform.position = new Vector3(transform.position.x, maxdist, transform.position.z);
+            }
+        } else
+        {   // for pressing e
+
+        }
+    }
+
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.position += Vector3.forward * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.position += Vector3.back * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-
-
         //up
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
