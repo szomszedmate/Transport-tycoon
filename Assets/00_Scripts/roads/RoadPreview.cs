@@ -23,6 +23,7 @@ public class RoadPreview : MonoBehaviour, IPreview
     {
         Data = data;
         RoadModel = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
+        RoadModel.transform.localPosition = new Vector3(0, 0.01f, 0); // move higher so no z fighting
         renderers.AddRange(RoadModel.GetComponentsInChildren<Renderer>());
         colliders.AddRange(RoadModel.GetComponentsInChildren<Collider>());
         

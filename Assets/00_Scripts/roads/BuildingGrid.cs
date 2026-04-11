@@ -426,6 +426,70 @@ public class BuildingGrid : MonoBehaviour
         }
         return null;
     }
+
+    public Direction? GetRelativePreviewDirection(RoadPreview firstRoad, Road secondRoad)
+    {
+        float firstX = firstRoad.transform.position.x;
+        float firstZ = firstRoad.transform.position.z;
+        float nextX = secondRoad.transform.position.x;
+        float nextZ = secondRoad.transform.position.z;
+        if (firstZ < nextZ && firstX == nextX) // next road is north of it and 1 tile away
+        {
+            return Direction.N;
+        }
+
+        if (nextX < firstX && firstZ == nextZ) // next road is west of it and 1 tile away
+        {
+            return Direction.W;
+        }
+        if (nextZ < firstZ && firstX == nextX) // next road is south of it and 1 tile away
+        {
+            return Direction.S;
+        }
+
+        if (firstX < nextX && nextX - firstX <= 10 && firstZ == nextZ) // next road is east of it and 1 tile away
+        {
+            return Direction.E;
+        }
+        return null;
+    }
+
+    public bool IsPreviewConnectedTo(RoadPreview firstRoad, Road nextRoad, Direction vehicleDirection)
+    {
+        bool nextToEachOther = false;
+        bool roadsMatching = false;
+        float firstX = firstRoad.transform.position.x;
+        float firstZ = firstRoad.transform.position.z;
+        float nextX = nextRoad.transform.position.x;
+        float nextZ = nextRoad.transform.position.z;
+        switch (vehicleDirection)
+        {
+            case Direction.N:
+                if (firstZ < nextZ && nextZ - firstZ <= 10 && firstX == nextX) // next road is north of it and 1 tile away
+                {
+                    nextToEachOther = true;
+                }
+                break;
+            case Direction.W:
+                if (nextX < firstX && firstX - nextX <= 10 && firstZ == nextZ)
+                    nextToEachOther = true;
+                break;
+            case Direction.S:
+                if (nextZ < firstZ && firstZ - nextZ <= 10 && firstX == nextX)
+                    nextToEachOther = true;
+                break;
+            case Direction.E:
+                if (firstX < nextX && nextX - firstX <= 10 && firstZ == nextZ) // next road is east of it and 1 tile away
+                {
+                    nextToEachOther = true;
+                }
+                break;
+            default:
+                break;
+        }
+        if (firstRoad.RoadModel.Outputs.Contains<Direction>(vehicleDirection) && nextRoad.Model.Inputs.Contains<Direction>(vehicleDirection)) roadsMatching = true; // the vehicle can leave this road and enter next road based on direction
+        return roadsMatching && nextToEachOther;
+    }
 }
 
 

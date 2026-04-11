@@ -32,6 +32,9 @@ public class Road : MonoBehaviour
     [SerializeField]
     private bool isCityRoad;
     public bool IsCityRoad => isCityRoad;
+
+    public RoadModel Model { get => model; set => model = value; }
+
     private List<Renderer> renderers = new();
     public Transform leftLane;
     public Transform rightLane;
@@ -40,15 +43,15 @@ public class Road : MonoBehaviour
     public void Awake()
     {
         // If model is still null (pre-placed road), try to find it in children
-        if (model == null)
+        if (Model == null)
         {
-            model = GetComponentInChildren<RoadModel>();
+            Model = GetComponentInChildren<RoadModel>();
         }
 
         // Also grab renderers for pre-placed roads so they can change color
-        if (renderers.Count == 0 && model != null)
+        if (renderers.Count == 0 && Model != null)
         {
-            renderers.AddRange(model.GetComponentsInChildren<Renderer>());
+            renderers.AddRange(Model.GetComponentsInChildren<Renderer>());
         }
     }
 
@@ -58,12 +61,12 @@ public class Road : MonoBehaviour
         this.data = data;
        
         // Instantiate the actual model first
-        model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
-        model.Rotate(rotation);
+        Model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
+        Model.Rotate(rotation);
 
         // Grab all renderers from the instantiated model
         renderers.Clear();
-        renderers.AddRange(model.GetComponentsInChildren<Renderer>());
+        renderers.AddRange(Model.GetComponentsInChildren<Renderer>());
 
         // Set the default material
         SetRoadMaterial(RoadState.BUILT);
@@ -151,7 +154,7 @@ public class Road : MonoBehaviour
             default:
                 break;
         }
-        if (model.Outputs.Contains<Direction>(vehicleDirection) && nextRoad.model.Inputs.Contains<Direction>(vehicleDirection)) roadsMatching = true; // the vehicle can leave this road and enter next road based on direction
+        if (Model.Outputs.Contains<Direction>(vehicleDirection) && nextRoad.Model.Inputs.Contains<Direction>(vehicleDirection)) roadsMatching = true; // the vehicle can leave this road and enter next road based on direction
         return roadsMatching && nextToEachOther;
     }
 
@@ -159,7 +162,7 @@ public class Road : MonoBehaviour
     public void ForceSetup()
     {
         // Try to find the model if it exists
-        model = GetComponentInChildren<RoadModel>();
+        Model = GetComponentInChildren<RoadModel>();
 
         // Find all renderers in children
         renderers.Clear();

@@ -122,7 +122,7 @@ public class InputManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                buildingSystem.Preview.Rotate(90);
+                buildingSystem.RotatePreview(90);
             }
             else if (Input.GetMouseButtonDown(0))
             {

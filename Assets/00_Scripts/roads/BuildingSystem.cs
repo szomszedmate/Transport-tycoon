@@ -28,6 +28,7 @@ public class BuildingSystem : MonoBehaviour
     public bool RoutePlanning { get; private set; } = false;
     private Road hovered;
     public IPreview Preview { get; private set; }
+    private Vector3 lastSnappedPos;
     public BuildingGrid Grid { get => grid; private set => grid = value; } // for debug
 
     private Road lastHovered;
@@ -36,6 +37,7 @@ public class BuildingSystem : MonoBehaviour
     private Road lastRoadSelected;
     private Road roadSelected;
     public bool destroy = false;
+    private bool doneRotating = false; // for pre rotating roads
 
     public event EventHandler prevdest;
     public event EventHandler destroymodeturn;
@@ -95,6 +97,7 @@ public class BuildingSystem : MonoBehaviour
     }
     public void CreatePreview(int type)
     {
+        DestroyPreview();
         Vector3 mousePos = GetMouseWorldPosition();
         selectprev?.Invoke(this, type);
         switch (type)
@@ -405,17 +408,83 @@ public class BuildingSystem : MonoBehaviour
     #endregion
 
     #region Preview
+
+    private int RotateToMatch(RoadPreview roadPreview, Road otherRoad)
+    {
+        Direction? direction = grid.GetRelativePreviewDirection(roadPreview, otherRoad);
+        if (direction == null) return -1;
+        for (int rotation = 0; rotation < 4; rotation++)
+        {
+            if (grid.IsPreviewConnectedTo((RoadPreview)Preview, otherRoad, (Direction)direction))
+            {
+                return rotation;
+            }
+            roadPreview.Rotate(90);
+        }
+        return -1;
+    }
+
+    private void CheckRoadsForMatch(RoadPreview preview)
+    {
+        (int x, int y) = grid.WorldToGridPosition(preview.transform.position);
+        for (int i = -1; i <= 1;  i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                if (Mathf.Abs(i) == Mathf.Abs(j)) continue; // skip diagonals
+
+                int newX = x + i;
+                int newY = y + j;
+
+                if (newX < 0 || newX >= grid.Width || newY < 0 || newY >= grid.Height) continue;
+                if (!(grid.Grid[newX, newY].IsRoad())) continue; // continue if no road
+
+                int rotation = RotateToMatch(preview, grid.Grid[newX, newY].Road);
+                if (rotation != -1)
+                {
+                    
+                    doneRotating = true;
+                    break;
+                }
+            }
+        }
+        doneRotating = true;
+    }
+
+    public void RotatePreview(int rotation)
+    {
+        Preview.Rotate(rotation);
+        doneRotating = true;
+    }
+
     public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace)
     {
-        if (Preview is RoadPreview) // roads
+        if (Preview is RoadPreview roadPreview) // roads
         {
-            ((RoadPreview)Preview).transform.position = mouseWorldPosition;
-            Vector3 buildPosition = ((RoadPreview)Preview).RoadModel.GetAllBuildingPositions().First(); //road is only 1 tile
+            roadPreview.transform.position = mouseWorldPosition;
+
+            Vector3 buildPosition = roadPreview.RoadModel.GetAllBuildingPositions().First(); //road is only 1 tile
+            Vector3 currentSnappedPos = GetSnappedCenterPosition(buildPosition); // for pre rotation
+
+            if (currentSnappedPos != lastSnappedPos)
+            {
+                doneRotating = false;
+                lastSnappedPos = currentSnappedPos;
+            }
+
+            roadPreview.transform.position = mouseWorldPosition;
+
             bool canBuild = Grid.CanBuild(buildPosition);
             if (canBuild && !destroy)
             {
-                ((RoadPreview)Preview).transform.position = GetSnappedCenterPosition(buildPosition);
-                ((RoadPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
+                roadPreview.transform.position = currentSnappedPos;
+                if (!doneRotating)
+                {
+                    CheckRoadsForMatch((RoadPreview)Preview);
+                }
+
+
+                roadPreview.ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
                 if (shouldIPlace)
                 {
                     PlaceRoad(buildPosition);
@@ -423,7 +492,7 @@ public class BuildingSystem : MonoBehaviour
             }
             else
             {
-                ((RoadPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
+                roadPreview.ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
             }
         }
         else if (Preview is BusPreview) // buses
