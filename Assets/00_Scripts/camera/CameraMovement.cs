@@ -35,16 +35,16 @@ public class CameraMovement : MonoBehaviour
         switch (direction)
         {
             case Direction.N:
-                transform.position += forward * speed * Time.deltaTime;
+                transform.position += forward * speed * Time.unscaledDeltaTime;
                 break;
             case Direction.W:
-                transform.position += -right * speed * Time.deltaTime;
+                transform.position += -right * speed * Time.unscaledDeltaTime;
                 break;
             case Direction.S:
-                transform.position += -forward * speed * Time.deltaTime;
+                transform.position += -forward * speed * Time.unscaledDeltaTime;
                 break;
             case Direction.E:
-                transform.position += right * speed * Time.deltaTime;
+                transform.position += right * speed * Time.unscaledDeltaTime;
                 break;
             default:
                 break;
@@ -55,9 +55,9 @@ public class CameraMovement : MonoBehaviour
     {
         if (up) // up
         {
-            if (transform.position.y + speed * mousescrollmultiplier * Time.deltaTime < maxdist)
+            if (transform.position.y + speed * mousescrollmultiplier * Time.unscaledDeltaTime < maxdist)
             {
-                transform.position += Vector3.up * speed * mousescrollmultiplier * Time.deltaTime;
+                transform.position += Vector3.up * speed * mousescrollmultiplier * Time.unscaledDeltaTime;
 
             }
             else
@@ -66,9 +66,9 @@ public class CameraMovement : MonoBehaviour
             }
         } else // down
         {
-            if (transform.position.y - speed * mousescrollmultiplier * Time.deltaTime > mindist)
+            if (transform.position.y - speed * mousescrollmultiplier * Time.unscaledDeltaTime > mindist)
             {
-                transform.position += Vector3.down * speed * mousescrollmultiplier * Time.deltaTime;
+                transform.position += Vector3.down * speed * mousescrollmultiplier * Time.unscaledDeltaTime;
             }
             else
             {
