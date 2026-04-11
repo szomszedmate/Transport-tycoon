@@ -27,19 +27,24 @@ public class CameraMovement : MonoBehaviour
 
     public void MoveCameraHorizontally(Direction direction)
     {
+        Vector3 forward = transform.forward;
+        forward.y = 0;
+        Vector3 right = transform.right;
+        right.y = 0; // only move horizontally
+
         switch (direction)
         {
             case Direction.N:
-                transform.position += Vector3.forward * speed * Time.deltaTime;
+                transform.position += forward * speed * Time.deltaTime;
                 break;
             case Direction.W:
-                transform.position += Vector3.left * speed * Time.deltaTime;
+                transform.position += -right * speed * Time.deltaTime;
                 break;
             case Direction.S:
-                transform.position += Vector3.back * speed * Time.deltaTime;
+                transform.position += -forward * speed * Time.deltaTime;
                 break;
             case Direction.E:
-                transform.position += Vector3.right * speed * Time.deltaTime;
+                transform.position += right * speed * Time.deltaTime;
                 break;
             default:
                 break;

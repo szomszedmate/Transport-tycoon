@@ -229,6 +229,27 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
+    public void RemFromRoute(RaycastHit hit)
+    {
+        if (busSelected.RouteConfirmed) return; // TODO display message: route needs reset
+        roadSelected = hit.collider.GetComponentInParent<Road>();
+
+        if (roadSelected == null || busSelected.Route.Count == 0) return;
+        if (roadSelected != busSelected.Route.Last()) return; // only remove the last road
+
+        roadSelected.ChangeState(Road.RoadState.BUILT);
+        busSelected.RemFromRoute(roadSelected);
+
+        if (busSelected.Route.Count > 0)
+        {
+            lastRoadSelected = busSelected.Route.Last();
+        }
+        else
+        {
+            lastRoadSelected = null;
+        }
+    }
+
     public void ResetRoute()
     {
         if (lastBusSelected != null)

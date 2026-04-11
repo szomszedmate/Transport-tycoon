@@ -10,6 +10,9 @@ public class InputManager : MonoBehaviour
     [SerializeField] private BuildingSystem buildingSystem;
     [SerializeField] private GameUiFunctions ui;
     [SerializeField] private CameraMovement MainCamera;
+
+    private const float doubleClickTime = 0.3f;
+    private float lastClickTime;
     private RaycastHit hit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -81,13 +84,17 @@ public class InputManager : MonoBehaviour
             MainCamera.MoveCameraVertically(false); // down
         }
 
-        if (Input.GetMouseButton(2))
+        if (Input.GetMouseButtonDown(2)) // reset angle on double click
         {
-            if (Input.GetMouseButton(1))
+            if (Time.time - lastClickTime < doubleClickTime)
             {
                 MainCamera.ResetRotation();
             }
+            lastClickTime = Time.time;
+        }
 
+        if (Input.GetMouseButton(2)) // rotate camera
+        {
             float mX = Input.GetAxis("Mouse X");
             float mY = Input.GetAxis("Mouse Y");
 
@@ -99,12 +106,6 @@ public class InputManager : MonoBehaviour
 
         #endregion
 
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            buildingSystem.DestroyPreview();
-            return;
-        }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -126,12 +127,16 @@ public class InputManager : MonoBehaviour
             else if (Input.GetMouseButtonDown(0))
             {
                 buildingSystem.HandlePreview(mousePos, true);
+            } 
+            else if (Input.GetMouseButtonDown(1))
+            {
+                buildingSystem.DestroyPreview();
+                return;
             }
             else
             {
                 buildingSystem.HandlePreview(mousePos, false);
             }
-            return;
         }
 
         if (Input.GetKeyDown(KeyCode.R) && buildingSystem.RoutePlanning)
@@ -139,14 +144,22 @@ public class InputManager : MonoBehaviour
             buildingSystem.ResetRoute();
         }
 
-        if (Input.GetMouseButtonDown(0) && buildingSystem.RoutePlanning)
+        if (Input.GetMouseButton(0) && buildingSystem.RoutePlanning) // click to add road to route
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
             {
                 buildingSystem.AddToRoute(hit);
             }
             return;
+        } else if (Input.GetMouseButton(1) && buildingSystem.RoutePlanning) // right click to remove road from route
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
+            {
+                buildingSystem.RemFromRoute(hit);
+            }
+            return;
         }
+        
 
         if (Input.GetKeyDown(KeyCode.Return) && buildingSystem.RoutePlanning)
         {

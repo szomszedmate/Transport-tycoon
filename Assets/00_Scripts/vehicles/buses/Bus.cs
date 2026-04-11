@@ -106,6 +106,17 @@ public class Bus : MonoBehaviour, IVehicle
         return true;
     }
 
+    public bool RemFromRoute(Road road)
+    {
+        if (RouteConfirmed) return false;
+        if (Route.Last() == road)
+        {
+            Route.Remove(road);
+            return true;
+        }
+        return false;
+    }
+
     public void ResetRoute()
     {
         Route.Clear();

@@ -70,7 +70,7 @@ public class Road : MonoBehaviour
     public void ChangeState(RoadState newState)
     {
         if (newState == State) return;
-        if (newState == RoadState.DESTROYHOVER) return;
+        if (newState == RoadState.DESTROYHOVER && isCityRoad) return;
 
         State = newState;
         SetRoadMaterial(State);
