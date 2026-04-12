@@ -125,6 +125,7 @@ public class Bus : MonoBehaviour, IVehicle
     {
         Route.Clear();
         RouteConfirmed = false;
+        aiAgent.RemoveRoute();
     }
 
     public void ConfirmRoute()

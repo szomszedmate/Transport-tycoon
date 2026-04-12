@@ -162,7 +162,7 @@ public class BuildingGrid : MonoBehaviour
     {
         (int x, int y) = WorldToGridPosition(busPosition);
         if (x < 0 || x >= Width || y < 0 || y >= Height) return false;
-        if (Grid[x, y].IsRoad()) return true;
+        if (Grid[x, y].IsRoad()&&Grid[x,y].Road.Road_HasBusStop()) return true;
         return false;
     }
 

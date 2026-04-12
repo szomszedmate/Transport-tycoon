@@ -506,6 +506,7 @@ public class BuildingSystem : MonoBehaviour
                 ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
                 if (shouldIPlace)
                 {
+                    //Busz only on bustop
                     PlaceBus(busPosition);
                 }
             }
