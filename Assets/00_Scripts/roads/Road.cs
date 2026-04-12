@@ -72,7 +72,6 @@ public class Road : MonoBehaviour
         SetRoadMaterial(RoadState.BUILT);
         if (data.Description== "Straight Road")
         {
-            Debug.Log("asdasdasd");
             leftLane= transform.Find("Road Straight(Clone)/Wrapper/laneLeft");
             rightLane = transform.Find("Road Straight(Clone)/Wrapper/laneRigth");
         }

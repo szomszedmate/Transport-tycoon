@@ -38,10 +38,12 @@ public class BuildingSystem : MonoBehaviour
     private Road roadSelected;
     public bool destroy = false;
     private bool doneRotating = false; // for pre rotating roads
+    private bool canAfford;
 
     public event EventHandler prevdest;
     public event EventHandler destroymodeturn;
     public event EventHandler<int> selectprev;
+    public event EventHandler<BuyRequestEventArgs> BuyRequest; 
     private void Update()
     {
         if (destroy)
@@ -123,6 +125,10 @@ public class BuildingSystem : MonoBehaviour
             default:
                 break;
         }
+        float price = Preview.Data.Cost;    // checking costs for preview material
+        var args = new BuyRequestEventArgs { Cost = price, Deduct = false };
+        BuyRequest?.Invoke(this, args);
+        canAfford = args.IsApproved;
     }
 
     #region Buses
@@ -459,6 +465,10 @@ public class BuildingSystem : MonoBehaviour
 
     public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace)
     {
+        if (!canAfford)
+        {
+            Preview.ChangeState(PreviewState.NEGATIVE);
+        }
         if (Preview is RoadPreview roadPreview) // roads
         {
             roadPreview.transform.position = mouseWorldPosition;
@@ -483,47 +493,64 @@ public class BuildingSystem : MonoBehaviour
                     CheckRoadsForMatch((RoadPreview)Preview);
                 }
 
-
-                roadPreview.ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
-                if (shouldIPlace)
+                if (canAfford)
                 {
-                    PlaceRoad(buildPosition);
-                }
+					roadPreview.ChangeState(PreviewState.POSITIVE);
+                    if (shouldIPlace)   // placing the road
+                    {
+                            PlaceRoad(buildPosition);
+
+						    float price = Preview.Data.Cost;    // update affordability
+						    var args = new BuyRequestEventArgs { Cost = price, Deduct = true };
+						    BuyRequest?.Invoke(this, args);
+
+						    var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = false }; // check for next item
+						    BuyRequest?.Invoke(this, checkNext);
+						    canAfford = checkNext.IsApproved;
+					}
+				}
             }
             else
             {
-                roadPreview.ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
+                roadPreview.ChangeState(PreviewState.NEGATIVE);
             }
         }
-        else if (Preview is BusPreview) // buses
+        else if (Preview is BusPreview busPreview) // buses
         {
-            ((BusPreview)Preview).transform.position = mouseWorldPosition;
-            Vector3 busPosition = ((BusPreview)Preview).BusModel.GetBusPosition();
+            busPreview.transform.position = mouseWorldPosition;
+            Vector3 busPosition = busPreview.BusModel.GetBusPosition();
             bool canBuild = Grid.CanBuildBus(busPosition);
             if (canBuild && !destroy)
             {
-                ((BusPreview)Preview).transform.position = GetSnappedCenterPosition(busPosition);
-                ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
-                if (shouldIPlace)
+                busPreview.transform.position = GetSnappedCenterPosition(busPosition);
+
+                if (canAfford)
                 {
-                    PlaceBus(busPosition);
+                    busPreview.ChangeState(PreviewState.POSITIVE);
+                    if (shouldIPlace)
+                    {
+                        float price = busPreview.Data.Cost;    // checking costs
+						var args = new BuyRequestEventArgs { Cost = price, Deduct = true };
+						BuyRequest?.Invoke(this, args);
+                        PlaceBus(busPosition);
+                    }
                 }
             }
             else
             {
-                ((BusPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
+                busPreview.ChangeState(PreviewState.NEGATIVE);
             }
         }
-        else if (Preview is BusStopPreview) // bus stops
+        else if (Preview is BusStopPreview busStopPreview) // bus stops
         {
-            ((BusStopPreview)Preview).transform.position = mouseWorldPosition;
-            Vector3 busStopPosition = ((BusStopPreview)Preview).BusStopModel.GetBusStopPosition();
+            busStopPreview.transform.position = mouseWorldPosition;
+            Vector3 busStopPosition = busStopPreview.BusStopModel.GetBusStopPosition();
             //Debug.Log(Grid.WorldToGridPosition(busStopPosition));
             bool canBuild = Grid.CanBuildBusStop(busStopPosition);
             if (canBuild && !destroy)
             {
-                ((BusStopPreview)Preview).transform.position = GetSnappedCenterPosition(busStopPosition);
-                ((BusStopPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
+                busStopPreview.transform.position = GetSnappedCenterPosition(busStopPosition);
+                busStopPreview.ChangeState(PreviewState.POSITIVE);
                 if (shouldIPlace)
                 {
                     PlaceBusStop(busStopPosition);
@@ -531,7 +558,7 @@ public class BuildingSystem : MonoBehaviour
             }
             else
             {
-                ((BusStopPreview)Preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
+                busStopPreview.ChangeState(PreviewState.NEGATIVE);
             }
         }
 

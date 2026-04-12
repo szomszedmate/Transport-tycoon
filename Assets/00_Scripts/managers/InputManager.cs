@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Rendering.BuiltIn.ShaderGraph;
@@ -15,26 +16,26 @@ public class InputManager : MonoBehaviour
     private const float doubleClickTime = 0.3f;
     private float lastClickTime;
     private RaycastHit hit;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    public BuildingSystem BuildingSystem { get => buildingSystem; private set => buildingSystem = value; }
+
+    private void Awake()
+    {
+        if (buildingSystem == null) buildingSystem = GetComponentInChildren<BuildingSystem>();
+    }
     void Update()
     {
-        Vector3 mousePos = buildingSystem.GetMouseWorldPosition();
+        Vector3 mousePos = BuildingSystem.GetMouseWorldPosition();
 
         // for debug
         #region Debug
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            for (int i = 0; i < buildingSystem.Grid.Width; i++)
+            for (int i = 0; i < BuildingSystem.Grid.Width; i++)
             {
-                for (int j = 0; j < buildingSystem.Grid.Height; j++)
+                for (int j = 0; j < BuildingSystem.Grid.Height; j++)
                 {
-                    if (buildingSystem.Grid.Grid[i,j].IsLocation())
+                    if (BuildingSystem.Grid.Grid[i,j].IsLocation())
                     {
                         Debug.Log(i + ", " + j);
                     }
@@ -109,94 +110,93 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            buildingSystem.DestroyMode();
+            BuildingSystem.DestroyMode();
         }
 
-        if (Input.GetMouseButtonDown(0) && buildingSystem.destroy)
+        if (Input.GetMouseButtonDown(0) && BuildingSystem.destroy)
         {
-            buildingSystem.Destroy();
+            BuildingSystem.Destroy();
             return;
         }
 
-        if (buildingSystem.Preview != null)
+        if (BuildingSystem.Preview != null)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                buildingSystem.RotatePreview(90);
+                BuildingSystem.RotatePreview(90);
             }
             else if (!EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0)) // cant build if hovering ui
             {
                 
-                buildingSystem.HandlePreview(mousePos, true);
+                BuildingSystem.HandlePreview(mousePos, true);
             }
             else if (Input.GetMouseButtonDown(1)) // right click destroys preview
             {
-                buildingSystem.DestroyPreview();
+                BuildingSystem.DestroyPreview();
                 return;
             }
             else
             {
-                buildingSystem.HandlePreview(mousePos, false);
+                BuildingSystem.HandlePreview(mousePos, false);
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && buildingSystem.RoutePlanning)
+        if (Input.GetKeyDown(KeyCode.R) && BuildingSystem.RoutePlanning)
         {
-            buildingSystem.ResetRoute();
+            BuildingSystem.ResetRoute();
         }
 
-        if (Input.GetMouseButton(0) && buildingSystem.RoutePlanning) // click to add road to route
+        if (Input.GetMouseButton(0) && BuildingSystem.RoutePlanning) // click to add road to route
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
             {
-                buildingSystem.AddToRoute(hit);
+                BuildingSystem.AddToRoute(hit);
             }
             return;
-        } else if (Input.GetMouseButton(1) && buildingSystem.RoutePlanning) // right click to remove road from route
+        } else if (Input.GetMouseButton(1) && BuildingSystem.RoutePlanning) // right click to remove road from route
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
             {
-                buildingSystem.RemFromRoute(hit);
+                BuildingSystem.RemFromRoute(hit);
             }
             return;
         }
         
 
-        if (Input.GetKeyDown(KeyCode.Return) && buildingSystem.RoutePlanning)
+        if (Input.GetKeyDown(KeyCode.Return) && BuildingSystem.RoutePlanning)
         {
-            buildingSystem.BS_ConfirmRoute();
-           
+            BuildingSystem.BS_ConfirmRoute();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) // straight road
         {
-            buildingSystem.CreatePreview(1);
+            BuildingSystem.CreatePreview(1);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2)) // turning road
         {
-            buildingSystem.CreatePreview(2);
+            BuildingSystem.CreatePreview(2);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3)) // t road
         {
-            buildingSystem.CreatePreview(3);
+            BuildingSystem.CreatePreview(3);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4)) // cross road
         {
-            buildingSystem.CreatePreview(4);
+            BuildingSystem.CreatePreview(4);
         }
         else if (Input.GetKeyDown(KeyCode.B)) // bus
         {
-            buildingSystem.CreatePreview(5);
+            BuildingSystem.CreatePreview(5);
         }
         else if (Input.GetKeyDown(KeyCode.C)) // route planning
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
             {
-                buildingSystem.SelectBusForPlanning(hit);
+                BuildingSystem.SelectBusForPlanning(hit);
             }
         } else if (Input.GetKeyDown(KeyCode.T)) // bus stop
         {
-            buildingSystem.CreatePreview(6);
+            BuildingSystem.CreatePreview(6);
         }
     }
 }

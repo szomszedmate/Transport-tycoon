@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/Roads/Road")]
-public class RoadData : ScriptableObject
+public class RoadData : ScriptableObject, IData
 {
     [field: SerializeField]
     public RoadModel Model {  get; private set; }
