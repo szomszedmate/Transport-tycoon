@@ -101,6 +101,8 @@ public class Road : MonoBehaviour
         {
             leftLane = transform.Find("Road T(Clone)/Wrapper/laneLeft");
             rightLane = transform.Find("Road T(Clone)/Wrapper/laneRight");
+            topLane = transform.Find("Road T(Clone)/Wrapper/laneFelso");
+            bottomLane = transform.Find("Road T(Clone)/Wrapper/laneAlso");
         }
     }
 

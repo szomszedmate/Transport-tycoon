@@ -18,6 +18,7 @@ public class BusAiAgent : MonoBehaviour
     private bool laneslected = false;
     [SerializeField]
     private bool movingtostart = false;
+    [SerializeField]
     private Road startpoz;
     void Start()
     {
@@ -27,9 +28,11 @@ public class BusAiAgent : MonoBehaviour
 
     public void RemoveRoute()
     {
-        transform.position=startpoz.transform.position;
-        ai.SetDestination(startpoz.transform.position);
+        ai.ResetPath();
         Route.Clear();
+        
+        
+        
         oda = true;
         righlane = false;
         laneslected = false;
@@ -38,7 +41,12 @@ public class BusAiAgent : MonoBehaviour
         maxprogress = 0;
          currprog = 0;
         ontrack = false;
-}
+        ai.isStopped = true;
+        transform.position = startpoz.transform.position;
+        
+        ai.Warp(startpoz.transform.position);
+        transform.rotation = Quaternion.identity;
+    }
 
     public void GiveRoute(List<Road> route)
     {
@@ -78,7 +86,7 @@ public class BusAiAgent : MonoBehaviour
 
           
     }
-
+    //TODO celbaerest lekezelni
     public Transform SelectLane()
     {
         /*
@@ -119,13 +127,13 @@ public class BusAiAgent : MonoBehaviour
         Vector3 toToptLane = new Vector3();
         Vector3 toBottomLane = new Vector3();
         //currprog itt a kovetkezo tile mindig. nem az amin éppen van hanem amire menni akar majd.
-        if (Route[currprog].transform.GetChild(0).tag == "straight_road" || Route[currprog].transform.GetChild(0).tag == "turn_road" || Route[currprog].transform.GetChild(0).tag == "T_road"  )
+        if (Route[currprog].transform.GetChild(0).tag == "straight_road" || Route[currprog].transform.GetChild(0).tag == "turn_road"  )
         {
              toLeftLane = Route[currprog].leftLane.position - Route[currprog].transform.position;
 
             toRightLane = Route[currprog].rightLane.position - Route[currprog].transform.position;
         }
-        else if (Route[currprog].transform.GetChild(0).tag == "cross_road")
+        else //if (Route[currprog].transform.GetChild(0).tag == "cross_road" || Route[currprog].transform.GetChild(0).tag == "T_road")
         {
            
             toLeftLane = Route[currprog].leftLane.position - Route[currprog].transform.position;
@@ -172,12 +180,12 @@ public class BusAiAgent : MonoBehaviour
 
          
         }
-        else // csak city roadnal
+        /*else // csak city roadnal
         {
              toLeftLane = Route[currprog].transform.position - Route[currprog].transform.position;
 
              toRightLane = Route[currprog].transform.position - Route[currprog].transform.position;
-        }
+        }*/
             
 
         /*
@@ -219,8 +227,9 @@ public class BusAiAgent : MonoBehaviour
     public void MoveToStart()
     {
         movingtostart = true;
+        transform.position = Route[0].transform.position;
         //SelectLane();
-        ai.SetDestination(Route[0].transform.position);
+        //ai.SetDestination(Route[0].transform.position);
 
 
     }
@@ -242,8 +251,8 @@ public class BusAiAgent : MonoBehaviour
                     if (!isMoving && currprog <= maxprogress)
                     {
                         isMoving = true;
-                        if (Route[currprog].transform.GetChild(0).tag=="straight_road" || Route[currprog].transform.GetChild(0).tag == "turn_road" || Route[currprog].transform.GetChild(0).tag == "T_road" || Route[currprog].transform.GetChild(0).tag == "cross_road")
-                        {
+                        //if (Route[currprog].transform.GetChild(0).tag=="straight_road" || Route[currprog].transform.GetChild(0).tag == "turn_road" || Route[currprog].transform.GetChild(0).tag == "T_road" || Route[currprog].transform.GetChild(0).tag == "cross_road")
+                        //{
                            // if (righlane)
                            // {
                                 ai.SetDestination(SelectLane().position);
@@ -253,16 +262,16 @@ public class BusAiAgent : MonoBehaviour
                                // ai.SetDestination(Route[currprog].leftLane.position);
                             //}
 
-                        }
-                        else // city roads nal jut csak ide
+                        //}
+                       /* else // city roads nal jut csak ide
                         {
                             ai.SetDestination(Route[currprog].transform.position);
-                        }
+                        }*/
 
                     currprog++;
                     if (currprog > maxprogress)
                     {
-                        currprog = 0;
+                        currprog = 1;
                         Route.Reverse();
                         //currprog = maxprogress;
                         //oda = false;
@@ -301,7 +310,7 @@ public class BusAiAgent : MonoBehaviour
             //}
             
             float distance = Vector3.Distance(transform.position, ai.destination);
-            if (distance < 0.05f)
+            if (distance < 0.05f&&isMoving)
             {
                 isMoving = false;
                 
