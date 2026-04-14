@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/Vehicles/Buses/Bus")]
-public class BusData : ScriptableObject
+public class BusData : ScriptableObject, IData
 {
     [field: SerializeField]
     public BusModel Model { get; private set; }
