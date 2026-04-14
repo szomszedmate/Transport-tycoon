@@ -1579,13 +1579,11 @@ MonoBehaviour:
   grid: {fileID: 1668360212}
   busPreviewPrefab: {fileID: -3809811765662860722, guid: d93ae9e7d8b47a341918bef3b9d575ad, type: 3}
   busPrefab: {fileID: 3880707210839052634, guid: f307c4216b144e243a70f8bda98ac27d, type: 3}
-  BusBasicData: {fileID: 0}
+  BusBasicData: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
   busStopPreviewPrefab: {fileID: 1665727641338218824, guid: f54d0f88787aef946b413a1b252becf7, type: 3}
   busStopPrefab: {fileID: -1240028291409653652, guid: 8d216704bbc79eb459c525b9b5ec1967, type: 3}
-  BusStopData: {fileID: 0}
+  BusStopData: {fileID: 11400000, guid: 17547141c40e3594f82ce602dc4277e8, type: 2}
   destroy: 0
-  BusData1: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
-  BusStopData1: {fileID: 11400000, guid: 17547141c40e3594f82ce602dc4277e8, type: 2}
 --- !u!1 &384833886
 GameObject:
   m_ObjectHideFlags: 0
@@ -3341,7 +3339,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06333333
+  m_VoxelSize: 0.07333333
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: a08c9188dc8169646a75712d6ea29744, type: 2}
   m_BuildHeightMesh: 0
@@ -6084,7 +6082,7 @@ PrefabInstance:
       objectReference: {fileID: 381348912}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.size
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[0].Data
@@ -6924,7 +6922,19 @@ MonoBehaviour:
   buildingSystem: {fileID: 381348912}
   ui: {fileID: 1888546980}
   MainCamera: {fileID: 1838842537}
-  hotkeys: []
+  hotkeys:
+  - Key: 49
+    Data: {fileID: 11400000, guid: 60f56d5d733a13e4f9af61dc345d4999, type: 2}
+  - Key: 50
+    Data: {fileID: 11400000, guid: c772f38e88d145149b8d020a37b9156c, type: 2}
+  - Key: 51
+    Data: {fileID: 11400000, guid: 8d6f9d68753f03b479fcf0e438707ea5, type: 2}
+  - Key: 52
+    Data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
+  - Key: 98
+    Data: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
+  - Key: 116
+    Data: {fileID: 11400000, guid: 17547141c40e3594f82ce602dc4277e8, type: 2}
 --- !u!1 &1912118326
 GameObject:
   m_ObjectHideFlags: 0
