@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 656671155142045994}
   - component: {fileID: -3809811765662860722}
   m_Layer: 0
-  m_Name: Bus Preview
+  m_Name: BusPreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

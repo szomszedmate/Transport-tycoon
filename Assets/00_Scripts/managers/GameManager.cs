@@ -25,15 +25,24 @@ public class Game : MonoBehaviour
 
     private void BuildingSystem_BuyRequest(object sender, BuyRequestEventArgs e)
     {
+        if (e.Deduct)
+        {
+            if (player.CanAfford(e.Cost))
+            {
+                player.LoseMoney(e.Cost);
+                //Debug.Log("Remaining money: " + player.Money);
+            } else
+            {
+                Debug.Log("Insufficient funds, ramaining money: " + player.Money + " (need " + e.Cost + " )");
+            }
+        }
         if (player.CanAfford(e.Cost))
         {
             e.IsApproved = true;
-            player.LoseMoney(e.Cost);
-            Debug.Log("Remaining money: " + player.Money);
-        } else
+        }
+        else
         {
             e.IsApproved = false;
-            Debug.Log("Insufficient funds, ramaining money: " + player.Money + " (need " + e.Cost + " )");
         }
     }
 

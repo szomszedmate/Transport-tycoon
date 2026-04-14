@@ -2,7 +2,6 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using System;
 public class BuildingSystem : MonoBehaviour
@@ -22,9 +21,11 @@ public class BuildingSystem : MonoBehaviour
 
     [SerializeField] private BusPreview busPreviewPrefab;
     [SerializeField] private Bus busPrefab;
+    [SerializeField] private BusData BusBasicData;
 
     [SerializeField] private BusStopPreview busStopPreviewPrefab;
     [SerializeField] private BusStop busStopPrefab;
+    [SerializeField] private BusStopData BusStopData;
     public bool RoutePlanning { get; private set; } = false;
     private Road hovered;
     public IPreview Preview { get; private set; }
@@ -39,34 +40,61 @@ public class BuildingSystem : MonoBehaviour
     public bool destroy = false;
     private bool doneRotating = false; // for pre rotating roads
     private bool canAfford;
+    Vector2 mousePosition;
 
     public event EventHandler prevdest;
     public event EventHandler destroymodeturn;
-    public event EventHandler<int> selectprev;
+    public event EventHandler<IData> selectprev;
     public event EventHandler<BuyRequestEventArgs> BuyRequest; 
-    private void Update()
+    public void InputUpdate(Vector2 mousePosition, bool leftClicked, bool rightClicked)
     {
+        this.mousePosition = mousePosition;
+        Vector3 worldPos = GetMouseWorldPosition();
+
         if (destroy)
         {
-            HandleDestroyMode();
-            return;
+            HandleDestroyMode(leftClicked);
+        }
+        else if (Preview != null)
+        {
+            HandlePreview(worldPos, leftClicked, rightClicked);
+        }
+        else if (RoutePlanning)
+        {
+            if (leftClicked)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit routeHit))
+                {
+                    AddToRoute(routeHit);
+                }
+            }
+            else if (rightClicked)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit routeHit))
+                {
+                    RemFromRoute(routeHit);
+                }
+            }
         }
     }
 
     public void DestroyMode()
     {
         destroy = !destroy;
-        destroymodeturn?.Invoke(this, EventArgs.Empty);
-        if (!destroy)
+        if (destroy)
         {
-            DestroyModeTurnOff();
+            if (Preview != null)
+            {
+                DestroyPreview();
+            }
         }
         else
         {
-            prevdest?.Invoke(this, EventArgs.Empty);
-            DestroyPreview();
+            DestroyModeTurnOff();
         }
-
+        destroymodeturn?.Invoke(this, EventArgs.Empty);
     }
 
     public void DestroyModeTurnOff()
@@ -75,7 +103,7 @@ public class BuildingSystem : MonoBehaviour
         // Reset last hovered road if turning destroy mode off
         if (!destroy && lastHovered != null)
         {
-            lastHovered.ChangeState(Road.RoadState.BUILT);
+            lastHovered.ChangeState(RoadState.BUILT);
             lastHovered = null;
 
         }
@@ -97,34 +125,31 @@ public class BuildingSystem : MonoBehaviour
         }
 
     }
-    public void CreatePreview(int type)
+    public void CreatePreview(IData build)
     {
-        DestroyPreview();
-        Vector3 mousePos = GetMouseWorldPosition();
-        selectprev?.Invoke(this, type);
-        switch (type)
+        if (destroy)
         {
-            case 1:
-                Preview = CreateRoadPreview(RoadData1, mousePos);
-                break;
-            case 2:
-                Preview = CreateRoadPreview(RoadData2, mousePos);
-                break;
-            case 3:
-                Preview = CreateRoadPreview(RoadData3, mousePos);
-                break;
-            case 4:
-                Preview = CreateRoadPreview(RoadData4, mousePos);
-                break;
-            case 5:
-                Preview = CreateBusPreview(BusData1, mousePos);
-                break;
-            case 6:
-                Preview = CreateBusStopPreview(BusStopData1, mousePos);
-                break;
-            default:
-                break;
+            destroy = false;
+            destroymodeturn.Invoke(this, EventArgs.Empty);
         }
+
+        DestroyPreview();
+        Vector3 worldPos = GetMouseWorldPosition();
+        selectprev?.Invoke(this, build);
+
+        if (build is RoadData roadData)
+        {
+            Preview = CreateRoadPreview(roadData, mousePosition);
+        }
+        else if (build is BusData busData)
+        {
+            Preview = CreateBusPreview(busData, mousePosition);
+        }
+        else if (build is BusStopData busStopData)
+        {
+            Preview = CreateBusStopPreview(busStopData, worldPos);
+        }
+        else return;
         float price = Preview.Data.Cost;    // checking costs for preview material
         var args = new BuyRequestEventArgs { Cost = price, Deduct = false };
         BuyRequest?.Invoke(this, args);
@@ -132,8 +157,6 @@ public class BuildingSystem : MonoBehaviour
     }
 
     #region Buses
-    [SerializeField]
-    private BusData BusData1;
 
     private void PlaceBus(Vector3 busPosition)
     {
@@ -161,7 +184,7 @@ public class BuildingSystem : MonoBehaviour
         {
             foreach (Road road in lastBusSelected.Route)
             {
-                road.ChangeState(Road.RoadState.BUILT);
+                road.ChangeState(RoadState.BUILT);
             }
             lastBusSelected.ChangeState(Bus.BusState.BUILT);
             roadSelected = null;
@@ -198,13 +221,13 @@ public class BuildingSystem : MonoBehaviour
             busSelected.ChangeState(Bus.BusState.CONFIRMED);
             foreach (Road road in busSelected.Route)
             {
-                road.ChangeState(Road.RoadState.CONFIRMED);
+                road.ChangeState(RoadState.CONFIRMED);
             }
         } else
         {
             foreach (Road road in busSelected.Route)
             {
-                road.ChangeState(Road.RoadState.SELECTED);
+                road.ChangeState(RoadState.SELECTED);
             }
         }
     }
@@ -220,7 +243,7 @@ public class BuildingSystem : MonoBehaviour
             if (roadSelected.Road_HasBusStop()) // first road must have bus stop
             {
                 if (!busSelected.AddToRoute(roadSelected)) return;
-                roadSelected.ChangeState(Road.RoadState.SELECTED);
+                roadSelected.ChangeState(RoadState.SELECTED);
                 lastRoadSelected = roadSelected;
             } else
             {
@@ -232,7 +255,7 @@ public class BuildingSystem : MonoBehaviour
         if (lastRoadSelected.IsConnectedTo(roadSelected, (Direction)direction))
         {
             busSelected.AddToRoute(roadSelected);
-            roadSelected.ChangeState(Road.RoadState.SELECTED);
+            roadSelected.ChangeState(RoadState.SELECTED);
 
             lastRoadSelected = roadSelected;
         }
@@ -246,7 +269,7 @@ public class BuildingSystem : MonoBehaviour
         if (roadSelected == null || busSelected.Route.Count == 0) return;
         if (roadSelected != busSelected.Route.Last()) return; // only remove the last road
 
-        roadSelected.ChangeState(Road.RoadState.BUILT);
+        roadSelected.ChangeState(RoadState.BUILT);
         busSelected.RemFromRoute(roadSelected);
 
         if (busSelected.Route.Count > 0)
@@ -267,7 +290,7 @@ public class BuildingSystem : MonoBehaviour
         }
         foreach (Road road in lastBusSelected.Route)
         {
-            road.ChangeState(Road.RoadState.BUILT);
+            road.ChangeState(RoadState.BUILT);
         }
 
         lastBusSelected.ResetRoute();
@@ -289,10 +312,6 @@ public class BuildingSystem : MonoBehaviour
     #endregion
 
     #region Bus stops
-
-    [SerializeField]
-    private BusStopData BusStopData1;
-
     private void PlaceBusStop(Vector3 busPosition)
     {
         if (Preview is not BusStopPreview) return;
@@ -317,10 +336,11 @@ public class BuildingSystem : MonoBehaviour
 
 
 
-    public void HandleDestroyMode()
+    public void HandleDestroyMode(bool shouldIDestroy)
     {
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         // Raycast to find road under mouse
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
             hovered = hit.collider.GetComponentInParent<Road>();
 
@@ -328,21 +348,22 @@ public class BuildingSystem : MonoBehaviour
             {
                 // Reset previous hover
                 if (lastHovered != null)
-                    lastHovered.ChangeState(Road.RoadState.BUILT);
+                    lastHovered.ChangeState(RoadState.BUILT);
 
                 // Set new hover
                 if (hovered != null)
-                    hovered.ChangeState(Road.RoadState.DESTROYHOVER);
+                    hovered.ChangeState(RoadState.DESTROYHOVER);
 
                 lastHovered = hovered;
             }
+            if (shouldIDestroy) Destroy();
         }
         else
         {
             // No road under cursor  reset lastHovered
             if (lastHovered != null)
             {
-                lastHovered.ChangeState(Road.RoadState.BUILT);
+                lastHovered.ChangeState(RoadState.BUILT);
                 lastHovered = null;
             }
         }
@@ -351,6 +372,7 @@ public class BuildingSystem : MonoBehaviour
     public void Destroy()
     {
         if (Preview != null) return;
+        if (hovered is null) return;
         if (Grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
         Grid.RemRoad(hovered.transform.position); // remove from grid
         Destroy(hovered.gameObject);
@@ -398,11 +420,9 @@ public class BuildingSystem : MonoBehaviour
 
     public Vector3 GetMouseWorldPosition()
     {
-        if (Mouse.current == null) return Vector3.zero; // Check if the mouse actually exists and is on screen
+        if (mousePosition == null) return Vector3.zero; // Check if the mouse actually exists and is on screen
 
-        Vector2 mousePos = Mouse.current.position.ReadValue();
-
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         Plane groundPlane = new(Vector3.up, Vector3.zero);
 
         if (groundPlane.Raycast(ray, out float distance))
@@ -463,8 +483,13 @@ public class BuildingSystem : MonoBehaviour
         doneRotating = true;
     }
 
-    public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace)
+    public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace, bool shouldIDestroy)
     {
+        if (shouldIDestroy)
+        {
+            DestroyPreview();
+            return;
+        }
         if (!canAfford)
         {
             Preview.ChangeState(PreviewState.NEGATIVE);
@@ -501,14 +526,20 @@ public class BuildingSystem : MonoBehaviour
                             PlaceRoad(buildPosition);
 
 						    float price = Preview.Data.Cost;    // update affordability
-						    var args = new BuyRequestEventArgs { Cost = price, Deduct = true };
-						    BuyRequest?.Invoke(this, args);
 
-						    var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = false }; // check for next item
+						    var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
 						    BuyRequest?.Invoke(this, checkNext);
 						    canAfford = checkNext.IsApproved;
 					}
-				}
+				} else if (shouldIPlace)
+                {
+                    float price = Preview.Data.Cost;    // update affordability
+
+                    var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
+                    BuyRequest?.Invoke(this, checkNext);
+                    canAfford = checkNext.IsApproved;
+                }
+
             }
             else
             {
@@ -529,11 +560,21 @@ public class BuildingSystem : MonoBehaviour
                     busPreview.ChangeState(PreviewState.POSITIVE);
                     if (shouldIPlace)
                     {
-                        float price = busPreview.Data.Cost;    // checking costs
-						var args = new BuyRequestEventArgs { Cost = price, Deduct = true };
-						BuyRequest?.Invoke(this, args);
                         PlaceBus(busPosition);
+
+                        float price = busPreview.Data.Cost;    // checking costs
+						var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
+						BuyRequest?.Invoke(this, checkNext);
+                        canAfford = checkNext.IsApproved;
                     }
+                }
+                else if (shouldIPlace)
+                {
+                    float price = Preview.Data.Cost;    // update affordability
+
+                    var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
+                    BuyRequest?.Invoke(this, checkNext);
+                    canAfford = checkNext.IsApproved;
                 }
             }
             else
@@ -550,10 +591,27 @@ public class BuildingSystem : MonoBehaviour
             if (canBuild && !destroy)
             {
                 busStopPreview.transform.position = GetSnappedCenterPosition(busStopPosition);
-                busStopPreview.ChangeState(PreviewState.POSITIVE);
-                if (shouldIPlace)
+
+                if (canAfford)
                 {
-                    PlaceBusStop(busStopPosition);
+                    busStopPreview.ChangeState(PreviewState.POSITIVE);
+                    if (shouldIPlace)
+                    {
+                        PlaceBusStop(busStopPosition);
+
+                        float price = busStopPreview.Data.Cost;    // checking costs
+                        var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
+                        BuyRequest?.Invoke(this, checkNext);
+                        canAfford = checkNext.IsApproved;
+                    }
+                }
+                else if (shouldIPlace)
+                {
+                    float price = Preview.Data.Cost;    // update affordability
+
+                    var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
+                    BuyRequest?.Invoke(this, checkNext);
+                    canAfford = checkNext.IsApproved;
                 }
             }
             else

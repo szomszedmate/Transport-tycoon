@@ -5,17 +5,9 @@ using UnityEngine.InputSystem.LowLevel;
 
 using static RoadPreview;
 
-public class Road : MonoBehaviour
+public class Road : MonoBehaviour, IBuildable
 {
-    public enum RoadState
-    {
-        BUILT,
-        SELECTED,
-        CONFIRMED, // for confirmed routes
-        DESTROYHOVER
-    }
     public string Description => data.Description;
-    
     public int Cost => data.Cost;
     private RoadModel model;
     [SerializeField]
@@ -40,6 +32,26 @@ public class Road : MonoBehaviour
     public Transform rightLane;
     private BusStop busStop;
 
+    public BuildCategory BuildCategory
+    {
+        get
+        {
+            return BuildCategory.ROAD;
+        }
+    }
+
+    public RoadType Type
+    {
+        get
+        {
+            if (model is RoadStraightModel) return RoadType.STRAIGHT;
+            if (model is RoadLModel) return RoadType.TURN;
+            if (model is RoadTModel) return RoadType.T;
+            if (Model is RoadCrossModel) return RoadType.CROSS;
+            return RoadType.UNKNOWN;
+        }
+    }
+
     public void Awake()
     {
         // If model is still null (pre-placed road), try to find it in children
@@ -53,6 +65,7 @@ public class Road : MonoBehaviour
         {
             renderers.AddRange(Model.GetComponentsInChildren<Renderer>());
         }
+
     }
 
     public void Setup(RoadData data, float rotation)

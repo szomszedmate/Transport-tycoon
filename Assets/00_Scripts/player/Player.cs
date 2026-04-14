@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     public void Start()
     {
-        Money = 40;
+        Money = 500;
         taxToPay = 0;
     }
 

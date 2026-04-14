@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 using System;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class GameUiFunctions : MonoBehaviour
 {
     public TMP_Text timeText;
@@ -22,8 +23,17 @@ public class GameUiFunctions : MonoBehaviour
     public Color selectedColor;
     public Color defaultcolor;
     public BuildingSystem buildingSystem;
-    public Image[] buttonimages;
     public Image destroymodebutton;
+
+    [Header("UI References")]
+    [SerializeField] private List<ButtonDataPair> uiButtons;
+
+    [Serializable]
+    public struct ButtonDataPair
+    {
+        public Image ButtonImage;
+        public ScriptableObject Data; // data for the pressed button
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,72 +44,56 @@ public class GameUiFunctions : MonoBehaviour
 
     private void DeselectAllButtons(object sender, EventArgs e)
     {
-        foreach (var i in buttonimages)
+        if (uiButtons == null) return;
+        foreach (var pair in uiButtons)
         {
-            i.color = defaultcolor;
+            pair.ButtonImage.color = defaultcolor;
         }
+        destroymodebutton.color = defaultcolor;
     }
-    private void SelectButton(object sender, int e)
+    private void SelectButton(object sender, IData data)
     {
-        switch (e)
+        DeselectAllButtons(this, EventArgs.Empty);
+
+        foreach (var pair in uiButtons)
         {
-            case 1:
-                buttonimages[0].color = selectedColor;
+            if (pair.Data as IData == data)
+            {
+                pair.ButtonImage.color = selectedColor;
                 break;
-            case 2:
-                buttonimages[1].color = selectedColor;
-                break;
-            case 3:
-                buttonimages[3].color = selectedColor;
-                break;
-            case 4:
-                buttonimages[2].color = selectedColor;
-                break;
-            case 5:
-                buttonimages[4].color = selectedColor;
-                break;
-            default:
-                break;
+            }
         }
     }
 
     private void DestroyButtonSelect(object s, EventArgs e)
     {
-        if (buildingSystem.destroy == false)
+        if (buildingSystem.destroy)
         {
-            destroymodebutton.color = defaultcolor;
+            DeselectAllButtons(this, EventArgs.Empty);
+            destroymodebutton.color = selectedColor;
         }
         else
         {
-            destroymodebutton.color = selectedColor;
+            destroymodebutton.color = defaultcolor;
         }
     }
     public void TurnOnDestroyMode()
     {
         buildingSystem.DestroyMode();
-        if (buildingSystem.destroy==false)
-        {
-            destroymodebutton.color = defaultcolor;
-        }
-        else
-        {
-            destroymodebutton.color = selectedColor;
-        }
     }
 
-    public void RoadSelect(int type)
+    public void UIButton_SelectBuilding(ScriptableObject dataAsset)
     {
-        if (buildingSystem.destroy==true)
+        if (buildingSystem.destroy)
         {
-            TurnOnDestroyMode();
+            buildingSystem.DestroyMode();
+        } 
+        if (dataAsset is IData data)
+        {
+            Debug.Log(data);
 
+            buildingSystem.CreatePreview(data);
         }
-        DeselectAllButtons(this, EventArgs.Empty);
-        GameObject obj = EventSystem.current.currentSelectedGameObject;
-        Image img = obj.GetComponent<Image>();
-        img.color = selectedColor;
-        buildingSystem.DestroyPreview();
-        buildingSystem.CreatePreview(type);
     }
     public void PauseTime()
     {

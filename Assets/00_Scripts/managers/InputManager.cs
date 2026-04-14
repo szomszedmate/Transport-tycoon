@@ -7,85 +7,131 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+[Serializable]
+public struct BuildHotkey
+{
+    public KeyCode Key; 
+    public ScriptableObject Data;
+}
+
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private BuildingSystem buildingSystem;
     [SerializeField] private GameUiFunctions ui;
     [SerializeField] private CameraMovement MainCamera;
 
+    [SerializeField] private List<BuildHotkey> hotkeys;
+
     private const float doubleClickTime = 0.3f;
     private float lastClickTime;
     private RaycastHit hit;
-
+    private Dictionary<KeyCode, IData> buildShortcuts = new Dictionary<KeyCode, IData>();
     public BuildingSystem BuildingSystem { get => buildingSystem; private set => buildingSystem = value; }
 
     private void Awake()
     {
         if (buildingSystem == null) buildingSystem = GetComponentInChildren<BuildingSystem>();
+        foreach (var hotkey in hotkeys)
+        {
+            if (hotkey.Data is IData data)
+                buildShortcuts[hotkey.Key] = data;
+        }
     }
     void Update()
     {
-        Vector3 mousePos = BuildingSystem.GetMouseWorldPosition();
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            bool leftClicked = Mouse.current.leftButton.wasPressedThisFrame;
+            bool rightClicked = Mouse.current.rightButton.wasPressedThisFrame;
+            
+            buildingSystem.InputUpdate(mousePos, leftClicked, rightClicked);
+        }
+
 
         // for debug
         #region Debug
-        if (Input.GetKeyDown(KeyCode.Alpha9))
+        if (Keyboard.current.digit9Key.wasPressedThisFrame) //  press 9 to draw ilocation tiles
         {
             for (int i = 0; i < BuildingSystem.Grid.Width; i++)
             {
                 for (int j = 0; j < BuildingSystem.Grid.Height; j++)
                 {
-                    if (BuildingSystem.Grid.Grid[i,j].IsLocation())
+                    if (BuildingSystem.Grid.Grid[i, j].IsLocation())
                     {
-                        Debug.Log(i + ", " + j);
-                    }
+                        Vector3 gridOrigin = BuildingSystem.Grid.transform.position;
+                        Vector3 pos = gridOrigin + new Vector3(i * 10f + 5f, 8.0f, j * 10f + 5f);
 
+                        Debug.DrawLine(pos + Vector3.left * 4, pos + Vector3.right * 4, Color.magenta, 10f);
+                        Debug.DrawLine(pos + Vector3.forward * 4, pos + Vector3.back * 4, Color.magenta, 10f);
+                    }
                 }
             }
         }
         #endregion
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+
+        if (Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            foreach (var key in buildShortcuts.Keys)
+            {
+                string keyName = key.ToString().ToLower();
+
+                if (keyName.Contains("alpha"))
+                {
+                    keyName = keyName.Replace("alpha", "");
+                }
+                var control = Keyboard.current[keyName];
+
+                if (control is UnityEngine.InputSystem.Controls.KeyControl keyControl && keyControl.wasPressedThisFrame)
+                {
+                    buildingSystem.CreatePreview(buildShortcuts[key]);
+                    break;
+                }
+            }
+        }
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             ui.OpenMenu();
         }
 
         #region Camera
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Keyboard.current.leftShiftKey.wasPressedThisFrame)
         {
             MainCamera.IncreaseSpeed();
-        } else if (Input.GetKeyUp(KeyCode.LeftShift))
+        } else if (Keyboard.current.leftShiftKey.wasReleasedThisFrame)
         {
             MainCamera.ResetSpeed();
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (Keyboard.current.wKey.isPressed)
         {
             MainCamera.MoveCameraHorizontally(Direction.N);
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Keyboard.current.aKey.isPressed)
         {
             MainCamera.MoveCameraHorizontally(Direction.W);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Keyboard.current.sKey.isPressed)
         {
             MainCamera.MoveCameraHorizontally(Direction.S);
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Keyboard.current.dKey.isPressed)
         {
             MainCamera.MoveCameraHorizontally(Direction.E);
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetKey(KeyCode.E))
+        if (Mouse.current.scroll.ReadValue().y < 0 || Keyboard.current.eKey.isPressed)
         {
             MainCamera.MoveCameraVertically(true); // up
-        } else if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetKey(KeyCode.Q))
+        } else if (Mouse.current.scroll.ReadValue().y > 0 || Keyboard.current.qKey.isPressed)
         {
             MainCamera.MoveCameraVertically(false); // down
         }
 
-        if (Input.GetMouseButtonDown(2)) // reset angle on double click
+        if (Mouse.current.middleButton.wasPressedThisFrame) // reset angle on double click
         {
             if (Time.time - lastClickTime < doubleClickTime)
             {
@@ -94,10 +140,10 @@ public class InputManager : MonoBehaviour
             lastClickTime = Time.time;
         }
 
-        if (Input.GetMouseButton(2)) // rotate camera
+        if (Mouse.current.middleButton.isPressed) // rotate camera
         {
-            float mX = Input.GetAxis("Mouse X");
-            float mY = Input.GetAxis("Mouse Y");
+            float mX = Mouse.current.delta.ReadValue().x * 0.05f;
+            float mY = Mouse.current.delta.ReadValue().y * 0.05f;
 
             if (mX != 0 || mY != 0)
             {
@@ -108,95 +154,36 @@ public class InputManager : MonoBehaviour
         #endregion
 
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Keyboard.current.xKey.wasPressedThisFrame)
         {
             BuildingSystem.DestroyMode();
         }
 
-        if (Input.GetMouseButtonDown(0) && BuildingSystem.destroy)
-        {
-            BuildingSystem.Destroy();
-            return;
-        }
-
         if (BuildingSystem.Preview != null)
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Keyboard.current.rKey.wasPressedThisFrame)
             {
                 BuildingSystem.RotatePreview(90);
             }
-            else if (!EventSystem.current.IsPointerOverGameObject() && Input.GetMouseButtonDown(0)) // cant build if hovering ui
-            {
-                
-                BuildingSystem.HandlePreview(mousePos, true);
-            }
-            else if (Input.GetMouseButtonDown(1)) // right click destroys preview
-            {
-                BuildingSystem.DestroyPreview();
-                return;
-            }
-            else
-            {
-                BuildingSystem.HandlePreview(mousePos, false);
-            }
         }
 
-        if (Input.GetKeyDown(KeyCode.R) && BuildingSystem.RoutePlanning)
+        if (Keyboard.current.rKey.wasPressedThisFrame && BuildingSystem.RoutePlanning)
         {
             BuildingSystem.ResetRoute();
         }
 
-        if (Input.GetMouseButton(0) && BuildingSystem.RoutePlanning) // click to add road to route
-        {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
-            {
-                BuildingSystem.AddToRoute(hit);
-            }
-            return;
-        } else if (Input.GetMouseButton(1) && BuildingSystem.RoutePlanning) // right click to remove road from route
-        {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
-            {
-                BuildingSystem.RemFromRoute(hit);
-            }
-            return;
-        }
-        
-
-        if (Input.GetKeyDown(KeyCode.Return) && BuildingSystem.RoutePlanning)
-        {
-            BuildingSystem.BS_ConfirmRoute();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1)) // straight road
-        {
-            BuildingSystem.CreatePreview(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) // turning road
-        {
-            BuildingSystem.CreatePreview(2);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3)) // t road
-        {
-            BuildingSystem.CreatePreview(3);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4)) // cross road
-        {
-            BuildingSystem.CreatePreview(4);
-        }
-        else if (Input.GetKeyDown(KeyCode.B)) // bus
-        {
-            BuildingSystem.CreatePreview(5);
-        }
-        else if (Input.GetKeyDown(KeyCode.C)) // route planning
+        if (Keyboard.current.cKey.wasPressedThisFrame)
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
             {
                 BuildingSystem.SelectBusForPlanning(hit);
             }
-        } else if (Input.GetKeyDown(KeyCode.T)) // bus stop
-        {
-            BuildingSystem.CreatePreview(6);
         }
+
+        if (Keyboard.current.enterKey.wasPressedThisFrame && BuildingSystem.RoutePlanning)
+        {
+            BuildingSystem.BS_ConfirmRoute();
+        }
+        
     }
 }

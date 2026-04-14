@@ -12,6 +12,7 @@ public class Bus : MonoBehaviour, IVehicle
         CONFIRMED,
         DESTROYHOVER
     }
+
     public int Cost => data.Cost;
     private BusModel model;
     private BusData data;
@@ -30,6 +31,24 @@ public class Bus : MonoBehaviour, IVehicle
     public List<Road> Route { get; private set; }
     private List<Renderer> renderers = new();
     public bool RouteConfirmed { get; private set; } = false;
+    public BusType BusType
+    {
+        get
+        {
+            if (model is BusBasicModel) return BusType.BASIC;
+            if (model is BusAdvancedModel) return BusType.ADVANCED;
+            if (model is BusPremiumModel) return BusType.PREMIUM;
+            return BusType.UNKNOWN;
+        }
+    }
+
+    public BuildCategory BuildCategory
+    {
+        get
+        {
+            return BuildCategory.BUS;
+        }
+    }
 
     public void Setup(BusData data, float rotation)
     {
