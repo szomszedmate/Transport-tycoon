@@ -46,7 +46,6 @@ public class GameUiFunctions : MonoBehaviour
     void Start()
     {
         lastMoney = game.Player.Money;
-        game.Player.MoneyChanged += Player_MoneyChanged;
         game.Player.MoneyChanged += HandleMoneyPop;
         game.InputManager.moneyDebugEvent += InputManager_moneyDebugEvent;
     }
@@ -61,11 +60,6 @@ public class GameUiFunctions : MonoBehaviour
     private void InputManager_moneyDebugEvent(object sender, EventArgs e)
     {
         game.Player.AddMoney(100);
-    }
-
-    private void Player_MoneyChanged(object sender, MoneyChangedEventArgs e)
-    {
-        moneyText.text = "Money: $" + e.NewAmount.ToString();
     }
 
     private void HandleMoneyPop(object sender, MoneyChangedEventArgs e)
@@ -83,16 +77,25 @@ public class GameUiFunctions : MonoBehaviour
             txt.text = "+$" + difference;
             txt.color = Color.green;
             anim.Play("GainMoneyAnimation");
+            StartCoroutine(UpdateMoneyDelayed(e.NewAmount, 0.85f));
+
             Destroy(popup, 2f);
         }
         else
         {
+            moneyText.text = "Money: $" + e.NewAmount.ToString();
             txt.text = "-$" + Math.Abs(difference);
             txt.color = Color.red;
             anim.Play("LoseMoneyAnimation");
             Destroy(popup, 1f);
         }
         lastMoney = e.NewAmount;
+    }
+
+    private System.Collections.IEnumerator UpdateMoneyDelayed(float targetAmount, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        moneyText.text = "Money: $" + targetAmount.ToString();
     }
 
     private void DeselectAllButtons(object sender, EventArgs e)
