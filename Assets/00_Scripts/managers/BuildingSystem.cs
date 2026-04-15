@@ -46,7 +46,7 @@ public class BuildingSystem : MonoBehaviour
     public event EventHandler destroymodeturn;
     public event EventHandler<IData> selectprev;
     public event EventHandler<BuyRequestEventArgs> BuyRequest; 
-    public void InputUpdate(Vector2 mousePosition, bool leftClicked, bool rightClicked)
+    public void InputUpdate(Vector2 mousePosition, bool leftClicked, bool rightClicked, bool leftHeld, bool rightHeld)
     {
         this.mousePosition = mousePosition;
         Vector3 worldPos = GetMouseWorldPosition();
@@ -61,7 +61,7 @@ public class BuildingSystem : MonoBehaviour
         }
         else if (RoutePlanning)
         {
-            if (leftClicked)
+            if (leftHeld)
             {
                 Ray ray = Camera.main.ScreenPointToRay(mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit routeHit))
@@ -69,7 +69,7 @@ public class BuildingSystem : MonoBehaviour
                     AddToRoute(routeHit);
                 }
             }
-            else if (rightClicked)
+            else if (rightHeld)
             {
                 Ray ray = Camera.main.ScreenPointToRay(mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit routeHit))

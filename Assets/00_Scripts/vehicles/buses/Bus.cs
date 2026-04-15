@@ -149,15 +149,15 @@ public class Bus : MonoBehaviour, IVehicle
 
     public void ConfirmRoute()
     {
-        RouteConfirmed = true;
+        RouteConfirmed = !RouteConfirmed;
         
         foreach (Road road in Route)
         {
-            road.ChangeState(RoadState.CONFIRMED);
+            road.ChangeState(RouteConfirmed ? RoadState.CONFIRMED : RoadState.SELECTED);
         }
 
-        ChangeState(BusState.CONFIRMED);
-        aiAgent.GiveRoute(Route);
+        ChangeState(RouteConfirmed ? BusState.CONFIRMED : BusState.SELECTHOVER);
+        if (RouteConfirmed) aiAgent.GiveRoute(Route);
     }
 
     public (bool, Road) HasRoute()

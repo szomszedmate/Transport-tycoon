@@ -1,11 +1,26 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
+    public delegate void MoneyChangedEventHandler(object sender, MoneyChangedEventArgs e);
+    public event MoneyChangedEventHandler MoneyChanged;
     private float money;
     private float taxToPay;
 
-    public float Money { get => money; set => money = value; }
+    public float Money
+    {
+        get
+        {
+            return money;
+        } 
+        private set
+        {
+            money = value;
+            MoneyChanged?.Invoke(this, new MoneyChangedEventArgs { NewAmount = money });
+        }
+    }
 
     public void Start()
     {

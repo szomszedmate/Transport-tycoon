@@ -7,3 +7,8 @@ public class BuyRequestEventArgs : EventArgs
     public bool Deduct { get; set; }
     public bool IsApproved { get; set; }
 }
+
+public class MoneyChangedEventArgs : EventArgs
+{
+    public float NewAmount { get; set; }
+}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,11 @@ using UnityEngine.UI;
 public class GameUiFunctions : MonoBehaviour
 {
     public TMP_Text timeText;
+    public TMP_Text moneyText;
+    [SerializeField] private GameObject moneyPopup;
+    [SerializeField] private Transform popupSpawnPosition;
+    private float lastMoney;
+
     public bool ispaused;
    
     public float maxTimeSpeed;
@@ -25,6 +31,8 @@ public class GameUiFunctions : MonoBehaviour
     public BuildingSystem buildingSystem;
     public Image destroymodebutton;
 
+    [SerializeField] public Game game;
+
     [Header("UI References")]
     [SerializeField] private List<ButtonDataPair> uiButtons;
 
@@ -34,12 +42,57 @@ public class GameUiFunctions : MonoBehaviour
         public Image ButtonImage;
         public ScriptableObject Data; // data for the pressed button
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
+    {
+        lastMoney = game.Player.Money;
+        game.Player.MoneyChanged += Player_MoneyChanged;
+        game.Player.MoneyChanged += HandleMoneyPop;
+        game.InputManager.moneyDebugEvent += InputManager_moneyDebugEvent;
+    }
+
+    void Awake()
     {
         buildingSystem.prevdest += DeselectAllButtons;
         buildingSystem.selectprev += SelectButton;
         buildingSystem.destroymodeturn += DestroyButtonSelect;
+    }
+
+    private void InputManager_moneyDebugEvent(object sender, EventArgs e)
+    {
+        game.Player.AddMoney(100);
+    }
+
+    private void Player_MoneyChanged(object sender, MoneyChangedEventArgs e)
+    {
+        moneyText.text = "Money: $" + e.NewAmount.ToString();
+    }
+
+    private void HandleMoneyPop(object sender, MoneyChangedEventArgs e)
+    {
+        float difference = e.NewAmount - lastMoney;
+
+        if (difference == 0) return; // do nothing if no changes
+        
+        GameObject popup = Instantiate(moneyPopup, moneyText.transform.position, Quaternion.identity, transform);
+
+        var txt = popup.GetComponent<TMPro.TextMeshProUGUI>();
+        Animator anim = popup.GetComponent<Animator>();
+        if (difference > 0)
+        {
+            txt.text = "+$" + difference;
+            txt.color = Color.green;
+            anim.Play("GainMoneyAnimation");
+            Destroy(popup, 2f);
+        }
+        else
+        {
+            txt.text = "-$" + Math.Abs(difference);
+            txt.color = Color.red;
+            anim.Play("LoseMoneyAnimation");
+            Destroy(popup, 1f);
+        }
+        lastMoney = e.NewAmount;
     }
 
     private void DeselectAllButtons(object sender, EventArgs e)
@@ -87,14 +140,17 @@ public class GameUiFunctions : MonoBehaviour
         if (buildingSystem.destroy)
         {
             buildingSystem.DestroyMode();
-        } 
+        }
+        if (dataAsset == null)
+        {
+            return;
+        }
         if (dataAsset is IData data)
         {
-            Debug.Log(data);
-
             buildingSystem.CreatePreview(data);
         }
     }
+
     public void PauseTime()
     {
         if (!ispaused)

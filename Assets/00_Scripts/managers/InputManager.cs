@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,10 @@ public class InputManager : MonoBehaviour
     private Dictionary<KeyCode, IData> buildShortcuts = new Dictionary<KeyCode, IData>();
     public BuildingSystem BuildingSystem { get => buildingSystem; private set => buildingSystem = value; }
 
+
+
+    public event EventHandler moneyDebugEvent;
+
     private void Awake()
     {
         if (buildingSystem == null) buildingSystem = GetComponentInChildren<BuildingSystem>();
@@ -44,8 +49,10 @@ public class InputManager : MonoBehaviour
         {
             bool leftClicked = Mouse.current.leftButton.wasPressedThisFrame;
             bool rightClicked = Mouse.current.rightButton.wasPressedThisFrame;
-            
-            buildingSystem.InputUpdate(mousePos, leftClicked, rightClicked);
+            bool leftHeld = Mouse.current.leftButton.isPressed;
+            bool rightHeld = Mouse.current.rightButton.isPressed;
+
+            buildingSystem.InputUpdate(mousePos, leftClicked, rightClicked, leftHeld, rightHeld);
         }
 
 
@@ -67,6 +74,11 @@ public class InputManager : MonoBehaviour
                     }
                 }
             }
+        }
+        
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            moneyDebugEvent.Invoke(this, EventArgs.Empty);
         }
         #endregion
 

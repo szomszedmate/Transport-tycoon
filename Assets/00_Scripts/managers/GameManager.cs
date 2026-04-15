@@ -10,6 +10,8 @@ public class Game : MonoBehaviour
     private float gameTime;
     
     public float TimeMultiplier {  get; private set; }
+    public Player Player { get => player; private set => player = value; }
+    public InputManager InputManager { get => inputManager; private set => inputManager = value; }
 
     public void Start()
     {
@@ -27,16 +29,16 @@ public class Game : MonoBehaviour
     {
         if (e.Deduct)
         {
-            if (player.CanAfford(e.Cost))
+            if (Player.CanAfford(e.Cost))
             {
-                player.LoseMoney(e.Cost);
+                Player.LoseMoney(e.Cost);
                 //Debug.Log("Remaining money: " + player.Money);
             } else
             {
-                Debug.Log("Insufficient funds, ramaining money: " + player.Money + " (need " + e.Cost + " )");
+                Debug.LogWarning("Insufficient funds, ramaining money: " + Player.Money + " (need " + e.Cost + " )");
             }
         }
-        if (player.CanAfford(e.Cost))
+        if (Player.CanAfford(e.Cost))
         {
             e.IsApproved = true;
         }
