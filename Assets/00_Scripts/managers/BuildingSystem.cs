@@ -306,13 +306,12 @@ public class BuildingSystem : MonoBehaviour
 
     public void BS_ConfirmRoute()
     {
-        if (busSelected == null) return;
+        if (busSelected == null || busSelected.Route.Count() <= 1) return;
 
         Road fst = busSelected.Route.First();
         Road lst = busSelected.Route.Last();
         Direction? direction = Grid.GetRelativeDirection(fst, lst);
-        if (direction == null) return;
-        if (fst.IsConnectedTo(lst, (Direction)direction))
+        if (direction is not null && fst.IsConnectedTo(lst, (Direction)direction))
         {
             busSelected.ConfirmRoute(false);
         } else

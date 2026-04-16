@@ -43,6 +43,7 @@ public class GameUiFunctions : MonoBehaviour
     {
         public Image ButtonImage;
         public ScriptableObject Data; // data for the pressed button
+        public TextMeshProUGUI Price;
     }
 
     void Start()
@@ -52,6 +53,15 @@ public class GameUiFunctions : MonoBehaviour
         game.Player.MoneyChanged += HandleMoneyPop;
         game.Player.TaxChanged += Player_TaxChanged;
         game.InputManager.moneyDebugEvent += InputManager_moneyDebugEvent;
+
+        foreach (ButtonDataPair button in uiButtons)
+        {
+            if (button.Data is not IData)
+            {
+                Debug.LogWarning("Data must be IData!");
+            }
+            button.Price.text = "$" + ((IData)button.Data).Cost.ToString();
+        }
     }
 
     private void Game_TimeChanged(object sender, TimeChangedEventArgs e)
@@ -63,7 +73,7 @@ public class GameUiFunctions : MonoBehaviour
 
     private void Player_TaxChanged(object sender, TaxChangedEventArgs e)
     {
-        taxText.text = "Tax to pay: $" + Math.Round(e.NewAmount).ToString();
+        taxText.text = "Tax to pay: $" + Math.Round(e.NewAmount, 1).ToString();
     }
 
     void Awake()
@@ -90,7 +100,7 @@ public class GameUiFunctions : MonoBehaviour
         Animator anim = popup.GetComponent<Animator>();
         if (difference > 0)
         {
-            txt.text = "+$" + difference;
+            txt.text = "+$" + Math.Round(difference, 1);
             txt.color = Color.green;
             anim.Play("GainMoneyAnimation");
             StartCoroutine(UpdateMoneyDelayed(e.NewAmount, 0.85f));
@@ -99,8 +109,8 @@ public class GameUiFunctions : MonoBehaviour
         }
         else
         {
-            moneyText.text = "Money: $" + e.NewAmount.ToString();
-            txt.text = "-$" + Math.Abs(difference);
+            moneyText.text = "Money: $" + Math.Round(e.NewAmount,1).ToString();
+            txt.text = "-$" + Math.Round(Math.Abs(difference));
             txt.color = Color.red;
             anim.Play("LoseMoneyAnimation");
             Destroy(popup, 1f);
@@ -111,7 +121,7 @@ public class GameUiFunctions : MonoBehaviour
     private System.Collections.IEnumerator UpdateMoneyDelayed(double targetAmount, float delay)
     {
         yield return new WaitForSeconds(delay);
-        moneyText.text = "Money: $" + targetAmount.ToString();
+        moneyText.text = "Money: $" + Math.Round(targetAmount,1).ToString();
     }
 
     private void DeselectAllButtons(object sender, EventArgs e)
@@ -129,10 +139,10 @@ public class GameUiFunctions : MonoBehaviour
 
         foreach (var pair in uiButtons)
         {
-            if (pair.Data as IData == data)
+            if (pair.Data != null && (pair.Data as IData) == data)
             {
                 pair.ButtonImage.color = selectedColor;
-                break;
+                break; // Megtaláltuk, megállunk
             }
         }
     }

@@ -60,9 +60,20 @@ public class Bus : MonoBehaviour, IVehicle
     void Update()
     {
         float distance = Math.Abs(Vector3.Distance(transform.position, lastPosition));
-        WeeklyMileage += distance;
-        lastPosition = transform.position;
-        MileageChanged?.Invoke(this, new MileageChangedEventArgs { NewAmount = WeeklyMileage, NonStop = this.NonStop });
+
+        if (distance > 0)
+        {
+            {
+                MileageChanged?.Invoke(this, new MileageChangedEventArgs
+                {
+                    NewAmount = distance, // változást elküldjük
+                    NonStop = this.NonStop
+                });
+
+                WeeklyMileage += distance; // statisztikának maybe
+                lastPosition = transform.position;
+            }
+        }
     }
 
     public void Setup(BusData data, float rotation)
@@ -172,7 +183,11 @@ public class Bus : MonoBehaviour, IVehicle
 
     public void ConfirmRoute(bool linear)
     {
-        if (!(Route.Last().Road_HasBusStop()) && linear) return;
+        if (!(Route.Last().Road_HasBusStop()) && linear)
+        {
+            Debug.Log("Cant confirm");
+            return;
+        }
         RouteConfirmed = !RouteConfirmed;
         RouteIsLinear = linear;
         NonStop = !linear;
