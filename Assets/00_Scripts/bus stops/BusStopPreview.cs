@@ -8,9 +8,11 @@ public class BusStopPreview : MonoBehaviour, IPreview
     private Material positiveMaterial;
     [SerializeField]
     private Material negativeMaterial;
-    public RoadPreviewState State { get; private set; } = RoadPreviewState.NEGATIVE;
+    public PreviewState State { get; private set; } = PreviewState.NEGATIVE;
     public BusStopData Data { get; private set; }
     public BusStopModel BusStopModel { get; private set; }
+    IData IPreview.Data => Data;
+
     private List<Renderer> renderers = new();
     private List<Collider> colliders = new();
 
@@ -30,7 +32,7 @@ public class BusStopPreview : MonoBehaviour, IPreview
         SetPreviewMaterial(State);
     }
 
-    public void ChangeState(RoadPreviewState newState)
+    public void ChangeState(PreviewState newState)
     {
         if (newState == State) { return; }
         State = newState;
@@ -42,9 +44,9 @@ public class BusStopPreview : MonoBehaviour, IPreview
         BusStopModel.Rotate(degrees);
     }
 
-    private void SetPreviewMaterial(RoadPreviewState newState)
+    private void SetPreviewMaterial(PreviewState newState)
     {
-        Material previewMat = newState == RoadPreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
+        Material previewMat = newState == PreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
         foreach (var rend in renderers)
         {
             Material[] mats = new Material[rend.sharedMaterials.Length];

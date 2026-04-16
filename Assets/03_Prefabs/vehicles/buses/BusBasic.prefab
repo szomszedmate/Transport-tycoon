@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8447284679568051851}
   - component: {fileID: 7343275279844197874}
   - component: {fileID: 5537641090166361277}
-  - component: {fileID: 6633145694114444708}
+  - component: {fileID: 8837894262010904835}
   m_Layer: 0
-  m_Name: BusYellow
+  m_Name: BusBasic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +115,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6633145694114444708
+--- !u!114 &8837894262010904835
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,6 +124,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1010306101590201744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc05c892cf535ce46a5a5ed71de36662, type: 3}
+  m_Script: {fileID: 11500000, guid: 5715392da19a4e344b87ad5e62af7e5b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BusModel
+  m_EditorClassIdentifier: Assembly-CSharp::BusBasicModel

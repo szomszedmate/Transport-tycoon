@@ -12,6 +12,7 @@ public class Bus : MonoBehaviour, IVehicle
         CONFIRMED,
         DESTROYHOVER
     }
+
     public int Cost => data.Cost;
     private BusModel model;
     private BusData data;
@@ -30,6 +31,24 @@ public class Bus : MonoBehaviour, IVehicle
     public List<Road> Route { get; private set; }
     private List<Renderer> renderers = new();
     public bool RouteConfirmed { get; private set; } = false;
+    public BusType BusType
+    {
+        get
+        {
+            if (model is BusBasicModel) return BusType.BASIC;
+            if (model is BusAdvancedModel) return BusType.ADVANCED;
+            if (model is BusPremiumModel) return BusType.PREMIUM;
+            return BusType.UNKNOWN;
+        }
+    }
+
+    public BuildCategory BuildCategory
+    {
+        get
+        {
+            return BuildCategory.BUS;
+        }
+    }
 
     public void Setup(BusData data, float rotation)
     {
@@ -130,15 +149,15 @@ public class Bus : MonoBehaviour, IVehicle
 
     public void ConfirmRoute()
     {
-        RouteConfirmed = true;
+        RouteConfirmed = !RouteConfirmed;
         
         foreach (Road road in Route)
         {
-            road.ChangeState(RoadState.CONFIRMED);
+            road.ChangeState(RouteConfirmed ? RoadState.CONFIRMED : RoadState.SELECTED);
         }
 
-        ChangeState(BusState.CONFIRMED);
-        aiAgent.GiveRoute(Route);
+        ChangeState(RouteConfirmed ? BusState.CONFIRMED : BusState.SELECTHOVER);
+        if (RouteConfirmed) aiAgent.GiveRoute(Route);
     }
 
     public (bool, Road) HasRoute()

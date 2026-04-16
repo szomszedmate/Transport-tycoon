@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class BusModel : MonoBehaviour
+public abstract class BusModel : MonoBehaviour
 {
     public float Rotation => transform.eulerAngles.y;
     public void Rotate(float degree)

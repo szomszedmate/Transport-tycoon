@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using static Bus;
 
-public class BusStop : MonoBehaviour
+public class BusStop : MonoBehaviour, IBuildable
 {
     public enum BusStopState
     {
@@ -19,6 +19,14 @@ public class BusStop : MonoBehaviour
     private Material builtMaterial;
     [SerializeField]
     private Material destroyHoverMaterial;
+
+    public BuildCategory BuildCategory
+    {
+        get
+        {
+            return BuildCategory.BUSSTOP;
+        }
+    }
 
     public void SetUp(BusStopData data, float rotation)
     {
