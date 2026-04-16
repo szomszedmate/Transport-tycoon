@@ -10,9 +10,11 @@ public class GameUiFunctions : MonoBehaviour
 {
     public TMP_Text timeText;
     public TMP_Text moneyText;
+    public TMP_Text taxText;
+    public TMP_Text dayTimeText;
     [SerializeField] private GameObject moneyPopup;
     [SerializeField] private Transform popupSpawnPosition;
-    private float lastMoney;
+    private double lastMoney;
 
     public bool ispaused;
    
@@ -46,8 +48,22 @@ public class GameUiFunctions : MonoBehaviour
     void Start()
     {
         lastMoney = game.Player.Money;
+        game.TimeChanged += Game_TimeChanged;
         game.Player.MoneyChanged += HandleMoneyPop;
+        game.Player.TaxChanged += Player_TaxChanged;
         game.InputManager.moneyDebugEvent += InputManager_moneyDebugEvent;
+    }
+
+    private void Game_TimeChanged(object sender, TimeChangedEventArgs e)
+    {
+        TimeSpan t = TimeSpan.FromSeconds(e.NewTime);
+
+        dayTimeText.text = "Day: " + e.Day + " - " + t.ToString(@"hh\:mm");
+    }
+
+    private void Player_TaxChanged(object sender, TaxChangedEventArgs e)
+    {
+        taxText.text = "Tax to pay: $" + Math.Round(e.NewAmount).ToString();
     }
 
     void Awake()
@@ -64,7 +80,7 @@ public class GameUiFunctions : MonoBehaviour
 
     private void HandleMoneyPop(object sender, MoneyChangedEventArgs e)
     {
-        float difference = e.NewAmount - lastMoney;
+        double difference = e.NewAmount - lastMoney;
 
         if (difference == 0) return; // do nothing if no changes
         
@@ -92,7 +108,7 @@ public class GameUiFunctions : MonoBehaviour
         lastMoney = e.NewAmount;
     }
 
-    private System.Collections.IEnumerator UpdateMoneyDelayed(float targetAmount, float delay)
+    private System.Collections.IEnumerator UpdateMoneyDelayed(double targetAmount, float delay)
     {
         yield return new WaitForSeconds(delay);
         moneyText.text = "Money: $" + targetAmount.ToString();

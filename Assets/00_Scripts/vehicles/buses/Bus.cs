@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,8 +13,13 @@ public class Bus : MonoBehaviour, IVehicle
         CONFIRMED,
         DESTROYHOVER
     }
-
+    public delegate void MileageChangedEventHandler(object sender, MileageChangedEventArgs e);
+    public event MileageChangedEventHandler MileageChanged;
     public int Cost => data.Cost;
+    public float WeeklyMileage {  get; private set; }
+    public bool NonStop { get; private set; }
+
+    private Vector3 lastPosition;
     private BusModel model;
     private BusData data;
 
@@ -31,6 +37,7 @@ public class Bus : MonoBehaviour, IVehicle
     public List<Road> Route { get; private set; }
     private List<Renderer> renderers = new();
     public bool RouteConfirmed { get; private set; } = false;
+    public bool RouteIsLinear { get; private set; }
     public BusType BusType
     {
         get
@@ -50,10 +57,20 @@ public class Bus : MonoBehaviour, IVehicle
         }
     }
 
+    void Update()
+    {
+        float distance = Math.Abs(Vector3.Distance(transform.position, lastPosition));
+        WeeklyMileage += distance;
+        lastPosition = transform.position;
+        MileageChanged?.Invoke(this, new MileageChangedEventArgs { NewAmount = WeeklyMileage, NonStop = this.NonStop });
+    }
+
     public void Setup(BusData data, float rotation)
     {
         this.data = data;
-
+        NonStop = false;
+        lastPosition = transform.position;
+        WeeklyMileage = 0;
         // Instantiate the actual model first
         model = Instantiate(data.Model, transform.position, Quaternion.Euler(-90, 0, rotation), transform);
         //model.transform.localPosition = Vector3.zero;
@@ -147,10 +164,18 @@ public class Bus : MonoBehaviour, IVehicle
         aiAgent.RemoveRoute();
     }
 
-    public void ConfirmRoute()
+    public Road GetLast()
     {
+        if (Route == null || Route.Count == 0) return null;
+        return Route.Last();
+    }
+
+    public void ConfirmRoute(bool linear)
+    {
+        if (!(Route.Last().Road_HasBusStop()) && linear) return;
         RouteConfirmed = !RouteConfirmed;
-        
+        RouteIsLinear = linear;
+        NonStop = !linear;
         foreach (Road road in Route)
         {
             road.ChangeState(RouteConfirmed ? RoadState.CONFIRMED : RoadState.SELECTED);
@@ -158,11 +183,5 @@ public class Bus : MonoBehaviour, IVehicle
 
         ChangeState(RouteConfirmed ? BusState.CONFIRMED : BusState.SELECTHOVER);
         if (RouteConfirmed) aiAgent.GiveRoute(Route);
-    }
-
-    public (bool, Road) HasRoute()
-    {
-        if (Route.Count == 0) return (false, null);
-        return (true, Route.Last());
     }
 }
