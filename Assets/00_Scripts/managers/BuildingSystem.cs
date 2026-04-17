@@ -1,9 +1,10 @@
 using NUnit.Framework;
-using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
+using static Bus;
 public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 10f;
@@ -46,6 +47,7 @@ public class BuildingSystem : MonoBehaviour
     public event EventHandler destroymodeturn;
     public event EventHandler<IData> selectprev;
     public event EventHandler<BuyRequestEventArgs> BuyRequest; 
+    public event MileageChangedEventHandler AnyBusMileageChanged;
     public void InputUpdate(Vector2 mousePosition, bool leftClicked, bool rightClicked, bool leftHeld, bool rightHeld)
     {
         this.mousePosition = mousePosition;
@@ -168,7 +170,7 @@ public class BuildingSystem : MonoBehaviour
         if (agent != null) agent.enabled = false;
 
         bus.Setup(((BusPreview)Preview).Data, ((BusPreview)Preview).BusModel.Rotation);
-
+        bus.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
         Grid.SetVehicle(bus, snappedPos);
         Destroy(((BusPreview)Preview).gameObject);
         Preview = null;
@@ -213,7 +215,7 @@ public class BuildingSystem : MonoBehaviour
 
         busSelected.ChangeState(Bus.BusState.SELECTHOVER);
         RoutePlanning = true;
-        lastRoadSelected = hitBus.HasRoute().Item2;
+        lastRoadSelected = hitBus.GetLast();
 
         // Highlight the bus's existing route so the player knows where it goes
         if (busSelected.RouteConfirmed)
@@ -304,10 +306,18 @@ public class BuildingSystem : MonoBehaviour
 
     public void BS_ConfirmRoute()
     {
-        if (busSelected == null) return;
-        if (!busSelected.HasRoute().Item2.Road_HasBusStop()) return; // route has to end with city road
+        if (busSelected == null || busSelected.Route.Count() <= 1) return;
 
-        busSelected.ConfirmRoute();
+        Road fst = busSelected.Route.First();
+        Road lst = busSelected.Route.Last();
+        Direction? direction = Grid.GetRelativeDirection(fst, lst);
+        if (direction is not null && fst.IsConnectedTo(lst, (Direction)direction))
+        {
+            busSelected.ConfirmRoute(false);
+        } else
+        {
+            busSelected.ConfirmRoute(true);
+        }
     }
     #endregion
 

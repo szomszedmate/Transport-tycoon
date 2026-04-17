@@ -6,10 +6,25 @@ public class Player : MonoBehaviour
 {
     public delegate void MoneyChangedEventHandler(object sender, MoneyChangedEventArgs e);
     public event MoneyChangedEventHandler MoneyChanged;
-    private float money;
-    private float taxToPay;
+    public delegate void TaxChangedEventHandler(object sender, TaxChangedEventArgs e);
+    public event TaxChangedEventHandler TaxChanged;
+    private double money;
+    private double taxToPay;
+    public double TaxToPay
+    {
+        get
+        {
+            return taxToPay;
+        }
+        set
+        {
+            taxToPay = value;
+            TaxChanged?.Invoke(this, new TaxChangedEventArgs { NewAmount = TaxToPay });
+        }
+    }
+    public int NextTaxDay {  get; private set; }
 
-    public float Money
+    public double Money
     {
         get
         {
@@ -25,29 +40,39 @@ public class Player : MonoBehaviour
     public void Start()
     {
         Money = 500;
-        taxToPay = 0;
+        TaxToPay = 0;
+        NextTaxDay = 7;
     }
 
-    public void AddMoney(float amount)
+    public void AddMoney(double amount)
     {
         Money += amount;
     }
-    public void LoseMoney(float amount)
+    public void LoseMoney(double amount)
     {
         Money -= amount;
     }
 
-    public bool CanAfford(float amount)
+    public bool CanAfford(double amount)
     {
         return Money >= amount;
     }
 
-    public void IncreaseTax(float amount)
+    public void IncreaseTax(double amount)
     {
-        taxToPay += amount;
+        TaxToPay += amount;
+        TaxChanged?.Invoke(this, new TaxChangedEventArgs { NewAmount = TaxToPay });
     }
-    public float DecreseTax(float amount)
+    public void DecreseTax(double amount)
     {
-        return taxToPay -= amount;
+        TaxToPay -= amount;
+        TaxChanged?.Invoke(this, new TaxChangedEventArgs { NewAmount = TaxToPay });
+    }
+
+    public void PayTaxes()
+    {
+        LoseMoney(TaxToPay);
+        TaxToPay = 0;
+        NextTaxDay += 7;
     }
 }
