@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Industry : MonoBehaviour, ILocation
 {
     public Vector3 Position => transform.position;
+    public abstract StopType Type { get; }
     [SerializeField] protected IndustryModel model;
 
     [Header("Production")]

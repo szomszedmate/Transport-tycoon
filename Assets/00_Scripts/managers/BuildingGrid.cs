@@ -166,6 +166,27 @@ public class BuildingGrid : MonoBehaviour
         return false;
     }
 
+    public StopType GetStopType(Vector3 busStopPosition)
+    {
+        (int x, int y) = WorldToGridPosition(busStopPosition);
+        for (int i = -1; i <= 1; i++) // check tiles around it
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                int newX = x + i;
+                int newY = y + j;
+                if (newX < 0 || newX >= Width || newY < 0 || newY >= Height) continue; // continue if out of bounds
+                if (Grid[newX, newY].IsLocation())
+                {
+                    
+                    return Grid[newX, newY].GetStopType();
+                }
+
+            }
+        }
+        return StopType.None;
+    }
+
     public bool CanBuildBusStop(Vector3 busStopPosition) // checks for city/industry nearby
     {
         (int x, int y) = WorldToGridPosition(busStopPosition);
@@ -578,6 +599,11 @@ public class BuildingGridCell
     public bool IsLocation()
     {
         return this.location != null;
+    }
+
+    public StopType GetStopType()
+    {
+        return this.location.Type;
     }
 
     public bool IsRoad()

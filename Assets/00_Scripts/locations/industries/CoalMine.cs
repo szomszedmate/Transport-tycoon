@@ -8,6 +8,7 @@ namespace Assets._00_Scripts.locations.industries
 {
     public class CoalMine : Mine
     {
+        public override StopType Type => StopType.Coal;
         protected override void Start()
         {
             producedResource = ResourceEnum.Coal;

@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static RoadPreview;
 
 public class Road : MonoBehaviour, IBuildable
@@ -33,6 +35,10 @@ public class Road : MonoBehaviour, IBuildable
     public Transform topLane;
     public Transform bottomLane;
     private BusStop busStop;
+
+    public bool rightlanefree = true;
+    public bool leftlanefree = true;
+    public List<BusAiAgent> buszok=new List<BusAiAgent>();
 
     public BuildCategory BuildCategory
     {
@@ -70,6 +76,30 @@ public class Road : MonoBehaviour, IBuildable
 
     }
 
+    public void AddBusz(BusAiAgent bus)
+    {
+        buszok.Add(bus);
+    }
+
+    public void RemBusz()
+    {
+       
+        if (buszok.Count>0)
+        {
+            buszok.Remove(buszok.Last());
+            if (buszok.Count > 0)
+            {
+                buszok.Last().startbusz();
+            }
+        }
+    }
+
+    public event EventHandler OnSetFree;
+    
+    public void OnFreeSetted()
+    {
+        OnSetFree?.Invoke(this, EventArgs.Empty);
+    }
     public void Setup(RoadData data, float rotation)
     {
         
@@ -229,4 +259,10 @@ public class Road : MonoBehaviour, IBuildable
     {
         return (busStop != null);
     }
+
+    public StopType GetStopType()
+    {
+        return busStop.Type;
+    }
+
 }

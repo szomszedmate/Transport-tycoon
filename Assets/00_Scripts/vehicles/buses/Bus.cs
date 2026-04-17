@@ -142,9 +142,10 @@ public class Bus : MonoBehaviour, IVehicle
 
     public void ResetRoute()
     {
-        Route.Clear();
+       
         RouteConfirmed = false;
         aiAgent.RemoveRoute();
+        Route.Clear();
     }
 
     public void ConfirmRoute()

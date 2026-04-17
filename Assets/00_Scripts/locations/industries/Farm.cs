@@ -9,6 +9,7 @@ namespace Assets._00_Scripts.locations.industries
 {
     public class Farm : Industry
     {
+        public override StopType Type => StopType.Farm;
         [SerializeField] private int producedAmount = 1;
         [SerializeField] private float cycleTime = 7f;
 

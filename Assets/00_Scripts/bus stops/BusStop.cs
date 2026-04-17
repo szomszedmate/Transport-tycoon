@@ -1,6 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using System.Linq;
+
+using System;
 using static Bus;
+public enum StopType
+{
+    None,
+    Bus,
+    Universal,
+    Coal,
+    IronOre,
+    GoldOre,
+    Flour,
+    Water,
+    Farm,
+    IronBar,
+    GoldBar,
+    Mint,
+    Bakery
+}
+
+
 
 public class BusStop : MonoBehaviour, IBuildable
 {
@@ -9,6 +32,8 @@ public class BusStop : MonoBehaviour, IBuildable
         BUILT,
         DESTROYHOVER
     }
+
+    public StopType Type = StopType.None;
 
     public int Cost => data.Cost;
     private BusStopModel model;
@@ -19,6 +44,8 @@ public class BusStop : MonoBehaviour, IBuildable
     private Material builtMaterial;
     [SerializeField]
     private Material destroyHoverMaterial;
+
+  
 
     public BuildCategory BuildCategory
     {

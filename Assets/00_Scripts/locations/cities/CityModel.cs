@@ -5,6 +5,7 @@ using UnityEngine;
 public class CityModel : MonoBehaviour, ILocation
 {
     public Vector3 Position { get; }
+    public StopType Type { get; } = StopType.Universal;
     private BuildingShapeUnit[] shapeUnits;
     private void Awake()
     {

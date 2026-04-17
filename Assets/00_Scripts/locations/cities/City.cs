@@ -5,6 +5,7 @@ using System.Linq;
 public class City : MonoBehaviour, ILocation
 {
     public Vector3 Position => transform.position;
+    public StopType Type => StopType.Universal;
     [SerializeField] private CityModel model;
     [SerializeField] private float height;
     [SerializeField] private float width;

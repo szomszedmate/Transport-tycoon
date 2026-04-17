@@ -312,13 +312,13 @@ public class BuildingSystem : MonoBehaviour
     #endregion
 
     #region Bus stops
-    private void PlaceBusStop(Vector3 busPosition)
+    private void PlaceBusStop(Vector3 busPosition, StopType type)
     {
         if (Preview is not BusStopPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
         BusStop busStop = Instantiate(busStopPrefab, snappedPos, Quaternion.identity);
-
-        var agent = busStop.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
+        busStop.Type = type;
+         var agent = busStop.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
 
         busStop.SetUp(((BusStopPreview)Preview).Data, ((BusStopPreview)Preview).BusStopModel.Rotation);
@@ -588,16 +588,19 @@ public class BuildingSystem : MonoBehaviour
             Vector3 busStopPosition = busStopPreview.BusStopModel.GetBusStopPosition();
             //Debug.Log(Grid.WorldToGridPosition(busStopPosition));
             bool canBuild = Grid.CanBuildBusStop(busStopPosition);
+            
             if (canBuild && !destroy)
             {
+                StopType stopType = Grid.GetStopType(busStopPosition);
                 busStopPreview.transform.position = GetSnappedCenterPosition(busStopPosition);
 
                 if (canAfford)
                 {
+                   
                     busStopPreview.ChangeState(PreviewState.POSITIVE);
                     if (shouldIPlace)
                     {
-                        PlaceBusStop(busStopPosition);
+                        PlaceBusStop(busStopPosition, stopType);
 
                         float price = busStopPreview.Data.Cost;    // checking costs
                         var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
