@@ -85,9 +85,17 @@ public class Game : MonoBehaviour
         {
             gameTime -= 86400; // 24 hour format
             day++;
-            if (day == player.NextTaxDay) // adot fizet minden het vegen
+
+            if (player != null)
             {
-                player.PayTaxes();
+                if (day == player.NextTaxDay)
+                {
+                    player.PayTaxes();
+                }
+            }
+            else
+            {
+                Debug.LogError("Game: A Player referencia NULL! Ellenõrizd az Inspectort!");
             }
         }
     }
