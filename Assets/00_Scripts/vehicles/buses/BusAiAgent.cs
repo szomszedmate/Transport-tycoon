@@ -30,12 +30,15 @@ public class BusAiAgent : MonoBehaviour
     [SerializeField]
     private Road startpoz;
     public StopType type = StopType.None;
-
+    [SerializeField]
+    public float speed;
+   
     private bool firstdone = false;
 
     void Start()
     {
         ai = GetComponent<NavMeshAgent>();
+        ai.speed = speed;
         ai.enabled = true;
     }
 
@@ -392,6 +395,7 @@ public class BusAiAgent : MonoBehaviour
             }
 
             ai.SetDestination(next.transform.position);
+            ai.speed =speed * next.GetComponentInParent<Road>().speedmodifier;
             isMoving = true;
 
         }
@@ -436,19 +440,21 @@ public class BusAiAgent : MonoBehaviour
 
 
                     //ha ez a routban az utolso megallo akkor a listat megforditja és kezdi elöröl, de msot visszafele
-                    if (currprog == maxprogress)                        
-                    {                                                  
-                        currprog = 0;                           
-                        Route.Reverse();                          
-                        Debug.Log("reversed");                                                 
-                    }
+                    
                        
                         
                     
                 }
-                  
+
+
+                if (currprog == maxprogress)
+                {
+                    //TODO if !linear akkor ne forduljon meg
                     
-                            
+                    currprog = 0;
+                    Route.Reverse();
+                    Debug.Log("reversed");
+                }
                 currprog++;
                     
                     

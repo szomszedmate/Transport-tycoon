@@ -619,7 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -629,6 +629,9 @@ MonoBehaviour:
   rightLane: {fileID: 1463338005945424486}
   topLane: {fileID: 1615942962187774337}
   bottomLane: {fileID: 5423061171707868246}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!1001 &671483430919515304
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -751,7 +754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -761,6 +764,9 @@ MonoBehaviour:
   rightLane: {fileID: 1901866116635756201}
   topLane: {fileID: 1749332406384932174}
   bottomLane: {fileID: 5001403959026772121}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!1001 &722716936883759784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -883,7 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -893,6 +899,9 @@ MonoBehaviour:
   rightLane: {fileID: 1815729717722267817}
   topLane: {fileID: 1950319398199685966}
   bottomLane: {fileID: 5061627891878211225}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!1001 &811309832780422656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1015,7 +1024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -1025,6 +1034,9 @@ MonoBehaviour:
   rightLane: {fileID: 1762884693654582273}
   topLane: {fileID: 1897475525199988710}
   bottomLane: {fileID: 5150782097302608433}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!1001 &880915980045422272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1147,7 +1159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -1157,6 +1169,9 @@ MonoBehaviour:
   rightLane: {fileID: 2237440045184918721}
   topLane: {fileID: 2102849505705662246}
   bottomLane: {fileID: 4611893358964755185}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!1001 &1526821698436962551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1279,7 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -1289,6 +1304,9 @@ MonoBehaviour:
   rightLane: {fileID: 433756829048648438}
   topLane: {fileID: 299254283785863441}
   bottomLane: {fileID: 6415734767034096838}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!1001 &1662586774135415564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1411,7 +1429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -1421,6 +1439,9 @@ MonoBehaviour:
   rightLane: {fileID: 299470046666885389}
   topLane: {fileID: 433972624687184618}
   bottomLane: {fileID: 6569530459307108157}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!1001 &2064721441976881230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1686,7 +1707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -1696,6 +1717,9 @@ MonoBehaviour:
   rightLane: {fileID: 3603531957091131453}
   topLane: {fileID: 3467904336563360730}
   bottomLane: {fileID: 7858243096394829325}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &7858243096394829325 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5492448680839562289, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}
@@ -1818,7 +1842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -1828,6 +1852,9 @@ MonoBehaviour:
   rightLane: {fileID: 3780031815668129076}
   topLane: {fileID: 3915729580536164051}
   bottomLane: {fileID: 7744249236287009540}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &7744249236287009540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5492448680839562289, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}
@@ -2098,7 +2125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -2108,6 +2135,9 @@ MonoBehaviour:
   rightLane: {fileID: 2344695457261130135}
   topLane: {fileID: 2497283094584730224}
   bottomLane: {fileID: 9189119323114667943}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &9189119323114667943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5492448680839562289, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}
@@ -2230,7 +2260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -2240,6 +2270,9 @@ MonoBehaviour:
   rightLane: {fileID: 2837752201224195452}
   topLane: {fileID: 2685149445607603867}
   bottomLane: {fileID: 8677873366279250764}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &8677873366279250764 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5492448680839562289, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}
@@ -2347,7 +2380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -2357,6 +2390,9 @@ MonoBehaviour:
   rightLane: {fileID: 5767494668807970723}
   topLane: {fileID: 5920096601401470020}
   bottomLane: {fileID: 1082560005538509203}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &5767494668807970723 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1384117702098528769, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}
@@ -2627,7 +2663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -2637,6 +2673,9 @@ MonoBehaviour:
   rightLane: {fileID: 5631245658369660163}
   topLane: {fileID: 5477535692951103204}
   bottomLane: {fileID: 1236927877354453811}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &4769243123104848561 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2250861905954448819, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}
@@ -2879,7 +2918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -2889,6 +2928,9 @@ MonoBehaviour:
   rightLane: {fileID: 9056513461561105064}
   topLane: {fileID: 9191031709216188751}
   bottomLane: {fileID: 2495966489929872536}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &2495966489929872536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5492448680839562289, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}
@@ -3085,7 +3127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -3095,6 +3137,9 @@ MonoBehaviour:
   rightLane: {fileID: 7987018848627331490}
   topLane: {fileID: 7851391486309573189}
   bottomLane: {fileID: 3592693952989429650}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &3592693952989429650 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5492448680839562289, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}
@@ -3217,7 +3262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce8b17e075ce9449b5fa4a8941d520e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Road
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
@@ -3227,6 +3272,9 @@ MonoBehaviour:
   rightLane: {fileID: 7879324136716897457}
   topLane: {fileID: 8032963956755021654}
   bottomLane: {fileID: 3626731135700361857}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
 --- !u!4 &3626731135700361857 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5492448680839562289, guid: a214052c9ab7eb546b7636290ec8f772, type: 3}

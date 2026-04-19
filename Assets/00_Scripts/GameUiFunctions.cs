@@ -38,6 +38,22 @@ public class GameUiFunctions : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private List<ButtonDataPair> uiButtons;
 
+
+    [Header("Iventory/Shop")]
+    public GameObject invshopmasterpanel;
+    public GameObject hud;
+    public List<BusData> busdatas;
+    public Player inventory;
+    public GameObject inventoryitem;
+    public Transform UIcontent;
+    public Image invbutton;
+    public GameObject invpanel;
+    
+    public Image shopbutton;
+    public GameObject shoppanel;
+    public Image vehiclebutton;
+    public GameObject vehiclepanel;
+
     [Serializable]
     public struct ButtonDataPair
     {
@@ -48,6 +64,7 @@ public class GameUiFunctions : MonoBehaviour
 
     void Start()
     {
+        inventory = GameObject.FindWithTag("Player").GetComponent<Player>();
         lastMoney = game.Player.Money;
         game.TimeChanged += Game_TimeChanged;
         game.Player.MoneyChanged += HandleMoneyPop;
@@ -64,11 +81,57 @@ public class GameUiFunctions : MonoBehaviour
         }
     }
 
+    #region inv/shop
+
+    public void openinvshop()
+    {
+        hud.SetActive(false);
+        invshopmasterpanel.SetActive(true);
+        
+    }
+
+    public void closeinvshop()
+    {
+        hud.SetActive(true);
+        
+        invshopmasterpanel.SetActive(false);
+        
+    }
+
+    public void vehicleclicked()
+    {
+        vehiclebutton.color = selectedColor;
+        invbutton.color = defaultcolor;
+        shopbutton.color = defaultcolor;
+        invpanel.SetActive(false);
+        shoppanel.SetActive(false);
+        vehiclepanel.SetActive(true);
+    }
+    public void invclicked()
+    {
+        vehiclebutton.color = defaultcolor;
+        invbutton.color = selectedColor;
+        shopbutton.color = defaultcolor;
+        invpanel.SetActive(true);
+        shoppanel.SetActive(false);
+        vehiclepanel.SetActive(false);
+    }
+    public void shopclicked()
+    {
+        vehiclebutton.color = defaultcolor;
+        invbutton.color = defaultcolor;
+        shopbutton.color = selectedColor;
+        invpanel.SetActive(false);
+        shoppanel.SetActive(true);
+        vehiclepanel.SetActive(false);
+    }
+    #endregion
+
     private void Game_TimeChanged(object sender, TimeChangedEventArgs e)
     {
         TimeSpan t = TimeSpan.FromSeconds(e.NewTime);
 
-        dayTimeText.text = "Day: " + e.Day + " - " + t.ToString(@"hh\:mm");
+       // dayTimeText.text = "Day: " + e.Day + " - " + t.ToString(@"hh\:mm");
     }
 
     private void Player_TaxChanged(object sender, TaxChangedEventArgs e)
@@ -212,15 +275,42 @@ public class GameUiFunctions : MonoBehaviour
             timeText.text = "Time: " + Time.timeScale + "x";
         }
     }
-   /* public void SlowTime()
-    {
-        if (Time.timeScale>minTimeSpeed)
-        {
-            Time.timeScale -= 1;
-            timeText.text = "Time: " + Time.timeScale+"x";
-        }
-    }*/
+    /* public void SlowTime()
+     {
+         if (Time.timeScale>minTimeSpeed)
+         {
+             Time.timeScale -= 1;
+             timeText.text = "Time: " + Time.timeScale+"x";
+         }
+     }*/
 
+
+
+    #region buyvehicles
+        
+    public void buyBus1(BusData busdata)
+    {
+        if (inventory.Money>=busdata.Cost)
+        {
+            BusData svb = Instantiate(busdata);
+            //svb.Type = StopType.Bus;
+            inventory.buszok.Add(svb);
+            GameObject sv = Instantiate(inventoryitem, UIcontent, false);
+            UIitem svitem = sv.GetComponent<UIitem>();
+            svitem.bus = svb;
+            float price = busdata.Cost;    // checking costs
+            var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
+            buildingSystem.invokeBuying(checkNext);
+        }
+        else
+        {
+            Debug.Log("Not enough money!");
+        }
+       
+        
+    }
+    
+    #endregion
 
     public void Resume()
     {

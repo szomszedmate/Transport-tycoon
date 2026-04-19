@@ -161,6 +161,8 @@ public class BuildingSystem : MonoBehaviour
 
     #region Buses
 
+    public event EventHandler<Bus> busplaced;
+
     private void PlaceBus(Vector3 busPosition)
     {
         if (Preview is not BusPreview) return;
@@ -174,6 +176,7 @@ public class BuildingSystem : MonoBehaviour
         bus.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
         Grid.SetVehicle(bus, snappedPos);
         Destroy(((BusPreview)Preview).gameObject);
+        busplaced?.Invoke(this,bus);
         Preview = null;
 
     }
@@ -501,11 +504,14 @@ public class BuildingSystem : MonoBehaviour
         doneRotating = true;
     }
 
+
+    public event EventHandler busplacecancelled;
     public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace, bool shouldIDestroy)
     {
         if (shouldIDestroy)
         {
             DestroyPreview();
+            busplacecancelled?.Invoke(this,EventArgs.Empty);
             return;
         }
         if (!canAfford)
@@ -580,10 +586,10 @@ public class BuildingSystem : MonoBehaviour
                     {
                         PlaceBus(busPosition);
 
-                        float price = busPreview.Data.Cost;    // checking costs
+                       /* float price = busPreview.Data.Cost;    // checking costs
 						var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
 						BuyRequest?.Invoke(this, checkNext);
-                        canAfford = checkNext.IsApproved;
+                        canAfford = checkNext.IsApproved;*/
                     }
                 }
                 else if (shouldIPlace)
@@ -621,7 +627,7 @@ public class BuildingSystem : MonoBehaviour
                         PlaceBusStop(busStopPosition, stopType);
 
                         float price = busStopPreview.Data.Cost;    // checking costs
-                        var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
+                        BuyRequestEventArgs checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
                         BuyRequest?.Invoke(this, checkNext);
                         canAfford = checkNext.IsApproved;
                     }
@@ -643,6 +649,10 @@ public class BuildingSystem : MonoBehaviour
 
     }
 
+    public void invokeBuying(BuyRequestEventArgs checkNext)
+    {
+        BuyRequest?.Invoke(this, checkNext);
+    }
     private RoadPreview CreateRoadPreview(RoadData data, Vector3 position)
     {
         RoadPreview roadPreview = Instantiate(roadPreviewPrefab, position, Quaternion.identity);

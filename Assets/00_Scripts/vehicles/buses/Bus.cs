@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Road;
 
 public class Bus : MonoBehaviour, IVehicle
 {
@@ -22,7 +21,7 @@ public class Bus : MonoBehaviour, IVehicle
     private Vector3 lastPosition;
     private BusModel model;
     private BusData data;
-
+    public StopType type;
     public BusAiAgent aiAgent;
     public BusState State { get; private set; } = BusState.BUILT;
     [SerializeField]
@@ -33,7 +32,11 @@ public class Bus : MonoBehaviour, IVehicle
     private Material selectHoverMaterial;
     [SerializeField]
     private Material confirmMaterial;
-  
+
+
+
+    private List<Material> materials;
+
     public List<Road> Route { get; private set; }
     private List<Renderer> renderers = new();
     public bool RouteConfirmed { get; private set; } = false;
@@ -79,6 +82,9 @@ public class Bus : MonoBehaviour, IVehicle
     public void Setup(BusData data, float rotation)
     {
         this.data = data;
+        type = data.Type;
+        materials = GameObject.FindGameObjectWithTag("manager").GetComponent<InventoryManager>().materials;
+        
         NonStop = false;
         lastPosition = transform.position;
         WeeklyMileage = 0;
@@ -93,11 +99,58 @@ public class Bus : MonoBehaviour, IVehicle
         // Grab all renderers from the instantiated model
         renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
-
+        
+        //buildmaterials in player inventori in managers
+        switch (type)
+        {
+            case StopType.None:
+                break;
+            case StopType.Bus:
+                builtMaterial = materials[0];
+                break;
+            case StopType.Universal:
+                builtMaterial = materials[9];
+                break;
+            case StopType.Coal:
+                builtMaterial = materials[3];
+                break;
+            case StopType.IronOre:
+                builtMaterial = materials[7];
+                break;
+            case StopType.GoldOre:
+                builtMaterial = materials[6];
+                break;
+            case StopType.Flour:
+                builtMaterial = materials[5];
+                break;
+            case StopType.Water:
+                builtMaterial = materials[1];
+                break;
+            case StopType.Farm:
+                builtMaterial = materials[4];
+                break;
+            case StopType.IronBar:
+                builtMaterial = materials[7];
+                break;
+            case StopType.GoldBar:
+                builtMaterial = materials[6];
+                break;
+            case StopType.Mint:
+                builtMaterial = materials[8];
+                break;
+            case StopType.Bakery:
+                builtMaterial = materials[2];
+                break;
+            default:
+                builtMaterial = materials[0];
+                break;
+        }
         // Set the default material
         SetBusMaterial(BusState.BUILT);
         Route = new List<Road>();
         aiAgent = GetComponent<BusAiAgent>();
+        aiAgent.type = type;
+        aiAgent.speed = data.Speed;
     }
 
     public void ChangeState(BusState newState)
