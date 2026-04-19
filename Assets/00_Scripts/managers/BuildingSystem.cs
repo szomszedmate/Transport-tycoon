@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 using static Bus;
 public class BuildingSystem : MonoBehaviour
 {
@@ -399,6 +400,13 @@ public class BuildingSystem : MonoBehaviour
         //    grid.ClearTrees(snappedPos);
         //}
         Road road = Instantiate(roadPrefab, snappedPos, Quaternion.identity);
+
+        TerrainShaper shaper = FindFirstObjectByType<TerrainShaper>();
+        if (shaper != null)
+        {
+            shaper.FlattenTerrainUnderRoad(snappedPos);
+        }
+
         road.Setup(((RoadPreview)Preview).Data, ((RoadPreview)Preview).RoadModel.Rotation);
         Grid.SetRoad(road, snappedPos);
         // Destroy(((RoadPreview)preview).gameObject);
