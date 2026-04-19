@@ -436,19 +436,21 @@ public class BusAiAgent : MonoBehaviour
 
 
                     //ha ez a routban az utolso megallo akkor a listat megforditja és kezdi elöröl, de msot visszafele
-                    if (currprog == maxprogress)                        
-                    {                                                  
-                        currprog = 0;                           
-                        Route.Reverse();                          
-                        Debug.Log("reversed");                                                 
-                    }
+                    
                        
                         
                     
                 }
-                  
+
+
+                if (currprog == maxprogress)
+                {
+                    //TODO if !linear akkor ne forduljon meg
                     
-                            
+                    currprog = 0;
+                    Route.Reverse();
+                    Debug.Log("reversed");
+                }
                 currprog++;
                     
                     

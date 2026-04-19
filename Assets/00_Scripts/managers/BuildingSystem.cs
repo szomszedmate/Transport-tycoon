@@ -160,6 +160,8 @@ public class BuildingSystem : MonoBehaviour
 
     #region Buses
 
+    public event EventHandler<Bus> busplaced;
+
     private void PlaceBus(Vector3 busPosition)
     {
         if (Preview is not BusPreview) return;
@@ -173,6 +175,7 @@ public class BuildingSystem : MonoBehaviour
         bus.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
         Grid.SetVehicle(bus, snappedPos);
         Destroy(((BusPreview)Preview).gameObject);
+        busplaced?.Invoke(this,bus);
         Preview = null;
 
     }
@@ -493,11 +496,14 @@ public class BuildingSystem : MonoBehaviour
         doneRotating = true;
     }
 
+
+    public event EventHandler busplacecancelled;
     public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace, bool shouldIDestroy)
     {
         if (shouldIDestroy)
         {
             DestroyPreview();
+            busplacecancelled?.Invoke(this,EventArgs.Empty);
             return;
         }
         if (!canAfford)
