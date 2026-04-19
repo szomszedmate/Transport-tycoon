@@ -30,12 +30,15 @@ public class BusAiAgent : MonoBehaviour
     [SerializeField]
     private Road startpoz;
     public StopType type = StopType.None;
-
+    [SerializeField]
+    public float speed;
+   
     private bool firstdone = false;
 
     void Start()
     {
         ai = GetComponent<NavMeshAgent>();
+        ai.speed = speed;
         ai.enabled = true;
     }
 
@@ -392,6 +395,7 @@ public class BusAiAgent : MonoBehaviour
             }
 
             ai.SetDestination(next.transform.position);
+            ai.speed =speed * next.GetComponentInParent<Road>().speedmodifier;
             isMoving = true;
 
         }

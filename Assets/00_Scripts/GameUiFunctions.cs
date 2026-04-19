@@ -87,13 +87,13 @@ public class GameUiFunctions : MonoBehaviour
     {
         hud.SetActive(false);
         invshopmasterpanel.SetActive(true);
-        PauseTime();
+        
     }
 
     public void closeinvshop()
     {
         hud.SetActive(true);
-        PauseTime();
+        
         invshopmasterpanel.SetActive(false);
         
     }
@@ -288,35 +288,28 @@ public class GameUiFunctions : MonoBehaviour
 
     #region buyvehicles
         
-    public void buyBus1()
+    public void buyBus1(BusData busdata)
     {
-
-        BusData svb = Instantiate(busdatas[0]);
-        svb.Type = StopType.Bus;
-        inventory.buszok.Add(svb);
-        GameObject sv = Instantiate(inventoryitem, UIcontent, false); 
-        UIitem svitem = sv.GetComponent<UIitem>();
-        svitem.bus = svb;
+        if (inventory.Money>=busdata.Cost)
+        {
+            BusData svb = Instantiate(busdata);
+            //svb.Type = StopType.Bus;
+            inventory.buszok.Add(svb);
+            GameObject sv = Instantiate(inventoryitem, UIcontent, false);
+            UIitem svitem = sv.GetComponent<UIitem>();
+            svitem.bus = svb;
+            float price = busdata.Cost;    // checking costs
+            var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
+            buildingSystem.invokeBuying(checkNext);
+        }
+        else
+        {
+            Debug.Log("Not enough money!");
+        }
+       
         
     }
-    public void buyBus2()
-    {
-        inventory.buszok.Add(busdatas[1]);
-        GameObject sv = inventoryitem;
-        UIitem svitem = sv.GetComponent<UIitem>();
-        svitem.bus = inventory.buszok[inventory.buszok.Count - 1];
-        Instantiate(sv, UIcontent, false);
-    }
-
-    public void buynormalwatertruck()
-    {
-        BusData svb = Instantiate(busdatas[0]);
-        svb.Type = StopType.Water;
-        inventory.buszok.Add(svb);
-        GameObject sv = Instantiate(inventoryitem, UIcontent, false);
-        UIitem svitem = sv.GetComponent<UIitem>();
-        svitem.bus = svb;
-    }
+    
     #endregion
 
     public void Resume()

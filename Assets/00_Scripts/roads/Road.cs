@@ -40,6 +40,8 @@ public class Road : MonoBehaviour, IBuildable
     public bool leftlanefree = true;
     public List<BusAiAgent> buszok=new List<BusAiAgent>();
 
+    public float speedmodifier = 1;
+
     public BuildCategory BuildCategory
     {
         get

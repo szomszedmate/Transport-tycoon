@@ -578,10 +578,10 @@ public class BuildingSystem : MonoBehaviour
                     {
                         PlaceBus(busPosition);
 
-                        float price = busPreview.Data.Cost;    // checking costs
+                       /* float price = busPreview.Data.Cost;    // checking costs
 						var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
 						BuyRequest?.Invoke(this, checkNext);
-                        canAfford = checkNext.IsApproved;
+                        canAfford = checkNext.IsApproved;*/
                     }
                 }
                 else if (shouldIPlace)
@@ -619,7 +619,7 @@ public class BuildingSystem : MonoBehaviour
                         PlaceBusStop(busStopPosition, stopType);
 
                         float price = busStopPreview.Data.Cost;    // checking costs
-                        var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
+                        BuyRequestEventArgs checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
                         BuyRequest?.Invoke(this, checkNext);
                         canAfford = checkNext.IsApproved;
                     }
@@ -641,6 +641,10 @@ public class BuildingSystem : MonoBehaviour
 
     }
 
+    public void invokeBuying(BuyRequestEventArgs checkNext)
+    {
+        BuyRequest?.Invoke(this, checkNext);
+    }
     private RoadPreview CreateRoadPreview(RoadData data, Vector3 position)
     {
         RoadPreview roadPreview = Instantiate(roadPreviewPrefab, position, Quaternion.identity);
