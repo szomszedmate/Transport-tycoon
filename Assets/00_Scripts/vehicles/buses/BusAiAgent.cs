@@ -385,7 +385,7 @@ public class BusAiAgent : MonoBehaviour
     //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy másik jármû felszabaditja azt
     public void TryFree()
     {
-        if (isFree())
+        if (isFree() || GetBusIAmWaitingFor().GetBusIAmWaitingFor() == this) // ha free vagy egymásra várnak
         {
             next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
             SetNotFree();
@@ -405,6 +405,7 @@ public class BusAiAgent : MonoBehaviour
             next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
             next.GetComponentInParent<Road>().OnSetFree += CheckifFreeAgain;
         }
+        
     }
 
 
@@ -412,6 +413,35 @@ public class BusAiAgent : MonoBehaviour
     private void CheckifFreeAgain(object sender, EventArgs e)
     {
         TryFree();
+    }
+
+    public BusAiAgent GetBusIAmWaitingFor()
+    {
+        // Ha nem várakozunk semmire, null-t adunk vissza
+        if (next == null) return null;
+
+        Road targetRoad = next.GetComponentInParent<Road>();
+
+        // Ha ez egy keresztezõdés és vannak benne mások
+        if (targetRoad.buszok != null && targetRoad.buszok.Count > 0)
+        {
+            // Ha mi is benne vagyunk a listában, akkor az elõttünk lévõt nézzük
+            int myIndex = targetRoad.buszok.IndexOf(this);
+
+            if (myIndex > 0)
+            {
+                // A listában közvetlenül elõttünk álló busz
+                return targetRoad.buszok[myIndex - 1];
+            }
+            else if (myIndex == -1)
+            {
+                // Ha még nem vagyunk a listában (csak a TryFree-nél várunk), 
+                // akkor az aktuálisan bent lévõ utolsó buszra várunk
+                return targetRoad.buszok[targetRoad.buszok.Count - 1];
+            }
+        }
+
+        return null; // Senkire nem vár
     }
 
     void Update()
