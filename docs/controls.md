@@ -14,6 +14,10 @@
 
 ## Vehicles
 - C : Start / Cancel planning route
+- Left Click (Hold) : Add road to route
+- Right Click (Hold) : Remove road from route
+- Enter : Confirm route
+- R : Reset route
 
 ## Camera
 - W : Forward
@@ -22,3 +26,10 @@
 - D : Right
 - E / Scroll up : Up
 - Q / Scroll down : Down
+- Middle click (Hold) : Rotate camera (Free look)
+- Middle click (Double) : Reset rotation
+- Left Shift (Hold) : Increase speed
+
+## System
+- Escape : Open menu
+- 9 : Debug Grid (Log locations)

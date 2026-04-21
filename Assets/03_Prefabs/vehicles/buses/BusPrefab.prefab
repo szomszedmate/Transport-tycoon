@@ -46,8 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fabc5507b40337c4ab532229bcc7c681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bus
+  aiAgent: {fileID: 0}
   builtMaterial: {fileID: 2100000, guid: 99778bb32a22e7045bee29507ccb8644, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: 0e9f2a87bb7ef244b9657942a1167dbf, type: 2}
+  selectHoverMaterial: {fileID: 2100000, guid: f43551bffa4588e43a3d2e7e559ffb31, type: 2}
+  confirmMaterial: {fileID: 2100000, guid: fe4398b7ed890be44a1b5e342c4c8de1, type: 2}
 --- !u!195 &3583464162540983701
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -82,3 +85,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b847ef9f7daa14b9318e7e225b177a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  targetpos: {fileID: 0}

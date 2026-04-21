@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CityModel : MonoBehaviour
+public class CityModel : MonoBehaviour, ILocation
 {
+    public Vector3 Position { get; }
+    public StopType Type { get; } = StopType.Universal;
     private BuildingShapeUnit[] shapeUnits;
     private void Awake()
     {
@@ -26,7 +28,7 @@ public class CityModel : MonoBehaviour
             return new List<Vector3>();
         }
 
-       // Debug.Log($"{name}: Found {shapeUnits.Length} BuildingShapeUnits");
+        //Debug.Log($"{name}: Found {shapeUnits.Length} BuildingShapeUnits");
         return shapeUnits.Select(u => u.transform.position).ToList();
     }
 }

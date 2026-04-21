@@ -9,12 +9,12 @@ public abstract class RoadModel : MonoBehaviour
     [SerializeField]
     private Transform wrapper;
     public float Rotation => wrapper.transform.eulerAngles.y;
-    private BuildingShapeUnit[] shapeUnits;
-    public abstract Direction[] Inputs {  get; }
-    public abstract Direction[] Outputs { get; }
+    private BuildingShapeUnit[] roadShapeUnits;
+    public abstract Direction[] Inputs { get; set; }
+    public abstract Direction[] Outputs { get; set; }
     private void Awake()
     {
-        shapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
+        roadShapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
     }
     public void Rotate(float rotationStep)
     {
@@ -24,18 +24,18 @@ public abstract class RoadModel : MonoBehaviour
 
         for (int i = 0; i < Inputs.Length; i++) // rotates inputs
         {
-            Inputs[i] = (Direction)(((int)Inputs[i] + steps) % 4);
+            Inputs[i] = (Direction)(((int)Inputs[i] + (4 - steps)) % 4); // (4 - steps cuz it rotates the other way)
         }
 
         for (int i = 0; i < Outputs.Length; i++) // rotates outputs
         {
-            Outputs[i] = (Direction)(((int)Outputs[i] + steps) % 4);
+            Outputs[i] = (Direction)(((int)Outputs[i] + (4 - steps)) % 4); // (4 - steps cuz it rotates the other way);
         }
     }
 
     public List<Vector3> GetAllBuildingPositions()
     {
-        return shapeUnits.Select(unit => unit.transform.position).ToList();
+        return roadShapeUnits.Select(unit => unit.transform.position).ToList();
     }
 
 }

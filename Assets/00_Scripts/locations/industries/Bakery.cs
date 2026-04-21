@@ -11,6 +11,7 @@ namespace Assets._00_Scripts.locations.industries
 
     public class Bakery : Industry
     {
+        public override StopType Type => StopType.Bakery;
         [SerializeField] private int flourRequired = 2;
         [SerializeField] private int waterRequired = 1;
         [SerializeField] private int breadProduced = 1;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class MiniMapNav : MonoBehaviour, IPointerClickHandler
+public class MiniMapNav : MonoBehaviour, IPointerClickHandler, IDragHandler
 {
 
     private RawImage minmap;
@@ -10,12 +10,19 @@ public class MiniMapNav : MonoBehaviour, IPointerClickHandler
     //IPointerClickHandler implementálva van ezert OnPointerClcik meghivodik kattintasra
     public void OnPointerClick(PointerEventData eventData)
     {
+        MoveToMinimapPoint(eventData);
+    }
 
+    public void OnDrag(PointerEventData eventData) // IDragHandler implementálva van ezert nyomva lehet tartani
+    {
+        MoveToMinimapPoint(eventData);
+    }
 
+    private void MoveToMinimapPoint(PointerEventData eventData)
+    {
         //csak jobbklikk
-        if (eventData.button==PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log("Rákattintottál a minimapra");
             RectTransform minimaptransform = minmap.rectTransform;
             Vector2 localclickpoz;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -26,12 +33,12 @@ public class MiniMapNav : MonoBehaviour, IPointerClickHandler
             );
 
 
-            Debug.Log(localclickpoz);
+            //Debug.Log(localclickpoz);
 
             //minimaptransform.rect tartalmazza a raw image transformját
             float normalizedX = Mathf.InverseLerp(minimaptransform.rect.xMin, minimaptransform.rect.xMax, localclickpoz.x); //Determines where a value lies between two points. (min, max, your point)
             float normalizedY = Mathf.InverseLerp(minimaptransform.rect.yMin, minimaptransform.rect.yMax, localclickpoz.y);
-            float worldX =(normalizedX - 0.5f) * (2f * minimapcamera.orthographicSize) ;
+            float worldX = (normalizedX - 0.5f) * (2f * minimapcamera.orthographicSize);
             /*
              azért kell -0.5 mert 0.0 a map közepe de normalizálásnál:
             0.0: bal
@@ -47,13 +54,12 @@ public class MiniMapNav : MonoBehaviour, IPointerClickHandler
 
              */
 
-            float worldZ =(normalizedY - 0.5f) * 2f * minimapcamera.orthographicSize;
-            Debug.Log(normalizedX);
-            Debug.Log(normalizedY);
+            float worldZ = (normalizedY - 0.5f) * 2f * minimapcamera.orthographicSize;
+            //Debug.Log(normalizedX);
+            //Debug.Log(normalizedY);
             player.transform.position = new Vector3(worldX, player.transform.position.y, worldZ);
 
         }
-        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

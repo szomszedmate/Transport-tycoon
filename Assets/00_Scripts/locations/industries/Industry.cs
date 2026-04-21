@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Industry : MonoBehaviour, ILocation
 {
     public Vector3 Position => transform.position;
+    public abstract StopType Type { get; }
     [SerializeField] protected IndustryModel model;
 
     [Header("Production")]
@@ -93,7 +94,7 @@ public abstract class Industry : MonoBehaviour, ILocation
             ConsumeInputs();
             ProduceOutputs();
 
-            Debug.Log($"{name} produced: {string.Join(", ", recipe.Outputs.Select(o => $"{o.Key} x{o.Value}"))}");
+            //Debug.Log($"{name} produced: {string.Join(", ", recipe.Outputs.Select(o => $"{o.Key} x{o.Value}"))}");
         }
     }
 

@@ -9,6 +9,7 @@ namespace Assets._00_Scripts.locations.industries
 {
     public class IronSmelter : Industry
     {
+        public override StopType Type => StopType.IronBar;
         [SerializeField] private int ironRequired = 2;
         [SerializeField] private int coalRequired = 1;
         [SerializeField] private int ironBarProduced = 1;

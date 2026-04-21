@@ -9,6 +9,7 @@ namespace Assets._00_Scripts.locations.industries
 {
     public class GoldSmelter : Industry
     {
+        public override StopType Type => StopType.GoldBar;
         [SerializeField] private int goldRequired = 2;
         [SerializeField] private int coalRequired = 1;
         [SerializeField] private int goldBarProduced = 1;

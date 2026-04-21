@@ -9,6 +9,7 @@ namespace Assets._00_Scripts.locations.industries
 {
     public class Mint : Industry
     {
+        public override StopType Type => StopType.Mint;
         [SerializeField] private int goldBarRequired = 1;
         [SerializeField] private int coinProduced = 3;
         [SerializeField] private float cycleTime = 9f;

@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class RoadPreview : MonoBehaviour, IPreview
 {
-    public enum RoadPreviewState
-    {
-        POSITIVE,
-        NEGATIVE
-    }
     [SerializeField]
     private Material positiveMaterial;
     [SerializeField]
     private Material negativeMaterial;
-    public RoadPreviewState State { get; private set; } = RoadPreviewState.NEGATIVE;
+    public PreviewState State { get; private set; } = PreviewState.NEGATIVE;
     public RoadData Data { get; private set; }
     public RoadModel RoadModel { get; private set; }
+    IData IPreview.Data => Data;
+
     private List<Renderer> renderers = new();
     private List<Collider> colliders = new();
 
@@ -23,6 +20,7 @@ public class RoadPreview : MonoBehaviour, IPreview
     {
         Data = data;
         RoadModel = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
+        RoadModel.transform.localPosition = new Vector3(0, 0.01f, 0); // move higher so no z fighting
         renderers.AddRange(RoadModel.GetComponentsInChildren<Renderer>());
         colliders.AddRange(RoadModel.GetComponentsInChildren<Collider>());
         
@@ -33,7 +31,7 @@ public class RoadPreview : MonoBehaviour, IPreview
         SetPreviewMaterial(State);
     }
 
-    public void ChangeState(RoadPreviewState newState)
+    public void ChangeState(PreviewState newState)
     {
         if (newState == State ) { return; }
         State = newState;
@@ -44,9 +42,9 @@ public class RoadPreview : MonoBehaviour, IPreview
         RoadModel.Rotate(degrees);
     }
 
-    private void SetPreviewMaterial(RoadPreviewState newState)
+    private void SetPreviewMaterial(PreviewState newState)
     {
-        Material previewMat = newState == RoadPreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
+        Material previewMat = newState == PreviewState.POSITIVE ? positiveMaterial : negativeMaterial;
         foreach (var rend in renderers)
         {
             Material[] mats = new Material[rend.sharedMaterials.Length];

@@ -2,86 +2,103 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public float speed = 10f;
+    private readonly Quaternion baseRotation = Quaternion.Euler(0f, 0f, 0f);
+    private readonly float baseSpeed = 40f;
+    private readonly float speedMultiplier = 3f;
+
+    public float speed;
     public float mindist = 10;
     public float maxdist;
     public float mousescrollmultiplier;
+    public float rotationSensitivity = 5f;
+    private float verticalRotation = 0f;
     public Camera minimapcam;
-    void Update()
+
+    public void RotateFreeLook(float mouseX, float mouseY)
     {
-        if (Input.GetKey(KeyCode.W))
+        transform.Rotate(Vector3.up * mouseX * rotationSensitivity, Space.World); // yaw
+
+        verticalRotation -= mouseY * rotationSensitivity; // pitch
+
+        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f); // limit movement
+
+        transform.localEulerAngles = new Vector3(verticalRotation, transform.localEulerAngles.y, 0);
+    }
+
+    public void MoveCameraHorizontally(Direction direction)
+    {
+        Vector3 forward = transform.forward;
+        forward.y = 0;
+        Vector3 right = transform.right;
+        right.y = 0; // only move horizontally
+
+        switch (direction)
         {
-            transform.position += Vector3.forward * speed * Time.deltaTime;
+            case Direction.N:
+                transform.position += forward * speed * Time.unscaledDeltaTime;
+                break;
+            case Direction.W:
+                transform.position += -right * speed * Time.unscaledDeltaTime;
+                break;
+            case Direction.S:
+                transform.position += -forward * speed * Time.unscaledDeltaTime;
+                break;
+            case Direction.E:
+                transform.position += right * speed * Time.unscaledDeltaTime;
+                break;
+            default:
+                break;
         }
+    }
 
-        if (Input.GetKey(KeyCode.S))
+    public void MoveCameraVertically(bool up)
+    {
+        if (up) // up
         {
-            transform.position += Vector3.back * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-
-
-        //up
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            if (transform.position.y+speed * mousescrollmultiplier * Time.deltaTime < maxdist)
+            if (transform.position.y + speed * mousescrollmultiplier * Time.unscaledDeltaTime < maxdist)
             {
-                transform.position += Vector3.up * speed* mousescrollmultiplier * Time.deltaTime;
-               
+                transform.position += Vector3.up * speed * mousescrollmultiplier * Time.unscaledDeltaTime;
+
             }
             else
             {
                 transform.position = new Vector3(transform.position.x, maxdist, transform.position.z);
             }
-        }
-
-        if (Input.GetKey(KeyCode.E))
+        } else // down
         {
-            if (transform.position.y < maxdist)
+            if (transform.position.y - speed * mousescrollmultiplier * Time.unscaledDeltaTime > mindist)
             {
-                transform.position += Vector3.up * speed * Time.deltaTime;
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x, maxdist, transform.position.z);
-            }
-
-        }
-
-
-
-        //down
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            if (transform.position.y- speed * mousescrollmultiplier * Time.deltaTime > mindist)
-            {
-                transform.position += Vector3.down * speed * mousescrollmultiplier * Time.deltaTime;
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x,mindist,transform.position.z);
-            }
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            if (transform.position.y>mindist)
-            {
-                transform.position += Vector3.down * speed * Time.deltaTime;
+                transform.position += Vector3.down * speed * mousescrollmultiplier * Time.unscaledDeltaTime;
             }
             else
             {
                 transform.position = new Vector3(transform.position.x, mindist, transform.position.z);
             }
-
         }
+    }
+
+    public void ResetRotation()
+    {
+        transform.rotation = baseRotation;
+    }
+
+    public void IncreaseSpeed()
+    {
+        speed = baseSpeed * speedMultiplier;
+    }
+
+    public void ResetSpeed()
+    {
+        speed = baseSpeed;
+    }
+
+    void Update()
+    {
+
+    }
+
+    private void Start()
+    {
+        speed = baseSpeed;
     }
 }
