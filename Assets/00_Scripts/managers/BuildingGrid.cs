@@ -21,6 +21,7 @@ public class BuildingGrid : MonoBehaviour
     public BuildingGridCell[,] Grid { get => grid; private set => grid = value; } // for debug
     public int Width { get => width; set => width = value; } // for debug
     public int Height { get => height; set => height = value; } // for debug
+    public List<ILocation> Locations { get => locations; set => locations = value; }
 
     private void Start()
     {
@@ -41,14 +42,32 @@ public class BuildingGrid : MonoBehaviour
     }
 
 
+    public ILocation GetLocationAt(Vector3 worldPos)
+    {
+        (int x, int y) = WorldToGridPosition(worldPos);
+        for (int i = -1; i <= 1; i++) // check tiles around it
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                int newX = x + i;
+                int newY = y + j;
+                if (newX < 0 || newX >= Width || newY < 0 || newY >= Height) continue; // continue if out of bounds
+                if (Grid[newX, newY].IsLocation())
+                {
+                    return Grid[newX, newY].Location;
+                }
+            }
+        }
+        return null;
+    }
 
     private void RegisterExistingObjects()
     {
-        locations = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ILocation>().ToList();
-        //Debug.Log("# of locations: " + locations.Count);
+        Locations = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ILocation>().ToList();
         // init buildings to grid
-        foreach (var location in locations)
+        foreach (var location in Locations)
         {
+            Debug.Log(location);
             foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
                 (int x, int y) = WorldToGridPosition(pos);
@@ -202,7 +221,6 @@ public class BuildingGrid : MonoBehaviour
                 if (newX < 0 || newX >= Width || newY < 0 || newY >= Height) continue; // continue if out of bounds
                 if (Grid[newX, newY].IsLocation())
                 {
-                    //Debug.Log("Location: " + newX + ", " + newY);
                     return true;
                 }
 
@@ -216,7 +234,7 @@ public class BuildingGrid : MonoBehaviour
         if (x < 0 || x >= Width || y < 0 || y >= Height) return false;
         //if (!grid[x, y].Cell_IsCityRoad()) return false;
         if (!Grid[x, y].IsEmpty()) return false;
-        foreach (ILocation location in locations)
+        foreach (ILocation location in Locations)
         {
 
             foreach (Vector3 pos in location.GetAllBuildingPositions())
@@ -518,6 +536,8 @@ public class BuildingGrid : MonoBehaviour
 public class BuildingGridCell
 {
     public Road Road { get; private set; }
+    public ILocation Location { get => location; private set => location = value; }
+
     private ILocation location;
     private IVehicle vehicle;
     private BusStop busStop;
@@ -565,7 +585,7 @@ public class BuildingGridCell
 
     public void RegLocation(ILocation location)
     {
-        this.location = location;
+        this.Location = location;
     }
 
     public void SetVehicle(IVehicle vehicle)
@@ -598,12 +618,12 @@ public class BuildingGridCell
 
     public bool IsLocation()
     {
-        return this.location != null;
+        return this.Location != null;
     }
 
     public StopType GetStopType()
     {
-        return this.location.Type;
+        return this.Location.Type;
     }
 
     public bool IsRoad()
@@ -613,6 +633,6 @@ public class BuildingGridCell
 
     public bool IsEmpty()
     {
-        return this.Road == null && this.location == null;
+        return this.Road == null && this.Location == null;
     }
 }

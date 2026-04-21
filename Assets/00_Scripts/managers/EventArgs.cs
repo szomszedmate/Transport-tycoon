@@ -29,3 +29,8 @@ public class TimeChangedEventArgs : EventArgs
     public double NewTime { set; get; }
     public int Day {  get; set; }
 }
+
+public class ArrivedEventArgs : EventArgs
+{
+    public BusStop Stop { get; set; }
+}

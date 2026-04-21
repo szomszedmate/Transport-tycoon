@@ -2,9 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 public class Player : MonoBehaviour
 {
     public delegate void MoneyChangedEventHandler(object sender, MoneyChangedEventArgs e);
@@ -14,6 +12,7 @@ public class Player : MonoBehaviour
     private double money;
     private double taxToPay;
     public List<BusData> buszok = new List<BusData>();
+    public List<TruckData> trucks = new List<TruckData>();
     public double TaxToPay
     {
         get

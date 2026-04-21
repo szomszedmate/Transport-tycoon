@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public enum Shift
+public enum DayPhase
 {
-    DAYSHIFT,
-    EVENINGSHIFT,
-    NIGHTSHIFT
+    DAY,
+    EVENING,
+    NIGHT
 }

@@ -204,11 +204,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 94ceb738027303349a85e58e6a161a49, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: a01a019fca7be9d4192203a7a97edafb, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -474,11 +474,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1405,11 +1405,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 7d08d3361f76a204fa78cc17e0dc4663, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: c4da26c408b5f67498b91da16aeddc7c, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2214,11 +2214,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 735b1a3f95cad26418d9bf868dcebc6d, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4693,11 +4693,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: ae375a739d5e02c4282a6036437b9d13, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 6b18f780f4f82d5428196db91d81ad08, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6052,9 +6052,10 @@ MonoBehaviour:
   roadPreviewPrefab: {fileID: 4501084694000386825, guid: baeef1379d13a494e80731c61809ea7a, type: 3}
   roadPrefab: {fileID: 2383794928318383345, guid: edac8ca26d30c3a4c9ba5e61b008eff3, type: 3}
   grid: {fileID: 1668360212}
+  truckPreviewPrefab: {fileID: 2888533896809786281, guid: e2ed9371909d04e4a8d175d4a15d452c, type: 3}
+  truckPrefab: {fileID: 6376993659063926084, guid: 4cb7ce76c2c127247a05ef87fd6a5481, type: 3}
   busPreviewPrefab: {fileID: -3809811765662860722, guid: d93ae9e7d8b47a341918bef3b9d575ad, type: 3}
   busPrefab: {fileID: 3880707210839052634, guid: f307c4216b144e243a70f8bda98ac27d, type: 3}
-  BusBasicData: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
   busStopPreviewPrefab: {fileID: 1665727641338218824, guid: f54d0f88787aef946b413a1b252becf7, type: 3}
   busStopPrefab: {fileID: -1240028291409653652, guid: 8d216704bbc79eb459c525b9b5ec1967, type: 3}
   BusStopData: {fileID: 11400000, guid: 17547141c40e3594f82ce602dc4277e8, type: 2}
@@ -13494,11 +13495,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 77e008ed40036a84ab3327f3b94dbb70, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 924952911350d294592d600b1ff036c4, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -14770,11 +14771,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 6f2faa9f19f5f8d46b9fa4fa6da07dd5, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 63384bb9f07550547bd1b3a852f93d73, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -17655,11 +17656,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: e5dce4de14e438b48b5a5286c51d5c50, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: dd35efdab13715e4ea7e7bba9980d903, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -17925,11 +17926,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 78efbf55b301f61409dcc3f340b1dbb8, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: d8ba55a5912e2f54593cd13e52aa01ee, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -19118,11 +19119,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: bf2cfa9cd30a8ac4cbd3fe21149b9fa0, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 5e0c30ff1902b43429b53b2b3aed6c55, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21452,11 +21453,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: f7583d6f1f663024db5d00e14d25bf59, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 142dd462f5f350043ac5940726c43953, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21977,11 +21978,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: a54e9640ddbe8ee4b94754b2a3e738b3, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: dd49a61003c507e47b08485bc88f165d, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23085,11 +23086,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 1660e087d65ce864f91bf943f00b4ce7, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: ec1b4d2cb6bf57f4da70eff389cff1d7, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23352,11 +23353,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: b8ddc39eacf73124f87c3cac150a0a04, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 50a3796c313f3764d9e3ff1e4dd71036, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23789,7 +23790,7 @@ GameObject:
   - component: {fileID: 1478234328}
   m_Layer: 0
   m_Name: ---Managers---
-  m_TagString: Untagged
+  m_TagString: manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24539,11 +24540,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: c2debd7f199ee2b4ea3136adc85432b0, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 5398352190d717a4787187851b8fc2d2, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -25653,11 +25654,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 54f6114270c79ab48ba712b87de6ae85, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 4c83d9b47f18add42b95906933f2f4d6, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -25786,11 +25787,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 27f282086f8073549ae3c77d16e9f3ae, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 2171766bffcec084fa30bb155cd626be, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -27748,6 +27749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   buszok: []
+  trucks: []
 --- !u!1 &1843863378
 GameObject:
   m_ObjectHideFlags: 0
@@ -28220,6 +28222,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 298973979553625193, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00001525878
+      objectReference: {fileID: 0}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: hud
       value: 
@@ -28277,6 +28283,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4756840701581789373, guid: 36bb61e8cf524da42a7665db6fa24820, type: 3}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: mainMoneyText
+      value: 
+      objectReference: {fileID: 618335859}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: shopMoneyText
+      value: 
+      objectReference: {fileID: 104025364}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: vehiclebutton
       value: 
       objectReference: {fileID: 1003408420}
@@ -28301,6 +28315,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: truckdatas.Array.size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: 'busdatas.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
@@ -28308,6 +28326,70 @@ PrefabInstance:
       propertyPath: 'busdatas.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 735b1a3f95cad26418d9bf868dcebc6d, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b18f780f4f82d5428196db91d81ad08, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 142dd462f5f350043ac5940726c43953, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d8ba55a5912e2f54593cd13e52aa01ee, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: dd35efdab13715e4ea7e7bba9980d903, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c83d9b47f18add42b95906933f2f4d6, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 50a3796c313f3764d9e3ff1e4dd71036, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e0c30ff1902b43429b53b2b3aed6c55, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[7]'
+      value: 
+      objectReference: {fileID: 11400000, guid: dd49a61003c507e47b08485bc88f165d, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[8]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 63384bb9f07550547bd1b3a852f93d73, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[9]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 924952911350d294592d600b1ff036c4, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[10]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2171766bffcec084fa30bb155cd626be, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[11]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c4da26c408b5f67498b91da16aeddc7c, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[12]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ec1b4d2cb6bf57f4da70eff389cff1d7, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[13]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5398352190d717a4787187851b8fc2d2, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[14]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a01a019fca7be9d4192203a7a97edafb, type: 2}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'truckdatas.Array.data[15]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a5b476b6f4d2ff48af3293be8558bfb, type: 2}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[0].Data
       value: 
@@ -28410,6 +28492,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1620456651685616428, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1620456651685616428, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2076211998125856281, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
@@ -32631,11 +32717,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
-        m_MethodName: buyBus1
+        m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: c739176b2e6b5e847ab287632d44fd6e, type: 2}
-          m_ObjectArgumentAssemblyTypeName: BusData, Assembly-CSharp
+          m_ObjectArgument: {fileID: 11400000, guid: 3a5b476b6f4d2ff48af3293be8558bfb, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

@@ -3,8 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using static RoadPreview;
 
 public class Road : MonoBehaviour, IBuildable
@@ -61,6 +59,8 @@ public class Road : MonoBehaviour, IBuildable
             return RoadType.UNKNOWN;
         }
     }
+
+    public BusStop BusStop { get => busStop; private set => busStop = value; }
 
     public void Awake()
     {
@@ -249,22 +249,22 @@ public class Road : MonoBehaviour, IBuildable
 
     public void SetBusStop(BusStop busStop)
     {
-        this.busStop = busStop;
+        this.BusStop = busStop;
     }
 
     public void RemBusStop()
     {
-        this.busStop = null;
+        this.BusStop = null;
     }
 
     public bool Road_HasBusStop()
     {
-        return (busStop != null);
+        return (BusStop != null);
     }
 
     public StopType GetStopType()
     {
-        return busStop.Type;
+        return BusStop.Type;
     }
 
 }

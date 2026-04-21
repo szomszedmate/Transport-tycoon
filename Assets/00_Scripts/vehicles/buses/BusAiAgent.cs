@@ -3,14 +3,14 @@ using UnityEngine.AI;
 using System.Collections.Generic;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 
 
 public class BusAiAgent : MonoBehaviour
 {
-  
+    public delegate void ArrivedAtStop(object sender, ArrivedEventArgs e);
+    public event ArrivedAtStop Arrived;
     private NavMeshAgent ai;
     public Transform targetpos;
     public List<Road> Route=null;
@@ -466,8 +466,8 @@ public class BusAiAgent : MonoBehaviour
                         
                     //TODO itt érkezik meg, megallok lerakasanal automatikusan olyan megallot tesz le amilyen letesítmény mellé van leteve
                     //itt kell lekezelni, hogy mi történik megerkezéskor.
-
-
+                    
+                    Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
 
                     //ha ez a routban az utolso megallo akkor a listat megforditja és kezdi elöröl, de msot visszafele
                     

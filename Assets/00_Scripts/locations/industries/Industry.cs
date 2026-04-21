@@ -163,6 +163,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         }
 
         inventory[type] += amount;
+        //Debug.Log(inventory[type]);
     }
 
     protected bool RemoveResource(ResourceEnum type, int amount)

@@ -10,7 +10,7 @@ public class City : MonoBehaviour, ILocation
     [SerializeField] private float height;
     [SerializeField] private float width;
     [SerializeField] private int population;
-
+    public DayPhase dayPhase;
     public int DayShift { get; private set; }
     public int EveningShift { get; private set; }
     public int NightShift { get; private set; }
@@ -22,11 +22,11 @@ public class City : MonoBehaviour, ILocation
 
 
 
-    public bool Unload(Shift shift)
+    public bool Load()
     {
-        switch (shift)
+        switch (dayPhase)
         {
-            case Shift.DAYSHIFT:
+            case DayPhase.DAY:
                 if (DayShift > 0)
                 {
                     DayShift--;
@@ -35,7 +35,7 @@ public class City : MonoBehaviour, ILocation
                     return false;
                 }
                 break;
-            case Shift.EVENINGSHIFT:
+            case DayPhase.EVENING:
                 if (EveningShift > 0)
                 {
                     EveningShift--;
@@ -44,7 +44,7 @@ public class City : MonoBehaviour, ILocation
                     return false;
                 }
                 break;
-            case Shift.NIGHTSHIFT:
+            case DayPhase.NIGHT:
                 if (NightShift > 0)
                 {
                     NightShift--;
@@ -59,17 +59,17 @@ public class City : MonoBehaviour, ILocation
         return true;
     }
 
-    public void Load(Shift shift)
+    public void Unload()
     {
-        switch (shift)
+        switch (dayPhase)
         {
-            case Shift.DAYSHIFT:
+            case DayPhase.DAY:
                 DayShift++;
                 break;
-            case Shift.EVENINGSHIFT:
+            case DayPhase.EVENING:
                 EveningShift++;
                 break;
-            case Shift.NIGHTSHIFT:
+            case DayPhase.NIGHT:
                 NightShift++;
                 break;
             default:
