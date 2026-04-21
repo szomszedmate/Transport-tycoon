@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum RoadKind
+{
+    NormalRoad,
+    Bridge
+}
+
 [CreateAssetMenu(menuName = "Data/Roads/Road")]
 public class RoadData : ScriptableObject
 {
@@ -9,4 +15,6 @@ public class RoadData : ScriptableObject
     public int Cost { get; private set; }
     [field: SerializeField]
     public string Description { get; private set; }
+    [field: SerializeField]
+    public RoadKind Kind { get; private set; }
 }

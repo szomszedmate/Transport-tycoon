@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  bridgeBuiltMaterial: {fileID: 2100000, guid: af96a88a0e2b1cf4a99427ecf41ebbdd, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   isCityRoad: 0

@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &20986913
@@ -1050,6 +1051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &118118460
@@ -1514,6 +1516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &184725658
@@ -1669,6 +1672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &211402534 stripped
@@ -1689,6 +1693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &219712592
@@ -1799,6 +1804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &277372336
@@ -1896,6 +1902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &302830156
@@ -2164,6 +2171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &359117210
@@ -2211,6 +2219,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingShapeUnit
   navMeshSurface: {fileID: 0}
+--- !u!1 &360992695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 360992696}
+  m_Layer: 0
+  m_Name: WaterContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &360992696
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360992695}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 766094214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &361739808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,6 +2362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &369957259
@@ -2510,6 +2550,9 @@ MonoBehaviour:
   RoadData2: {fileID: 11400000, guid: c772f38e88d145149b8d020a37b9156c, type: 2}
   RoadData3: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
   RoadData4: {fileID: 11400000, guid: 8d6f9d68753f03b479fcf0e438707ea5, type: 2}
+  RoadData5: {fileID: 11400000, guid: 51b3adcc9f92a3944b939f7ee6cdbbc2, type: 2}
+  RoadData6: {fileID: 11400000, guid: ae069bd7501938544959bb40b475b1c8, type: 2}
+  RoadData7: {fileID: 11400000, guid: 45b674948d60940428c774180af0e912, type: 2}
   roadPreviewPrefab: {fileID: 4501084694000386825, guid: baeef1379d13a494e80731c61809ea7a, type: 3}
   roadPrefab: {fileID: 2383794928318383345, guid: edac8ca26d30c3a4c9ba5e61b008eff3, type: 3}
   grid: {fileID: 1668360212}
@@ -2736,14 +2779,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1510569769}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1510569774}
+        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_MethodName: RoadSelect
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2976,6 +3019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &452326048
@@ -3075,6 +3119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &489449809
@@ -3980,6 +4025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &592659288
@@ -4050,6 +4096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &646231091
@@ -4411,6 +4458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &698548440
@@ -4883,6 +4931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &728456872 stripped
@@ -4903,6 +4952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &748757594 stripped
@@ -4923,6 +4973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &752653879 stripped
@@ -4943,6 +4994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &757162825
@@ -5157,6 +5209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &766094213
@@ -5191,6 +5244,7 @@ Transform:
   - {fileID: 830481673}
   - {fileID: 1668360213}
   - {fileID: 1595100212}
+  - {fileID: 360992696}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &785621838
@@ -5280,6 +5334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &807446731
@@ -5591,6 +5646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &830481672
@@ -6221,6 +6277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &886047927
@@ -6344,6 +6401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &941118686
@@ -6409,6 +6467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &970929867
@@ -7005,6 +7064,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1068813922 stripped
@@ -7025,6 +7085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1070486076
@@ -7621,6 +7682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1135645616
@@ -7731,6 +7793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1157139567
@@ -7883,6 +7946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1160571441
@@ -7985,6 +8049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1183470422
@@ -8037,6 +8102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1186702629
@@ -8646,6 +8712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1233511167
@@ -9498,6 +9565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!4 &1337901181 stripped
@@ -9725,6 +9793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1385070307
@@ -9882,6 +9951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1401305801
@@ -10149,6 +10219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1445814464 stripped
@@ -10169,6 +10240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1466371799
@@ -10705,14 +10777,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1510569769}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1510569774}
+        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_MethodName: RoadSelect
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -10879,6 +10951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1607450962
@@ -11116,6 +11189,8 @@ MonoBehaviour:
   height: 100
   treeVisualPrefab: {fileID: 1394936630653222244, guid: 4660a877f13a4ff4e845e4594964dc42, type: 3}
   treeContainer: {fileID: 1595100212}
+  waterContainer: {fileID: 360992696}
+  waterTilePrefab: {fileID: 7163634424031973748, guid: ae6fa5256eba0dc4884aec7100c8c076, type: 3}
 --- !u!4 &1668360213
 Transform:
   m_ObjectHideFlags: 0
@@ -11348,6 +11423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1764973913
@@ -11874,6 +11950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1803190806
@@ -12164,6 +12241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1838842535
@@ -13397,6 +13475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1973300780
@@ -13554,6 +13633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1991723835
@@ -13606,6 +13686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &1998196022 stripped
@@ -13626,6 +13707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &2008061939
@@ -13711,14 +13793,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1510569769}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1510569774}
+        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_MethodName: RoadSelect
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -13779,6 +13861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &2035473097
@@ -13934,6 +14017,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &2060733131
@@ -14734,6 +14818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Building
   builtMaterial: {fileID: 0}
+  bridgeBuiltMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 0}
   isCityRoad: 1
 --- !u!1 &2130895750

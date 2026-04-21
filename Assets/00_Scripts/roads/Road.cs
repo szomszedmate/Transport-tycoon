@@ -19,12 +19,16 @@ public class Road : MonoBehaviour
     public RoadState State { get; private set; } = RoadState.BUILT;
     [SerializeField]
     private Material builtMaterial;
+    [SerializeField] 
+    private Material bridgeBuiltMaterial;
     [SerializeField]
     private Material destroyHoverMaterial;
     [SerializeField]
     private bool isCityRoad;
     public bool IsCityRoad => isCityRoad;
     private List<Renderer> renderers = new();
+    public bool IsBridge => data != null && data.Kind == RoadKind.Bridge;
+    public RoadKind Kind => data != null ? data.Kind : RoadKind.NormalRoad;
 
     public void Setup(RoadData data, float rotation)
     {
@@ -57,13 +61,22 @@ public class Road : MonoBehaviour
     private void SetRoadMaterial(RoadState newState)
     {
         // Make sure your materials are assigned
-        if (builtMaterial == null || destroyHoverMaterial == null)
+        if (builtMaterial == null || bridgeBuiltMaterial == null || destroyHoverMaterial == null)
         {
             Debug.LogWarning("Materials not assigned!");
             return;
         }
 
-        Material targetMat = (newState == RoadState.BUILT) ? builtMaterial : destroyHoverMaterial;
+        Material targetMat;
+
+        if (newState == RoadState.DESTROYHOVER)
+        {
+            targetMat = destroyHoverMaterial;
+        }
+        else
+        {
+            targetMat = data.Kind == RoadKind.Bridge ? bridgeBuiltMaterial : builtMaterial;
+        }
 
         foreach (var rend in renderers)
         {

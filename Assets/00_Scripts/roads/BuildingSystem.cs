@@ -12,6 +12,9 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private RoadData RoadData2;
     [SerializeField] private RoadData RoadData3;
     [SerializeField] private RoadData RoadData4;
+    [SerializeField] private RoadData RoadData5;
+    [SerializeField] private RoadData RoadData6;
+    [SerializeField] private RoadData RoadData7;
     [SerializeField] private RoadPreview roadPreviewPrefab;
     [SerializeField] private Road roadPrefab;
     [SerializeField] private BuildingGrid grid;
@@ -96,9 +99,24 @@ public class BuildingSystem : MonoBehaviour
             CreatePreview(3);
             //preview = CreateRoadPreview(RoadData4, mousePos);
         }
-        else if (Input.GetKeyDown(KeyCode.B))
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             CreatePreview(5);
+            //preview = CreateRoadPreview(RoadData4, mousePos);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            CreatePreview(6);
+            //preview = CreateRoadPreview(RoadData4, mousePos);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            CreatePreview(7);
+            //preview = CreateRoadPreview(RoadData4, mousePos);
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            CreatePreview(8);
             //preview = CreateBusPreview(BusData1, mousePos);
         }
     }
@@ -159,6 +177,15 @@ public class BuildingSystem : MonoBehaviour
                 preview = CreateRoadPreview(RoadData4, mousePos);
                 break;
             case 5:
+                preview = CreateRoadPreview(RoadData5, mousePos);
+                break;
+            case 6:
+                preview = CreateRoadPreview(RoadData6, mousePos);
+                break;
+            case 7:
+                preview = CreateRoadPreview(RoadData7, mousePos);
+                break;
+            case 8:
                 preview = CreateBusPreview(BusData1, mousePos);
                 break;
 
@@ -314,13 +341,19 @@ public class BuildingSystem : MonoBehaviour
         }
         if (preview is RoadPreview)
         {
-            ((RoadPreview)preview).transform.position = mouseWorldPosition;
-            Vector3 buildPosition = ((RoadPreview)preview).RoadModel.GetAllBuildingPositions().First(); //road is only 1 tile
-            bool canBuild = grid.CanBuild(buildPosition);
+            RoadPreview roadPreview = (RoadPreview)preview;
+            roadPreview.transform.position = mouseWorldPosition;
+
+            Vector3 buildPosition = roadPreview.RoadModel.GetAllBuildingPositions().First();
+            bool canBuild = roadPreview.Data.Kind == RoadKind.Bridge
+                ? grid.CanBuildBridge(buildPosition)
+                : grid.CanBuildRoad(buildPosition);
+
             if (canBuild && !destroy)
             {
-                ((RoadPreview)preview).transform.position = GetSnappedCenterPosition(buildPosition);
-                ((RoadPreview)preview).ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
+                roadPreview.transform.position = GetSnappedCenterPosition(buildPosition);
+                roadPreview.ChangeState(RoadPreview.RoadPreviewState.POSITIVE);
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     PlaceRoad(buildPosition);
@@ -328,8 +361,9 @@ public class BuildingSystem : MonoBehaviour
             }
             else
             {
-                ((RoadPreview)preview).ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
+                roadPreview.ChangeState(RoadPreview.RoadPreviewState.NEGATIVE);
             }
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 preview.Rotate(90);

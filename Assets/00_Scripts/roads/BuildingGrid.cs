@@ -13,15 +13,19 @@ public class BuildingGrid : MonoBehaviour
     private int height;
     [SerializeField] private TreeVisual treeVisualPrefab;
     [SerializeField] private Transform treeContainer;
+    [SerializeField] private Transform waterContainer;
+    [SerializeField] private GameObject waterTilePrefab;
     private BuildingGridCell[,] grid;
     private List<ILocation> locations;
     private List<Road> roads;
     private TreeVisual[,] treeVisuals;
+    private GameObject[,] waterVisuals;
 
     private void Start()
     {
         grid = new BuildingGridCell[width, height];
         treeVisuals = new TreeVisual[width, height];
+        waterVisuals = new GameObject[width, height];
 
         for (int i = 0; i < grid.GetLength(0); i++)
         {
@@ -31,9 +35,17 @@ public class BuildingGrid : MonoBehaviour
             }
         }
 
+        
         RegisterExistingObjects();
+        InitializeWater();
         InitializeTrees();
         RefreshAllTreeVisuals();
+
+        Debug.Log("BuildingGrid started");
+        Debug.Log($"treeVisualPrefab null? {treeVisualPrefab == null}");
+        Debug.Log($"treeContainer null? {treeContainer == null}");
+        Debug.Log($"waterTilePrefab null? {waterTilePrefab == null}");
+        Debug.Log($"waterContainer null? {waterContainer == null}");
     }
 
 
@@ -72,13 +84,25 @@ public class BuildingGrid : MonoBehaviour
 
     public void SetRoad(Road road, Vector3 roadPosition)
     {
-            (int x, int y) = WorldToGridPosition(roadPosition);
-            grid[x, y].SetRoad(road);
+        (int x, int y) = WorldToGridPosition(roadPosition);
+        if (!IsInsideGrid(x, y)) return;
+
+        bool isWater = grid[x, y].IsWater();
+        bool isBridge = road != null && road.IsBridge;
+
+        if (isWater && !isBridge) return;
+        if (!isWater && isBridge) return;
+
+        grid[x, y].SetRoad(road);
+
     }
 
     public void SetVehicle(IVehicle vehicle, Vector3 vehiclePosition)
     {
         (int x, int y) = WorldToGridPosition(vehiclePosition);
+        if (!IsInsideGrid(x, y)) { return; }
+        if (grid[x, y].IsWater()) { return; }
+
         Debug.Log(x + ":"+y);
         grid[x, y].SetVehicle(vehicle);
     }
@@ -157,24 +181,42 @@ public class BuildingGrid : MonoBehaviour
         return false;
     }
 
-    public bool CanBuild(Vector3 buildingPosition)
+    public bool CanBuildRoad(Vector3 position)
     {
-        (int x, int y) = WorldToGridPosition(buildingPosition);
-        if (x < 0 || x >= width || y < 0 || y >= height) return false;
-        //if (!grid[x, y].Cell_IsCityRoad()) return false;
+        (int x, int y) = WorldToGridPosition(position);
+        if (!IsInsideGrid(x, y)) return false;
+
+        if (grid[x, y].IsWater()) return false;
         if (!grid[x, y].IsEmpty()) return false;
+
         foreach (ILocation location in locations)
         {
-
             foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
-                if (Vector3.Distance(pos, buildingPosition) < BuildingSystem.CellSize * 0.76f)
+                if (Vector3.Distance(pos, position) < BuildingSystem.CellSize * 0.76f)
                 {
-                    return false; // too close, inside a city
+                    return false;
                 }
             }
         }
+
         return true;
+    }
+
+    public bool CanBuildBridge(Vector3 position)
+    {
+        (int x, int y) = WorldToGridPosition(position);
+        if (!IsInsideGrid(x, y)) return false;
+
+        if (!grid[x, y].IsWater()) return false;
+        if (!grid[x, y].IsEmpty()) return false;
+
+        return true;
+    }
+
+    public bool CanBuild(Vector3 buildingPosition)
+    {
+        return CanBuildRoad(buildingPosition);
     }
 
     private void OnDrawGizmos()
@@ -228,7 +270,7 @@ public class BuildingGrid : MonoBehaviour
             return false;
         }
 
-        return grid[col, row].IsEmpty() && !grid[col, row].HasTrees();
+        return grid[col, row].IsEmpty() && !grid[col, row].HasTrees() && !grid[col, row].IsWater();
     }
 
     public int GetTreeCount(Vector3 position)
@@ -257,9 +299,10 @@ public class BuildingGrid : MonoBehaviour
 
     public void SetTreeCount(Vector3 position, int treeCount)
     {
+
         (int col, int row) = WorldToGridPosition(position);
         if (!IsInsideGrid(col, row)) return;
-
+        if (grid[col, row].IsWater()) return;
         grid[col, row].SetTreeCount(treeCount);
         RefreshTreeVisual(col, row);
     }
@@ -268,6 +311,7 @@ public class BuildingGrid : MonoBehaviour
     {
         (int col, int row) = WorldToGridPosition(position);
         if (!IsInsideGrid(col, row)) return;
+        if (grid[col, row].IsWater()) return;
 
         grid[col, row].IncreaseTreeCount();
         RefreshTreeVisual(col, row);
@@ -307,6 +351,11 @@ public class BuildingGrid : MonoBehaviour
             return;
         }
 
+        if (grid[col, row].IsWater())
+        {
+            return;
+        }
+
         grid[col, row].SetTreeCount(treeCount);
         RefreshTreeVisual(col, row);
     }
@@ -316,6 +365,11 @@ public class BuildingGrid : MonoBehaviour
     public void IncreaseTreeCount(int col, int row)
     {
         if (!IsInsideGrid(col, row))
+        {
+            return;
+        }
+
+        if (grid[col, row].IsWater())
         {
             return;
         }
@@ -367,6 +421,101 @@ public class BuildingGrid : MonoBehaviour
     }
 
     #endregion
+    #region TerrainMethods
+
+    private void InitializeWater()
+    {
+        SetWater(10, 10);
+        SetWater(10, 11);
+        SetWater(11, 10);
+        SetWater(11, 11);
+        for (int i = 0; i < height; i++)
+        {
+            SetWater(15, i);
+        }
+
+    }
+    public void SetWater(int col, int row)
+    {
+        if (!IsInsideGrid(col, row)) return;
+
+        grid[col, row].SetTerrainType(TerrainType.Water);
+        grid[col, row].ClearTrees();
+        RefreshTreeVisual(col, row);
+        RefreshWaterVisual(col, row);
+    }
+
+    public void SetLand(int col, int row)
+    {
+        if (!IsInsideGrid(col, row)) return;
+
+        grid[col, row].SetTerrainType(TerrainType.Land);
+        RefreshWaterVisual(col, row);
+    }
+
+    public bool IsWater(int col, int row)
+    {
+        if (!IsInsideGrid(col, row)) return false;
+
+        return grid[col, row].IsWater();
+    }
+
+    public bool IsWater(Vector3 position)
+    {
+        (int col, int row) = WorldToGridPosition(position);
+        if (!IsInsideGrid(col, row)) return false;
+
+        return grid[col, row].IsWater();
+    }
+
+    public TerrainType GetTerrainType(int col, int row)
+    {
+        if (!IsInsideGrid(col, row)) return TerrainType.Land;
+
+        return grid[col, row].GetTerrainType();
+    }
+
+    private void RefreshWaterVisual(int col, int row)
+    {
+        if (!IsInsideGrid(col, row)) return;
+
+        bool isWater = grid[col, row].IsWater();
+
+        if (isWater)
+        {
+            if (waterVisuals[col, row] == null)
+            {
+                Vector3 pos = GridToWorldCenterPosition(col, row);
+                waterVisuals[col, row] = Instantiate(waterTilePrefab, pos, Quaternion.identity, waterContainer);
+            }
+        }
+        else
+        {
+            if (waterVisuals[col, row] != null)
+            {
+                Destroy(waterVisuals[col, row]);
+                waterVisuals[col, row] = null;
+            }
+        }
+    }
+
+    private void RefreshAllWaterVisuals()
+    {
+        for (int col = 0; col < width; col++)
+        {
+            for (int row = 0; row < height; row++)
+            {
+                RefreshWaterVisual(col, row);
+            }
+        }
+    }
+    #endregion
+}
+
+public enum TerrainType
+{
+    Land,
+    Water
 }
 
 public class BuildingGridCell
@@ -375,7 +524,30 @@ public class BuildingGridCell
     private ILocation location;
     private IVehicle vehicle;
     private int treeCount;
+    private TerrainType terrainType = TerrainType.Land;
 
+    #region TerrainMethods
+    public TerrainType GetTerrainType()
+    {
+        return terrainType;
+    }
+
+    public void SetTerrainType(TerrainType terrainType)
+    {
+        this.terrainType = terrainType;
+    }
+
+    public bool IsWater()
+    {
+        return terrainType == TerrainType.Water;
+    }
+
+    public bool IsLand()
+    {
+        return terrainType == TerrainType.Land;
+    }
+
+    #endregion
     #region TreeMethods
     public int GetTreeCount()
     {
