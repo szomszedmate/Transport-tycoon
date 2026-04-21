@@ -32,7 +32,6 @@ public class Road : MonoBehaviour, IBuildable
 
     public RoadModel Model { get => model; set => model = value; }
 
-    private List<Renderer> renderers = new();
     public Transform leftLane;
     public Transform rightLane;
     public Transform topLane;
@@ -105,11 +104,31 @@ public class Road : MonoBehaviour, IBuildable
     {
         OnSetFree?.Invoke(this, EventArgs.Empty);
     }
+
+    private void SetupLanes()
+    {
+        Transform wrapper = Model.transform.Find("Wrapper");
+        if (wrapper == null)
+        {
+            Debug.LogWarning($"Wrapper not found for road: {data.Description}");
+            return;
+        }
+
+        leftLane = wrapper.Find("laneLeft");
+        rightLane = wrapper.Find("laneRight");
+        topLane = wrapper.Find("laneFelso");
+        bottomLane = wrapper.Find("laneAlso");
+
+        if (leftLane == null) leftLane = wrapper.Find("lane 1");
+        if (rightLane == null) rightLane = wrapper.Find("lane 2");
+    }
+
     public void Setup(RoadData data, float rotation)
     {
         
         this.data = data;
-       
+        speedmodifier = data.SpeedModifier;
+
         // Instantiate the actual model first
         Model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
         Model.Rotate(rotation);
@@ -120,38 +139,7 @@ public class Road : MonoBehaviour, IBuildable
 
         // Set the default material
         SetRoadMaterial(RoadState.BUILT);
-        if (data.Description== "Straight Road")
-        {
-            //Debug.Log("asdasdasd");
-            
-            
-                leftLane = transform.Find("Road Straight(Clone)/Wrapper/laneLeft");
-                rightLane = transform.Find("Road Straight(Clone)/Wrapper/laneRight");
-            
-            
-           
-            /*leftLane = transform.Find("Road L(Clone)/Wrapper/laneLeft");
-            rightLane = transform.Find("Road L(Clone)/Wrapper/laneRigth");*/
-        }
-        else if(data.Description == "Right Turn")
-        {
-            leftLane = transform.Find("Road L(Clone)/Wrapper/laneLeft");
-            rightLane = transform.Find("Road L(Clone)/Wrapper/laneRight");
-        }
-        else if (data.Description == "Cross Road")
-        {
-            leftLane = transform.Find("Road Cross(Clone)/Wrapper/laneLeft");
-            rightLane = transform.Find("Road Cross(Clone)/Wrapper/laneRight");
-            topLane= transform.Find("Road Cross(Clone)/Wrapper/laneFelso");
-            bottomLane = transform.Find("Road Cross(Clone)/Wrapper/laneAlso");
-        }
-        else if (data.Description == "T Road")
-        {
-            leftLane = transform.Find("Road T(Clone)/Wrapper/laneLeft");
-            rightLane = transform.Find("Road T(Clone)/Wrapper/laneRight");
-            topLane = transform.Find("Road T(Clone)/Wrapper/laneFelso");
-            bottomLane = transform.Find("Road T(Clone)/Wrapper/laneAlso");
-        }
+        SetupLanes();
     }
 
     public void ChangeState(RoadState newState)
@@ -201,7 +189,7 @@ public class Road : MonoBehaviour, IBuildable
             }
             rend.materials = mats;
         }
-    }
+    
 
         foreach (var rend in renderers)
         {
