@@ -11029,6 +11029,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1529481890}
     - targetCorrespondingSourceObject: {fileID: 2057978160484838956, guid: e9abece64feef694596d981e5b665051, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -16550,7 +16553,7 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  maxWorkers: 100
   currentWorkers: 5
   producedAmount: 1
   cycleTime: 6
@@ -19034,6 +19037,39 @@ Transform:
   - {fileID: 148007820}
   m_Father: {fileID: 923038215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1185971880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 1653080176}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1185971881 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -1581765171289203691, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 1653080176}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185971880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8148a43ecb0d44aa01481588440ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CityModel
+--- !u!114 &1185971882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185971880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b98f896e33490c47b9187417f204871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::City
+  model: {fileID: 1185971881}
+  height: 3
+  width: 3
+  population: 1500
+  dayPhase: 0
 --- !u!1 &1189395334
 GameObject:
   m_ObjectHideFlags: 0
@@ -23953,6 +23989,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1517866092}
   m_CullTransparentMesh: 1
+--- !u!1 &1529481888 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 696296710}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1529481889 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -1581765171289203691, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 696296710}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529481888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8148a43ecb0d44aa01481588440ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CityModel
+--- !u!114 &1529481890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529481888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b98f896e33490c47b9187417f204871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::City
+  model: {fileID: 1529481889}
+  height: 3
+  width: 3
+  population: 1500
+  dayPhase: 0
 --- !u!1 &1535668596
 GameObject:
   m_ObjectHideFlags: 0
@@ -25243,6 +25312,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1185971882}
     - targetCorrespondingSourceObject: {fileID: 2057978160484838956, guid: e9abece64feef694596d981e5b665051, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -28869,6 +28941,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2025261108}
     - targetCorrespondingSourceObject: {fileID: 2057978160484838956, guid: e9abece64feef694596d981e5b665051, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -31928,6 +32003,39 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: 46.3}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2025261106 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 1860213337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2025261107 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -1581765171289203691, guid: e9abece64feef694596d981e5b665051, type: 3}
+  m_PrefabInstance: {fileID: 1860213337}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025261106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f8148a43ecb0d44aa01481588440ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CityModel
+--- !u!114 &2025261108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025261106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b98f896e33490c47b9187417f204871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::City
+  model: {fileID: 2025261107}
+  height: 3
+  width: 3
+  population: 1500
+  dayPhase: 0
 --- !u!1 &2035388092
 GameObject:
   m_ObjectHideFlags: 0

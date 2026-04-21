@@ -265,7 +265,7 @@ public class BusAiAgent : MonoBehaviour
     // Update is called once per frame
     public void stopbusz()
     {
- 
+        ai.isStopped = true;
     }
 
     public void startbusz()

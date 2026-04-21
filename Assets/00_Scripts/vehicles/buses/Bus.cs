@@ -145,6 +145,7 @@ public class Bus : VehicleBase
 
     public override IEnumerator OnArrivedAtStop(BusStop stop)
     {
+        aiAgent.stopbusz();
         Debug.Log("Arrived, load: " + currentLoad + ", capacity: " + data.Capacity);
         Debug.Log(stop.IsCityStop());
         if (stop.IsCityStop())
@@ -175,5 +176,6 @@ public class Bus : VehicleBase
                 Debug.Log($"{workersWhoFoundJobs} munkás leszállt dolgozni ide: {stop.Industry.name}");
             }
         }
+        aiAgent.startbusz();
     }
 }
