@@ -108,6 +108,7 @@ public class Truck : VehicleBase
         aiAgent = GetComponent<BusAiAgent>();
         aiAgent.type = type;
         aiAgent.speed = data.Speed;
+        aiAgent.Arrived += AiAgent_Arrived;
     }
 
     public void ConfirmRoute()
@@ -127,8 +128,34 @@ public class Truck : VehicleBase
         if (RouteConfirmed) aiAgent.GiveRoute(Route);
     }
 
+    private void AiAgent_Arrived(object sender, ArrivedEventArgs e)
+    {
+        StartCoroutine(OnArrivedAtStop(e.Stop));
+    }
+
     public override IEnumerator OnArrivedAtStop(BusStop stop)
     {
-        return null;
+        aiAgent.stopbusz();
+        Debug.Log("Arrived, load: " + currentLoad + ", capacity: " + data.Capacity);
+        Debug.Log(stop.IsCityStop());
+        if (!stop.IsCityStop())
+        {
+            int accepted = stop.Industry.Accept(((TruckData)data).Resource, 1);
+            for (int i = 0; i < accepted; i++)
+            {
+                yield return new WaitForSeconds(1f / data.LoadingSpeed);
+                if (currentLoad > 0)
+                {
+                    currentLoad--;
+                }
+            }
+            int pickedUp = stop.Industry.Pickup(((TruckData)data).Resource, 1);
+            for (int i = 0;i < pickedUp; i++)
+            {
+                yield return new WaitForSeconds(1f / data.LoadingSpeed);
+                currentLoad++;
+            }
+        }
+        aiAgent.startbusz();
     }
 }

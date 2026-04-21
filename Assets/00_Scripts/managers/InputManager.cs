@@ -3,7 +3,9 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Rendering.BuiltIn.ShaderGraph;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -44,6 +46,9 @@ public class InputManager : MonoBehaviour
     }
     void Update()
     {
+#if UNITY_EDITOR
+        if (EditorWindow.focusedWindow == null || EditorWindow.focusedWindow.titleContent.text != "Game") return;
+#endif
         Vector2 mousePos = Mouse.current.position.ReadValue();
         if (!EventSystem.current.IsPointerOverGameObject())
         {
@@ -134,7 +139,7 @@ public class InputManager : MonoBehaviour
         {
             MainCamera.MoveCameraHorizontally(Direction.E);
         }
-
+        
         if (Mouse.current.scroll.ReadValue().y < 0 || Keyboard.current.eKey.isPressed)
         {
             MainCamera.MoveCameraVertically(true); // up

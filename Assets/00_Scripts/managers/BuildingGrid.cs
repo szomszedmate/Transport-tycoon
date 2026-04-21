@@ -67,7 +67,6 @@ public class BuildingGrid : MonoBehaviour
         // init buildings to grid
         foreach (var location in Locations)
         {
-            Debug.Log(location);
             foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
                 (int x, int y) = WorldToGridPosition(pos);

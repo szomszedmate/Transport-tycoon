@@ -270,7 +270,7 @@ public class BusAiAgent : MonoBehaviour
 
     public void startbusz()
     {
-       
+        Debug.Log(type);
         ai.isStopped = false;
     }
 
@@ -455,9 +455,9 @@ public class BusAiAgent : MonoBehaviour
             float distance = Vector3.Distance(transform.position, ai.destination);
             if (distance < 0.15f&&isMoving )
             {
-   
                 isMoving = false;
-                    
+                type = Route[currprog].GetStopType();
+                
                 if (Route[currprog ].Road_HasBusStop() && Route[currprog ].GetStopType() == type || Route[currprog ].Road_HasBusStop() && Route[currprog].GetStopType() == StopType.Universal)
                     
                 {
@@ -483,7 +483,6 @@ public class BusAiAgent : MonoBehaviour
                     
                     currprog = 0;
                     Route.Reverse();
-                    Debug.Log("reversed");
                 }
                 currprog++;
                     

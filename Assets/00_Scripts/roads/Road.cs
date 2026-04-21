@@ -264,6 +264,7 @@ public class Road : MonoBehaviour, IBuildable
 
     public StopType GetStopType()
     {
+        if (BusStop == null) return StopType.None;
         return BusStop.Type;
     }
 

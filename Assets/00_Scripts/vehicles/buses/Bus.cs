@@ -148,7 +148,7 @@ public class Bus : VehicleBase
         aiAgent.stopbusz();
         Debug.Log("Arrived, load: " + currentLoad + ", capacity: " + data.Capacity);
         Debug.Log(stop.IsCityStop());
-        if (stop.IsCityStop())
+        if (stop.IsCityStop()) // ha varos, felszallnak
         {
             while (currentLoad < data.Capacity)
             {
@@ -164,13 +164,12 @@ public class Bus : VehicleBase
                 }
             }
         }
-        else
+        else // ha industry, leszallnak
         {
             while (currentLoad > 0)
             {
                 int workersWhoFoundJobs = stop.Industry.AddWorkers(1);
 
-                // Levonjuk a busz utasai közül azokat, akik tényleg le tudtak szállni dolgozni
                 currentLoad -= workersWhoFoundJobs;
 
                 Debug.Log($"{workersWhoFoundJobs} munkás leszállt dolgozni ide: {stop.Industry.name}");
