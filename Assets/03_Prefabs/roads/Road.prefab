@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Building
   data: {fileID: 0}
   builtMaterial: {fileID: 2100000, guid: 628b9bb943f131d418d2aa35fc3cecf1, type: 2}
+  bridgeBuiltMaterial: {fileID: 2100000, guid: af96a88a0e2b1cf4a99427ecf41ebbdd, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: b13988cfbd64c6541a5b00eaa0e51089, type: 2}
   selectMaterial: {fileID: 2100000, guid: 033ecc3a00864e546936a150042b5d55, type: 2}
   confirmedMaterial: {fileID: 2100000, guid: 83a6064f49fd6d9438b3c96cd8edfad6, type: 2}

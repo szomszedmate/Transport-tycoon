@@ -533,7 +533,7 @@ public class BuildingSystem : MonoBehaviour
 
             roadPreview.transform.position = mouseWorldPosition;
 
-            bool canBuild = Grid.CanBuild(buildPosition);
+            bool canBuild = roadPreview.Data.Kind == RoadKind.Bridge ? Grid.CanBuildBridge(buildPosition, roadPreview.Data, roadPreview.RoadModel.Rotation) : Grid.CanBuildRoad(buildPosition);
             if (canBuild && !destroy)
             {
                 roadPreview.transform.position = currentSnappedPos;
