@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
 using System.Collections.Generic;
-public class Player : MonoBehaviour
+public class  Player : MonoBehaviour
 {
     public delegate void MoneyChangedEventHandler(object sender, MoneyChangedEventArgs e);
     public event MoneyChangedEventHandler MoneyChanged;

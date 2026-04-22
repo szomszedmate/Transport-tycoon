@@ -32,9 +32,11 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BusStopData BusStopData;
     public bool RoutePlanning { get; private set; } = false;
     private Road hovered;
-    public IPreview Preview { get; private set; }
+    public IPreview Preview { get; set; }
     private Vector3 lastSnappedPos;
-    public BuildingGrid Grid { get => grid; private set => grid = value; } // for debug
+    public BuildingGrid Grid { get => grid; set => grid = value; }
+    public RoadPreview RoadPreviewPrefab { get => roadPreviewPrefab; set => roadPreviewPrefab = value; }
+    public Road RoadPrefab { get => roadPrefab; set => roadPrefab = value; }
 
     private Road lastHovered;
     private VehicleBase lastVehicleSelected;
@@ -427,7 +429,7 @@ public class BuildingSystem : MonoBehaviour
         lastHovered = null; // clear hover since its gone
     }
 
-    private void PlaceRoad(Vector3 roadPosition)
+    public void PlaceRoad(Vector3 roadPosition)
     {
         if (Preview is not RoadPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(roadPosition);
@@ -436,7 +438,7 @@ public class BuildingSystem : MonoBehaviour
         //{
         //    grid.ClearTrees(snappedPos);
         //}
-        Road road = Instantiate(roadPrefab, snappedPos, Quaternion.identity);
+        Road road = Instantiate(RoadPrefab, snappedPos, Quaternion.identity);
 
         TerrainShaper shaper = FindFirstObjectByType<TerrainShaper>();
         if (shaper != null)
@@ -720,7 +722,7 @@ public class BuildingSystem : MonoBehaviour
     }
     private RoadPreview CreateRoadPreview(RoadData data, Vector3 position)
     {
-        RoadPreview roadPreview = Instantiate(roadPreviewPrefab, position, Quaternion.identity);
+        RoadPreview roadPreview = Instantiate(RoadPreviewPrefab, position, Quaternion.identity);
         roadPreview.Setup(data);
         return roadPreview;
     }

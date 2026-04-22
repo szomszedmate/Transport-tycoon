@@ -27,9 +27,9 @@ public class Game : MonoBehaviour
         {
             if (dayPhase != value) return;
             dayPhase = value;
-            if (buildingSystem != null)
+            if (BuildingSystem != null)
             {
-                foreach (ILocation location in buildingSystem.Grid.Locations)
+                foreach (ILocation location in BuildingSystem.Grid.Locations)
                 {
                     if (location is City city)
                     {
@@ -39,6 +39,8 @@ public class Game : MonoBehaviour
             }
         }
     }
+
+    public BuildingSystem BuildingSystem { get => buildingSystem; set => buildingSystem = value; }
 
     public delegate void TimeChangedEventHandler(object sender, TimeChangedEventArgs e);
     public event TimeChangedEventHandler TimeChanged;
@@ -51,10 +53,10 @@ public class Game : MonoBehaviour
         TimeMultiplier = 5144; // 1 day = 10 irl minutes (remove the 5)
         shifts = new List<Shift>();
 
-        if (buildingSystem != null)
+        if (BuildingSystem != null)
         {
-            buildingSystem.BuyRequest += BuildingSystem_BuyRequest;
-            buildingSystem.AnyBusMileageChanged += BuildingSystem_AnyBusMileageChanged;
+            BuildingSystem.BuyRequest += BuildingSystem_BuyRequest;
+            BuildingSystem.AnyBusMileageChanged += BuildingSystem_AnyBusMileageChanged;
         }
     }
 
