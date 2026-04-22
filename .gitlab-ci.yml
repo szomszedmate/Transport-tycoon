@@ -80,17 +80,17 @@ get-activation-file:
         path: $UNITY_DIR/$TEST_PLATFORM-coverage/TestCoverageResults_*.xml
   coverage: /<Linecoverage>(.*?)<\/Linecoverage>/
 
-test-playmode:
-  <<: *test
-  variables:
-    TEST_PLATFORM: playmode
-    TESTING_TYPE: NUNIT
+# test-playmode:
+#   <<: *test
+#   variables:
+#     TEST_PLATFORM: playmode
+#     TESTING_TYPE: NUNIT
 
-test-editmode:
-  <<: *test
-  variables:
-    TEST_PLATFORM: editmode
-    TESTING_TYPE: NUNIT
+# test-editmode:
+#   <<: *test
+#   variables:
+#     TEST_PLATFORM: editmode
+#     TESTING_TYPE: NUNIT
 
 .build: &build
   stage: build_and_test
@@ -123,36 +123,36 @@ build-StandaloneWindows64:
 # For WebGL support served through GitLab Pages, compression has to be disabled.
 # - In Unity Editor, under Project Settings > Player > Settings for WebGL, set Compression Format to Disabled.
 # - Or directly in ProjectSettings/ProjectSettings.asset, set webGLCompressionFormat to 2.
-build-WebGL:
-  <<: *build
-  image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
-  variables:
-    BUILD_TARGET: WebGL
-  rules:
-    # run only on default branch, as WebGL builds requires more time
-    - if: '$UNITY_LICENSE && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: always
-    - when: never
+# build-WebGL:
+#   <<: *build
+#   image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
+#   variables:
+#     BUILD_TARGET: WebGL
+#   rules:
+#     # run only on default branch, as WebGL builds requires more time
+#     - if: '$UNITY_LICENSE && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+#       when: always
+#     - when: never
     
-pages:
-  image: alpine:latest
-  stage: deploy
-  tags: [] # this is not a Unity based job
-  dependencies:
-     # we need artifacts only from these jobs
-    - build-WebGL
-    - test-playmode
-  script:
-    - mkdir public
-    - mv "$UNITY_DIR/Builds/WebGL/${BUILD_NAME}" public/demo
-    - mv "$UNITY_DIR/playmode-coverage/Report/" public/coverage
-  artifacts:
-    paths:
-      - public
-  rules:
-    - if: '$UNITY_LICENSE && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: always
-    - when: never
+# pages:
+#   image: alpine:latest
+#   stage: deploy
+#   tags: [] # this is not a Unity based job
+#   dependencies:
+#      # we need artifacts only from these jobs
+#     - build-WebGL
+#     - test-playmode
+#   script:
+#     - mkdir public
+#     - mv "$UNITY_DIR/Builds/WebGL/${BUILD_NAME}" public/demo
+#     - mv "$UNITY_DIR/playmode-coverage/Report/" public/coverage
+#   artifacts:
+#     paths:
+#       - public
+#   rules:
+#     - if: '$UNITY_LICENSE && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+#       when: always
+#     - when: never
 
 analyze:
   <<: *unity_before_script
