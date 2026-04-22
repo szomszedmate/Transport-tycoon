@@ -80,11 +80,11 @@ get-activation-file:
         path: $UNITY_DIR/$TEST_PLATFORM-coverage/TestCoverageResults_*.xml
   coverage: /<Linecoverage>(.*?)<\/Linecoverage>/
 
-# test-playmode:
-#   <<: *test
-#   variables:
-#     TEST_PLATFORM: playmode
-#     TESTING_TYPE: NUNIT
+test-playmode:
+  <<: *test
+  variables:
+    TEST_PLATFORM: playmode
+    TESTING_TYPE: NUNIT
 
 # test-editmode:
 #   <<: *test
