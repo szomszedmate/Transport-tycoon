@@ -135,7 +135,7 @@ public class GameUiFunctions : MonoBehaviour
     {
         TimeSpan t = TimeSpan.FromSeconds(e.NewTime);
 
-       // dayTimeText.text = "Day: " + e.Day + " - " + t.ToString(@"hh\:mm");
+        dayTimeText.text = "Day: " + e.Day + " - " + t.ToString(@"hh\:mm");
     }
 
     private void Player_TaxChanged(object sender, TaxChangedEventArgs e)
