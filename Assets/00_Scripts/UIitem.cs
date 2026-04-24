@@ -82,7 +82,6 @@ public class UIitem : MonoBehaviour
             Debug.Log(vehicle.Model);
             itemtext.text = typestring;
         }
-        
     }
 
     public void sell()
@@ -97,7 +96,6 @@ public class UIitem : MonoBehaviour
             inventory.trucks.Remove((TruckData)vehicle);
         }
         Destroy(gameObject);
-       
     }
 
    public void place()

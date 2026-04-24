@@ -4,6 +4,8 @@ using System.Linq;
 
 public class City : MonoBehaviour, ILocation
 {
+    public event System.EventHandler<GetTimeEventArgs> GetTime;
+
     public Vector3 Position => transform.position;
     public StopType Type => StopType.Universal;
     [SerializeField] private CityModel model;
@@ -11,66 +13,65 @@ public class City : MonoBehaviour, ILocation
     [SerializeField] private float width;
     [SerializeField] private int population;
     public DayPhase dayPhase;
-    public int DayShift { get; private set; }
-    public int EveningShift { get; private set; }
-    public int NightShift { get; private set; }
+    public List<Worker> DayShift { get; private set; }
+    public List<Worker> EveningShift { get; private set; }
+    public List<Worker> NightShift { get; private set; }
 
-    public void Awake()
+
+    void Start()
     {
+        DayShift = new List<Worker>();
+        EveningShift = new List<Worker>();
+        NightShift = new List<Worker>();
         DivideShifts();
+        dayPhase = DayPhase.NIGHT;
     }
 
-
-
-    public bool Load()
+    public Worker Load()
     {
         switch (dayPhase)
         {
             case DayPhase.DAY:
-                if (DayShift > 0)
+                if (DayShift.Count > 0)
                 {
-                    DayShift--;
+                    return (DayShift.First());
                 } else
                 {
-                    return false;
+                    return null;
                 }
-                break;
             case DayPhase.EVENING:
-                if (EveningShift > 0)
+                if (EveningShift.Count > 0)
                 {
-                    EveningShift--;
+                    return(EveningShift.First());
                 } else
                 {
-                    return false;
+                    return null;
                 }
-                break;
             case DayPhase.NIGHT:
-                if (NightShift > 0)
+                if (NightShift.Count > 0)
                 {
-                    NightShift--;
+                    return (NightShift.First());
                 } else
                 {
-                    return false;
+                    return null;
                 }
-                break;
             default:
-                return false;
+                return null;
         }
-        return true;
     }
 
-    public void Unload()
+    public void Unload(Worker worker)
     {
-        switch (dayPhase)
+        switch (worker.DayPhase)
         {
             case DayPhase.DAY:
-                DayShift++;
+                DayShift.Add(worker);
                 break;
             case DayPhase.EVENING:
-                EveningShift++;
+                EveningShift.Add(worker);
                 break;
             case DayPhase.NIGHT:
-                NightShift++;
+                NightShift.Add(worker);
                 break;
             default:
                 break;
@@ -79,18 +80,21 @@ public class City : MonoBehaviour, ILocation
 
     public void DivideShifts()
     {
-        DayShift = population / 3;
-        EveningShift = population / 3;
-        NightShift = population / 3;
+        for (int i = 0; i < population / 3; i++)
+        {
+            DayShift.Add(new Worker());
+            EveningShift.Add(new Worker());
+            NightShift.Add(new Worker());
+        }
 
         int remains = population % 3;
         if (remains > 0)
         {
-            DayShift++;
+            DayShift.Add(new Worker());
             remains--;
             if (remains > 0)
             {
-                EveningShift++;
+                EveningShift.Add(new Worker());
             }
         }
     }

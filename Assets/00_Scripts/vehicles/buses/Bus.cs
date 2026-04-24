@@ -7,6 +7,7 @@ using UnityEngine;
 public class Bus : VehicleBase
 {
     public bool RouteIsLinear { get; private set; }
+    private List<Worker> passangers;
     public BusType BusType
     {
         get
@@ -112,6 +113,7 @@ public class Bus : VehicleBase
         aiAgent.type = type;
         aiAgent.speed = data.Speed;
         aiAgent.Arrived += AiAgent_Arrived;
+        passangers = new List<Worker>();
     }
 
     private void AiAgent_Arrived(object sender, ArrivedEventArgs e)
@@ -146,16 +148,17 @@ public class Bus : VehicleBase
     public override IEnumerator OnArrivedAtStop(BusStop stop)
     {
         aiAgent.stopbusz();
-        Debug.Log("Arrived, load: " + currentLoad + ", capacity: " + data.Capacity);
+        Debug.Log("Arrived, load: " + passangers.Count + ", capacity: " + data.Capacity);
         Debug.Log(stop.IsCityStop());
         if (stop.IsCityStop()) // ha varos, felszallnak
         {
-            while (currentLoad < data.Capacity)
+            while (passangers.Count < data.Capacity)
             {
                 yield return new WaitForSeconds(1f / data.LoadingSpeed);
-                if (stop.City.Load())
+                Worker worker = stop.City.Load();
+                if (worker != null)
                 {
-                    currentLoad++;
+                    passangers.Add(worker);
                     Debug.Log("Loading bus");
                 } else 
                 {
@@ -166,13 +169,12 @@ public class Bus : VehicleBase
         }
         else // ha industry, leszallnak
         {
-            while (currentLoad > 0)
+            if (passangers.Count > 0)
             {
-                int workersWhoFoundJobs = stop.Industry.AddWorkers(1);
+                stop.Industry.AddWorkers(new List<Worker>(passangers));
+                passangers.Clear();
 
-                currentLoad -= workersWhoFoundJobs;
-
-                Debug.Log($"{workersWhoFoundJobs} munkás leszállt dolgozni ide: {stop.Industry.name}");
+                Debug.Log($"Mindenki leszállt ide: {stop.Industry.name}");
             }
         }
         aiAgent.startbusz();

@@ -9,6 +9,9 @@ using static UnityEditor.FilePathAttribute;
 
 public class BuildingGrid : MonoBehaviour
 {
+    public delegate void LocationsRegisteredEventHandler(object sender, LocationsRegisteredEventArgs e);
+    public event LocationsRegisteredEventHandler LocationsRegistered;
+
     [SerializeField]
     private int width;
     [SerializeField]
@@ -92,6 +95,7 @@ public class BuildingGrid : MonoBehaviour
                 Grid[x, y].SetRoad(road);
             }
         }
+        LocationsRegistered?.Invoke(this, new LocationsRegisteredEventArgs { RegisteredLocations = Locations });
     }
 
     public void SetRoad(Road road, Vector3 roadPosition)

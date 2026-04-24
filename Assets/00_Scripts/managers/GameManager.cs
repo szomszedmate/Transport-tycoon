@@ -58,6 +58,24 @@ public class Game : MonoBehaviour
             BuildingSystem.BuyRequest += BuildingSystem_BuyRequest;
             BuildingSystem.AnyBusMileageChanged += BuildingSystem_AnyBusMileageChanged;
         }
+        buildingSystem.Grid.LocationsRegistered += Grid_LocationsRegistered;
+    }
+
+    private void Grid_LocationsRegistered(object sender, LocationsRegisteredEventArgs e)
+    {
+        foreach (ILocation location in e.RegisteredLocations)
+        {
+            if (location is Industry industry)
+            {
+                industry.GetTime += Industry_GetTime;
+                industry.Produced += Player.Industry_Produced;
+            }
+        }
+    }
+
+    private void Industry_GetTime(object sender, GetTimeEventArgs e)
+    {
+        e.Time = globalTime;
     }
 
     private void BuildingSystem_AnyBusMileageChanged(object sender, MileageChangedEventArgs e)

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Truck : VehicleBase
 {
+    protected int currentLoad;
     public TruckType TruckType
     {
         get
@@ -109,6 +110,7 @@ public class Truck : VehicleBase
         aiAgent.type = type;
         aiAgent.speed = data.Speed;
         aiAgent.Arrived += AiAgent_Arrived;
+        currentLoad = 0;
     }
 
     public void ConfirmRoute()

@@ -50,6 +50,7 @@ public class GameUiFunctions : MonoBehaviour
     public Transform UIcontent;
     public Image invbutton;
     public GameObject invpanel;
+    [SerializeField] public List<InventoryResource> inventoryResources;
     
     public Image shopbutton;
     public GameObject shoppanel;
@@ -72,6 +73,7 @@ public class GameUiFunctions : MonoBehaviour
         game.TimeChanged += Game_TimeChanged;
         game.Player.MoneyChanged += HandleMoneyPop;
         game.Player.TaxChanged += Player_TaxChanged;
+        game.Player.InventoryChanged += Player_InventoryChanged;
         game.InputManager.moneyDebugEvent += InputManager_moneyDebugEvent;
 
         foreach (ButtonDataPair button in uiButtons)
@@ -128,6 +130,18 @@ public class GameUiFunctions : MonoBehaviour
         invpanel.SetActive(false);
         shoppanel.SetActive(true);
         vehiclepanel.SetActive(false);
+    }
+
+    public void Player_InventoryChanged(object sender, InventoryChangedEventArgs e)
+    {
+        Debug.Log("Inv event invoked");
+        foreach (InventoryResource resource in inventoryResources)
+        {
+            if (resource.Type == e.Resource)
+            {
+                resource.Amount += e.NewAmount;
+            }
+        }
     }
     #endregion
 

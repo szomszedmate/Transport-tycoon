@@ -28,7 +28,6 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
     public float WeeklyMileage { get; protected set; }
     public bool NonStop { get; protected set; }
 
-    protected int currentLoad;
     protected Vector3 lastPosition;
     protected VehicleModel model;
     protected VehicleData data;

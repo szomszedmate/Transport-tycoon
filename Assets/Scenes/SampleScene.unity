@@ -788,6 +788,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 10
+  shifts: []
   goldBarRequired: 1
   coinProduced: 3
   cycleTime: 9
@@ -5998,6 +5999,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 10
+  shifts: []
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -6853,6 +6855,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 418123719}
+  - component: {fileID: 418123720}
   m_Layer: 5
   m_Name: coal
   m_TagString: Untagged
@@ -6883,6 +6886,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: 132.9}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &418123720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418123718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 1938092155}
+  type: 1
 --- !u!1 &425656576
 GameObject:
   m_ObjectHideFlags: 0
@@ -7453,6 +7470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 470433460}
+  - component: {fileID: 470433461}
   m_Layer: 5
   m_Name: ironore
   m_TagString: Untagged
@@ -7483,6 +7501,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: 103.2}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &470433461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470433459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 355425786}
+  type: 2
 --- !u!1 &476884767
 GameObject:
   m_ObjectHideFlags: 0
@@ -9349,6 +9381,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 10
+  shifts: []
   ironRequired: 2
   coalRequired: 1
   ironBarProduced: 1
@@ -10180,6 +10213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 627405730}
+  - component: {fileID: 627405731}
   m_Layer: 5
   m_Name: water
   m_TagString: Untagged
@@ -10210,6 +10244,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21004, y: -11.555992}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &627405731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627405729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 1442924950}
+  type: 9
 --- !u!1 &640161923
 GameObject:
   m_ObjectHideFlags: 0
@@ -11712,6 +11760,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 1
+  shifts: []
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -14876,6 +14925,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 10
+  shifts: []
   goldRequired: 2
   coalRequired: 1
   goldBarProduced: 1
@@ -16498,6 +16548,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 10
+  shifts: []
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -16555,6 +16606,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 100
   currentWorkers: 5
+  shifts: []
   producedAmount: 1
   cycleTime: 6
 --- !u!114 &1045113251 stripped
@@ -16716,6 +16768,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1047348632}
+  - component: {fileID: 1047348633}
   m_Layer: 5
   m_Name: flour
   m_TagString: Untagged
@@ -16746,6 +16799,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: -100.7}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1047348633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047348631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 1096380847}
+  type: 10
 --- !u!1 &1053479901
 GameObject:
   m_ObjectHideFlags: 0
@@ -19938,6 +20005,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1241826991}
+  - component: {fileID: 1241826992}
   m_Layer: 5
   m_Name: goldbar
   m_TagString: Untagged
@@ -19968,6 +20036,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: 17.1}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1241826992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241826990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 1535668598}
+  type: 7
 --- !u!1 &1244061057
 GameObject:
   m_ObjectHideFlags: 0
@@ -22870,6 +22952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1412737496}
+  - component: {fileID: 1412737497}
   m_Layer: 5
   m_Name: mint
   m_TagString: Untagged
@@ -22900,6 +22983,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: -41.3}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1412737497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412737495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 2035801326}
+  type: 8
 --- !u!1 &1430789118
 GameObject:
   m_ObjectHideFlags: 0
@@ -24168,6 +24265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1538775123}
+  - component: {fileID: 1538775124}
   m_Layer: 5
   m_Name: farm goods
   m_TagString: Untagged
@@ -24198,6 +24296,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: -130.9}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1538775124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538775122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 1335857957}
+  type: 4
 --- !u!1 &1539212423
 GameObject:
   m_ObjectHideFlags: 0
@@ -26223,6 +26335,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 3
+  shifts: []
   producedAmount: 1
   cycleTime: 7
 --- !u!1 &1724693404
@@ -26757,6 +26870,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1775717290}
+  - component: {fileID: 1775717291}
   m_Layer: 5
   m_Name: bakerygoods
   m_TagString: Untagged
@@ -26787,6 +26901,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: -71}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1775717291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775717289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 2000047511}
+  type: 5
 --- !u!1 &1776911468
 GameObject:
   m_ObjectHideFlags: 0
@@ -26877,6 +27005,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 10
+  shifts: []
   flourRequired: 2
   waterRequired: 1
   breadProduced: 1
@@ -28495,6 +28624,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: inventoryResources.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[0].Price
       value: 
       objectReference: {fileID: 1796892459}
@@ -28526,6 +28659,46 @@ PrefabInstance:
       propertyPath: uiButtons.Array.data[7].Price
       value: 
       objectReference: {fileID: 657935547}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[0]'
+      value: 
+      objectReference: {fileID: 418123720}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[1]'
+      value: 
+      objectReference: {fileID: 470433461}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1968575276}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2015215298}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1241826992}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[5]'
+      value: 
+      objectReference: {fileID: 627405731}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[6]'
+      value: 
+      objectReference: {fileID: 1412737497}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[7]'
+      value: 
+      objectReference: {fileID: 1775717291}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[8]'
+      value: 
+      objectReference: {fileID: 1047348633}
+    - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: 'inventoryResources.Array.data[9]'
+      value: 
+      objectReference: {fileID: 1538775124}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[0].ButtonImage
       value: 
@@ -30204,6 +30377,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   maxWorkers: 10
   currentWorkers: 10
+  shifts: []
   wheatRequired: 2
   flourProduced: 1
   cycleTime: 8
@@ -31393,6 +31567,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1968575275}
+  - component: {fileID: 1968575276}
   m_Layer: 5
   m_Name: ironbar
   m_TagString: Untagged
@@ -31423,6 +31598,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: 75}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1968575276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968575274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 476884769}
+  type: 3
 --- !u!1 &1987180579
 GameObject:
   m_ObjectHideFlags: 0
@@ -31973,6 +32162,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2015215297}
+  - component: {fileID: 2015215298}
   m_Layer: 5
   m_Name: goldore
   m_TagString: Untagged
@@ -32003,6 +32193,20 @@ RectTransform:
   m_AnchoredPosition: {x: -134.21, y: 46.3}
   m_SizeDelta: {x: 316.39, y: 23.112}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2015215298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015215296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df862a6b29ac1c54f918e2c34fe6f1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::InventoryResource
+  amountText: {fileID: 564261193}
+  type: 6
 --- !u!1 &2025261106 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
