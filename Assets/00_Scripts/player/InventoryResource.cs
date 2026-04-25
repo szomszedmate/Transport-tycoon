@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryResource : MonoBehaviour
 {
-    [SerializeField] public TMP_Text amountText;
+    [SerializeField] private TMP_Text amountText;
     [SerializeField] private ResourceEnum type;
     private int amount;
     public int Amount

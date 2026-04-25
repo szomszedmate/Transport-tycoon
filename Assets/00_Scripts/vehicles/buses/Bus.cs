@@ -148,8 +148,6 @@ public class Bus : VehicleBase
     public override IEnumerator OnArrivedAtStop(BusStop stop)
     {
         aiAgent.stopbusz();
-        Debug.Log("Arrived, load: " + passangers.Count + ", capacity: " + data.Capacity);
-        Debug.Log(stop.IsCityStop());
         if (stop.IsCityStop()) // ha varos, felszallnak
         {
             while (passangers.Count < data.Capacity)
@@ -159,7 +157,7 @@ public class Bus : VehicleBase
                 if (worker != null)
                 {
                     passangers.Add(worker);
-                    Debug.Log("Loading bus");
+                    //Debug.Log("Loading bus");
                 } else 
                 {
                     Debug.Log("Couldnt load bus");

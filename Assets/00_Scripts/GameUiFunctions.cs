@@ -134,7 +134,6 @@ public class GameUiFunctions : MonoBehaviour
 
     public void Player_InventoryChanged(object sender, InventoryChangedEventArgs e)
     {
-        Debug.Log("Inv event invoked");
         foreach (InventoryResource resource in inventoryResources)
         {
             if (resource.Type == e.Resource)

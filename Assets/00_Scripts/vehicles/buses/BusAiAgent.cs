@@ -270,7 +270,6 @@ public class BusAiAgent : MonoBehaviour
 
     public void startbusz()
     {
-        Debug.Log(type);
         ai.isStopped = false;
     }
 
