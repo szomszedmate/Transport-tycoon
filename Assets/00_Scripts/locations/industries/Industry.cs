@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public abstract class Industry : MonoBehaviour, ILocation
 {
@@ -18,10 +19,14 @@ public abstract class Industry : MonoBehaviour, ILocation
 
     [Header("Storage")]
     [SerializeField] protected int defaultStorageCapacity = 50;
+    [SerializeField] private int inputStorage;
+    [SerializeField] private int outputStorage;
 
     [Header("Workers")]
     [SerializeField] protected int maxWorkers = 100;
     [SerializeField] protected int currentWorkers = 10; // csak azért nem 0, hogy lehessen vizsgálni a termelékenységet buszok nélkül
+    public List<Shift> shifts;
+    public List<Worker> waitingForBus; 
 
     protected Dictionary<ResourceEnum, int> inventory = new();
     protected float productionTimer;
@@ -29,8 +34,6 @@ public abstract class Industry : MonoBehaviour, ILocation
 
     protected Recipe recipe;
 
-    public List<Shift> shifts;
-    public List<Worker> waitingForBus; 
 
 
     public virtual List<Vector3> GetAllBuildingPositions()
@@ -149,6 +152,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         {
             inventory[input.Key] -= input.Value;
         }
+        UpdateStorageDebug();
     }
 
     protected void ProduceOutputs()
@@ -158,6 +162,7 @@ public abstract class Industry : MonoBehaviour, ILocation
             AddResource(output.Key, output.Value);
             Produced?.Invoke(this, new ProducedEventArgs { Resouce = output.Key, Amount = output.Value });
         }
+        UpdateStorageDebug();
     }
 
     protected void AddResource(ResourceEnum type, int amount)
@@ -226,7 +231,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         {
             AddResource(type, accepted);
         }
-
+        UpdateStorageDebug();
         return accepted;
     }
 
@@ -234,17 +239,19 @@ public abstract class Industry : MonoBehaviour, ILocation
     {
         if (!Produces(type) || amount <= 0)
         {
+            Debug.Log(name + " doesnt produce " + type);
             return 0;
         }
 
         int available = GetStoredAmount(type);
+        Debug.Log(available);
         int pickedUp = Mathf.Min(amount, available);
 
         if (pickedUp > 0)
         {
             RemoveResource(type, pickedUp);
         }
-
+        UpdateStorageDebug();
         return pickedUp;
     }
 
@@ -274,6 +281,7 @@ public abstract class Industry : MonoBehaviour, ILocation
             currentWorkers -= e.WorkerCount;
             waitingForBus.AddRange(shift.Workers);
             shifts.Remove(shift);
+            Destroy(shift);
         }
     }
 
@@ -310,4 +318,65 @@ public abstract class Industry : MonoBehaviour, ILocation
         return Mathf.Max(0, maxWorkers - currentWorkers);
     }
     #endregion
+
+    private void UpdateStorageDebug()
+    {
+        inputStorage = 0;
+        outputStorage = 0;
+
+        if (recipe == null) return;
+
+        foreach (var item in inventory)
+        {
+            // Ha a nyersanyag benne van a recept bemenetei között, akkor input
+            if (recipe.Inputs.ContainsKey(item.Key))
+            {
+                inputStorage += item.Value;
+            }
+
+            // Ha a nyersanyag benne van a recept kimenetei között, akkor output
+            if (recipe.Outputs.ContainsKey(item.Key))
+            {
+                outputStorage += item.Value;
+            }
+        }
+    }
+
+    public List<Worker> GoingHome(List<BusStop> stops, int capacity)
+    {
+        List<City> cities = new List<City>();
+        foreach (BusStop stop in stops)
+        {
+            if (stop.City != null)
+            {
+                cities.Add(stop.City);
+            }
+        }
+
+        List<Worker> passangers = new List<Worker>();
+
+        for (int i = waitingForBus.Count - 1; i >= 0; i--)
+        {
+            if (cities.Contains(waitingForBus[i].HomeCity) && capacity > 0) // ha a busz megall a szulovarosuknal
+            {
+                passangers.Add(waitingForBus[i]);
+                capacity++;
+                waitingForBus.Remove(waitingForBus[i]);
+            }
+        }
+
+
+        return passangers;
+    }
+
+    public void UpdateShifts(float globalTime)
+    {
+        for (int i = shifts.Count - 1; i >= 0; i--)
+        {
+            if (i < shifts.Count)
+            {
+                shifts[i].ShiftUpdate(globalTime);
+            }
+        }
+    }
 }

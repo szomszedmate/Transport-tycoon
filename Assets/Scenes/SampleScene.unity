@@ -203,12 +203,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: a01a019fca7be9d4192203a7a97edafb, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -473,12 +473,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -786,6 +786,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
@@ -1405,12 +1407,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: c4da26c408b5f67498b91da16aeddc7c, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2214,12 +2216,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 735b1a3f95cad26418d9bf868dcebc6d, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4709,12 +4711,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 6b18f780f4f82d5428196db91d81ad08, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -6013,6 +6015,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
@@ -6070,8 +6074,8 @@ MonoBehaviour:
   roadPreviewPrefab: {fileID: 4501084694000386825, guid: baeef1379d13a494e80731c61809ea7a, type: 3}
   roadPrefab: {fileID: 2383794928318383345, guid: edac8ca26d30c3a4c9ba5e61b008eff3, type: 3}
   grid: {fileID: 1668360212}
-  truckPreviewPrefab: {fileID: 0}
-  truckPrefab: {fileID: 0}
+  truckPreviewPrefab: {fileID: 2888533896809786281, guid: e2ed9371909d04e4a8d175d4a15d452c, type: 3}
+  truckPrefab: {fileID: 6376993659063926084, guid: 4cb7ce76c2c127247a05ef87fd6a5481, type: 3}
   busPreviewPrefab: {fileID: -3809811765662860722, guid: d93ae9e7d8b47a341918bef3b9d575ad, type: 3}
   busPrefab: {fileID: 3880707210839052634, guid: f307c4216b144e243a70f8bda98ac27d, type: 3}
   busStopPreviewPrefab: {fileID: 1665727641338218824, guid: f54d0f88787aef946b413a1b252becf7, type: 3}
@@ -9466,6 +9470,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
@@ -11856,6 +11862,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 10
   currentWorkers: 1
   shifts: []
@@ -13656,12 +13664,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 924952911350d294592d600b1ff036c4, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -14932,12 +14940,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 63384bb9f07550547bd1b3a852f93d73, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -15033,6 +15041,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
@@ -16645,6 +16655,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
@@ -16677,7 +16689,7 @@ Transform:
   m_GameObject: {fileID: 1044908752}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 100}
+  m_LocalPosition: {x: -100, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16703,6 +16715,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 100
   currentWorkers: 5
   shifts: []
@@ -17813,12 +17827,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: dd35efdab13715e4ea7e7bba9980d903, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -18083,12 +18097,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: d8ba55a5912e2f54593cd13e52aa01ee, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -19320,12 +19334,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 5e0c30ff1902b43429b53b2b3aed6c55, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21680,12 +21694,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 142dd462f5f350043ac5940726c43953, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -22205,12 +22219,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: dd49a61003c507e47b08485bc88f165d, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23328,12 +23342,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: ec1b4d2cb6bf57f4da70eff389cff1d7, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23595,12 +23609,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 50a3796c313f3764d9e3ff1e4dd71036, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -24819,12 +24833,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 5398352190d717a4787187851b8fc2d2, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -25938,12 +25952,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 4c83d9b47f18add42b95906933f2f4d6, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -26071,12 +26085,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 2171766bffcec084fa30bb155cd626be, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -26434,6 +26448,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 10
   maxWorkers: 10
   currentWorkers: 3
   shifts: []
@@ -27104,6 +27120,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
@@ -30495,6 +30513,7 @@ MonoBehaviour:
     Data: {fileID: 11400000, guid: ae069bd7501938544959bb40b475b1c8, type: 2}
   - Key: 55
     Data: {fileID: 11400000, guid: 45b674948d60940428c774180af0e912, type: 2}
+  menuOpen: 0
 --- !u!1 &1901261246
 GameObject:
   m_ObjectHideFlags: 0
@@ -30699,7 +30718,7 @@ Transform:
   m_GameObject: {fileID: 1912118326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -100, y: 0, z: 100}
+  m_LocalPosition: {x: 0, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -30725,6 +30744,8 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
+  inputStorage: 0
+  outputStorage: 0
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
@@ -33378,12 +33399,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1888546980}
-        m_TargetAssemblyTypeName: GameUiFunctions, Assembly-CSharp
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 3a5b476b6f4d2ff48af3293be8558bfb, type: 2}
-          m_ObjectArgumentAssemblyTypeName: VehicleData, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

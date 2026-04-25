@@ -132,30 +132,37 @@ public class Truck : VehicleBase
 
     private void AiAgent_Arrived(object sender, ArrivedEventArgs e)
     {
+        Debug.Log("truck arrived at " + e.Stop);
         StartCoroutine(OnArrivedAtStop(e.Stop));
     }
 
     public override IEnumerator OnArrivedAtStop(BusStop stop)
     {
-        aiAgent.stopbusz();
-        Debug.Log("Arrived, load: " + currentLoad + ", capacity: " + data.Capacity);
-        Debug.Log(stop.IsCityStop());
+        aiAgent.stopbusz(); 
         if (!stop.IsCityStop())
         {
-            int accepted = stop.Industry.Accept(((TruckData)data).Resource, 1);
-            for (int i = 0; i < accepted; i++)
+            TruckData truckData = (TruckData)data;
+            int canAccept = stop.Industry.Accept(truckData.Resource, currentLoad);
+            Debug.Log("accepting: " + canAccept);
+            for (int i = 0; i < canAccept; i++) 
             {
+                // Várunk a rakodási sebességnek megfelelõen
                 yield return new WaitForSeconds(1f / data.LoadingSpeed);
-                if (currentLoad > 0)
-                {
-                    currentLoad--;
-                }
+                currentLoad--;
+                Debug.Log($"Lepakolás folyamatban... Maradt: {currentLoad}");
             }
-            int pickedUp = stop.Industry.Pickup(((TruckData)data).Resource, 1);
-            for (int i = 0;i < pickedUp; i++)
+            int spaceLeft = truckData.Capacity - currentLoad;
+            Debug.Log("space left: " + spaceLeft);
+            if (spaceLeft > 0)
             {
-                yield return new WaitForSeconds(1f / data.LoadingSpeed);
-                currentLoad++;
+                int canPickup = stop.Industry.Pickup(truckData.Resource, spaceLeft);
+                Debug.Log("picking up: " + canPickup + " " + truckData.Resource);
+                for (int i = 0; i < canPickup; i++)
+                {
+                    yield return new WaitForSeconds(1f / data.LoadingSpeed);
+                    currentLoad++;
+                    Debug.Log($"Felvétel folyamatban... Rakomány: {currentLoad}");
+                }
             }
         }
         aiAgent.startbusz();

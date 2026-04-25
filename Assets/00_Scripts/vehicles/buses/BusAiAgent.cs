@@ -262,7 +262,6 @@ public class BusAiAgent : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     public void stopbusz()
     {
         ai.isStopped = true;
@@ -384,9 +383,18 @@ public class BusAiAgent : MonoBehaviour
     //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy másik jármû felszabaditja azt
     public void TryFree()
     {
-        if (isFree() || GetBusIAmWaitingFor().GetBusIAmWaitingFor() == this) // ha free vagy egymásra várnak
+        if (next == null)
         {
-            next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
+            isMoving = false;
+            return;
+        }
+        BusAiAgent waitingFor = GetBusIAmWaitingFor();
+        bool isDeadlock = (waitingFor != null && waitingFor.GetBusIAmWaitingFor() == this);
+
+        Road nextRoad = next.GetComponentInParent<Road>();
+        if (isFree() || isDeadlock) // ha free vagy egymásra várnak
+        {
+            nextRoad.OnSetFree -= CheckifFreeAgain;
             SetNotFree();
             if (last != null)
             {
@@ -394,15 +402,15 @@ public class BusAiAgent : MonoBehaviour
             }
 
             ai.SetDestination(next.transform.position);
-            ai.speed =speed * next.GetComponentInParent<Road>().speedmodifier;
+            ai.speed =speed * nextRoad.speedmodifier;
             isMoving = true;
 
         }
         else
         {
             //Debug.Log("Event triggered");
-            next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
-            next.GetComponentInParent<Road>().OnSetFree += CheckifFreeAgain;
+            nextRoad.OnSetFree -= CheckifFreeAgain;
+            nextRoad.OnSetFree += CheckifFreeAgain;
         }
         
     }
@@ -476,17 +484,21 @@ public class BusAiAgent : MonoBehaviour
                 }
 
 
-                if (currprog == maxprogress)
+                if (currprog >= maxprogress)
                 {
                     //TODO if !linear akkor ne forduljon meg
                     
-                    currprog = 0;
                     Route.Reverse();
+                    currprog = 0;
+                } else
+                {
+                    currprog++;
                 }
-                currprog++;
-                    
-                    
-                MoveToNewDest();
+
+                if (Route != null && Route.Count > 0)
+                {
+                    MoveToNewDest();
+                }
                     
                     
                 

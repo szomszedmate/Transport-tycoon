@@ -150,7 +150,17 @@ public class Bus : VehicleBase
         aiAgent.stopbusz();
         if (stop.IsCityStop()) // ha varos, felszallnak
         {
-            while (passangers.Count < data.Capacity)
+            yield return new WaitForSeconds(1f / data.LoadingSpeed); // leszall aki tud
+            foreach (Worker passanger in passangers)
+            {
+                if (passanger.HomeCity == stop.City)
+                {
+                    stop.City.Unload(passanger);
+                    Debug.Log("1 ember leszállt");
+                }
+            }
+
+            while (passangers.Count < data.Capacity) // felszallnak
             {
                 yield return new WaitForSeconds(1f / data.LoadingSpeed);
                 Worker worker = stop.City.Load();
@@ -174,6 +184,7 @@ public class Bus : VehicleBase
 
                 Debug.Log($"Mindenki leszállt ide: {stop.Industry.name}");
             }
+            passangers.AddRange(stop.Industry.GoingHome(Stops, data.Capacity - passangers.Count));
         }
         aiAgent.startbusz();
     }

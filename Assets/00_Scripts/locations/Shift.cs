@@ -32,9 +32,9 @@ public class Shift : MonoBehaviour
         working = false;
     }
 
-    public void Update()
+    public void ShiftUpdate(float globalTime)
     {
-        currTime += Time.deltaTime;
+        currTime = globalTime;
         if (currTime >= endTime && working) // munkaido lejart
         {
             working = false;

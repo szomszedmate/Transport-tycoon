@@ -90,6 +90,7 @@ public class GameUiFunctions : MonoBehaviour
 
     public void openinvshop()
     {
+        game.InputManager.menuOpen = true;
         hud.SetActive(false);
         invshopmasterpanel.SetActive(true);
 
@@ -101,7 +102,7 @@ public class GameUiFunctions : MonoBehaviour
     {
         hud.SetActive(true);
         invshopmasterpanel.SetActive(false);
-        
+        game.InputManager.menuOpen = false;
     }
 
     public void vehicleclicked()

@@ -82,19 +82,19 @@ public class City : MonoBehaviour, ILocation
     {
         for (int i = 0; i < population / 3; i++)
         {
-            DayShift.Add(new Worker());
-            EveningShift.Add(new Worker());
-            NightShift.Add(new Worker());
+            DayShift.Add(new Worker(this, DayPhase.DAY));
+            EveningShift.Add(new Worker(this, DayPhase.EVENING));
+            NightShift.Add(new Worker(this, DayPhase.NIGHT));
         }
 
         int remains = population % 3;
         if (remains > 0)
         {
-            DayShift.Add(new Worker());
+            DayShift.Add(new Worker(this, DayPhase.DAY));
             remains--;
             if (remains > 0)
             {
-                EveningShift.Add(new Worker());
+                EveningShift.Add(new Worker(this, DayPhase.EVENING));
             }
         }
     }

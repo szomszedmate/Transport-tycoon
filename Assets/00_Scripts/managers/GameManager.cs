@@ -9,7 +9,7 @@ public class Game : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private BuildingSystem buildingSystem;
-    private List<Shift> shifts;
+    private List<Industry> industries;
     private float globalTime;
     private float gameTime;
     private int day;
@@ -51,14 +51,14 @@ public class Game : MonoBehaviour
         gameTime = 0;
         day = 1;
         TimeMultiplier = 5144; // 1 day = 10 irl minutes (remove the 5)
-        shifts = new List<Shift>();
+        industries = new List<Industry>();
 
         if (BuildingSystem != null)
         {
             BuildingSystem.BuyRequest += BuildingSystem_BuyRequest;
             BuildingSystem.AnyBusMileageChanged += BuildingSystem_AnyBusMileageChanged;
+            BuildingSystem.Grid.LocationsRegistered += Grid_LocationsRegistered;
         }
-        buildingSystem.Grid.LocationsRegistered += Grid_LocationsRegistered;
     }
 
     private void Grid_LocationsRegistered(object sender, LocationsRegisteredEventArgs e)
@@ -69,6 +69,7 @@ public class Game : MonoBehaviour
             {
                 industry.GetTime += Industry_GetTime;
                 industry.Produced += Player.Industry_Produced;
+                industries.Add(industry);
             }
         }
     }
@@ -133,17 +134,11 @@ public class Game : MonoBehaviour
         {
             DayPhase = DayPhase.NIGHT;
         }
-        foreach (Shift shift in shifts)
+        foreach (Industry industry in industries)
         {
-            if (shift.EndTime <= globalTime)
-            {
-                shift.StopShift();
-            }
-            else if (shift.StartTime <= globalTime)
-            {
-                shift.StartShift();
-            }
+            industry.UpdateShifts(globalTime);
         }
+        
     }
 
     public void ConvertTime()
