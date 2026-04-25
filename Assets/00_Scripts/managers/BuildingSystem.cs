@@ -21,22 +21,26 @@ public class BuildingSystem : MonoBehaviour
 
     [SerializeField] private BuildingGrid grid;
 
+    [SerializeField] private TruckPreview truckPreviewPrefab;
+    [SerializeField] private Truck truckPrefab;
+
     [SerializeField] private BusPreview busPreviewPrefab;
     [SerializeField] private Bus busPrefab;
-    [SerializeField] private BusData BusBasicData;
 
     [SerializeField] private BusStopPreview busStopPreviewPrefab;
     [SerializeField] private BusStop busStopPrefab;
     [SerializeField] private BusStopData BusStopData;
     public bool RoutePlanning { get; private set; } = false;
     private Road hovered;
-    public IPreview Preview { get; private set; }
+    public IPreview Preview { get; set; }
     private Vector3 lastSnappedPos;
-    public BuildingGrid Grid { get => grid; private set => grid = value; } // for debug
+    public BuildingGrid Grid { get => grid; set => grid = value; }
+    public RoadPreview RoadPreviewPrefab { get => roadPreviewPrefab; set => roadPreviewPrefab = value; }
+    public Road RoadPrefab { get => roadPrefab; set => roadPrefab = value; }
 
     private Road lastHovered;
-    private Bus lastBusSelected;
-    private Bus busSelected;
+    private VehicleBase lastVehicleSelected;
+    private VehicleBase vehicleSelected;
     private Road lastRoadSelected;
     private Road roadSelected;
     public bool destroy = false;
@@ -48,7 +52,7 @@ public class BuildingSystem : MonoBehaviour
     public event EventHandler destroymodeturn;
     public event EventHandler<IData> selectprev;
     public event EventHandler<BuyRequestEventArgs> BuyRequest; 
-    public event MileageChangedEventHandler AnyBusMileageChanged;
+    public event VehicleBase.MileageChangedEventHandler AnyBusMileageChanged;
     public void InputUpdate(Vector2 mousePosition, bool leftClicked, bool rightClicked, bool leftHeld, bool rightHeld)
     {
         this.mousePosition = mousePosition;
@@ -148,6 +152,10 @@ public class BuildingSystem : MonoBehaviour
         {
             Preview = CreateBusPreview(busData, mousePosition);
         }
+        else if (build is TruckData truckData)
+        {
+            Preview = CreateTruckPreview(truckData, mousePosition);
+        }
         else if (build is BusStopData busStopData)
         {
             Preview = CreateBusStopPreview(busStopData, worldPos);
@@ -161,7 +169,7 @@ public class BuildingSystem : MonoBehaviour
 
     #region Buses
 
-    public event EventHandler<Bus> busplaced;
+    public event EventHandler<VehicleBase> vehiclePlaced;
 
     private void PlaceBus(Vector3 busPosition)
     {
@@ -172,66 +180,83 @@ public class BuildingSystem : MonoBehaviour
         var agent = bus.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
 
-        bus.Setup(((BusPreview)Preview).Data, ((BusPreview)Preview).BusModel.Rotation);
+        bus.Setup((BusData)((BusPreview)Preview).Data, ((BusPreview)Preview).Model.Rotation);
         bus.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
         Grid.SetVehicle(bus, snappedPos);
-        Destroy(((BusPreview)Preview).gameObject);
-        busplaced?.Invoke(this,bus);
+        Destroy(((MonoBehaviour)Preview).gameObject);
+        vehiclePlaced?.Invoke(this,bus);
         Preview = null;
 
     }
 
-    public void SelectBusForPlanning(RaycastHit hit)
+    private void PlaceTruck(Vector3 truckPosition)
     {
-        Bus hitBus = hit.collider.GetComponentInParent<Bus>();
+        if (Preview is not TruckPreview) return;
+        Vector3 snappedPos = GetSnappedCenterPosition(truckPosition);
+        Truck truck = Instantiate(truckPrefab, snappedPos, Quaternion.identity);
+
+        var agent = truck.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
+        if (agent != null) agent.enabled = false;
+
+        truck.Setup((TruckData)((TruckPreview)Preview).Data, ((TruckPreview)Preview).Model.Rotation);
+        truck.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
+        Grid.SetVehicle(truck, snappedPos);
+        Destroy(((MonoBehaviour)Preview).gameObject);
+        vehiclePlaced?.Invoke(this, truck);
+        Preview = null;
+    } 
+
+    public void SelectVehicleForPlanning(RaycastHit hit)
+    {
+        VehicleBase hitVehicle = hit.collider.GetComponentInParent<VehicleBase>();
 
         // 1. CLEANUP: If we are switching away or clicking away, reset the OLD bus visuals
-        if (lastBusSelected != null && hitBus != lastBusSelected)
+        if (lastVehicleSelected != null && hitVehicle != lastVehicleSelected)
         {
-            foreach (Road road in lastBusSelected.Route)
+            foreach (Road road in lastVehicleSelected.Route)
             {
                 road.ChangeState(RoadState.BUILT);
             }
-            lastBusSelected.ChangeState(Bus.BusState.BUILT);
+            lastVehicleSelected.ChangeState(VehicleBase.VehicleState.BUILT);
             roadSelected = null;
             lastRoadSelected = null;
         }
 
         // 2. TOGGLE/OFF: If we hit nothing OR hit the same bus again, turn planning OFF
-        if (hitBus == null)
+        if (hitVehicle == null)
         {
-            if (lastBusSelected != null)
+            if (lastVehicleSelected != null)
             {
                 // Only reset the actual route data if that's your intended "Cancel" behavior
-                // lastBusSelected.ResetRoute(); 
-                lastBusSelected.ChangeState(Bus.BusState.BUILT);
+                // lastVehicleSelected.ResetRoute(); 
+                lastVehicleSelected.ChangeState(VehicleBase.VehicleState.BUILT);
             }
 
-            lastBusSelected = null;
-            busSelected = null;
+            lastVehicleSelected = null;
+            vehicleSelected = null;
             RoutePlanning = false;
             return; // Exit early, we are done
         }
 
         // 3. SELECTION: If we hit a NEW bus
-        busSelected = hitBus;
-        lastBusSelected = busSelected;
+        vehicleSelected = hitVehicle;
+        lastVehicleSelected = vehicleSelected;
 
-        busSelected.ChangeState(Bus.BusState.SELECTHOVER);
+        vehicleSelected.ChangeState(VehicleBase.VehicleState.SELECTHOVER);
         RoutePlanning = true;
-        lastRoadSelected = hitBus.GetLast();
+        lastRoadSelected = hitVehicle.GetLast();
 
         // Highlight the bus's existing route so the player knows where it goes
-        if (busSelected.RouteConfirmed)
+        if (vehicleSelected.RouteConfirmed)
         {
-            busSelected.ChangeState(Bus.BusState.CONFIRMED);
-            foreach (Road road in busSelected.Route)
+            vehicleSelected.ChangeState(VehicleBase.VehicleState.CONFIRMED);
+            foreach (Road road in vehicleSelected.Route)
             {
                 road.ChangeState(RoadState.CONFIRMED);
             }
         } else
         {
-            foreach (Road road in busSelected.Route)
+            foreach (Road road in vehicleSelected.Route)
             {
                 road.ChangeState(RoadState.SELECTED);
             }
@@ -240,7 +265,7 @@ public class BuildingSystem : MonoBehaviour
 
     public void AddToRoute(RaycastHit hit)
     {
-        if (busSelected.RouteConfirmed) return; // TODO display message: route needs reset
+        if (vehicleSelected.RouteConfirmed) return; // TODO display message: route needs reset
         roadSelected = hit.collider.GetComponentInParent<Road>();
         if (roadSelected is null) return;
 
@@ -248,7 +273,7 @@ public class BuildingSystem : MonoBehaviour
         {
             if (roadSelected.Road_HasBusStop()) // first road must have bus stop
             {
-                if (!busSelected.AddToRoute(roadSelected)) return;
+                if (!vehicleSelected.AddToRoute(roadSelected)) return;
                 roadSelected.ChangeState(RoadState.SELECTED);
                 lastRoadSelected = roadSelected;
             } else
@@ -260,7 +285,7 @@ public class BuildingSystem : MonoBehaviour
         if (direction == null) return;
         if (lastRoadSelected.IsConnectedTo(roadSelected, (Direction)direction))
         {
-            busSelected.AddToRoute(roadSelected);
+            vehicleSelected.AddToRoute(roadSelected);
             roadSelected.ChangeState(RoadState.SELECTED);
 
             lastRoadSelected = roadSelected;
@@ -269,18 +294,18 @@ public class BuildingSystem : MonoBehaviour
 
     public void RemFromRoute(RaycastHit hit)
     {
-        if (busSelected.RouteConfirmed) return; // TODO display message: route needs reset
+        if (vehicleSelected.RouteConfirmed) return; // TODO display message: route needs reset
         roadSelected = hit.collider.GetComponentInParent<Road>();
 
-        if (roadSelected == null || busSelected.Route.Count == 0) return;
-        if (roadSelected != busSelected.Route.Last()) return; // only remove the last road
+        if (roadSelected == null || vehicleSelected.Route.Count == 0) return;
+        if (roadSelected != vehicleSelected.Route.Last()) return; // only remove the last road
 
         roadSelected.ChangeState(RoadState.BUILT);
-        busSelected.RemFromRoute(roadSelected);
+        vehicleSelected.RemFromRoute(roadSelected);
 
-        if (busSelected.Route.Count > 0)
+        if (vehicleSelected.Route.Count > 0)
         {
-            lastRoadSelected = busSelected.Route.Last();
+            lastRoadSelected = vehicleSelected.Route.Last();
         }
         else
         {
@@ -290,18 +315,18 @@ public class BuildingSystem : MonoBehaviour
 
     public void ResetRoute()
     {
-        if (lastBusSelected != null)
+        if (lastVehicleSelected != null)
         {
-            lastBusSelected.ChangeState(Bus.BusState.BUILT);
+            lastVehicleSelected.ChangeState(VehicleBase.VehicleState.BUILT);
         }
-        foreach (Road road in lastBusSelected.Route)
+        foreach (Road road in lastVehicleSelected.Route)
         {
             road.ChangeState(RoadState.BUILT);
         }
 
-        lastBusSelected.ResetRoute();
-        lastBusSelected = null;
-        busSelected = null;
+        lastVehicleSelected.ResetRoute();
+        lastVehicleSelected = null;
+        vehicleSelected = null;
         roadSelected = null;
         lastRoadSelected = null;
         RoutePlanning = false;
@@ -310,17 +335,24 @@ public class BuildingSystem : MonoBehaviour
 
     public void BS_ConfirmRoute()
     {
-        if (busSelected == null || busSelected.Route.Count() <= 1) return;
+        if (vehicleSelected == null || vehicleSelected.Route.Count() <= 1) return;
 
-        Road fst = busSelected.Route.First();
-        Road lst = busSelected.Route.Last();
+        Road fst = vehicleSelected.Route.First();
+        Road lst = vehicleSelected.Route.Last();
         Direction? direction = Grid.GetRelativeDirection(fst, lst);
-        if (direction is not null && fst.IsConnectedTo(lst, (Direction)direction))
+        if (vehicleSelected is Bus busSelected)
         {
-            busSelected.ConfirmRoute(false);
-        } else
+            if (direction is not null && fst.IsConnectedTo(lst, (Direction)direction))
+            {
+                busSelected.ConfirmRoute(false);
+            } else
+            {
+                busSelected.ConfirmRoute(true);
+            }
+        }
+        else if (vehicleSelected is Truck truckSeleced)
         {
-            busSelected.ConfirmRoute(true);
+            truckSeleced.ConfirmRoute();
         }
     }
     #endregion
@@ -329,13 +361,17 @@ public class BuildingSystem : MonoBehaviour
     private void PlaceBusStop(Vector3 busPosition, StopType type)
     {
         if (Preview is not BusStopPreview) return;
+
         Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
+        ILocation foundLocation = Grid.GetLocationAt(snappedPos);
+
         BusStop busStop = Instantiate(busStopPrefab, snappedPos, Quaternion.identity);
         busStop.Type = type;
-         var agent = busStop.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
+
+        var agent = busStop.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
 
-        busStop.SetUp(((BusStopPreview)Preview).Data, ((BusStopPreview)Preview).BusStopModel.Rotation);
+        busStop.SetUp(((BusStopPreview)Preview).Data, ((BusStopPreview)Preview).BusStopModel.Rotation, foundLocation);
 
         Grid.SetBusStop(busStop, snappedPos);
         Destroy(((BusStopPreview)Preview).gameObject);
@@ -393,7 +429,7 @@ public class BuildingSystem : MonoBehaviour
         lastHovered = null; // clear hover since its gone
     }
 
-    private void PlaceRoad(Vector3 roadPosition)
+    public void PlaceRoad(Vector3 roadPosition)
     {
         if (Preview is not RoadPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(roadPosition);
@@ -402,7 +438,7 @@ public class BuildingSystem : MonoBehaviour
         //{
         //    grid.ClearTrees(snappedPos);
         //}
-        Road road = Instantiate(roadPrefab, snappedPos, Quaternion.identity);
+        Road road = Instantiate(RoadPrefab, snappedPos, Quaternion.identity);
 
         TerrainShaper shaper = FindFirstObjectByType<TerrainShaper>();
         if (shaper != null)
@@ -505,13 +541,13 @@ public class BuildingSystem : MonoBehaviour
     }
 
 
-    public event EventHandler busplacecancelled;
+    public event EventHandler vehiclePlacecancelled;
     public void HandlePreview(Vector3 mouseWorldPosition, bool shouldIPlace, bool shouldIDestroy)
     {
         if (shouldIDestroy)
         {
             DestroyPreview();
-            busplacecancelled?.Invoke(this,EventArgs.Empty);
+            vehiclePlacecancelled?.Invoke(this,EventArgs.Empty);
             return;
         }
         if (!canAfford)
@@ -573,7 +609,7 @@ public class BuildingSystem : MonoBehaviour
         else if (Preview is BusPreview busPreview) // buses
         {
             busPreview.transform.position = mouseWorldPosition;
-            Vector3 busPosition = busPreview.BusModel.GetBusPosition();
+            Vector3 busPosition = busPreview.Model.GetPosition();
             bool canBuild = Grid.CanBuildBus(busPosition);
             if (canBuild && !destroy)
             {
@@ -606,13 +642,44 @@ public class BuildingSystem : MonoBehaviour
                 busPreview.ChangeState(PreviewState.NEGATIVE);
             }
         }
+        else if (Preview is TruckPreview truckPreview)
+        {
+            truckPreview.transform.position = mouseWorldPosition;
+            Vector3 truckPosition = truckPreview.Model.GetPosition();
+            bool canBuild = Grid.CanBuildBus(truckPosition);
+            if (canBuild && !destroy)
+            {
+                truckPreview.transform.position = GetSnappedCenterPosition(truckPosition);
+
+                if (canAfford)
+                {
+                    truckPreview.ChangeState(PreviewState.POSITIVE);
+                    if (shouldIPlace)
+                    {
+                        PlaceTruck(truckPosition);
+                    }
+                }
+                else if (shouldIPlace)
+                {
+                    float price = Preview.Data.Cost;    // update affordability
+
+                    var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
+                    BuyRequest?.Invoke(this, checkNext);
+                    canAfford = checkNext.IsApproved;
+                }
+            }
+            else
+            {
+                truckPreview.ChangeState(PreviewState.NEGATIVE);
+            }
+        }
         else if (Preview is BusStopPreview busStopPreview) // bus stops
         {
             busStopPreview.transform.position = mouseWorldPosition;
             Vector3 busStopPosition = busStopPreview.BusStopModel.GetBusStopPosition();
             //Debug.Log(Grid.WorldToGridPosition(busStopPosition));
             bool canBuild = Grid.CanBuildBusStop(busStopPosition);
-            
+
             if (canBuild && !destroy)
             {
                 StopType stopType = Grid.GetStopType(busStopPosition);
@@ -620,7 +687,7 @@ public class BuildingSystem : MonoBehaviour
 
                 if (canAfford)
                 {
-                   
+
                     busStopPreview.ChangeState(PreviewState.POSITIVE);
                     if (shouldIPlace)
                     {
@@ -655,7 +722,7 @@ public class BuildingSystem : MonoBehaviour
     }
     private RoadPreview CreateRoadPreview(RoadData data, Vector3 position)
     {
-        RoadPreview roadPreview = Instantiate(roadPreviewPrefab, position, Quaternion.identity);
+        RoadPreview roadPreview = Instantiate(RoadPreviewPrefab, position, Quaternion.identity);
         roadPreview.Setup(data);
         return roadPreview;
     }
@@ -665,6 +732,13 @@ public class BuildingSystem : MonoBehaviour
         BusPreview busPreview = Instantiate(busPreviewPrefab, position, Quaternion.identity);
         busPreview.Setup(data);
         return busPreview;
+    }
+
+    private TruckPreview CreateTruckPreview(TruckData data, Vector3 position)
+    {
+        TruckPreview truckPreview = Instantiate(truckPreviewPrefab, position, Quaternion.identity);
+        truckPreview.Setup(data);
+        return truckPreview;
     }
 
     private BusStopPreview CreateBusStopPreview(BusStopData data, Vector3 position)

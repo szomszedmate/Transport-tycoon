@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,14 +9,14 @@ public class UIitem : MonoBehaviour
 {
     public Player inventory;
     public GameUiFunctions uiFunctions;
-    public BusData bus;
+    public VehicleData vehicle;
     public BuildingSystem buildingSystem;
     public bool isplaced = false;
     public TMP_Text itemtext;
     public Button placebutton;
     public GameObject invmenu;
     public TMP_Text placebuttontext;
-    public Bus busobject;
+    public VehicleBase vehicleObject;
     public StopType type;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,7 +25,7 @@ public class UIitem : MonoBehaviour
         uiFunctions= GameObject.FindWithTag("UI").GetComponent<GameUiFunctions>();
         buildingSystem= GameObject.FindWithTag("buildingsys").GetComponent<BuildingSystem>();
         invmenu = GameObject.FindWithTag("invmenu");
-        type = bus.Type;
+        type = vehicle.Type;
 
         string typestring= type.ToString();
         switch (type)
@@ -74,42 +73,47 @@ public class UIitem : MonoBehaviour
                 break;
         }
 
-        if (bus.Model is BusAdvancedModel)
+        if (vehicle.Model is BusAdvancedModel)
         {
             itemtext.text = "Advanced "+ typestring;
         }
         else
         {
-            Debug.Log(bus.Model);
+            Debug.Log(vehicle.Model);
             itemtext.text = typestring;
         }
-        
     }
 
     public void sell()
     {
-        inventory.AddMoney(bus.Cost);
-        inventory.buszok.Remove(bus);
+        inventory.AddMoney(vehicle.Cost);
+        if (vehicle is BusData bus)
+        {
+            inventory.buszok.Remove(bus);
+        }
+        else
+        {
+            inventory.trucks.Remove((TruckData)vehicle);
+        }
         Destroy(gameObject);
-       
     }
 
    public void place()
     {
         if (!isplaced)
         {
-            buildingSystem.CreatePreview(bus);
-            buildingSystem.busplaced += busisplaced;
-            buildingSystem.busplacecancelled += cancelled;
+            buildingSystem.CreatePreview(vehicle);
+            buildingSystem.vehiclePlaced += vehicleIsplaced;
+            buildingSystem.vehiclePlacecancelled += cancelled;
             uiFunctions.closeinvshop();
         }
         else
         {
             //TODO remove bus
            // Debug.Log("destroooy");
-            Destroy(busobject.gameObject);
+            Destroy(vehicleObject.gameObject);
             isplaced = false;
-            busobject = null;
+            vehicleObject = null;
             placebuttontext.text = "Place";
         }
       
@@ -117,15 +121,15 @@ public class UIitem : MonoBehaviour
 
     private void cancelled(object sender, EventArgs e)
     {
-        buildingSystem.busplaced -= busisplaced;
-        buildingSystem.busplacecancelled -= cancelled;
+        buildingSystem.vehiclePlaced -= vehicleIsplaced;
+        buildingSystem.vehiclePlacecancelled -= cancelled;
     }
 
-    private void busisplaced(object sender, Bus e)
+    private void vehicleIsplaced(object sender, VehicleBase e)
     {
-        busobject = e;
-        buildingSystem.busplaced -= busisplaced;
-        buildingSystem.busplaced -= busisplaced;
+        vehicleObject = e;
+        buildingSystem.vehiclePlaced -= vehicleIsplaced;
+        buildingSystem.vehiclePlaced -= vehicleIsplaced;
         isplaced = true;
         placebuttontext.text = "Remove";
     }

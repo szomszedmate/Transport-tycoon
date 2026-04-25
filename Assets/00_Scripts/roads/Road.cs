@@ -64,6 +64,8 @@ public class Road : MonoBehaviour, IBuildable
         }
     }
 
+    public BusStop BusStop { get => busStop; private set => busStop = value; }
+
     public void Awake()
     {
         // If model is still null (pre-placed road), try to find it in children
@@ -153,7 +155,7 @@ public class Road : MonoBehaviour, IBuildable
 
     private void SetRoadMaterial(RoadState newState)
     {
-        if (builtMaterial == null || bridgeBuiltMaterial == null || destroyHoverMaterial == null || selectMaterial == null || confirmedMaterial == null)
+        if (builtMaterial == null || (bridgeBuiltMaterial == null && !isCityRoad) || destroyHoverMaterial == null || selectMaterial == null || confirmedMaterial == null)
         {
             Debug.LogWarning("Materials not assigned!");
             return;
@@ -257,22 +259,23 @@ public class Road : MonoBehaviour, IBuildable
 
     public void SetBusStop(BusStop busStop)
     {
-        this.busStop = busStop;
+        this.BusStop = busStop;
     }
 
     public void RemBusStop()
     {
-        this.busStop = null;
+        this.BusStop = null;
     }
 
     public bool Road_HasBusStop()
     {
-        return (busStop != null);
+        return (BusStop != null);
     }
 
     public StopType GetStopType()
     {
-        return busStop.Type;
+        if (BusStop == null) return StopType.None;
+        return BusStop.Type;
     }
 
 }

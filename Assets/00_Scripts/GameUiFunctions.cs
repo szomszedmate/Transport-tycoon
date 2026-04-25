@@ -9,7 +9,8 @@ using UnityEngine.UI;
 public class GameUiFunctions : MonoBehaviour
 {
     public TMP_Text timeText;
-    public TMP_Text moneyText;
+    public TMP_Text mainMoneyText;
+    public TMP_Text shopMoneyText;
     public TMP_Text taxText;
     public TMP_Text dayTimeText;
     [SerializeField] private GameObject moneyPopup;
@@ -43,11 +44,13 @@ public class GameUiFunctions : MonoBehaviour
     public GameObject invshopmasterpanel;
     public GameObject hud;
     public List<BusData> busdatas;
+    public List<TruckData> truckdatas;
     public Player inventory;
     public GameObject inventoryitem;
     public Transform UIcontent;
     public Image invbutton;
     public GameObject invpanel;
+    [SerializeField] public List<InventoryResource> inventoryResources;
     
     public Image shopbutton;
     public GameObject shoppanel;
@@ -62,6 +65,7 @@ public class GameUiFunctions : MonoBehaviour
         public TextMeshProUGUI Price;
     }
 
+
     void Start()
     {
         inventory = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -69,6 +73,7 @@ public class GameUiFunctions : MonoBehaviour
         game.TimeChanged += Game_TimeChanged;
         game.Player.MoneyChanged += HandleMoneyPop;
         game.Player.TaxChanged += Player_TaxChanged;
+        game.Player.InventoryChanged += Player_InventoryChanged;
         game.InputManager.moneyDebugEvent += InputManager_moneyDebugEvent;
 
         foreach (ButtonDataPair button in uiButtons)
@@ -87,13 +92,14 @@ public class GameUiFunctions : MonoBehaviour
     {
         hud.SetActive(false);
         invshopmasterpanel.SetActive(true);
-        
+
+        string moneyStr = "Money: $" + Math.Round(game.Player.Money, 1).ToString();
+        shopMoneyText.text = moneyStr;
     }
 
     public void closeinvshop()
     {
         hud.SetActive(true);
-        
         invshopmasterpanel.SetActive(false);
         
     }
@@ -125,13 +131,24 @@ public class GameUiFunctions : MonoBehaviour
         shoppanel.SetActive(true);
         vehiclepanel.SetActive(false);
     }
+
+    public void Player_InventoryChanged(object sender, InventoryChangedEventArgs e)
+    {
+        foreach (InventoryResource resource in inventoryResources)
+        {
+            if (resource.Type == e.Resource)
+            {
+                resource.Amount += e.NewAmount;
+            }
+        }
+    }
     #endregion
 
     private void Game_TimeChanged(object sender, TimeChangedEventArgs e)
     {
         TimeSpan t = TimeSpan.FromSeconds(e.NewTime);
 
-       // dayTimeText.text = "Day: " + e.Day + " - " + t.ToString(@"hh\:mm");
+        dayTimeText.text = "Day: " + e.Day + " - " + t.ToString(@"hh\:mm");
     }
 
     private void Player_TaxChanged(object sender, TaxChangedEventArgs e)
@@ -156,8 +173,15 @@ public class GameUiFunctions : MonoBehaviour
         double difference = e.NewAmount - lastMoney;
 
         if (difference == 0) return; // do nothing if no changes
-        
-        GameObject popup = Instantiate(moneyPopup, moneyText.transform.position, Quaternion.identity, transform);
+        GameObject popup;
+        if (shoppanel.activeInHierarchy)
+        {
+            popup = Instantiate(moneyPopup, shopMoneyText.transform.position, Quaternion.identity, transform);
+        }
+        else
+        {
+            popup = Instantiate(moneyPopup, mainMoneyText.transform.position, Quaternion.identity, transform);
+        }
 
         var txt = popup.GetComponent<TMPro.TextMeshProUGUI>();
         Animator anim = popup.GetComponent<Animator>();
@@ -172,7 +196,10 @@ public class GameUiFunctions : MonoBehaviour
         }
         else
         {
-            moneyText.text = "Money: $" + Math.Round(e.NewAmount,1).ToString();
+            string moneyStr = "Money: $" + Math.Round(e.NewAmount, 1).ToString();
+            mainMoneyText.text = moneyStr;
+            shopMoneyText.text = moneyStr;
+                
             txt.text = "-$" + Math.Round(Math.Abs(difference));
             txt.color = Color.red;
             anim.Play("LoseMoneyAnimation");
@@ -184,7 +211,9 @@ public class GameUiFunctions : MonoBehaviour
     private System.Collections.IEnumerator UpdateMoneyDelayed(double targetAmount, float delay)
     {
         yield return new WaitForSeconds(delay);
-        moneyText.text = "Money: $" + Math.Round(targetAmount,1).ToString();
+        string moneyStr = "Money: $" + Math.Round(targetAmount, 1).ToString();
+        mainMoneyText.text = moneyStr;
+        shopMoneyText.text = moneyStr;  
     }
 
     private void DeselectAllButtons(object sender, EventArgs e)
@@ -287,28 +316,64 @@ public class GameUiFunctions : MonoBehaviour
 
 
     #region buyvehicles
-        
-    public void buyBus1(BusData busdata)
+
+    public void BuyVehicle(VehicleData vehicleData)
     {
-        if (inventory.Money>=busdata.Cost)
+        if (inventory.Money >= vehicleData.Cost)
         {
-            BusData svb = Instantiate(busdata);
-            //svb.Type = StopType.Bus;
-            inventory.buszok.Add(svb);
-            GameObject sv = Instantiate(inventoryitem, UIcontent, false);
-            UIitem svitem = sv.GetComponent<UIitem>();
-            svitem.bus = svb;
-            float price = busdata.Cost;    // checking costs
-            var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
-            buildingSystem.invokeBuying(checkNext);
+            // ScriptableObject példányosítása, hogy egyedi adata legyen
+            VehicleData newVehicle = Instantiate(vehicleData);
+
+            // Hozzáadás az inventory-hoz (típus szerint)
+            if (newVehicle is BusData bus)
+            {
+                inventory.buszok.Add(bus);
+            }
+            else if (newVehicle is TruckData truck)
+            {
+                Debug.Log("Truck " + truck.Model);
+                inventory.trucks.Add(truck); // Feltételezve, hogy van ilyen listád a Player-ben
+            }
+
+            // UI elem létrehozása az inventory panelen
+            GameObject itemGo = Instantiate(inventoryitem, UIcontent, false);
+            UIitem uiItem = itemGo.GetComponent<UIitem>();
+
+            // Beállítjuk az adatokat az UI elemen (az UIitem-et is érdemes VehicleData-ra állítani)
+            uiItem.vehicle = newVehicle;
+
+            // Pénz levonása a BuildingSystemen keresztül
+            var buyRequest = new BuyRequestEventArgs { Cost = vehicleData.Cost, Deduct = true };
+            buildingSystem.invokeBuying(buyRequest);
         }
         else
         {
-            Debug.Log("Not enough money!");
+            Debug.Log("Not enough money for: " + vehicleData.name);
         }
+    }
+
+
+    //public void buyBus1(BusData busdata)
+    //{
+    //    if (inventory.Money>=busdata.Cost)
+    //    {
+    //        BusData svb = Instantiate(busdata);
+    //        //svb.Type = StopType.Bus;
+    //        inventory.buszok.Add(svb);
+    //        GameObject sv = Instantiate(inventoryitem, UIcontent, false);
+    //        UIitem svitem = sv.GetComponent<UIitem>();
+    //        svitem.vehicle = svb;
+    //        float price = busdata.Cost;    // checking costs
+    //        var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
+    //        buildingSystem.invokeBuying(checkNext);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Not enough money!");
+    //    }
        
         
-    }
+    //}
     
     #endregion
 

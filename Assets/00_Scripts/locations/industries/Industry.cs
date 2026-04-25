@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Industry : MonoBehaviour, ILocation
 {
+    public event System.EventHandler<GetTimeEventArgs> GetTime;
+    public event System.EventHandler<ProducedEventArgs> Produced;
     public Vector3 Position => transform.position;
     public abstract StopType Type { get; }
     [SerializeField] protected IndustryModel model;
@@ -18,7 +20,7 @@ public abstract class Industry : MonoBehaviour, ILocation
     [SerializeField] protected int defaultStorageCapacity = 50;
 
     [Header("Workers")]
-    [SerializeField] protected int maxWorkers = 10;
+    [SerializeField] protected int maxWorkers = 100;
     [SerializeField] protected int currentWorkers = 10; // csak azért nem 0, hogy lehessen vizsgálni a termelékenységet buszok nélkül
 
     protected Dictionary<ResourceEnum, int> inventory = new();
@@ -26,6 +28,10 @@ public abstract class Industry : MonoBehaviour, ILocation
     protected float productivityTimer;
 
     protected Recipe recipe;
+
+    public List<Shift> shifts;
+    public List<Worker> waitingForBus; 
+
 
     public virtual List<Vector3> GetAllBuildingPositions()
     {
@@ -40,6 +46,9 @@ public abstract class Industry : MonoBehaviour, ILocation
     protected virtual void Start()
     {
         InitializeRecipe();
+        shifts = new List<Shift>();
+        productionTimer = 0f;
+        waitingForBus = new List<Worker>();
     }
 
     protected virtual void Update()
@@ -87,7 +96,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         }
 
         productionTimer += deltaTime * effectiveProductivity;
-
+        //Debug.Log("Prod time: " + productionTimer + ", cycle time: " + recipe.CycleTime + " workerFactor: " + workerFactor + ", name: " + name);
         if (productionTimer >= recipe.CycleTime)
         {
             productionTimer -= recipe.CycleTime;
@@ -147,6 +156,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         foreach (var output in recipe.Outputs)
         {
             AddResource(output.Key, output.Value);
+            Produced?.Invoke(this, new ProducedEventArgs { Resouce = output.Key, Amount = output.Value });
         }
     }
 
@@ -239,16 +249,37 @@ public abstract class Industry : MonoBehaviour, ILocation
     }
 
     #region WorkerMethods
-    public virtual int AddWorkers(int amount)
+    public virtual void AddWorkers(List<Worker> workers)
     {
-        if (amount <= 0)
-        {
-            return 0;
-        }
+        GetTimeEventArgs e = new GetTimeEventArgs();
+        GetTime?.Invoke(this, e);
 
-        int accepted = Mathf.Min(amount, maxWorkers - currentWorkers);
-        currentWorkers += accepted;
-        return accepted;
+        float currTime = e.Time; 
+        float startTime = e.Time; // mas lesz munkasbuszoknal
+        float endTime = e.Time + 28800; // = 8 oraval kesobb
+
+        Shift newShift = Shift.CreateNewShift(currTime, startTime, endTime, workers);
+        newShift.WorkerChanged += NewShift_WorkerChanged;
+        shifts.Add(newShift);
+    }
+
+    private void NewShift_WorkerChanged(object sender, WorkerChangedEventArgs e)
+    {
+        Shift shift = sender as Shift;
+        if (e.Starts)
+        {
+            currentWorkers += e.WorkerCount;
+        } else
+        {
+            currentWorkers -= e.WorkerCount;
+            waitingForBus.AddRange(shift.Workers);
+            shifts.Remove(shift);
+        }
+    }
+
+    public int SpaceLeft()
+    {
+        return maxWorkers - currentWorkers;
     }
 
     public virtual int RemoveWorkers(int amount)

@@ -2,18 +2,28 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-public class Player : MonoBehaviour
+public class  Player : MonoBehaviour
 {
     public delegate void MoneyChangedEventHandler(object sender, MoneyChangedEventArgs e);
     public event MoneyChangedEventHandler MoneyChanged;
     public delegate void TaxChangedEventHandler(object sender, TaxChangedEventArgs e);
     public event TaxChangedEventHandler TaxChanged;
+    public delegate void InventoryChangedEventHandler(object sender, InventoryChangedEventArgs e);
+    public event InventoryChangedEventHandler InventoryChanged;
+
     private double money;
     private double taxToPay;
     public List<BusData> buszok = new List<BusData>();
+    public List<TruckData> trucks = new List<TruckData>();
+    public Dictionary<ResourceEnum, int> Resources;
+    
+    public void UpdateInventory(ResourceEnum changedResource, int amount)
+    {
+        Resources[changedResource] = amount;
+        InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = changedResource, NewAmount = amount });
+    }
+
     public double TaxToPay
     {
         get
@@ -46,6 +56,7 @@ public class Player : MonoBehaviour
         Money = 500;
         TaxToPay = 0;
         NextTaxDay = 7;
+        Resources = new Dictionary<ResourceEnum, int>();
     }
 
     public void AddMoney(double amount)
@@ -78,5 +89,10 @@ public class Player : MonoBehaviour
         LoseMoney(TaxToPay);
         TaxToPay = 0;
         NextTaxDay += 7;
+    }
+
+    public void Industry_Produced(object sender, ProducedEventArgs e)
+    {
+        UpdateInventory(e.Resouce, e.Amount);
     }
 }

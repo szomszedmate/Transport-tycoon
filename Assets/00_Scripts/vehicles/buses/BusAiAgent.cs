@@ -9,7 +9,8 @@ using System.Linq;
 
 public class BusAiAgent : MonoBehaviour
 {
-  
+    public delegate void ArrivedAtStop(object sender, ArrivedEventArgs e);
+    public event ArrivedAtStop Arrived;
     private NavMeshAgent ai;
     public Transform targetpos;
     public List<Road> Route=null;
@@ -264,12 +265,11 @@ public class BusAiAgent : MonoBehaviour
     // Update is called once per frame
     public void stopbusz()
     {
- 
+        ai.isStopped = true;
     }
 
     public void startbusz()
     {
-       
         ai.isStopped = false;
     }
 
@@ -384,7 +384,7 @@ public class BusAiAgent : MonoBehaviour
     //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy másik jármû felszabaditja azt
     public void TryFree()
     {
-        if (isFree())
+        if (isFree() || GetBusIAmWaitingFor().GetBusIAmWaitingFor() == this) // ha free vagy egymásra várnak
         {
             next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
             SetNotFree();
@@ -404,6 +404,7 @@ public class BusAiAgent : MonoBehaviour
             next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
             next.GetComponentInParent<Road>().OnSetFree += CheckifFreeAgain;
         }
+        
     }
 
 
@@ -411,6 +412,35 @@ public class BusAiAgent : MonoBehaviour
     private void CheckifFreeAgain(object sender, EventArgs e)
     {
         TryFree();
+    }
+
+    public BusAiAgent GetBusIAmWaitingFor()
+    {
+        // Ha nem várakozunk semmire, null-t adunk vissza
+        if (next == null) return null;
+
+        Road targetRoad = next.GetComponentInParent<Road>();
+
+        // Ha ez egy keresztezõdés és vannak benne mások
+        if (targetRoad.buszok != null && targetRoad.buszok.Count > 0)
+        {
+            // Ha mi is benne vagyunk a listában, akkor az elõttünk lévõt nézzük
+            int myIndex = targetRoad.buszok.IndexOf(this);
+
+            if (myIndex > 0)
+            {
+                // A listában közvetlenül elõttünk álló busz
+                return targetRoad.buszok[myIndex - 1];
+            }
+            else if (myIndex == -1)
+            {
+                // Ha még nem vagyunk a listában (csak a TryFree-nél várunk), 
+                // akkor az aktuálisan bent lévõ utolsó buszra várunk
+                return targetRoad.buszok[targetRoad.buszok.Count - 1];
+            }
+        }
+
+        return null; // Senkire nem vár
     }
 
     void Update()
@@ -424,9 +454,9 @@ public class BusAiAgent : MonoBehaviour
             float distance = Vector3.Distance(transform.position, ai.destination);
             if (distance < 0.15f&&isMoving )
             {
-   
                 isMoving = false;
-                    
+                type = Route[currprog].GetStopType();
+                
                 if (Route[currprog ].Road_HasBusStop() && Route[currprog ].GetStopType() == type || Route[currprog ].Road_HasBusStop() && Route[currprog].GetStopType() == StopType.Universal)
                     
                 {
@@ -435,8 +465,8 @@ public class BusAiAgent : MonoBehaviour
                         
                     //TODO itt érkezik meg, megallok lerakasanal automatikusan olyan megallot tesz le amilyen letesítmény mellé van leteve
                     //itt kell lekezelni, hogy mi történik megerkezéskor.
-
-
+                    
+                    Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
 
                     //ha ez a routban az utolso megallo akkor a listat megforditja és kezdi elöröl, de msot visszafele
                     
@@ -452,7 +482,6 @@ public class BusAiAgent : MonoBehaviour
                     
                     currprog = 0;
                     Route.Reverse();
-                    Debug.Log("reversed");
                 }
                 currprog++;
                     
