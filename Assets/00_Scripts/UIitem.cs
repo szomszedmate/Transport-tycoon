@@ -15,6 +15,7 @@ public class UIitem : MonoBehaviour
     public TMP_Text itemtext;
     public Button placebutton;
     public GameObject invmenu;
+    public GameObject routebuton;
     public TMP_Text placebuttontext;
     public VehicleBase vehicleObject;
     public StopType type;
@@ -73,7 +74,7 @@ public class UIitem : MonoBehaviour
                 break;
         }
 
-        if (vehicle.Model is BusAdvancedModel)
+        if (vehicle.Model is BusAdvancedModel )
         {
             itemtext.text = "Advanced "+ typestring;
         }
@@ -102,9 +103,11 @@ public class UIitem : MonoBehaviour
     {
         if (!isplaced)
         {
+            
             buildingSystem.CreatePreview(vehicle);
             buildingSystem.vehiclePlaced += vehicleIsplaced;
             buildingSystem.vehiclePlacecancelled += cancelled;
+            routebuton.SetActive(true);
             uiFunctions.closeinvshop();
         }
         else
@@ -113,10 +116,17 @@ public class UIitem : MonoBehaviour
            // Debug.Log("destroooy");
             Destroy(vehicleObject.gameObject);
             isplaced = false;
+            routebuton.SetActive(false);
             vehicleObject = null;
             placebuttontext.text = "Place";
         }
       
+    }
+
+    public void RouteSel()
+    {
+        buildingSystem.SelectVehicleForPlanning(vehicleObject);
+        uiFunctions.closeinvshop();
     }
 
     private void cancelled(object sender, EventArgs e)

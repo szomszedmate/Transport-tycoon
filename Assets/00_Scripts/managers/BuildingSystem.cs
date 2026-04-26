@@ -206,9 +206,15 @@ public class BuildingSystem : MonoBehaviour
         Preview = null;
     } 
 
-    public void SelectVehicleForPlanning(RaycastHit hit)
+
+    public void SelectVehicleByHit(RaycastHit hit)
     {
         VehicleBase hitVehicle = hit.collider.GetComponentInParent<VehicleBase>();
+        SelectVehicleForPlanning(hitVehicle);
+    }
+    public void SelectVehicleForPlanning(VehicleBase hitVehicle)
+    {
+        //VehicleBase hitVehicle = hit.collider.GetComponentInParent<VehicleBase>();
 
         // 1. CLEANUP: If we are switching away or clicking away, reset the OLD bus visuals
         if (lastVehicleSelected != null && hitVehicle != lastVehicleSelected)
@@ -729,6 +735,7 @@ public class BuildingSystem : MonoBehaviour
 
     private BusPreview CreateBusPreview(BusData data, Vector3 position)
     {
+        Debug.Log(data);
         BusPreview busPreview = Instantiate(busPreviewPrefab, position, Quaternion.identity);
         busPreview.Setup(data);
         return busPreview;
@@ -736,6 +743,7 @@ public class BuildingSystem : MonoBehaviour
 
     private TruckPreview CreateTruckPreview(TruckData data, Vector3 position)
     {
+        Debug.Log(data);
         TruckPreview truckPreview = Instantiate(truckPreviewPrefab, position, Quaternion.identity);
         truckPreview.Setup(data);
         return truckPreview;

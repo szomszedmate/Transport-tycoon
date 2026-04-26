@@ -193,7 +193,7 @@ public class InputManager : MonoBehaviour
         {
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
             {
-                BuildingSystem.SelectVehicleForPlanning(hit);
+                BuildingSystem.SelectVehicleByHit(hit);
             }
         }
 
