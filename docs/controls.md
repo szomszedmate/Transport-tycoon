@@ -2,6 +2,7 @@
 
 ## Building
 - 1–4 : Select road type (Preview)
+- 5-7 : Select bridge type (Preview)
 - B : Create bus preview
 - R : Rotate preview
 - Left click : Place

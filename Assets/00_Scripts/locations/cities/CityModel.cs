@@ -2,15 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CityModel : MonoBehaviour, ILocation
+public class CityModel : MonoBehaviour
 {
-    public Vector3 Position { get; }
-    public StopType Type { get; } = StopType.Universal;
     private BuildingShapeUnit[] shapeUnits;
-    private void Awake()
+    void Awake()
     {
         shapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
     }
+    
     public List<Vector3> GetAllBuildingPositions()
     {
         if (shapeUnits == null || shapeUnits.Length == 0)

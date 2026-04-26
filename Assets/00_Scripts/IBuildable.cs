@@ -11,5 +11,6 @@ public enum BuildCategory
     ROAD,
     BUS,
     BUSSTOP,
+    TRUCK,
     UNKNOWN
 }

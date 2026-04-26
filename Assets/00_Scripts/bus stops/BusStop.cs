@@ -39,6 +39,7 @@ public class BusStop : MonoBehaviour, IBuildable
     private BusStopModel model;
     private BusStopData data;
     private List<Material> materials;
+    private ILocation location;
     public BusStopState State { get; private set; }
 
     [SerializeField]
@@ -46,7 +47,8 @@ public class BusStop : MonoBehaviour, IBuildable
     [SerializeField]
     private Material destroyHoverMaterial;
     private List<Renderer> renderers = new();
-
+    private City city;
+    private Industry industry;
 
     public BuildCategory BuildCategory
     {
@@ -56,13 +58,24 @@ public class BusStop : MonoBehaviour, IBuildable
         }
     }
 
-    public void SetUp(BusStopData data, float rotation)
+    public City City { get => city; set => city = value; }
+    public Industry Industry { get => industry; set => industry = value; }
+
+    public bool IsCityStop()
+    {
+        return (location is City);
+    }
+
+    public void SetUp(BusStopData data, float rotation, ILocation location)
     {
         this.data = data;
         materials = GameObject.FindGameObjectWithTag("manager").GetComponent<InventoryManager>().materials;
         model = Instantiate(data.Model, transform.position, Quaternion.Euler(0, 0, rotation), transform );
+        this.location = location;
+        if (location is City city) this.city = city;
+        else if (location is Industry industry) this.industry = industry;
 
-        renderers.Clear();
+            renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
         switch (Type)

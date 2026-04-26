@@ -1,18 +1,46 @@
 using UnityEngine;
 using System;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class Game : MonoBehaviour
 {
+    private const int secondsInDay = 86400; // 24 ora
     [SerializeField] private Player player;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private BuildingSystem buildingSystem;
+    private List<Shift> shifts;
     private float globalTime;
     private float gameTime;
     private int day;
-    
+    private DayPhase dayPhase;
     public float TimeMultiplier {  get; private set; }
     public Player Player { get => player; private set => player = value; }
     public InputManager InputManager { get => inputManager; private set => inputManager = value; }
+    public DayPhase DayPhase
+    {
+        get
+        {
+            return dayPhase;
+        }
+        private set
+        {
+            if (dayPhase != value) return;
+            dayPhase = value;
+            if (BuildingSystem != null)
+            {
+                foreach (ILocation location in BuildingSystem.Grid.Locations)
+                {
+                    if (location is City city)
+                    {
+                        city.dayPhase = dayPhase;
+                    }
+                }
+            }
+        }
+    }
+
+    public BuildingSystem BuildingSystem { get => buildingSystem; set => buildingSystem = value; }
 
     public delegate void TimeChangedEventHandler(object sender, TimeChangedEventArgs e);
     public event TimeChangedEventHandler TimeChanged;
@@ -23,12 +51,31 @@ public class Game : MonoBehaviour
         gameTime = 0;
         day = 1;
         TimeMultiplier = 5144; // 1 day = 10 irl minutes (remove the 5)
+        shifts = new List<Shift>();
 
-        if (buildingSystem != null)
+        if (BuildingSystem != null)
         {
-            buildingSystem.BuyRequest += BuildingSystem_BuyRequest;
-            buildingSystem.AnyBusMileageChanged += BuildingSystem_AnyBusMileageChanged;
+            BuildingSystem.BuyRequest += BuildingSystem_BuyRequest;
+            BuildingSystem.AnyBusMileageChanged += BuildingSystem_AnyBusMileageChanged;
         }
+        buildingSystem.Grid.LocationsRegistered += Grid_LocationsRegistered;
+    }
+
+    private void Grid_LocationsRegistered(object sender, LocationsRegisteredEventArgs e)
+    {
+        foreach (ILocation location in e.RegisteredLocations)
+        {
+            if (location is Industry industry)
+            {
+                industry.GetTime += Industry_GetTime;
+                industry.Produced += Player.Industry_Produced;
+            }
+        }
+    }
+
+    private void Industry_GetTime(object sender, GetTimeEventArgs e)
+    {
+        e.Time = globalTime;
     }
 
     private void BuildingSystem_AnyBusMileageChanged(object sender, MileageChangedEventArgs e)
@@ -76,14 +123,34 @@ public class Game : MonoBehaviour
         gameTime += Time.deltaTime * TimeMultiplier;
         ConvertTime();
         TimeChanged?.Invoke(this, new TimeChangedEventArgs { NewTime = gameTime, Day = day });
-        
+        if (gameTime >= secondsInDay * 2/3)
+        {
+            DayPhase = DayPhase.EVENING;
+        } else if (gameTime >= secondsInDay / 3)
+        {
+            DayPhase = DayPhase.DAY;
+        } else
+        {
+            DayPhase = DayPhase.NIGHT;
+        }
+        foreach (Shift shift in shifts)
+        {
+            if (shift.EndTime <= globalTime)
+            {
+                shift.StopShift();
+            }
+            else if (shift.StartTime <= globalTime)
+            {
+                shift.StartShift();
+            }
+        }
     }
 
     public void ConvertTime()
     {
-        if (gameTime >= 86400)
+        if (gameTime >= secondsInDay)
         {
-            gameTime -= 86400; // 24 hour format
+            gameTime -= secondsInDay;
             day++;
 
             if (player != null)

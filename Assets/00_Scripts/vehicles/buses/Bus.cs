@@ -1,46 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Bus : MonoBehaviour, IVehicle
+public class Bus : VehicleBase
 {
-    public enum BusState
-    {
-        BUILT,
-        SELECTHOVER,
-        CONFIRMED,
-        DESTROYHOVER
-    }
-    public delegate void MileageChangedEventHandler(object sender, MileageChangedEventArgs e);
-    public event MileageChangedEventHandler MileageChanged;
-    public int Cost => data.Cost;
-    public float WeeklyMileage {  get; private set; }
-    public bool NonStop { get; private set; }
-
-    private Vector3 lastPosition;
-    private BusModel model;
-    private BusData data;
-    public StopType type;
-    public BusAiAgent aiAgent;
-    public BusState State { get; private set; } = BusState.BUILT;
-    [SerializeField]
-    private Material builtMaterial;
-    [SerializeField]
-    private Material destroyHoverMaterial;
-    [SerializeField]
-    private Material selectHoverMaterial;
-    [SerializeField]
-    private Material confirmMaterial;
-
-
-
-    private List<Material> materials;
-
-    public List<Road> Route { get; private set; }
-    private List<Renderer> renderers = new();
-    public bool RouteConfirmed { get; private set; } = false;
     public bool RouteIsLinear { get; private set; }
+    private List<Worker> passangers;
     public BusType BusType
     {
         get
@@ -52,7 +19,7 @@ public class Bus : MonoBehaviour, IVehicle
         }
     }
 
-    public BuildCategory BuildCategory
+    public override BuildCategory BuildCategory
     {
         get
         {
@@ -60,22 +27,16 @@ public class Bus : MonoBehaviour, IVehicle
         }
     }
 
-    void Update()
+    protected override void Update()
     {
         float distance = Math.Abs(Vector3.Distance(transform.position, lastPosition));
 
         if (distance > 0)
         {
-            {
-                MileageChanged?.Invoke(this, new MileageChangedEventArgs
-                {
-                    NewAmount = distance, // változást elküldjük
-                    NonStop = this.NonStop
-                });
+            OnMileageChanged(distance, this.NonStop); // Ez mûködni fog!
 
-                WeeklyMileage += distance; // statisztikának maybe
-                lastPosition = transform.position;
-            }
+            WeeklyMileage += distance;
+            lastPosition = transform.position;
         }
     }
 
@@ -84,7 +45,7 @@ public class Bus : MonoBehaviour, IVehicle
         this.data = data;
         type = data.Type;
         materials = GameObject.FindGameObjectWithTag("manager").GetComponent<InventoryManager>().materials;
-        
+
         NonStop = false;
         lastPosition = transform.position;
         WeeklyMileage = 0;
@@ -99,7 +60,7 @@ public class Bus : MonoBehaviour, IVehicle
         // Grab all renderers from the instantiated model
         renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
-        
+
         //buildmaterials in player inventori in managers
         switch (type)
         {
@@ -146,93 +107,18 @@ public class Bus : MonoBehaviour, IVehicle
                 break;
         }
         // Set the default material
-        SetBusMaterial(BusState.BUILT);
+        SetMaterial(VehicleState.BUILT);
         Route = new List<Road>();
         aiAgent = GetComponent<BusAiAgent>();
         aiAgent.type = type;
         aiAgent.speed = data.Speed;
+        aiAgent.Arrived += AiAgent_Arrived;
+        passangers = new List<Worker>();
     }
 
-    public void ChangeState(BusState newState)
+    private void AiAgent_Arrived(object sender, ArrivedEventArgs e)
     {
-        if (newState == State) return;
-        State = newState;
-        SetBusMaterial(State);
-    }
-
-    private void SetBusMaterial(BusState newState)
-    {
-        if (builtMaterial == null || destroyHoverMaterial == null || selectHoverMaterial == null)
-        {
-            Debug.LogWarning("Materials not assigned!");
-            return;
-        }
-
-        Material targetMat = (newState == BusState.BUILT) ? builtMaterial : destroyHoverMaterial;
-
-        switch (newState)
-        {
-            case BusState.BUILT:
-                targetMat = builtMaterial;
-                break;
-            case BusState.SELECTHOVER:
-                targetMat = selectHoverMaterial;
-                break;
-            case BusState.DESTROYHOVER:
-                targetMat = destroyHoverMaterial;
-                break;
-            case BusState.CONFIRMED:
-                targetMat = confirmMaterial;
-                break;
-            default:
-                targetMat = builtMaterial;
-                break;
-        }
-
-        foreach (var rend in renderers)
-        {
-            Material[] mats = new Material[rend.sharedMaterials.Length]; // keep same number of slots
-            for (int i = 0; i < mats.Length; i++)
-            {
-                mats[i] = targetMat;
-            }
-            rend.materials = mats; // assigns a runtime instance
-        }
-    }
-
-    public bool AddToRoute(Road road)
-    {
-        if (RouteConfirmed) return false; // route needs reset first
-
-        if (Route.Contains(road)) return false;
-        if (road == null) return false;
-        Route.Add(road);
-        return true;
-    }
-
-    public bool RemFromRoute(Road road)
-    {
-        if (RouteConfirmed) return false;
-        if (Route.Last() == road)
-        {
-            Route.Remove(road);
-            return true;
-        }
-        return false;
-    }
-
-    public void ResetRoute()
-    {
-       
-        RouteConfirmed = false;
-        aiAgent.RemoveRoute();
-        Route.Clear();
-    }
-
-    public Road GetLast()
-    {
-        if (Route == null || Route.Count == 0) return null;
-        return Route.Last();
+        StartCoroutine(OnArrivedAtStop(e.Stop));
     }
 
     public void ConfirmRoute(bool linear)
@@ -242,15 +128,53 @@ public class Bus : MonoBehaviour, IVehicle
             Debug.Log("Cant confirm");
             return;
         }
+        Stops.Clear();
         RouteConfirmed = !RouteConfirmed;
         RouteIsLinear = linear;
         NonStop = !linear;
         foreach (Road road in Route)
         {
             road.ChangeState(RouteConfirmed ? RoadState.CONFIRMED : RoadState.SELECTED);
+            if (road.Road_HasBusStop())
+            {
+                Stops.Add(road.BusStop);
+            }
         }
 
-        ChangeState(RouteConfirmed ? BusState.CONFIRMED : BusState.SELECTHOVER);
+        ChangeState(RouteConfirmed ? VehicleState.CONFIRMED : VehicleState.SELECTHOVER);
         if (RouteConfirmed) aiAgent.GiveRoute(Route);
+    }
+
+    public override IEnumerator OnArrivedAtStop(BusStop stop)
+    {
+        aiAgent.stopbusz();
+        if (stop.IsCityStop()) // ha varos, felszallnak
+        {
+            while (passangers.Count < data.Capacity)
+            {
+                yield return new WaitForSeconds(1f / data.LoadingSpeed);
+                Worker worker = stop.City.Load();
+                if (worker != null)
+                {
+                    passangers.Add(worker);
+                    //Debug.Log("Loading bus");
+                } else 
+                {
+                    Debug.Log("Couldnt load bus");
+                    break; // break ha ures a varos
+                }
+            }
+        }
+        else // ha industry, leszallnak
+        {
+            if (passangers.Count > 0)
+            {
+                stop.Industry.AddWorkers(new List<Worker>(passangers));
+                passangers.Clear();
+
+                Debug.Log($"Mindenki leszállt ide: {stop.Industry.name}");
+            }
+        }
+        aiAgent.startbusz();
     }
 }

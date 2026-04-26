@@ -9,8 +9,8 @@ public class RoadPreview : MonoBehaviour, IPreview
     [SerializeField]
     private Material negativeMaterial;
     public PreviewState State { get; private set; } = PreviewState.NEGATIVE;
-    public RoadData Data { get; private set; }
-    public RoadModel RoadModel { get; private set; }
+    public RoadData Data { get; set; }
+    public RoadModel RoadModel { get; set; }
     IData IPreview.Data => Data;
 
     private List<Renderer> renderers = new();

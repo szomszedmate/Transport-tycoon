@@ -1,8 +1,8 @@
-﻿<Solution>
-  <Project Path="Barmetler.RoadSystem.Runtime.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
-  <Project Path="Barmetler.RoadSystem.Editor.csproj" />
-  <Project Path="Assembly-CSharp-Editor.csproj" />
-  <Project Path="Barmetler.RoadSystem.Editor.Tests.csproj" />
-  <Project Path="Barmetler.RoadSystem.Runtime.Tests.csproj" />
+<Solution>
+  <Project Path="Assembly-CSharp-Editor.csproj" Id="00e71a39-24ea-0342-6d27-80e94ea6dd30" />
+  <Project Path="Assembly-CSharp.csproj" Id="e87e480e-bb6a-7311-ef4d-df88e1d497f8" />
+  <Project Path="Barmetler.RoadSystem.Editor.csproj" Id="d7647f99-2da7-00e9-f60b-4fa19a9e7a4a" />
+  <Project Path="Barmetler.RoadSystem.Editor.Tests.csproj" Id="8208fa42-c2e2-eb1d-a806-2b5b1d6f70fc" />
+  <Project Path="Barmetler.RoadSystem.Runtime.csproj" Id="a752dd98-f823-5ac3-31a2-a334066aaf82" />
+  <Project Path="Barmetler.RoadSystem.Runtime.Tests.csproj" Id="40ee74ba-234f-b28a-bdf2-c6e928609ee4" />
 </Solution>
