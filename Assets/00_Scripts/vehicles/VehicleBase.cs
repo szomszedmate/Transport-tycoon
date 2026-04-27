@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
+
+using UnityEngine.EventSystems;
 using static Bus;
 
 public abstract class VehicleBase : MonoBehaviour, IVehicle
@@ -16,6 +19,13 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
 
     public delegate void MileageChangedEventHandler(object sender, MileageChangedEventArgs e);
     public event MileageChangedEventHandler MileageChanged;
+    public event EventHandler sold;
+
+    public void Sold()
+    {
+        sold?.Invoke(this, EventArgs.Empty);
+    }
+
     protected void OnMileageChanged(float distance, bool isNonStop)
     {
         MileageChanged?.Invoke(this, new MileageChangedEventArgs
@@ -30,7 +40,7 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
 
     protected Vector3 lastPosition;
     protected VehicleModel model;
-    protected VehicleData data;
+    public VehicleData data;
     public StopType type;
     public BusAiAgent aiAgent;
     public VehicleState State { get; protected set; } = VehicleState.BUILT;

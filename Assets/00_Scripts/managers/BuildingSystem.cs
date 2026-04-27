@@ -210,8 +210,30 @@ public class BuildingSystem : MonoBehaviour
     public void SelectVehicleByHit(RaycastHit hit)
     {
         VehicleBase hitVehicle = hit.collider.GetComponentInParent<VehicleBase>();
-        SelectVehicleForPlanning(hitVehicle);
+      
+        OpenVehicleInfo(hitVehicle);
     }
+
+
+    //DEBUG
+    public GameObject uiitem;
+    public GameObject content;
+    public GameObject panel;
+    public void OpenVehicleInfo(VehicleBase hitVehicle)
+    {
+        VehicleData data = hitVehicle.data;
+        panel.SetActive(true);
+        GameObject itemGo=Instantiate(uiitem, content.transform, false);
+        UIitem uiItem = itemGo.GetComponent<UIitem>();
+        uiItem.vehicle = data;
+
+        uiItem.routebuton.SetActive(true);
+        uiItem.isplaced = true;
+        uiItem.vehicleObject = hitVehicle;
+        uiItem.placebuttontext.text = "Remove";
+    }
+
+
     public void SelectVehicleForPlanning(VehicleBase hitVehicle)
     {
         //VehicleBase hitVehicle = hit.collider.GetComponentInParent<VehicleBase>();

@@ -18,6 +18,23 @@ public class  Player : MonoBehaviour
     public List<TruckData> trucks = new List<TruckData>();
     public Dictionary<ResourceEnum, int> Resources;
     
+
+
+    public void SellResource(ResourceEnum resource, int amount)
+    {
+        if (Resources[resource] >=amount)
+        {
+            //sell
+            Resources[resource] -= amount;
+            Money += amount * 10;
+            InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = resource, NewAmount = amount });
+        }
+        else
+        {
+            Debug.Log("Nincs ennyi ebböl a resource ból:"+ Resources[resource]);
+        }
+    }
+
     public void UpdateInventory(ResourceEnum changedResource, int amount)
     {
         Resources[changedResource] = amount;

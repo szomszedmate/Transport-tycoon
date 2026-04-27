@@ -197,6 +197,15 @@ public class InputManager : MonoBehaviour
             }
         }
 
+        if (Mouse.current.rightButton.wasPressedThisFrame)
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit))
+            {
+                BuildingSystem.SelectVehicleByHit(hit);
+            }
+        }
+
+
         if (Keyboard.current.enterKey.wasPressedThisFrame && BuildingSystem.RoutePlanning)
         {
             BuildingSystem.BS_ConfirmRoute();

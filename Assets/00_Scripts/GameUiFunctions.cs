@@ -50,6 +50,7 @@ public class GameUiFunctions : MonoBehaviour
     public Transform UIcontent;
     public Image invbutton;
     public GameObject invpanel;
+    public GameObject infomenupanel;
     [SerializeField] public List<InventoryResource> inventoryResources;
     
     public Image shopbutton;
@@ -87,20 +88,41 @@ public class GameUiFunctions : MonoBehaviour
     }
 
     #region inv/shop
-
+    public event EventHandler invopened ;
     public void openinvshop()
     {
         hud.SetActive(false);
-        invshopmasterpanel.SetActive(true);
+        CanvasGroup cg = invshopmasterpanel.GetComponent<CanvasGroup>();
+
+        cg.alpha = 1f;
+        cg.interactable = true;
+        cg.blocksRaycasts = true;
 
         string moneyStr = "Money: $" + Math.Round(game.Player.Money, 1).ToString();
         shopMoneyText.text = moneyStr;
+        invopened?.Invoke(this,EventArgs.Empty);
     }
 
     public void closeinvshop()
     {
         hud.SetActive(true);
-        invshopmasterpanel.SetActive(false);
+        CanvasGroup cg = invshopmasterpanel.GetComponent<CanvasGroup>();
+        cg.alpha = 0f;
+        cg.interactable = false;
+        cg.blocksRaycasts = false;
+        //invshopmasterpanel.SetActive(false);
+        GameObject objects=null;
+        GameObject content = infomenupanel.transform.Find("content").gameObject;
+        if (content.transform.childCount>0)
+        {
+            objects  = content.GetComponentInChildren<UIitem>().gameObject;
+        }
+        if (objects != null)
+        {
+            Destroy(objects);
+        }
+       
+        infomenupanel.SetActive(false);
         
     }
 
@@ -111,7 +133,11 @@ public class GameUiFunctions : MonoBehaviour
         shopbutton.color = defaultcolor;
         invpanel.SetActive(false);
         shoppanel.SetActive(false);
-        vehiclepanel.SetActive(true);
+       
+        CanvasGroup cg = vehiclepanel.GetComponent<CanvasGroup>();
+        cg.alpha = 1f;
+        cg.interactable = true;
+        cg.blocksRaycasts = true;
     }
     public void invclicked()
     {
@@ -120,7 +146,10 @@ public class GameUiFunctions : MonoBehaviour
         shopbutton.color = defaultcolor;
         invpanel.SetActive(true);
         shoppanel.SetActive(false);
-        vehiclepanel.SetActive(false);
+        CanvasGroup cg = vehiclepanel.GetComponent<CanvasGroup>();
+        cg.alpha = 0f;
+        cg.interactable = false;
+        cg.blocksRaycasts = false;
     }
     public void shopclicked()
     {
@@ -129,9 +158,20 @@ public class GameUiFunctions : MonoBehaviour
         shopbutton.color = selectedColor;
         invpanel.SetActive(false);
         shoppanel.SetActive(true);
-        vehiclepanel.SetActive(false);
+        CanvasGroup cg = vehiclepanel.GetComponent<CanvasGroup>();
+        cg.alpha = 0f;
+        cg.interactable = false;
+        cg.blocksRaycasts = false;
     }
 
+    public void SellResource(TMP_InputField input)
+    {
+        ResourceEnum res =  ResourceEnum.Iron;
+       
+        int amount = Convert.ToInt32( input.text);
+        game.Player.SellResource(res,amount);
+
+    }
     public void Player_InventoryChanged(object sender, InventoryChangedEventArgs e)
     {
         foreach (InventoryResource resource in inventoryResources)

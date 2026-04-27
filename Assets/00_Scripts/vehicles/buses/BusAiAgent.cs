@@ -386,20 +386,25 @@ public class BusAiAgent : MonoBehaviour
     {
         if (isFree() || GetBusIAmWaitingFor().GetBusIAmWaitingFor() == this) // ha free vagy egymásra várnak
         {
+            Debug.Log("1");
             next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
+            Debug.Log("2");
             SetNotFree();
             if (last != null)
             {
                 SetFree();
             }
-
+            Debug.Log("3");
             ai.SetDestination(next.transform.position);
+            Debug.Log("4");
             ai.speed =speed * next.GetComponentInParent<Road>().speedmodifier;
+            Debug.Log("5");
             isMoving = true;
 
         }
         else
         {
+            Debug.Log("6");
             //Debug.Log("Event triggered");
             next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
             next.GetComponentInParent<Road>().OnSetFree += CheckifFreeAgain;

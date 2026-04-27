@@ -26,7 +26,9 @@ public class UIitem : MonoBehaviour
         uiFunctions= GameObject.FindWithTag("UI").GetComponent<GameUiFunctions>();
         buildingSystem= GameObject.FindWithTag("buildingsys").GetComponent<BuildingSystem>();
         invmenu = GameObject.FindWithTag("invmenu");
+        
         type = vehicle.Type;
+        uiFunctions.invopened += invopenedcheck;
 
         string typestring= type.ToString();
         switch (type)
@@ -80,8 +82,29 @@ public class UIitem : MonoBehaviour
         }
         else
         {
-            Debug.Log(vehicle.Model);
+           // Debug.Log(vehicle.Model);
             itemtext.text = typestring;
+        }
+    }
+
+    private void Sold(object sender, EventArgs e)
+    {
+        Destroy(gameObject);
+    }
+
+    private void invopenedcheck(object sender, EventArgs e)
+    {
+        //Debug.Log(vehicleObject);
+        if (vehicleObject == null)
+        {
+            if (isplaced)
+            {
+                isplaced = false;
+                routebuton.SetActive(false);
+                placebuttontext.text = "Place";
+            }
+                       
+            
         }
     }
 
@@ -96,7 +119,16 @@ public class UIitem : MonoBehaviour
         {
             inventory.trucks.Remove((TruckData)vehicle);
         }
+        if (isplaced)
+        {
+            
+            Destroy(vehicleObject.gameObject);
+            isplaced = false;
+        }
+        vehicle = null;
         Destroy(gameObject);
+        vehicleObject.Sold();
+
     }
 
    public void place()
@@ -138,6 +170,7 @@ public class UIitem : MonoBehaviour
     private void vehicleIsplaced(object sender, VehicleBase e)
     {
         vehicleObject = e;
+        vehicleObject.sold += Sold;
         buildingSystem.vehiclePlaced -= vehicleIsplaced;
         buildingSystem.vehiclePlaced -= vehicleIsplaced;
         isplaced = true;
