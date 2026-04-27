@@ -186,6 +186,9 @@ public class Bus : VehicleBase
             }
             passangers.AddRange(stop.Industry.GoingHome(Stops, data.Capacity - passangers.Count));
         }
+        yield return new WaitForSeconds(1f / data.LoadingSpeed);
+
         aiAgent.startbusz();
+        aiAgent.ProcessNextPoint();
     }
 }

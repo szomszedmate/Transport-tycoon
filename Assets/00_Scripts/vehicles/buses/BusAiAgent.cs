@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
 
@@ -68,11 +68,12 @@ public class BusAiAgent : MonoBehaviour
 
     public void GiveRoute(List<Road> route)
     {
-
+        if (route == null) return;
         Route = route;
         startpoz = route[0];
         maxprogress = Route.Count - 1;
-        currprog = 0;    
+        currprog = 0;
+        //movingtostart = true;
         MoveToStart();
     }
     private bool IsBetween(float value, float min, float max)
@@ -101,163 +102,83 @@ public class BusAiAgent : MonoBehaviour
 
           
     }
-   
 
-    //ez dˆnti el hogy melyik s·vot v·lassza a kˆvetkezˆ cÈlnak. egyenes Ès kanyar eseten csak jobb Ès bal van keresztezˆdÈsben 4 lehetˆsÈg van azÈrt hogy vizu·lisan is jot v·lasszon Ès ne szembes·vba menjen.
-    //NÈha mÈg mindig a szembes·vot v·lasztja de csak vizu·lisan, ezt a keresztezˆdÈsekben lÈvˆ 4 pont mozgat·s·val lehetne majd megoldani tal·n, mert a legrˆvidebb utat valasztja a kˆvetkezˆ pontig Ès van hogyugy jˆn ki neki hogy a masik savban gyorsabb.
-    //de ez csak vizu·lis bug, logikailag jo s·vot v·laszt
+
+    //ez d√∂nti el hogy melyik s√°vot v√°lassza a k√∂vetkez√∂ c√©lnak. egyenes √©s kanyar eseten csak jobb √©s bal van keresztez√∂d√©sben 4 lehet√∂s√©g van az√©rt hogy vizu√°lisan is jot v√°lasszon √©s ne szembes√°vba menjen.
+    //N√©ha m√©g mindig a szembes√°vot v√°lasztja de csak vizu√°lisan, ezt a keresztez√∂d√©sekben l√©v√∂ 4 pont mozgat√°s√°val lehetne majd megoldani tal√°n, mert a legr√∂videbb utat valasztja a k√∂vetkez√∂ pontig √©s van hogyugy j√∂n ki neki hogy a masik savban gyorsabb.
+    //de ez csak vizu√°lis bug, logikailag jo s√°vot v√°laszt
     public GameObject SelectLane()
     {
+        Vector3 forward = Vector3.zero;
+        int progress = currprog;
 
-        //Debug.Log("SelectLaneStarted");
-        /*        
-        right a menetirany szeriont jobb oldal
-        a to...lane hogy az adott pont az ut kozepetol melyik iranyba van
-       vector.dot eldonti h melyik pont van legjobbrabb 
-        */
-
-        Vector3 forward=new Vector3();
-        int progress=0;
-
-        if (!movingtostart)
+        // Menetir√°ny meghat√°roz√°sa a jelenlegi √©s a k√∂vetkez≈ë √∫t alapj√°n
+        if (progress < maxprogress)
         {
-            if (last == null)
-            {
-                progress = currprog;
-                forward = (Route[currprog+1 ].transform.position - Route[currprog].transform.position).normalized;
-            }
-            else if (currprog==0)
-            {
-                progress = currprog + 1;
-                forward = (Route[currprog + 1].transform.position - Route[currprog].transform.position).normalized;
-            }
-            else
-            {
-                progress = currprog;
-                forward = (Route[currprog ].transform.position - Route[currprog-1].transform.position).normalized;
-            }
-            
+            // El≈ëre n√©z√ºnk a k√∂vetkez≈ë elemre
+            forward = (Route[progress + 1].transform.position - Route[progress].transform.position).normalized;
         }
-            
-        
-       
+        else if (progress > 0)
+        {
+            // Ha az utols√≥ elemn√©l vagyunk (b√°r Reverse ut√°n ez ritka), az el≈ëz≈ët≈ël n√©zz√ºk az ir√°nyt
+            forward = (Route[progress].transform.position - Route[progress - 1].transform.position).normalized;
+        }
 
-       
+        if (forward == Vector3.zero) forward = transform.forward; // Biztons√°gi tartal√©k
+
+        // A jobbra mutat√≥ vektor kisz√°m√≠t√°sa
         Vector3 right = Vector3.Cross(Vector3.up, forward);
-        /*
-        https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Vector3.Cross.html
-        alculates the cross product of two three-dimensional vectors.
 
-        The cross product of two three-dimensional vectors results in a third vector which is perpendicular to the two input vectors. 
-        The result's magnitude is equal to the magnitudes of the two inputs multiplied together and then multiplied by the sine of the angle between the inputs. 
-        You can determine the direction of the result vector from the two input vectors using the "left hand rule".         
-         */
+        Road currentRoad = Route[progress];
+        Debug.Log($"[SELECT] currprog={progress} forward={forward} right={Vector3.Cross(Vector3.up, forward)}");
 
 
-
-        Vector3 toLeftLane = new Vector3();
-        Vector3 toRightLane = new Vector3();
-        Vector3 toToptLane = new Vector3();
-        Vector3 toBottomLane = new Vector3();
-        //currprog itt a kovetkezo tile mindig. nem az amin Èppen van hanem amire menni akar majd.
-        if (Route[progress].transform.GetChild(0).tag == "straight_road" || Route[progress].transform.GetChild(0).tag == "turn_road"  )
+        // Keresztez≈ëd√©s kezel√©se
+        if (currentRoad.transform.GetChild(0).tag != "straight_road" && currentRoad.transform.GetChild(0).tag != "turn_road")
         {
-            //Debug.Log("nemkereszt on " + currprog);
-             toLeftLane = Route[progress].leftLane.position - Route[progress].transform.position;
+            // Minden s√°v ir√°nyvektora a k√∂z√©pponthoz k√©pest
+            Vector3 toLeft = (currentRoad.leftLane.position - currentRoad.transform.position).normalized;
+            Vector3 toRight = (currentRoad.rightLane.position - currentRoad.transform.position).normalized;
+            Vector3 toTop = (currentRoad.topLane.position - currentRoad.transform.position).normalized;
+            Vector3 toBottom = (currentRoad.bottomLane.position - currentRoad.transform.position).normalized;
 
-            toRightLane = Route[progress].rightLane.position - Route[progress].transform.position;
+            float dotL = Vector3.Dot(right, toLeft);
+            float dotR = Vector3.Dot(right, toRight);
+            float dotT = Vector3.Dot(right, toTop);
+            float dotB = Vector3.Dot(right, toBottom);
+
+            float maxDot = Mathf.Max(dotL, dotR, dotT, dotB);
+
+            if (maxDot == dotL) return currentRoad.leftLane.gameObject;
+            if (maxDot == dotR) return currentRoad.rightLane.gameObject;
+            if (maxDot == dotB) return currentRoad.bottomLane.gameObject;
+            return currentRoad.topLane.gameObject;
         }
-        else 
+
+        // Sima √∫t kezel√©se
+        Vector3 tL = (currentRoad.leftLane.position - currentRoad.transform.position).normalized;
+        Vector3 tR = (currentRoad.rightLane.position - currentRoad.transform.position).normalized;
+
+        Debug.Log($"[SELECT] rightLane pos={currentRoad.rightLane.position} leftLane pos={currentRoad.leftLane.position} road pos={currentRoad.transform.position}");
+        Debug.Log($"[SELECT] dotR={Vector3.Dot(right, tR):F3} dotL={Vector3.Dot(right, tL):F3} ‚Üí {(Vector3.Dot(right, tR) > Vector3.Dot(right, tL) ? "JOBB" : "BAL")}");
+
+        if (Vector3.Dot(right, tR) > Vector3.Dot(right, tL))
         {
-           
-            toLeftLane = Route[progress].leftLane.position - Route[progress].transform.position;
-
-            toRightLane = Route[progress].rightLane.position - Route[progress].transform.position;
-
-            toToptLane = Route[progress].topLane.position - Route[progress].transform.position;
-
-            toBottomLane = Route[progress].bottomLane.position - Route[progress].transform.position;
-
-            float bal = Vector3.Dot(right, toLeftLane); 
-            float jobb = Vector3.Dot(right, toRightLane);    
-            float felso = Vector3.Dot(right, toToptLane);    
-            float also = Vector3.Dot(right, toBottomLane);    
-
-            float max = Mathf.Max(bal, jobb, felso, also);
-
-            
-
-            if (max == bal)
-            {
-                laneslected = true;
-                return Route[progress].leftLane.gameObject;
-            }
-            else if (max == jobb)
-            {
-               
-                return Route[progress].rightLane.gameObject;
-            }
-            else if (max == also)
-            {
-                laneslected = true;
-               
-                return Route[progress].bottomLane.gameObject;
-            }
-            else
-            {
-                laneslected = true;
-               
-                return Route[progress].topLane.gameObject;
-            }
-
-         
-        }       
-
-        /*
-         https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Vector3.Dot.html
-        Calculates the dot product of two three-dimensional vectors defined in the same coordinate space.
-
-        The dot product is a float value equal to the product of the magnitudes of the lhs and rhs vectors and the cosine of the angle between them.
-         */
-
-
-        /*
-        right valtozoban levan tarolva h a menetirannyal merˆleges jobbir·nyu vektor,
-        a dot megmondja melyik lane mutat inkabb a right vektor iranyaba
-
-         */
-
-
-
-        /*
-          huzunk egy egyenes vonalat a haladas iranyaba majd ebbˆl szamolunk egy corsst
-        ami megmutatja merre van jobb irany ezut·n emgnezzuk a ket lane kooridnata kˆz¸l hogymelyik mutat a jobbra mutato vektor iranyahoz
-         */
-        float leftDot = Vector3.Dot(toLeftLane, right);
-        float rightDot = Vector3.Dot(toRightLane, right);
-        if (rightDot > leftDot)
-        {
-                          
-            righlane = true;           
-            return Route[progress].rightLane.gameObject;
-
+            righlane = true;
+            return currentRoad.rightLane.gameObject;
         }
         else
         {
-                       
             righlane = false;
-            
-            return Route[progress].leftLane.gameObject;
-            
-           
+            return currentRoad.leftLane.gameObject;
         }
-        
     }
     public void MoveToStart()
     {
       
         transform.position = startpoz.transform.position;
         ontrack = true;
+        movingtostart = false;
         MoveToNewDest();
 
     }
@@ -273,61 +194,47 @@ public class BusAiAgent : MonoBehaviour
     }
 
     //megnezi hogy szabad e
-    public bool isFree() {
-        if (next.GetComponentInParent<Road>().data.Description == "Straight Road" || next.GetComponentInParent<Road>().data.Description == "Right Turn")
-        { //Ha egyenes vagy kanyar 
-            if (righlane)
-            {
-                return next.GetComponentInParent<Road>().rightlanefree;
-            }
+    public bool isFree()
+    {
+        Road nextRoad = next.GetComponentInParent<Road>();
+        if (nextRoad.data.Description == "Straight Road" || nextRoad.data.Description == "Right Turn")
+        {
+            if (next == nextRoad.rightLane.gameObject)
+                return nextRoad.rightlanefree;
             else
-            {
-                return next.GetComponentInParent<Road>().leftlanefree;
-            }
+                return nextRoad.leftlanefree;
         }
         else
-        {//ha keresztezıdÈs
-            return (next.GetComponentInParent<Road>().buszok.Count == 0 || next.GetComponentInParent<Road>().buszok[next.GetComponentInParent<Road>().buszok.Count - 1] == this);
+        {
+            return (nextRoad.buszok.Count == 0 || nextRoad.buszok[nextRoad.buszok.Count - 1] == this);
         }
     }
 
 
-    //lefoglalja azt a savot ahova Èppen tart
+    //lefoglalja azt a savot ahova √©ppen tart
     public void SetNotFree()
     {
         if (next.GetComponentInParent<Road>().data.Description == "Straight Road" || next.GetComponentInParent<Road>().data.Description == "Right Turn")
         {
-           
+
             //Ha egyenes vagy kanyar 
-            if (righlane)
-         
-            {
-             
-                next.GetComponentInParent<Road>().rightlanefree = false;
-                lastLaneWasRight = true;
-            
-            }
-            
+            Road nextRoadComp = next.GetComponentInParent<Road>();
+            if (next == nextRoadComp.rightLane.gameObject)
+                nextRoadComp.rightlanefree = false;
             else
-           
-            {
-                
-                next.GetComponentInParent<Road>().leftlanefree = false;
-                lastLaneWasRight = false;
-         
-            }
+                nextRoadComp.leftlanefree = false;
         }
         else
         {
-            //ha keresztezıdÈs
-            //ilyenkor hozz·adja mag·t a keresztezˆdÈsben egy list·hoz.
-            //egyszerre csak egy lehet a keresztezˆdÈsben jelenleg Ès ezt kÈnmegoldani , hogy lehessen tˆbb is csak ne keresztezzek egymast, ha keresztezik akkor erkezesi sorrend szerint. (ez a feladat leÌr·s)
+            //ha keresztez≈ëd√©s
+            //ilyenkor hozz√°adja mag√°t a keresztez√∂d√©sben egy list√°hoz.
+            //egyszerre csak egy lehet a keresztez√∂d√©sben jelenleg √©s ezt k√©nmegoldani , hogy lehessen t√∂bb is csak ne keresztezzek egymast, ha keresztezik akkor erkezesi sorrend szerint. (ez a feladat le√≠r√°s)
             next.GetComponentInParent<Road>().AddBusz(this);
         }
     }
 
 
-    //felszabaditja a last gameobjectet, azt a s·vot amit elhagyott
+    //felszabaditja a last gameobjectet, azt a s√°vot amit elhagyott
     public void SetFree()
     {
 
@@ -335,52 +242,58 @@ public class BusAiAgent : MonoBehaviour
         {
 
             //ha egyenes vagy sima kanyar volt
-            if (last.gameObject.tag=="right")
-            {
-                last.GetComponentInParent<Road>().rightlanefree = true;
-            }
-            else if (last.gameObject.tag=="left")
-            {
-                last.GetComponentInParent<Road>().leftlanefree = true;
-            }
-            
+            Road lastRoad = last.GetComponentInParent<Road>();
+            if (last == lastRoad.rightLane.gameObject)
+                lastRoad.rightlanefree = true;
+            else
+                lastRoad.leftlanefree = true;
+
         }
         else
         {
-            //ha keresztezıdÈs volt
+            //ha keresztez≈ëd√©s volt
             last.GetComponentInParent<Road>().RemBusz();
         }
         last.GetComponentInParent<Road>().OnFreeSetted();
+        Debug.Log($"[SETFREE] last={last.name} tag={last.tag}");
+
     }
 
 
-    //next ben van akˆvetkezˆ s·v gameobjectje, lastban pedig amit majd fel kell szabaditani ha eltudott indulni a kˆvetkezˆre
+    //next ben van ak√∂vetkez√∂ s√°v gameobjectje, lastban pedig amit majd fel kell szabaditani ha eltudott indulni a k√∂vetkez√∂re
     public GameObject next=null;
     public GameObject last=null;
 
     [SerializeField]
     private bool lastLaneWasRight;
 
-    //kivalasztja a kˆvetkezˆ cÈlt Ès megnezi szabad e
+    //kivalasztja a k√∂vetkez√∂ c√©lt √©s megnezi szabad e
     public void MoveToNewDest()
     {
-        
+        Debug.Log("next: " + next);
         if (next != null)
         {
             last = next;
-            lastLaneWasRight = righlane;
+            //lastLaneWasRight = righlane;
         }
-        next = null;
+        next = SelectLane();
+        Debug.Log("nextagain: " + next);
         if (next == null)
         {
-            next = SelectLane();
+            Debug.LogError($"[BusAi] Hiba: A SelectLane nem tal√°lt c√©lpontot a(z) {currprog}. indexn√©l!");
+            return;
         }
         TryFree();
+        if (ai.enabled)
+        {
+            ai.isStopped = false;
+            ai.SetDestination(next.transform.position);
+        }
     }
 
 
 
-    //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy m·sik j·rm˚ felszabaditja azt
+    //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy m√°sik j√°rm≈± felszabaditja azt
     public void TryFree()
     {
         if (next == null)
@@ -388,11 +301,12 @@ public class BusAiAgent : MonoBehaviour
             isMoving = false;
             return;
         }
+        Debug.Log($"[TRYFREE] next={next.name} righlane={righlane} isFree={isFree()}");
         BusAiAgent waitingFor = GetBusIAmWaitingFor();
         bool isDeadlock = (waitingFor != null && waitingFor.GetBusIAmWaitingFor() == this);
 
         Road nextRoad = next.GetComponentInParent<Road>();
-        if (isFree() || isDeadlock) // ha free vagy egym·sra v·rnak
+        if (isFree() || isDeadlock) // ha free vagy egym√°sra v√°rnak
         {
             nextRoad.OnSetFree -= CheckifFreeAgain;
             SetNotFree();
@@ -400,7 +314,7 @@ public class BusAiAgent : MonoBehaviour
             {
                 SetFree();
             }
-
+            Debug.Log("Setting new dest: " + next.transform.position + " current pos: " + transform.position );
             ai.SetDestination(next.transform.position);
             ai.speed =speed * nextRoad.speedmodifier;
             isMoving = true;
@@ -424,88 +338,89 @@ public class BusAiAgent : MonoBehaviour
 
     public BusAiAgent GetBusIAmWaitingFor()
     {
-        // Ha nem v·rakozunk semmire, null-t adunk vissza
+        // Ha nem v√°rakozunk semmire, null-t adunk vissza
         if (next == null) return null;
 
         Road targetRoad = next.GetComponentInParent<Road>();
 
-        // Ha ez egy keresztezıdÈs Ès vannak benne m·sok
+        // Ha ez egy keresztez≈ëd√©s √©s vannak benne m√°sok
         if (targetRoad.buszok != null && targetRoad.buszok.Count > 0)
         {
-            // Ha mi is benne vagyunk a list·ban, akkor az elıtt¸nk lÈvıt nÈzz¸k
+            // Ha mi is benne vagyunk a list√°ban, akkor az el≈ëtt√ºnk l√©v≈ët n√©zz√ºk
             int myIndex = targetRoad.buszok.IndexOf(this);
 
             if (myIndex > 0)
             {
-                // A list·ban kˆzvetlen¸l elıtt¸nk ·llÛ busz
+                // A list√°ban k√∂zvetlen√ºl el≈ëtt√ºnk √°ll√≥ busz
                 return targetRoad.buszok[myIndex - 1];
             }
             else if (myIndex == -1)
             {
-                // Ha mÈg nem vagyunk a list·ban (csak a TryFree-nÈl v·runk), 
-                // akkor az aktu·lisan bent lÈvı utolsÛ buszra v·runk
+                // Ha m√©g nem vagyunk a list√°ban (csak a TryFree-n√©l v√°runk), 
+                // akkor az aktu√°lisan bent l√©v≈ë utols√≥ buszra v√°runk
                 return targetRoad.buszok[targetRoad.buszok.Count - 1];
             }
         }
 
-        return null; // Senkire nem v·r
+        return null; // Senkire nem v√°r
     }
 
     void Update()
     {
-        if (ontrack && !movingtostart )
+        if (ontrack && !movingtostart &&!ai.isStopped )
         {
-      
-     
-            
-
             float distance = Vector3.Distance(transform.position, ai.destination);
-            if (distance < 0.15f&&isMoving )
+            Debug.Log($"[UPDATE] currprog={currprog} dist={distance:F3} isMoving={isMoving} dest={ai.destination}");
+            //Debug.Log("distance: " + distance + "pos: " + transform.position);
+            if (distance < 0.2f&&isMoving )
             {
                 isMoving = false;
-                type = Route[currprog].GetStopType();
-                
-                if (Route[currprog ].Road_HasBusStop() && Route[currprog ].GetStopType() == type || Route[currprog ].Road_HasBusStop() && Route[currprog].GetStopType() == StopType.Universal)
-                    
-                {
-                        
-                    Debug.Log("stop");
-                        
-                    //TODO itt Èrkezik meg, megallok lerakasanal automatikusan olyan megallot tesz le amilyen letesÌtmÈny mellÈ van leteve
-                    //itt kell lekezelni, hogy mi tˆrtÈnik megerkezÈskor.
-                    
-                    Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
 
-                    //ha ez a routban az utolso megallo akkor a listat megforditja Ès kezdi elˆrˆl, de msot visszafele
-                    
-                       
-                        
-                    
+                if (currprog == 0 && !firstdone)
+                {
+                    firstdone = true;
+                    currprog = 1;
+                    MoveToNewDest();
+                    return;
                 }
 
-
-                if (currprog >= maxprogress)
+                bool hasBusStop = Route[currprog].Road_HasBusStop();
+                StopType roadStopType = Route[currprog].GetStopType();
+                
+                Debug.Log("Type: " + type + " needed: " + roadStopType);
+                if (hasBusStop && (roadStopType == type || roadStopType == StopType.Universal || type == StopType.Bus)) // truck csak az egyezo megalloknal es varosoknal, a busz mindenhol megall
                 {
-                    //TODO if !linear akkor ne forduljon meg
-                    
-                    Route.Reverse();
-                    currprog = 0;
+                    Debug.Log($"Meg√°ll√≥hoz √©rt: {currprog}");
+                    Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
                 } else
                 {
-                    currprog++;
-                }
-
-                if (Route != null && Route.Count > 0)
-                {
-                    MoveToNewDest();
-                }
-                    
-                    
-                
-                
-               
-                
+                    ProcessNextPoint();
+                }                
             }
         }
+    }
+
+
+    public void ProcessNextPoint()
+    {
+        if (currprog >= maxprogress)
+        {
+            Debug.Log("--- FORDUL√ì ---");
+
+            if (next != null) { last = next; }
+
+            Debug.Log($"[FORDULO] currprog={currprog} max={maxprogress} righlane={righlane}");
+            Route.Reverse();
+            currprog = 1;
+            Debug.Log($"[FORDULO UTAN] Route[0]={Route[0].name} Route[1]={Route[1].name}");
+
+            // Hagyjuk a SelectLane-t eld√∂nteni a s√°vot az √∫j ir√°ny alapj√°n
+            // NE √°ll√≠tsuk be manu√°lisan a righlane-t vagy a next-et
+            MoveToNewDest(); // ez megh√≠vja a SelectLane-t, ami az √∫j forward vektorral dolgozik
+            return;
+        }
+
+        currprog++;
+        MoveToNewDest();
     }
 }
