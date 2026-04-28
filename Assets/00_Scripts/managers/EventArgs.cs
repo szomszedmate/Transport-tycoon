@@ -39,7 +39,8 @@ public class ArrivedEventArgs : EventArgs
 
 public class GetTimeEventArgs : EventArgs
 {
-    public float Time { get; set; }
+    public double Time { get; set; }
+    public bool RoundToDayPhase { get; set; }
 }
 
 public class WorkerChangedEventArgs : EventArgs

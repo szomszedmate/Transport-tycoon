@@ -9,8 +9,11 @@ public class Game : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private BuildingSystem buildingSystem;
+    [SerializeField] private float dayStart;
+    [SerializeField] private float eveningStart;
+    [SerializeField] private float nightStart;
     private List<Industry> industries;
-    private float globalTime;
+    private double globalTime;
     private float gameTime;
     private int day;
     private DayPhase dayPhase;
@@ -25,7 +28,7 @@ public class Game : MonoBehaviour
         }
         private set
         {
-            if (dayPhase != value) return;
+            if (dayPhase == value) return;
             dayPhase = value;
             if (BuildingSystem != null)
             {
@@ -124,15 +127,15 @@ public class Game : MonoBehaviour
         gameTime += Time.deltaTime * TimeMultiplier;
         ConvertTime();
         TimeChanged?.Invoke(this, new TimeChangedEventArgs { NewTime = gameTime, Day = day });
-        if (gameTime >= secondsInDay * 2/3)
-        {
-            DayPhase = DayPhase.EVENING;
-        } else if (gameTime >= secondsInDay / 3)
-        {
-            DayPhase = DayPhase.DAY;
-        } else
+        if (gameTime >= nightStart || gameTime < dayStart)
         {
             DayPhase = DayPhase.NIGHT;
+        } else if (gameTime >= eveningStart)
+        {
+            DayPhase = DayPhase.EVENING;
+        } else
+        {
+            DayPhase = DayPhase.DAY;
         }
         foreach (Industry industry in industries)
         {
@@ -150,7 +153,7 @@ public class Game : MonoBehaviour
 
             if (player != null)
             {
-                if (day == player.NextTaxDay)
+                if (day >= player.NextTaxDay)
                 {
                     player.PayTaxes();
                 }

@@ -49,7 +49,15 @@ public abstract class Industry : MonoBehaviour, ILocation
     protected virtual void Start()
     {
         InitializeRecipe();
+
         shifts = new List<Shift>();
+        Shift DayShift = new Shift( );
+        Shift EveningShift = new Shift();
+        Shift NightShift = new Shift();
+        shifts.Add( DayShift );
+        shifts.Add( EveningShift );
+        shifts.Add( NightShift );
+
         productionTimer = 0f;
         waitingForBus = new List<Worker>();
     }
@@ -256,18 +264,27 @@ public abstract class Industry : MonoBehaviour, ILocation
     }
 
     #region WorkerMethods
-    public virtual void AddWorkers(List<Worker> workers)
+    public virtual void AddWorkers(List<Worker> workers, bool scheduled)
     {
-        GetTimeEventArgs e = new GetTimeEventArgs();
-        GetTime?.Invoke(this, e);
+        
+        if (scheduled)
+        {
+            GetTimeEventArgs e = new GetTimeEventArgs { RoundToDayPhase = true };
+            GetTime?.Invoke(this, e);
 
-        float currTime = e.Time; 
-        float startTime = e.Time; // mas lesz munkasbuszoknal
-        float endTime = e.Time + 28800; // = 8 oraval kesobb
+        } else
+        {
+            GetTimeEventArgs e = new GetTimeEventArgs { RoundToDayPhase = false };
+            GetTime?.Invoke(this, e);
+            double currTime = e.Time;
+            double startTime = e.Time; // mas lesz munkasbuszoknal
+            double endTime = e.Time + 28800; // = 8 oraval kesobb
 
-        Shift newShift = Shift.CreateNewShift(currTime, startTime, endTime, workers);
-        newShift.WorkerChanged += NewShift_WorkerChanged;
-        shifts.Add(newShift);
+            Shift newShift = Shift.CreateNewShift(currTime, startTime, endTime, workers);
+            newShift.WorkerChanged += NewShift_WorkerChanged;
+            shifts.Add(newShift);
+        }
+        
     }
 
     private void NewShift_WorkerChanged(object sender, WorkerChangedEventArgs e)
@@ -369,7 +386,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         return passangers;
     }
 
-    public void UpdateShifts(float globalTime)
+    public void UpdateShifts(double globalTime)
     {
         for (int i = shifts.Count - 1; i >= 0; i--)
         {

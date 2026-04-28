@@ -13,7 +13,8 @@ public class BusAiAgent : MonoBehaviour
     public event ArrivedAtStop Arrived;
     private NavMeshAgent ai;
     public Transform targetpos;
-    public List<Road> Route=null;
+    public List<Road> Route = null;
+    public bool nonStop;
     public bool oda = true;
     public bool isMoving = false;
     public int maxprogress = 0;
@@ -21,7 +22,7 @@ public class BusAiAgent : MonoBehaviour
     public bool ontrack = false;
     [SerializeField]
     private bool righlane = false;
-   
+
     private bool lastwasrighlane = false;
     [SerializeField]
     private bool laneslected = false;
@@ -32,7 +33,7 @@ public class BusAiAgent : MonoBehaviour
     public StopType type = StopType.None;
     [SerializeField]
     public float speed;
-   
+
     private bool firstdone = false;
 
     void Start()
@@ -47,33 +48,33 @@ public class BusAiAgent : MonoBehaviour
         //Not working yet
         ai.ResetPath();
         Route.Clear();
-        
-        
-        
+
+
+
         oda = true;
         righlane = false;
         laneslected = false;
         movingtostart = false;
         isMoving = false;
         maxprogress = 0;
-         currprog = 0;
+        currprog = 0;
         ontrack = false;
         firstdone = false;
         ai.isStopped = true;
         transform.position = startpoz.transform.position;
-        
+
         ai.Warp(startpoz.transform.position);
         transform.rotation = Quaternion.identity;
     }
 
-    public void GiveRoute(List<Road> route)
+    public void GiveRoute(List<Road> route, bool isNonStop)
     {
-        if (route == null) return;
+
         Route = route;
+        nonStop = isNonStop;
         startpoz = route[0];
         maxprogress = Route.Count - 1;
         currprog = 0;
-        //movingtostart = true;
         MoveToStart();
     }
     private bool IsBetween(float value, float min, float max)
@@ -84,10 +85,10 @@ public class BusAiAgent : MonoBehaviour
 
     public void RotateToNext()
     {
-        
+
         Vector3 dir;
-      
-        dir = Route[currprog].transform.position - transform.position;          
+
+        dir = Route[currprog].transform.position - transform.position;
         dir.y = 0f;
 
         if (dir != Vector3.zero)
@@ -100,89 +101,162 @@ public class BusAiAgent : MonoBehaviour
             );
         }
 
-          
+
     }
 
 
-    //ez dönti el hogy melyik sávot válassza a következö célnak. egyenes és kanyar eseten csak jobb és bal van keresztezödésben 4 lehetöség van azért hogy vizuálisan is jot válasszon és ne szembesávba menjen.
-    //Néha még mindig a szembesávot választja de csak vizuálisan, ezt a keresztezödésekben lévö 4 pont mozgatásával lehetne majd megoldani talán, mert a legrövidebb utat valasztja a következö pontig és van hogyugy jön ki neki hogy a masik savban gyorsabb.
-    //de ez csak vizuális bug, logikailag jo sávot választ
+    //ez dnti el hogy melyik svot vlassza a kvetkez clnak. egyenes s kanyar eseten csak jobb s bal van keresztezdsben 4 lehetsg van azrt hogy vizulisan is jot vlasszon s ne szembesvba menjen.
+    //Nha mg mindig a szembesvot vlasztja de csak vizulisan, ezt a keresztezdsekben lv 4 pont mozgatsval lehetne majd megoldani taln, mert a legrvidebb utat valasztja a kvetkez pontig s van hogyugy jn ki neki hogy a masik savban gyorsabb.
+    //de ez csak vizulis bug, logikailag jo svot vlaszt
     public GameObject SelectLane()
     {
-        Vector3 forward = Vector3.zero;
+
+        //Debug.Log("SelectLaneStarted");
+        /*        
+        right a menetirany szeriont jobb oldal
+        a to...lane hogy az adott pont az ut kozepetol melyik iranyba van
+       vector.dot eldonti h melyik pont van legjobbrabb 
+        */
+
+        Vector3 forward = new Vector3();
         int progress = currprog;
 
-        // Menetirány meghatározása a jelenlegi és a következő út alapján
         if (progress < maxprogress)
         {
-            // Előre nézünk a következő elemre
             forward = (Route[progress + 1].transform.position - Route[progress].transform.position).normalized;
         }
-        else if (progress > 0)
+        else if (nonStop && progress == maxprogress)
         {
-            // Ha az utolsó elemnél vagyunk (bár Reverse után ez ritka), az előzőtől nézzük az irányt
-            forward = (Route[progress].transform.position - Route[progress - 1].transform.position).normalized;
+            forward = (Route[0].transform.position - Route[progress].transform.position).normalized;
+        }
+        else // Minden más esetben (pl. megállás a végén)
+        {
+            forward = transform.forward;
         }
 
-        if (forward == Vector3.zero) forward = transform.forward; // Biztonsági tartalék
 
-        // A jobbra mutató vektor kiszámítása
+
+
         Vector3 right = Vector3.Cross(Vector3.up, forward);
+        /*
+        https://docs.unity3d.com/6000.4/Documentation/ScriptReference/Vector3.Cross.html
+        alculates the cross product of two three-dimensional vectors.
 
-        Road currentRoad = Route[progress];
-        Debug.Log($"[SELECT] currprog={progress} forward={forward} right={Vector3.Cross(Vector3.up, forward)}");
+        The cross product of two three-dimensional vectors results in a third vector which is perpendicular to the two input vectors. 
+        The result's magnitude is equal to the magnitudes of the two inputs multiplied together and then multiplied by the sine of the angle between the inputs. 
+        You can determine the direction of the result vector from the two input vectors using the "left hand rule".         
+         */
 
 
-        // Kereszteződés kezelése
-        if (currentRoad.transform.GetChild(0).tag != "straight_road" && currentRoad.transform.GetChild(0).tag != "turn_road")
+
+        Vector3 toLeftLane = new Vector3();
+        Vector3 toRightLane = new Vector3();
+        Vector3 toToptLane = new Vector3();
+        Vector3 toBottomLane = new Vector3();
+        //currprog itt a kovetkezo tile mindig. nem az amin ppen van hanem amire menni akar majd.
+        if (Route[progress].transform.GetChild(0).tag == "straight_road" || Route[progress].transform.GetChild(0).tag == "turn_road")
         {
-            // Minden sáv irányvektora a középponthoz képest
-            Vector3 toLeft = (currentRoad.leftLane.position - currentRoad.transform.position).normalized;
-            Vector3 toRight = (currentRoad.rightLane.position - currentRoad.transform.position).normalized;
-            Vector3 toTop = (currentRoad.topLane.position - currentRoad.transform.position).normalized;
-            Vector3 toBottom = (currentRoad.bottomLane.position - currentRoad.transform.position).normalized;
+            //Debug.Log("nemkereszt on " + currprog);
+            toLeftLane = Route[progress].leftLane.position - Route[progress].transform.position;
 
-            float dotL = Vector3.Dot(right, toLeft);
-            float dotR = Vector3.Dot(right, toRight);
-            float dotT = Vector3.Dot(right, toTop);
-            float dotB = Vector3.Dot(right, toBottom);
-
-            float maxDot = Mathf.Max(dotL, dotR, dotT, dotB);
-
-            if (maxDot == dotL) return currentRoad.leftLane.gameObject;
-            if (maxDot == dotR) return currentRoad.rightLane.gameObject;
-            if (maxDot == dotB) return currentRoad.bottomLane.gameObject;
-            return currentRoad.topLane.gameObject;
-        }
-
-        // Sima út kezelése
-        Vector3 tL = (currentRoad.leftLane.position - currentRoad.transform.position).normalized;
-        Vector3 tR = (currentRoad.rightLane.position - currentRoad.transform.position).normalized;
-
-        Debug.Log($"[SELECT] rightLane pos={currentRoad.rightLane.position} leftLane pos={currentRoad.leftLane.position} road pos={currentRoad.transform.position}");
-        Debug.Log($"[SELECT] dotR={Vector3.Dot(right, tR):F3} dotL={Vector3.Dot(right, tL):F3} → {(Vector3.Dot(right, tR) > Vector3.Dot(right, tL) ? "JOBB" : "BAL")}");
-
-        if (Vector3.Dot(right, tR) > Vector3.Dot(right, tL))
-        {
-            righlane = true;
-            return currentRoad.rightLane.gameObject;
+            toRightLane = Route[progress].rightLane.position - Route[progress].transform.position;
         }
         else
         {
-            righlane = false;
-            return currentRoad.leftLane.gameObject;
+
+            toLeftLane = Route[progress].leftLane.position - Route[progress].transform.position;
+
+            toRightLane = Route[progress].rightLane.position - Route[progress].transform.position;
+
+            toToptLane = Route[progress].topLane.position - Route[progress].transform.position;
+
+            toBottomLane = Route[progress].bottomLane.position - Route[progress].transform.position;
+
+            float bal = Vector3.Dot(right, toLeftLane);
+            float jobb = Vector3.Dot(right, toRightLane);
+            float felso = Vector3.Dot(right, toToptLane);
+            float also = Vector3.Dot(right, toBottomLane);
+
+            float max = Mathf.Max(bal, jobb, felso, also);
+
+
+
+            if (max == bal)
+            {
+                laneslected = true;
+                return Route[progress].leftLane.gameObject;
+            }
+            else if (max == jobb)
+            {
+
+                return Route[progress].rightLane.gameObject;
+            }
+            else if (max == also)
+            {
+                laneslected = true;
+
+                return Route[progress].bottomLane.gameObject;
+            }
+            else
+            {
+                laneslected = true;
+
+                return Route[progress].topLane.gameObject;
+            }
+
+
         }
+
+        /*
+         https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Vector3.Dot.html
+        Calculates the dot product of two three-dimensional vectors defined in the same coordinate space.
+
+        The dot product is a float value equal to the product of the magnitudes of the lhs and rhs vectors and the cosine of the angle between them.
+         */
+
+
+        /*
+        right valtozoban levan tarolva h a menetirannyal merleges jobbirnyu vektor,
+        a dot megmondja melyik lane mutat inkabb a right vektor iranyaba
+
+         */
+
+
+
+        /*
+          huzunk egy egyenes vonalat a haladas iranyaba majd ebbl szamolunk egy corsst
+        ami megmutatja merre van jobb irany ezutn emgnezzuk a ket lane kooridnata kzl hogymelyik mutat a jobbra mutato vektor iranyahoz
+         */
+        float leftDot = Vector3.Dot(toLeftLane, right);
+        float rightDot = Vector3.Dot(toRightLane, right);
+        if (rightDot > leftDot)
+        {
+
+            righlane = true;
+            return Route[progress].rightLane.gameObject;
+
+        }
+        else
+        {
+
+            righlane = false;
+
+            return Route[progress].leftLane.gameObject;
+
+
+        }
+
     }
     public void MoveToStart()
     {
-      
+
         transform.position = startpoz.transform.position;
         ontrack = true;
-        movingtostart = false;
         MoveToNewDest();
 
     }
 
+    // Update is called once per frame
     public void stopbusz()
     {
         ai.isStopped = true;
@@ -196,45 +270,60 @@ public class BusAiAgent : MonoBehaviour
     //megnezi hogy szabad e
     public bool isFree()
     {
-        Road nextRoad = next.GetComponentInParent<Road>();
-        if (nextRoad.data.Description == "Straight Road" || nextRoad.data.Description == "Right Turn")
-        {
-            if (next == nextRoad.rightLane.gameObject)
-                return nextRoad.rightlanefree;
+        if (next.GetComponentInParent<Road>().data.Description == "Straight Road" || next.GetComponentInParent<Road>().data.Description == "Right Turn")
+        { //Ha egyenes vagy kanyar 
+            if (righlane)
+            {
+                return next.GetComponentInParent<Road>().rightlanefree;
+            }
             else
-                return nextRoad.leftlanefree;
+            {
+                return next.GetComponentInParent<Road>().leftlanefree;
+            }
         }
         else
-        {
-            return (nextRoad.buszok.Count == 0 || nextRoad.buszok[nextRoad.buszok.Count - 1] == this);
+        {//ha keresztezds
+            return (next.GetComponentInParent<Road>().buszok.Count == 0 || next.GetComponentInParent<Road>().buszok[next.GetComponentInParent<Road>().buszok.Count - 1] == this);
         }
     }
 
 
-    //lefoglalja azt a savot ahova éppen tart
+    //lefoglalja azt a savot ahova ppen tart
     public void SetNotFree()
     {
         if (next.GetComponentInParent<Road>().data.Description == "Straight Road" || next.GetComponentInParent<Road>().data.Description == "Right Turn")
         {
 
             //Ha egyenes vagy kanyar 
-            Road nextRoadComp = next.GetComponentInParent<Road>();
-            if (next == nextRoadComp.rightLane.gameObject)
-                nextRoadComp.rightlanefree = false;
+            if (righlane)
+
+            {
+
+                next.GetComponentInParent<Road>().rightlanefree = false;
+                lastLaneWasRight = true;
+
+            }
+
             else
-                nextRoadComp.leftlanefree = false;
+
+            {
+
+                next.GetComponentInParent<Road>().leftlanefree = false;
+                lastLaneWasRight = false;
+
+            }
         }
         else
         {
-            //ha kereszteződés
-            //ilyenkor hozzáadja magát a keresztezödésben egy listához.
-            //egyszerre csak egy lehet a keresztezödésben jelenleg és ezt kénmegoldani , hogy lehessen több is csak ne keresztezzek egymast, ha keresztezik akkor erkezesi sorrend szerint. (ez a feladat leírás)
+            //ha keresztezds
+            //ilyenkor hozzadja magt a keresztezdsben egy listhoz.
+            //egyszerre csak egy lehet a keresztezdsben jelenleg s ezt knmegoldani , hogy lehessen tbb is csak ne keresztezzek egymast, ha keresztezik akkor erkezesi sorrend szerint. (ez a feladat lers)
             next.GetComponentInParent<Road>().AddBusz(this);
         }
     }
 
 
-    //felszabaditja a last gameobjectet, azt a sávot amit elhagyott
+    //felszabaditja a last gameobjectet, azt a svot amit elhagyott
     public void SetFree()
     {
 
@@ -242,95 +331,75 @@ public class BusAiAgent : MonoBehaviour
         {
 
             //ha egyenes vagy sima kanyar volt
-            Road lastRoad = last.GetComponentInParent<Road>();
-            if (last == lastRoad.rightLane.gameObject)
-                lastRoad.rightlanefree = true;
-            else
-                lastRoad.leftlanefree = true;
+            if (last.gameObject.tag == "right")
+            {
+                last.GetComponentInParent<Road>().rightlanefree = true;
+            }
+            else if (last.gameObject.tag == "left")
+            {
+                last.GetComponentInParent<Road>().leftlanefree = true;
+            }
 
         }
         else
         {
-            //ha kereszteződés volt
+            //ha keresztezds volt
             last.GetComponentInParent<Road>().RemBusz();
         }
         last.GetComponentInParent<Road>().OnFreeSetted();
-        Debug.Log($"[SETFREE] last={last.name} tag={last.tag}");
-
     }
 
 
-    //next ben van akövetkezö sáv gameobjectje, lastban pedig amit majd fel kell szabaditani ha eltudott indulni a következöre
-    public GameObject next=null;
-    public GameObject last=null;
+    //next ben van akvetkez sv gameobjectje, lastban pedig amit majd fel kell szabaditani ha eltudott indulni a kvetkezre
+    public GameObject next = null;
+    public GameObject last = null;
 
     [SerializeField]
     private bool lastLaneWasRight;
 
-    //kivalasztja a következö célt és megnezi szabad e
+    //kivalasztja a kvetkez clt s megnezi szabad e
     public void MoveToNewDest()
     {
-        Debug.Log("next: " + next);
+
         if (next != null)
         {
             last = next;
-            //lastLaneWasRight = righlane;
+            lastLaneWasRight = righlane;
         }
-        next = SelectLane();
-        Debug.Log("nextagain: " + next);
+        next = null;
         if (next == null)
         {
-            Debug.LogError($"[BusAi] Hiba: A SelectLane nem talált célpontot a(z) {currprog}. indexnél!");
-            return;
+            next = SelectLane();
         }
         TryFree();
-        if (ai.enabled)
-        {
-            ai.isStopped = false;
-            ai.SetDestination(next.transform.position);
-        }
     }
 
 
 
-    //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy másik jármű felszabaditja azt
+    //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy msik jrm felszabaditja azt
     public void TryFree()
     {
-        if (next == null)
+        if (isFree() || GetBusIAmWaitingFor().GetBusIAmWaitingFor() == this) // ha free vagy egymsra vrnak
         {
-            isMoving = false;
-            return;
-        }
-        Debug.Log($"[TRYFREE] next={next.name} righlane={righlane} isFree={isFree()}");
-        BusAiAgent waitingFor = GetBusIAmWaitingFor();
-        bool isDeadlock = (waitingFor != null && waitingFor.GetBusIAmWaitingFor() == this);
-
-        Road nextRoad = next.GetComponentInParent<Road>();
-        if (isFree() || isDeadlock) // ha free vagy egymásra várnak
-        {
-            nextRoad.OnSetFree -= CheckifFreeAgain;
+            next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
             SetNotFree();
             if (last != null)
             {
                 SetFree();
             }
-            Debug.Log("Setting new dest: " + next.transform.position + " current pos: " + transform.position );
             ai.SetDestination(next.transform.position);
-            ai.speed =speed * nextRoad.speedmodifier;
+            ai.speed = speed * next.GetComponentInParent<Road>().speedmodifier;
             isMoving = true;
-
         }
         else
         {
-            //Debug.Log("Event triggered");
-            nextRoad.OnSetFree -= CheckifFreeAgain;
-            nextRoad.OnSetFree += CheckifFreeAgain;
+            next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
+            next.GetComponentInParent<Road>().OnSetFree += CheckifFreeAgain;
         }
-        
     }
 
 
-   
+
     private void CheckifFreeAgain(object sender, EventArgs e)
     {
         TryFree();
@@ -338,64 +407,67 @@ public class BusAiAgent : MonoBehaviour
 
     public BusAiAgent GetBusIAmWaitingFor()
     {
-        // Ha nem várakozunk semmire, null-t adunk vissza
+        // Ha nem vrakozunk semmire, null-t adunk vissza
         if (next == null) return null;
 
         Road targetRoad = next.GetComponentInParent<Road>();
 
-        // Ha ez egy kereszteződés és vannak benne mások
+        // Ha ez egy keresztezds s vannak benne msok
         if (targetRoad.buszok != null && targetRoad.buszok.Count > 0)
         {
-            // Ha mi is benne vagyunk a listában, akkor az előttünk lévőt nézzük
+            // Ha mi is benne vagyunk a listban, akkor az elttnk lvt nzzk
             int myIndex = targetRoad.buszok.IndexOf(this);
 
             if (myIndex > 0)
             {
-                // A listában közvetlenül előttünk álló busz
+                // A listban kzvetlenl elttnk ll busz
                 return targetRoad.buszok[myIndex - 1];
             }
             else if (myIndex == -1)
             {
-                // Ha még nem vagyunk a listában (csak a TryFree-nél várunk), 
-                // akkor az aktuálisan bent lévő utolsó buszra várunk
+                // Ha mg nem vagyunk a listban (csak a TryFree-nl vrunk), 
+                // akkor az aktulisan bent lv utols buszra vrunk
                 return targetRoad.buszok[targetRoad.buszok.Count - 1];
             }
         }
 
-        return null; // Senkire nem vár
+        return null; // Senkire nem vr
     }
 
     void Update()
     {
-        if (ontrack && !movingtostart &&!ai.isStopped )
+        if (ontrack && !movingtostart && !ai.isStopped)
         {
             float distance = Vector3.Distance(transform.position, ai.destination);
-            Debug.Log($"[UPDATE] currprog={currprog} dist={distance:F3} isMoving={isMoving} dest={ai.destination}");
-            //Debug.Log("distance: " + distance + "pos: " + transform.position);
-            if (distance < 0.2f&&isMoving )
+
+            if (distance < 0.2f && isMoving)
             {
                 isMoving = false;
 
-                if (currprog == 0 && !firstdone)
+                // Csak a legelső indulásnál (amikor lerakod a buszt) kell ez a sávváltó logika
+                // Ha már úton van (nem null a last), akkor kezeljük rendes megállóként
+                if (currprog == 0 && !firstdone && last == null)
                 {
+                    Debug.Log("Kezdeti sávváltás kész, indulás az 1. pontra.");
                     firstdone = true;
                     currprog = 1;
                     MoveToNewDest();
                     return;
                 }
 
+                // Megálló ellenőrzése
                 bool hasBusStop = Route[currprog].Road_HasBusStop();
                 StopType roadStopType = Route[currprog].GetStopType();
-                
-                Debug.Log("Type: " + type + " needed: " + roadStopType);
-                if (hasBusStop && (roadStopType == type || roadStopType == StopType.Universal || type == StopType.Bus)) // truck csak az egyezo megalloknal es varosoknal, a busz mindenhol megall
+
+                if (hasBusStop && (roadStopType == type || roadStopType == StopType.Universal || type == StopType.Bus))
                 {
-                    Debug.Log($"Megállóhoz ért: {currprog}");
+                    Debug.Log($"Megállóhoz ért (Index: {currprog})");
                     Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
-                } else
+                }
+                else
                 {
                     ProcessNextPoint();
-                }                
+                }
             }
         }
     }
@@ -405,18 +477,19 @@ public class BusAiAgent : MonoBehaviour
     {
         if (currprog >= maxprogress)
         {
-            Debug.Log("--- FORDULÓ ---");
+            if (!nonStop)
+            {
+                if (next != null) { last = next; }
+                Route.Reverse();
+                currprog = 1;
+            } else
+            {
+                if (next != null) { last = next; }
+                currprog = 0;
+                firstdone = false;
+            }
 
-            if (next != null) { last = next; }
-
-            Debug.Log($"[FORDULO] currprog={currprog} max={maxprogress} righlane={righlane}");
-            Route.Reverse();
-            currprog = 1;
-            Debug.Log($"[FORDULO UTAN] Route[0]={Route[0].name} Route[1]={Route[1].name}");
-
-            // Hagyjuk a SelectLane-t eldönteni a sávot az új irány alapján
-            // NE állítsuk be manuálisan a righlane-t vagy a next-et
-            MoveToNewDest(); // ez meghívja a SelectLane-t, ami az új forward vektorral dolgozik
+            MoveToNewDest();
             return;
         }
 

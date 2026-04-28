@@ -34,6 +34,7 @@ public class City : MonoBehaviour, ILocation
             case DayPhase.DAY:
                 if (DayShift.Count > 0)
                 {
+                    DayShift.RemoveAt(0);
                     return (DayShift.First());
                 } else
                 {
@@ -42,6 +43,7 @@ public class City : MonoBehaviour, ILocation
             case DayPhase.EVENING:
                 if (EveningShift.Count > 0)
                 {
+                    EveningShift.RemoveAt(0);
                     return(EveningShift.First());
                 } else
                 {
@@ -50,6 +52,7 @@ public class City : MonoBehaviour, ILocation
             case DayPhase.NIGHT:
                 if (NightShift.Count > 0)
                 {
+                    NightShift.RemoveAt(0);
                     return (NightShift.First());
                 } else
                 {

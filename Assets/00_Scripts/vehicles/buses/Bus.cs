@@ -142,11 +142,12 @@ public class Bus : VehicleBase
         }
 
         ChangeState(RouteConfirmed ? VehicleState.CONFIRMED : VehicleState.SELECTHOVER);
-        if (RouteConfirmed) aiAgent.GiveRoute(Route);
+        if (RouteConfirmed) aiAgent.GiveRoute(Route, !linear);
     }
 
     public override IEnumerator OnArrivedAtStop(BusStop stop)
     {
+        Debug.Log("Arrived, " + stop.IsCityStop());
         aiAgent.stopbusz();
         if (stop.IsCityStop()) // ha varos, felszallnak
         {
@@ -155,8 +156,7 @@ public class Bus : VehicleBase
             {
                 if (passanger.HomeCity == stop.City)
                 {
-                    stop.City.Unload(passanger);
-                    Debug.Log("1 ember leszállt");
+                    stop.City.Unload(passanger);;
                 }
             }
 
@@ -179,10 +179,8 @@ public class Bus : VehicleBase
         {
             if (passangers.Count > 0)
             {
-                stop.Industry.AddWorkers(new List<Worker>(passangers));
+                stop.Industry.AddWorkers(new List<Worker>(passangers), RouteIsLinear);
                 passangers.Clear();
-
-                Debug.Log($"Mindenki leszállt ide: {stop.Industry.name}");
             }
             passangers.AddRange(stop.Industry.GoingHome(Stops, data.Capacity - passangers.Count));
         }

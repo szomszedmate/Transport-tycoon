@@ -791,6 +791,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
   goldBarRequired: 1
   coinProduced: 3
   cycleTime: 9
@@ -6020,6 +6021,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -9475,6 +9477,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
   ironRequired: 2
   coalRequired: 1
   ironBarProduced: 1
@@ -11867,6 +11870,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 1
   shifts: []
+  waitingForBus: []
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -15046,6 +15050,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
   goldRequired: 2
   coalRequired: 1
   goldBarProduced: 1
@@ -16660,6 +16665,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -16720,6 +16726,7 @@ MonoBehaviour:
   maxWorkers: 100
   currentWorkers: 5
   shifts: []
+  waitingForBus: []
   producedAmount: 1
   cycleTime: 6
 --- !u!1 &1046363384
@@ -18445,6 +18452,9 @@ MonoBehaviour:
   player: {fileID: 1838842538}
   inputManager: {fileID: 1893735394}
   buildingSystem: {fileID: 381348912}
+  dayStart: 21600
+  eveningStart: 50400
+  nightStart: 79200
 --- !u!1 &1135645616
 GameObject:
   m_ObjectHideFlags: 0
@@ -26453,6 +26463,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 3
   shifts: []
+  waitingForBus: []
   producedAmount: 1
   cycleTime: 7
 --- !u!1 &1724693404
@@ -27125,6 +27136,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
   flourRequired: 2
   waterRequired: 1
   breadProduced: 1
@@ -30749,6 +30761,7 @@ MonoBehaviour:
   maxWorkers: 10
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
   wheatRequired: 2
   flourProduced: 1
   cycleTime: 8

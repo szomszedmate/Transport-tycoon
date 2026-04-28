@@ -8,13 +8,13 @@ public class Shift : MonoBehaviour
     public event WorkerChangedEventHandler WorkerChanged;
 
     private List<Worker> workers;
-    public float startTime;
-    public float endTime;
-    public float currTime;
+    public double startTime;
+    public double endTime;
+    public double currTime;
     public bool working;
 
-    public float StartTime { get => startTime; set => startTime = value; }
-    public float EndTime { get => endTime; set => endTime = value; }
+    public double StartTime { get => startTime; set => startTime = value; }
+    public double EndTime { get => endTime; set => endTime = value; }
     public List<Worker> Workers { get => workers; private set => workers = value; }
 
     public void Start()
@@ -32,7 +32,7 @@ public class Shift : MonoBehaviour
         working = false;
     }
 
-    public void ShiftUpdate(float globalTime)
+    public void ShiftUpdate(double globalTime)
     {
         currTime = globalTime;
         if (currTime >= endTime && working) // munkaido lejart
@@ -49,7 +49,7 @@ public class Shift : MonoBehaviour
         }
     }
 
-    public static Shift CreateNewShift(float curr, float start, float end, List<Worker> workers)
+    public static Shift CreateNewShift(double curr, double start, double end, List<Worker> workers)
     {
         GameObject shiftObject = new GameObject("Shift_" + start);
         Shift newShift = shiftObject.AddComponent<Shift>();

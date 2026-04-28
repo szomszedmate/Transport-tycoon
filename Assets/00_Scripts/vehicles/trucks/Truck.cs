@@ -127,7 +127,7 @@ public class Truck : VehicleBase
         }
 
         ChangeState(RouteConfirmed ? VehicleState.CONFIRMED : VehicleState.SELECTHOVER);
-        if (RouteConfirmed) aiAgent.GiveRoute(Route);
+        if (RouteConfirmed) aiAgent.GiveRoute(Route, false); // truck mindig linear
     }
 
     private void AiAgent_Arrived(object sender, ArrivedEventArgs e)
