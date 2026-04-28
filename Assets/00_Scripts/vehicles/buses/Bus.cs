@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Bus : VehicleBase
 {
+    private DayPhase dayPhase;
     public bool RouteIsLinear { get; private set; }
     private List<Worker> passangers;
     public BusType BusType
@@ -151,19 +152,20 @@ public class Bus : VehicleBase
         aiAgent.stopbusz();
         if (stop.IsCityStop()) // ha varos, felszallnak
         {
-            yield return new WaitForSeconds(1f / data.LoadingSpeed); // leszall aki tud
+            dayPhase = stop.City.dayPhase;
             foreach (Worker passanger in passangers)
             {
                 if (passanger.HomeCity == stop.City)
                 {
+                    yield return new WaitForSeconds(1f / data.LoadingSpeed); // leszall aki tud
                     stop.City.Unload(passanger);;
                 }
             }
 
+            yield return new WaitForSeconds(1f / data.LoadingSpeed);
             while (passangers.Count < data.Capacity) // felszallnak
             {
-                yield return new WaitForSeconds(1f / data.LoadingSpeed);
-                Worker worker = stop.City.Load();
+                Worker worker = stop.City.Load(dayPhase);
                 if (worker != null)
                 {
                     passangers.Add(worker);
@@ -179,7 +181,7 @@ public class Bus : VehicleBase
         {
             if (passangers.Count > 0)
             {
-                stop.Industry.AddWorkers(new List<Worker>(passangers), RouteIsLinear);
+                stop.Industry.AddWorkers(new List<Worker>(passangers), RouteIsLinear, dayPhase);
                 passangers.Clear();
             }
             passangers.AddRange(stop.Industry.GoingHome(Stops, data.Capacity - passangers.Count));

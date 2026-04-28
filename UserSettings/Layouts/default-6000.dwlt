@@ -256,7 +256,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 56}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 124
+  controlID: 102
   draggingID: 0
 --- !u!114 &11
 MonoBehaviour:
@@ -277,8 +277,8 @@ MonoBehaviour:
     y: 0
     width: 893
     height: 303
-  m_MinSize: {x: 51, y: 76}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 50, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 24}
   m_Panes:
   - {fileID: 14}
@@ -626,7 +626,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/00_Scripts/player
+    - Assets/Scenes
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -636,32 +636,36 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/00_Scripts/player
+  - Assets/Scenes
   m_LastFoldersGridSize: 16
-  m_LastProjectPath: S:\Unity\Projects\Transport Tycoon
+  m_LastProjectPath: D:\Unity\Downloads\transport-tycoon
   m_LockTracker:
     m_IsLocked: 1
   m_LastLocalAssetsSearchArea: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 79}
+    scrollPos: {x: 0, y: 799}
     m_SelectedIDs:
-    - m_Data: 54594
+    - m_Data: 54514
     m_LastClickedID:
-      m_Data: 54594
+      m_Data: 54514
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 54400
-    - m_Data: 54402
-    - m_Data: 54404
-    - m_Data: 54406
-    - m_Data: 54408
-    - m_Data: 54410
-    - m_Data: 54412
-    - m_Data: 54414
-    - m_Data: 54416
-    - m_Data: 54418
-    - m_Data: 54420
-    - m_Data: 54592
+    - m_Data: 54486
+    - m_Data: 54488
+    - m_Data: 54490
+    - m_Data: 54492
+    - m_Data: 54494
+    - m_Data: 54496
+    - m_Data: 54498
+    - m_Data: 54500
+    - m_Data: 54502
+    - m_Data: 54504
+    - m_Data: 54506
+    - m_Data: 54508
+    - m_Data: 54510
+    - m_Data: 54512
+    - m_Data: 54514
+    - m_Data: 54516
     - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -696,17 +700,22 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 54400
-    - m_Data: 54402
-    - m_Data: 54404
-    - m_Data: 54406
-    - m_Data: 54408
-    - m_Data: 54410
-    - m_Data: 54412
-    - m_Data: 54414
-    - m_Data: 54416
-    - m_Data: 54418
-    - m_Data: 54420
+    - m_Data: 54486
+    - m_Data: 54488
+    - m_Data: 54490
+    - m_Data: 54492
+    - m_Data: 54494
+    - m_Data: 54496
+    - m_Data: 54498
+    - m_Data: 54500
+    - m_Data: 54502
+    - m_Data: 54504
+    - m_Data: 54506
+    - m_Data: 54508
+    - m_Data: 54510
+    - m_Data: 54512
+    - m_Data: 54514
+    - m_Data: 54516
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -734,9 +743,9 @@ MonoBehaviour:
       m_ResourceFile: 
   m_ListAreaState:
     m_SelectedInstanceIDs:
-    - m_Data: 50946
-    m_LastClickedInstanceID: 50946
-    m_HadKeyboardFocusLastEvent: 0
+    - m_Data: -196638
+    m_LastClickedInstanceID: -196638
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs:
     - m_Data: 19974
     m_RenameOverlay:
@@ -810,19 +819,31 @@ MonoBehaviour:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs:
-      - m_Data: 49922
+      - m_Data: 169566
       m_LastClickedID:
-        m_Data: 49922
+        m_Data: 169566
       m_ExpandedIDs:
-      - m_Data: -1388
-      - m_Data: 50130
-      - m_Data: 50356
-      - m_Data: 50508
-      - m_Data: 50946
+      - m_Data: -170634
+      - m_Data: -160806
+      - m_Data: -160642
+      - m_Data: -160636
+      - m_Data: -160560
+      - m_Data: -159304
+      - m_Data: -154896
+      - m_Data: -27126
+      - m_Data: -4880
+      - m_Data: 56042
+      - m_Data: 56730
+      - m_Data: 56956
+      - m_Data: 57108
+      - m_Data: 160002
+      - m_Data: 160198
+      - m_Data: 168898
+      - m_Data: 169276
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Terrain
+        m_OriginalName: Terrain
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
@@ -830,10 +851,10 @@ MonoBehaviour:
           width: 0
           height: 0
         m_UserData:
-          m_Data: 0
+          m_Data: 160144
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 7}
@@ -1439,9 +1460,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 964.3718, y: 537.0244, z: 0}
+    m_Target: {x: 180.38428, y: 13.790131, z: -11.832214}
     speed: 2
-    m_Value: {x: 964.3718, y: 537.0244, z: 0}
+    m_Value: {x: 180.38428, y: 13.790131, z: -11.832214}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1487,13 +1508,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0, y: 0, z: 0, w: 1}
+    m_Target: {x: -0.17191654, y: -0.43431738, z: 0.08483008, w: -0.88013357}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0, w: 1}
+    m_Value: {x: -0.17191498, y: -0.43431345, z: 0.084829316, w: -0.8801256}
   m_Size:
-    m_Target: 469.37494
+    m_Target: 190.00775
     speed: 2
-    m_Value: 469.37494
+    m_Value: 190.00775
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -2446,7 +2467,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/03_Prefabs/roads
+    - Assets/Scenes
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -2456,32 +2477,31 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/03_Prefabs/roads
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: S:\Unity\Projects\Transport Tycoon
+  m_LastProjectPath: D:\Unity\Downloads\transport-tycoon
   m_LockTracker:
     m_IsLocked: 1
   m_LastLocalAssetsSearchArea: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 399}
+    scrollPos: {x: 0, y: 195}
     m_SelectedIDs:
-    - m_Data: 54418
+    - m_Data: 54514
     m_LastClickedID:
-      m_Data: 54418
+      m_Data: 54514
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 54400
-    - m_Data: 54402
-    - m_Data: 54404
-    - m_Data: 54406
-    - m_Data: 54408
-    - m_Data: 54410
-    - m_Data: 54412
-    - m_Data: 54414
-    - m_Data: 54416
-    - m_Data: 54418
-    - m_Data: 54420
-    - m_Data: 54592
+    - m_Data: 54486
+    - m_Data: 54498
+    - m_Data: 54500
+    - m_Data: 54502
+    - m_Data: 54504
+    - m_Data: 54506
+    - m_Data: 54508
+    - m_Data: 54510
+    - m_Data: 54512
+    - m_Data: 54514
+    - m_Data: 54516
     - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -2515,17 +2535,22 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 54400
-    - m_Data: 54402
-    - m_Data: 54404
-    - m_Data: 54406
-    - m_Data: 54408
-    - m_Data: 54410
-    - m_Data: 54412
-    - m_Data: 54414
-    - m_Data: 54416
-    - m_Data: 54418
-    - m_Data: 54420
+    - m_Data: 54486
+    - m_Data: 54488
+    - m_Data: 54490
+    - m_Data: 54492
+    - m_Data: 54494
+    - m_Data: 54496
+    - m_Data: 54498
+    - m_Data: 54500
+    - m_Data: 54502
+    - m_Data: 54504
+    - m_Data: 54506
+    - m_Data: 54508
+    - m_Data: 54510
+    - m_Data: 54512
+    - m_Data: 54514
+    - m_Data: 54516
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2553,8 +2578,8 @@ MonoBehaviour:
       m_ResourceFile: 
   m_ListAreaState:
     m_SelectedInstanceIDs:
-    - m_Data: 49922
-    m_LastClickedInstanceID: 49922
+    - m_Data: 169566
+    m_LastClickedInstanceID: 169566
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs:
     - m_Data: 78174
@@ -2583,7 +2608,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 10}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 16
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 200

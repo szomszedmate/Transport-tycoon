@@ -5,6 +5,7 @@ using static UnityEngine.UI.GridLayoutGroup;
 
 public abstract class Industry : MonoBehaviour, ILocation
 {
+    public event System.EventHandler<GetPhaseTimesEventArgs> GetPhaseTimes;
     public event System.EventHandler<GetTimeEventArgs> GetTime;
     public event System.EventHandler<ProducedEventArgs> Produced;
     public Vector3 Position => transform.position;
@@ -26,7 +27,10 @@ public abstract class Industry : MonoBehaviour, ILocation
     [SerializeField] protected int maxWorkers = 100;
     [SerializeField] protected int currentWorkers = 10; // csak azért nem 0, hogy lehessen vizsgálni a termelékenységet buszok nélkül
     public List<Shift> shifts;
-    public List<Worker> waitingForBus; 
+    public List<Worker> waitingForBus;
+    public Shift DayShift; // ezt a 3at hasznaljak a linear munkasbuszok
+    public Shift EveningShift;
+    public Shift NightShift;
 
     protected Dictionary<ResourceEnum, int> inventory = new();
     protected float productionTimer;
@@ -51,15 +55,25 @@ public abstract class Industry : MonoBehaviour, ILocation
         InitializeRecipe();
 
         shifts = new List<Shift>();
-        Shift DayShift = new Shift( );
-        Shift EveningShift = new Shift();
-        Shift NightShift = new Shift();
-        shifts.Add( DayShift );
-        shifts.Add( EveningShift );
-        shifts.Add( NightShift );
-
         productionTimer = 0f;
         waitingForBus = new List<Worker>();
+        SetupMainShifts();
+    }
+
+    private void SetupMainShifts()
+    {
+        GetPhaseTimesEventArgs e = new GetPhaseTimesEventArgs();
+        GetPhaseTimes?.Invoke(this, e);
+        DayShift = Shift.CreateNewShift(-1, e.DayStart, e.EveningStart, new List<Worker>());
+        DayShift.WorkerChanged += NewShift_WorkerChanged;
+        shifts.Add(DayShift);
+        EveningShift = Shift.CreateNewShift(-1, e.EveningStart, e.NightStart, new List<Worker>());
+        EveningShift.WorkerChanged += NewShift_WorkerChanged;
+        shifts.Add(EveningShift);
+        NightShift = Shift.CreateNewShift(-1, e.NightStart, e.DayStart, new List<Worker>());
+        NightShift.WorkerChanged += NewShift_WorkerChanged;
+        shifts.Add(NightShift);
+
     }
 
     protected virtual void Update()
@@ -264,21 +278,33 @@ public abstract class Industry : MonoBehaviour, ILocation
     }
 
     #region WorkerMethods
-    public virtual void AddWorkers(List<Worker> workers, bool scheduled)
+    public virtual void AddWorkers(List<Worker> workers, bool scheduled, DayPhase dayPhase)
     {
         
+        Debug.Log("Scheduled: " + scheduled);
         if (scheduled)
         {
-            GetTimeEventArgs e = new GetTimeEventArgs { RoundToDayPhase = true };
-            GetTime?.Invoke(this, e);
-
+            switch (dayPhase)
+            {
+                case (DayPhase.DAY):
+                    DayShift.RefillShift(workers);
+                    break;
+                case (DayPhase.EVENING):
+                    EveningShift.RefillShift(workers);
+                    break;
+                case (DayPhase.NIGHT):
+                    NightShift.RefillShift(workers);
+                    break;
+                default:
+                    break;
+            }
         } else
         {
             GetTimeEventArgs e = new GetTimeEventArgs { RoundToDayPhase = false };
             GetTime?.Invoke(this, e);
-            double currTime = e.Time;
-            double startTime = e.Time; // mas lesz munkasbuszoknal
-            double endTime = e.Time + 28800; // = 8 oraval kesobb
+            float currTime = e.Time;
+            float startTime = e.Time; // mas lesz munkasbuszoknal
+            float endTime = e.Time + 28800; // = 8 oraval kesobb
 
             Shift newShift = Shift.CreateNewShift(currTime, startTime, endTime, workers);
             newShift.WorkerChanged += NewShift_WorkerChanged;
@@ -293,14 +319,48 @@ public abstract class Industry : MonoBehaviour, ILocation
         if (e.Starts)
         {
             currentWorkers += e.WorkerCount;
-        } else
+        }
+        else // Munkaidõ vége
         {
             currentWorkers -= e.WorkerCount;
-            waitingForBus.AddRange(shift.Workers);
-            shifts.Remove(shift);
-            Destroy(shift);
+
+            // Csak akkor adjuk hozzá õket, ha tényleg vannak benne munkások
+            if (shift.Workers != null && shift.Workers.Count > 0)
+            {
+                waitingForBus.AddRange(shift.Workers);
+
+                // FONTOS: Miután hazamentek, ürítsük ki a mûszak listáját, 
+                // hogy a következõ váltásnál ne duplikálódjanak!
+                shift.Workers.Clear();
+            }
+
+            // Ha ez egy dinamikusan létrehozott (nem fix) mûszak, takarítsunk el
+            if (shift != DayShift && shift != EveningShift && shift != NightShift)
+            {
+                shifts.Remove(shift);
+                Destroy(shift.gameObject);
+            }
         }
     }
+
+    //private void NewShift_WorkerChanged(object sender, WorkerChangedEventArgs e)
+    //{
+    //    Shift shift = sender as Shift;
+    //    if (e.Starts)
+    //    {
+    //        currentWorkers += e.WorkerCount;
+    //    } else if (shift == DayShift || shift == EveningShift || shift == NightShift)
+    //    {
+    //        currentWorkers -= e.WorkerCount;
+    //        waitingForBus.AddRange(shift.Workers);
+    //    } else
+    //    {
+    //        currentWorkers -= e.WorkerCount;
+    //        waitingForBus.AddRange(shift.Workers);
+    //        shifts.Remove(shift);
+    //        Destroy(shift);
+    //    } 
+    //}
 
     public int SpaceLeft()
     {
@@ -386,13 +446,13 @@ public abstract class Industry : MonoBehaviour, ILocation
         return passangers;
     }
 
-    public void UpdateShifts(double globalTime)
+    public void UpdateShifts(float gameTime)
     {
         for (int i = shifts.Count - 1; i >= 0; i--)
         {
-            if (i < shifts.Count)
+            if (i < shifts.Count && shifts[i].enabled)
             {
-                shifts[i].ShiftUpdate(globalTime);
+                shifts[i].ShiftUpdate(gameTime);
             }
         }
     }

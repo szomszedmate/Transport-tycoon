@@ -27,9 +27,9 @@ public class City : MonoBehaviour, ILocation
         dayPhase = DayPhase.NIGHT;
     }
 
-    public Worker Load()
+    public Worker Load(DayPhase phase) // parameter miatt nem valtozik felszallas kozben
     {
-        switch (dayPhase)
+        switch (phase)
         {
             case DayPhase.DAY:
                 if (DayShift.Count > 0)

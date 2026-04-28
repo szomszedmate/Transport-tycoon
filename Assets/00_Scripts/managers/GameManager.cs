@@ -48,14 +48,8 @@ public class Game : MonoBehaviour
     public delegate void TimeChangedEventHandler(object sender, TimeChangedEventArgs e);
     public event TimeChangedEventHandler TimeChanged;
 
-    public void Start()
+    private void Awake()
     {
-        globalTime = 0;
-        gameTime = 0;
-        day = 1;
-        TimeMultiplier = 5144; // 1 day = 10 irl minutes (remove the 5)
-        industries = new List<Industry>();
-
         if (BuildingSystem != null)
         {
             BuildingSystem.BuyRequest += BuildingSystem_BuyRequest;
@@ -64,22 +58,39 @@ public class Game : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        globalTime = 0;
+        gameTime = 0;
+        day = 1;
+        TimeMultiplier = 5144; // 1 day = 10 irl minutes (144)
+    }
+
     private void Grid_LocationsRegistered(object sender, LocationsRegisteredEventArgs e)
     {
+        industries = new List<Industry>();
         foreach (ILocation location in e.RegisteredLocations)
         {
             if (location is Industry industry)
             {
                 industry.GetTime += Industry_GetTime;
                 industry.Produced += Player.Industry_Produced;
+                industry.GetPhaseTimes += Industry_GetPhaseTimes;
                 industries.Add(industry);
             }
         }
     }
 
+    private void Industry_GetPhaseTimes(object sender, GetPhaseTimesEventArgs e)
+    {
+        e.DayStart = dayStart;
+        e.EveningStart = eveningStart;
+        e.NightStart = nightStart;
+    }
+
     private void Industry_GetTime(object sender, GetTimeEventArgs e)
     {
-        e.Time = globalTime;
+        e.Time = gameTime;
     }
 
     private void BuildingSystem_AnyBusMileageChanged(object sender, MileageChangedEventArgs e)
@@ -139,7 +150,7 @@ public class Game : MonoBehaviour
         }
         foreach (Industry industry in industries)
         {
-            industry.UpdateShifts(globalTime);
+            industry.UpdateShifts(gameTime);
         }
         
     }

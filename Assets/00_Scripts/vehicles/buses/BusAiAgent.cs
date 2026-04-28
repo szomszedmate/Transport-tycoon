@@ -442,13 +442,14 @@ public class BusAiAgent : MonoBehaviour
 
             if (distance < 0.2f && isMoving)
             {
-                isMoving = false;
+                //isMoving = false;
 
                 // Csak a legelső indulásnál (amikor lerakod a buszt) kell ez a sávváltó logika
                 // Ha már úton van (nem null a last), akkor kezeljük rendes megállóként
                 if (currprog == 0 && !firstdone && last == null)
                 {
-                    Debug.Log("Kezdeti sávváltás kész, indulás az 1. pontra.");
+                    Debug.Log($"Start megállóhoz ért (Index: {currprog})");
+                    Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
                     firstdone = true;
                     currprog = 1;
                     MoveToNewDest();

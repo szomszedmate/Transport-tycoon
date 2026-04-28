@@ -39,7 +39,7 @@ public class ArrivedEventArgs : EventArgs
 
 public class GetTimeEventArgs : EventArgs
 {
-    public double Time { get; set; }
+    public float Time { get; set; }
     public bool RoundToDayPhase { get; set; }
 }
 
@@ -64,4 +64,11 @@ public class ProducedEventArgs : EventArgs
 {
     public ResourceEnum Resouce { get; set; }
     public int Amount { get; set; }
+}
+
+public class GetPhaseTimesEventArgs : EventArgs
+{
+    public float DayStart { get; set; }
+    public float EveningStart { get; set; }
+    public float NightStart { get; set; }
 }
