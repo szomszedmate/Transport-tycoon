@@ -5,7 +5,7 @@ using System.Linq;
 public class City : MonoBehaviour, ILocation
 {
     public event System.EventHandler<GetTimeEventArgs> GetTime;
-
+    private List<Bus> buses;
     public Vector3 Position => transform.position;
     public StopType Type => StopType.Universal;
     [SerializeField] private CityModel model;
@@ -25,17 +25,21 @@ public class City : MonoBehaviour, ILocation
         NightShift = new List<Worker>();
         DivideShifts();
         dayPhase = DayPhase.NIGHT;
+
+        buses = new();
     }
 
     public Worker Load(DayPhase phase) // parameter miatt nem valtozik felszallas kozben
     {
+        Worker worker;
         switch (phase)
         {
             case DayPhase.DAY:
                 if (DayShift.Count > 0)
                 {
-                    DayShift.RemoveAt(0);
-                    return (DayShift.First());
+                    worker = DayShift.First();
+                    DayShift.Remove(worker);
+                    return worker;
                 } else
                 {
                     return null;
@@ -43,8 +47,9 @@ public class City : MonoBehaviour, ILocation
             case DayPhase.EVENING:
                 if (EveningShift.Count > 0)
                 {
-                    EveningShift.RemoveAt(0);
-                    return(EveningShift.First());
+                    worker = EveningShift.First();
+                    EveningShift.Remove(worker);
+                    return worker;
                 } else
                 {
                     return null;
@@ -52,8 +57,9 @@ public class City : MonoBehaviour, ILocation
             case DayPhase.NIGHT:
                 if (NightShift.Count > 0)
                 {
-                    NightShift.RemoveAt(0);
-                    return (NightShift.First());
+                    worker = NightShift.First();
+                    NightShift.Remove(worker);
+                    return worker;
                 } else
                 {
                     return null;

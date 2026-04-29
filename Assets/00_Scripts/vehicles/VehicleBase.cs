@@ -128,7 +128,7 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
         return false;
     }
 
-    public void ResetRoute()
+    public virtual void ResetRoute()
     {
 
         RouteConfirmed = false;

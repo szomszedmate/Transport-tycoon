@@ -58,50 +58,11 @@ public class Shift : MonoBehaviour
         {
             working = false;
             WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = false, WorkerCount = Workers.Count });
-
+            enabled = false;
             // Ha nem a fix 3 fõ mûszak egyike, akkor leállítjuk
             // (A fix mûszakoknak 'enabled' kell maradniuk a következõ napra)
         }
     }
-
-    //public void ShiftUpdate(float gameTime)
-    //{   
-    //    currTime = gameTime;
-    //    if (workers.Count > 0)
-    //    {
-    //        Debug.Log("start: " + startTime + " end: " + endTime + " current: " + currTime);
-    //    }
-
-    //    if (endTime < startTime && enabled) // night shift
-    //    {
-    //        if (currTime >= endTime && currTime < startTime && working)
-    //        {
-    //            working = false;
-    //            WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = false, WorkerCount = Workers.Count });
-    //            enabled = false;
-    //            return;
-    //        }
-    //        if ((currTime < endTime || currTime >= startTime) && !working)
-    //        {
-    //            working = true;
-    //            WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = true, WorkerCount = Workers.Count });
-    //            return;
-    //        } 
-    //    }
-
-    //    if (currTime >= endTime && working) // munkaido lejart
-    //    {
-    //        working = false;
-    //        WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = false, WorkerCount = Workers.Count }); // n munkas vegzett
-    //    }
-    //    else if (currTime >= startTime && !working)
-    //    { // munkaido kezdodik
-    //        {
-    //            working = true;
-    //            WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = true, WorkerCount = Workers.Count }); // n munkas kezd
-    //        }
-    //    }
-    //}
 
     public void RefillShift(List<Worker> workers) // csak a 3 fo shiftnek
     {

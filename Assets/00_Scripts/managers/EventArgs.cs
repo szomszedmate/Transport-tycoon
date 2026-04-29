@@ -72,3 +72,8 @@ public class GetPhaseTimesEventArgs : EventArgs
     public float EveningStart { get; set; }
     public float NightStart { get; set; }
 }
+
+public class CancelChargeEventArgs : EventArgs
+{
+    public float Penalty { get; set; }
+}

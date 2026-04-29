@@ -53,6 +53,7 @@ public class BuildingSystem : MonoBehaviour
     public event EventHandler<IData> selectprev;
     public event EventHandler<BuyRequestEventArgs> BuyRequest; 
     public event VehicleBase.MileageChangedEventHandler AnyBusMileageChanged;
+    public event EventHandler<CancelChargeEventArgs> CancelCharge;
     public void InputUpdate(Vector2 mousePosition, bool leftClicked, bool rightClicked, bool leftHeld, bool rightHeld)
     {
         this.mousePosition = mousePosition;
@@ -176,6 +177,7 @@ public class BuildingSystem : MonoBehaviour
         if (Preview is not BusPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
         Bus bus = Instantiate(busPrefab, snappedPos, Quaternion.identity);
+        bus.CancelCharge += Bus_CancelCharge;
 
         var agent = bus.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
@@ -187,6 +189,11 @@ public class BuildingSystem : MonoBehaviour
         vehiclePlaced?.Invoke(this,bus);
         Preview = null;
 
+    }
+
+    private void Bus_CancelCharge(object sender, CancelChargeEventArgs e)
+    {
+        CancelCharge?.Invoke(this, e);
     }
 
     private void PlaceTruck(Vector3 truckPosition)
@@ -597,6 +604,7 @@ public class BuildingSystem : MonoBehaviour
 
                     var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
                     BuyRequest?.Invoke(this, checkNext);
+
                     canAfford = checkNext.IsApproved;
                 }
 
@@ -631,7 +639,6 @@ public class BuildingSystem : MonoBehaviour
                 else if (shouldIPlace)
                 {
                     float price = Preview.Data.Cost;    // update affordability
-
                     var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
                     BuyRequest?.Invoke(this, checkNext);
                     canAfford = checkNext.IsApproved;

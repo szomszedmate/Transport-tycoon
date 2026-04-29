@@ -13,6 +13,7 @@ public class Game : MonoBehaviour
     [SerializeField] private float eveningStart;
     [SerializeField] private float nightStart;
     private List<Industry> industries;
+    private List<City> cities;
     private double globalTime;
     private float gameTime;
     private int day;
@@ -55,7 +56,13 @@ public class Game : MonoBehaviour
             BuildingSystem.BuyRequest += BuildingSystem_BuyRequest;
             BuildingSystem.AnyBusMileageChanged += BuildingSystem_AnyBusMileageChanged;
             BuildingSystem.Grid.LocationsRegistered += Grid_LocationsRegistered;
+            BuildingSystem.CancelCharge += BuildingSystem_CancelCharge;
         }
+    }
+
+    private void BuildingSystem_CancelCharge(object sender, CancelChargeEventArgs e)
+    {
+        Player.LoseMoney(e.Penalty);
     }
 
     private void Start()
@@ -63,12 +70,13 @@ public class Game : MonoBehaviour
         globalTime = 0;
         gameTime = 0;
         day = 1;
-        TimeMultiplier = 5144; // 1 day = 10 irl minutes (144)
+        TimeMultiplier = 144; // 1 day = 10 irl minutes
     }
 
     private void Grid_LocationsRegistered(object sender, LocationsRegisteredEventArgs e)
     {
         industries = new List<Industry>();
+        cities = new List<City>();
         foreach (ILocation location in e.RegisteredLocations)
         {
             if (location is Industry industry)
@@ -77,6 +85,9 @@ public class Game : MonoBehaviour
                 industry.Produced += Player.Industry_Produced;
                 industry.GetPhaseTimes += Industry_GetPhaseTimes;
                 industries.Add(industry);
+            } else if(location is City city)
+            {
+                cities.Add(city);
             }
         }
     }

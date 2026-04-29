@@ -64,13 +64,19 @@ public abstract class Industry : MonoBehaviour, ILocation
     {
         GetPhaseTimesEventArgs e = new GetPhaseTimesEventArgs();
         GetPhaseTimes?.Invoke(this, e);
+
         DayShift = Shift.CreateNewShift(-1, e.DayStart, e.EveningStart, new List<Worker>());
+        DayShift.enabled = false;
         DayShift.WorkerChanged += NewShift_WorkerChanged;
         shifts.Add(DayShift);
+
         EveningShift = Shift.CreateNewShift(-1, e.EveningStart, e.NightStart, new List<Worker>());
+        EveningShift.enabled = false;
         EveningShift.WorkerChanged += NewShift_WorkerChanged;
         shifts.Add(EveningShift);
+
         NightShift = Shift.CreateNewShift(-1, e.NightStart, e.DayStart, new List<Worker>());
+        NightShift.enabled = false;
         NightShift.WorkerChanged += NewShift_WorkerChanged;
         shifts.Add(NightShift);
 
@@ -281,7 +287,7 @@ public abstract class Industry : MonoBehaviour, ILocation
     public virtual void AddWorkers(List<Worker> workers, bool scheduled, DayPhase dayPhase)
     {
         
-        Debug.Log("Scheduled: " + scheduled);
+        
         if (scheduled)
         {
             switch (dayPhase)

@@ -9,6 +9,7 @@ using System.Linq;
 
 public class BusAiAgent : MonoBehaviour
 {
+    public System.EventHandler<EventArgs> Reversed;
     public delegate void ArrivedAtStop(object sender, ArrivedEventArgs e);
     public event ArrivedAtStop Arrived;
     private NavMeshAgent ai;
@@ -448,7 +449,7 @@ public class BusAiAgent : MonoBehaviour
                 // Ha már úton van (nem null a last), akkor kezeljük rendes megállóként
                 if (currprog == 0 && !firstdone && last == null)
                 {
-                    Debug.Log($"Start megállóhoz ért (Index: {currprog})");
+                    //Debug.Log($"Start megállóhoz ért (Index: {currprog})");
                     Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
                     firstdone = true;
                     currprog = 1;
@@ -462,7 +463,6 @@ public class BusAiAgent : MonoBehaviour
 
                 if (hasBusStop && (roadStopType == type || roadStopType == StopType.Universal || type == StopType.Bus))
                 {
-                    Debug.Log($"Megállóhoz ért (Index: {currprog})");
                     Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
                 }
                 else
@@ -489,7 +489,7 @@ public class BusAiAgent : MonoBehaviour
                 currprog = 0;
                 firstdone = false;
             }
-
+            Reversed?.Invoke(this, EventArgs.Empty);
             MoveToNewDest();
             return;
         }

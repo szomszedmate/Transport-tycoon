@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,9 +7,14 @@ using UnityEngine;
 
 public class Bus : VehicleBase
 {
+    public event System.EventHandler<CancelChargeEventArgs> CancelCharge;
     private DayPhase dayPhase;
     public bool RouteIsLinear { get; private set; }
     private List<Worker> passangers;
+    private List<ILocation> locations;
+    private int locationIndex;
+
+    private const float cancelPenalty = 75;
     public BusType BusType
     {
         get
@@ -110,16 +116,37 @@ public class Bus : VehicleBase
         // Set the default material
         SetMaterial(VehicleState.BUILT);
         Route = new List<Road>();
+        locations = new List<ILocation>();
+        locationIndex = 0;
         aiAgent = GetComponent<BusAiAgent>();
         aiAgent.type = type;
         aiAgent.speed = data.Speed;
         aiAgent.Arrived += AiAgent_Arrived;
+        aiAgent.Reversed += AiAgent_Reversed;
         passangers = new List<Worker>();
+    }
+
+    private void AiAgent_Reversed(object sender, EventArgs e)
+    {
+        locations.Reverse();
+        locationIndex = 0;
     }
 
     private void AiAgent_Arrived(object sender, ArrivedEventArgs e)
     {
         StartCoroutine(OnArrivedAtStop(e.Stop));
+    }
+
+    public override void ResetRoute()
+    {
+        if (!RouteIsLinear && RouteConfirmed) // nonstop resetelese penzbe kerul
+        {
+            CancelCharge?.Invoke(this, new CancelChargeEventArgs { Penalty = cancelPenalty });
+        }
+        RouteConfirmed = false;
+        aiAgent.RemoveRoute();
+        Route.Clear();
+
     }
 
     public void ConfirmRoute(bool linear)
@@ -129,42 +156,45 @@ public class Bus : VehicleBase
             Debug.Log("Cant confirm");
             return;
         }
+
         Stops.Clear();
         RouteConfirmed = !RouteConfirmed;
         RouteIsLinear = linear;
         NonStop = !linear;
+        
         foreach (Road road in Route)
         {
             road.ChangeState(RouteConfirmed ? RoadState.CONFIRMED : RoadState.SELECTED);
             if (road.Road_HasBusStop())
             {
+                locations.Add(road.BusStop.location);
                 Stops.Add(road.BusStop);
             }
         }
-
+        locationIndex = 0;
         ChangeState(RouteConfirmed ? VehicleState.CONFIRMED : VehicleState.SELECTHOVER);
         if (RouteConfirmed) aiAgent.GiveRoute(Route, !linear);
     }
 
     public override IEnumerator OnArrivedAtStop(BusStop stop)
     {
-        Debug.Log("Arrived, " + stop.IsCityStop());
         aiAgent.stopbusz();
-        if (stop.IsCityStop()) // ha varos, felszallnak
+        if (stop.IsCityStop()) // ha varos, fel- es leszallnak
         {
             dayPhase = stop.City.dayPhase;
-            foreach (Worker passanger in passangers)
+            for (int i = passangers.Count-1; i >= 0; i--)
             {
-                if (passanger.HomeCity == stop.City)
+                if (passangers[i].HomeCity == stop.City)
                 {
                     yield return new WaitForSeconds(1f / data.LoadingSpeed); // leszall aki tud
-                    stop.City.Unload(passanger);;
+                    stop.City.Unload(passangers[i]);
+                    passangers.Remove(passangers[i]);
                 }
             }
 
-            yield return new WaitForSeconds(1f / data.LoadingSpeed);
             while (passangers.Count < data.Capacity) // felszallnak
             {
+                yield return new WaitForSeconds(1f / data.LoadingSpeed);
                 Worker worker = stop.City.Load(dayPhase);
                 if (worker != null)
                 {
@@ -179,16 +209,55 @@ public class Bus : VehicleBase
         }
         else // ha industry, leszallnak
         {
-            if (passangers.Count > 0)
+            int canAccept = stop.Industry.SpaceLeft();
+            int gettingOffCount = PlanAhead();
+
+            if (gettingOffCount > canAccept) // csak annyi szall le amennyi elfer
             {
-                stop.Industry.AddWorkers(new List<Worker>(passangers), RouteIsLinear, dayPhase);
-                passangers.Clear();
+                gettingOffCount = canAccept;
             }
-            passangers.AddRange(stop.Industry.GoingHome(Stops, data.Capacity - passangers.Count));
+
+            if (gettingOffCount > 0 && passangers.Count >= gettingOffCount)
+            {
+                // 1. Kivesszük a leszállókat egy külön listába
+                List<Worker> off = passangers.GetRange(0, gettingOffCount);
+
+                // 2. Töröljük õket az eredeti listából
+                passangers.RemoveRange(0, gettingOffCount);
+
+                stop.Industry.AddWorkers(off, RouteIsLinear, dayPhase);
+            }
+            int freeSpace = data.Capacity - passangers.Count;
+            if (freeSpace > 0)
+            {
+                var homeGoers = stop.Industry.GoingHome(Stops, freeSpace);
+                passangers.AddRange(homeGoers);
+            }
         }
         yield return new WaitForSeconds(1f / data.LoadingSpeed);
-
+        locationIndex++;
         aiAgent.startbusz();
         aiAgent.ProcessNextPoint();
+    }
+
+    public int PlanAhead() // elosztja egyenletesen a leszallo utasokat
+    {
+        int industries = 0;
+        if (locations[locationIndex] is City)
+        {
+            return 0;
+        }
+        Debug.Log("# of locations: " + locations.Count);
+        for (int i = locationIndex; i < locations.Count; i++)
+        {
+            if (locations[i] is City)
+            {
+                Debug.Log("breaking");
+                break;
+            }
+            industries++;
+            Debug.Log("i: " + i + ", industries: " + industries);
+        }
+        return (passangers.Count / industries);
     }
 }

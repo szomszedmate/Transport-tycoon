@@ -792,6 +792,9 @@ MonoBehaviour:
   currentWorkers: 10
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   goldBarRequired: 1
   coinProduced: 3
   cycleTime: 9
@@ -6022,6 +6025,9 @@ MonoBehaviour:
   currentWorkers: 10
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -9478,6 +9484,9 @@ MonoBehaviour:
   currentWorkers: 10
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   ironRequired: 2
   coalRequired: 1
   ironBarProduced: 1
@@ -11871,6 +11880,9 @@ MonoBehaviour:
   currentWorkers: 1
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -15051,6 +15063,9 @@ MonoBehaviour:
   currentWorkers: 10
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   goldRequired: 2
   coalRequired: 1
   goldBarProduced: 1
@@ -16666,6 +16681,9 @@ MonoBehaviour:
   currentWorkers: 10
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -16727,6 +16745,9 @@ MonoBehaviour:
   currentWorkers: 5
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedAmount: 1
   cycleTime: 6
 --- !u!1 &1046363384
@@ -26464,6 +26485,9 @@ MonoBehaviour:
   currentWorkers: 3
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedAmount: 1
   cycleTime: 7
 --- !u!1 &1724693404
@@ -27137,6 +27161,9 @@ MonoBehaviour:
   currentWorkers: 10
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   flourRequired: 2
   waterRequired: 1
   breadProduced: 1
@@ -30758,10 +30785,13 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 10
+  maxWorkers: 30
   currentWorkers: 10
   shifts: []
   waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   wheatRequired: 2
   flourProduced: 1
   cycleTime: 8
