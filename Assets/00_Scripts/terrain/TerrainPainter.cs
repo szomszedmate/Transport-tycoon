@@ -9,7 +9,7 @@ public class TerrainPainter : MonoBehaviour
     [SerializeField] private float roadWidth = 4f;      // Width in world units (meters)
     [SerializeField] private float roadLength = 10f;    // Length in world units (meters) - for straight roads
 
-    [SerializeField] private float edgeSoftness = 0.0f; // 0 = sharp edges, 0.5 = soft edges
+    //[SerializeField] private float edgeSoftness = 0.0f; // 0 = sharp edges, 0.5 = soft edges
 
     public Terrain Terrain { get => terrain; private set => terrain = value; }
 

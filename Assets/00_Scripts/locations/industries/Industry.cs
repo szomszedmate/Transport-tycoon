@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public abstract class Industry : MonoBehaviour, ILocation
 {
+    public event System.EventHandler<GetPhaseTimesEventArgs> GetPhaseTimes;
     public event System.EventHandler<GetTimeEventArgs> GetTime;
     public event System.EventHandler<ProducedEventArgs> Produced;
     public Vector3 Position => transform.position;
@@ -18,10 +20,17 @@ public abstract class Industry : MonoBehaviour, ILocation
 
     [Header("Storage")]
     [SerializeField] protected int defaultStorageCapacity = 50;
+    [SerializeField] private int inputStorage;
+    [SerializeField] private int outputStorage;
 
     [Header("Workers")]
     [SerializeField] protected int maxWorkers = 100;
     [SerializeField] protected int currentWorkers = 10; // csak azért nem 0, hogy lehessen vizsgálni a termelékenységet buszok nélkül
+    public List<Shift> shifts;
+    public List<Worker> waitingForBus;
+    public Shift DayShift; // ezt a 3at hasznaljak a linear munkasbuszok
+    public Shift EveningShift;
+    public Shift NightShift;
 
     protected Dictionary<ResourceEnum, int> inventory = new();
     protected float productionTimer;
@@ -29,8 +38,6 @@ public abstract class Industry : MonoBehaviour, ILocation
 
     protected Recipe recipe;
 
-    public List<Shift> shifts;
-    public List<Worker> waitingForBus; 
 
 
     public virtual List<Vector3> GetAllBuildingPositions()
@@ -46,9 +53,33 @@ public abstract class Industry : MonoBehaviour, ILocation
     protected virtual void Start()
     {
         InitializeRecipe();
+
         shifts = new List<Shift>();
         productionTimer = 0f;
         waitingForBus = new List<Worker>();
+        SetupMainShifts();
+    }
+
+    private void SetupMainShifts()
+    {
+        GetPhaseTimesEventArgs e = new GetPhaseTimesEventArgs();
+        GetPhaseTimes?.Invoke(this, e);
+
+        DayShift = Shift.CreateNewShift(-1, e.DayStart, e.EveningStart, new List<Worker>());
+        DayShift.enabled = false;
+        DayShift.WorkerChanged += NewShift_WorkerChanged;
+        shifts.Add(DayShift);
+
+        EveningShift = Shift.CreateNewShift(-1, e.EveningStart, e.NightStart, new List<Worker>());
+        EveningShift.enabled = false;
+        EveningShift.WorkerChanged += NewShift_WorkerChanged;
+        shifts.Add(EveningShift);
+
+        NightShift = Shift.CreateNewShift(-1, e.NightStart, e.DayStart, new List<Worker>());
+        NightShift.enabled = false;
+        NightShift.WorkerChanged += NewShift_WorkerChanged;
+        shifts.Add(NightShift);
+
     }
 
     protected virtual void Update()
@@ -149,6 +180,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         {
             inventory[input.Key] -= input.Value;
         }
+        UpdateStorageDebug();
     }
 
     protected void ProduceOutputs()
@@ -158,6 +190,7 @@ public abstract class Industry : MonoBehaviour, ILocation
             AddResource(output.Key, output.Value);
             Produced?.Invoke(this, new ProducedEventArgs { Resouce = output.Key, Amount = output.Value });
         }
+        UpdateStorageDebug();
     }
 
     protected void AddResource(ResourceEnum type, int amount)
@@ -226,7 +259,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         {
             AddResource(type, accepted);
         }
-
+        UpdateStorageDebug();
         return accepted;
     }
 
@@ -244,23 +277,44 @@ public abstract class Industry : MonoBehaviour, ILocation
         {
             RemoveResource(type, pickedUp);
         }
-
+        UpdateStorageDebug();
         return pickedUp;
     }
 
     #region WorkerMethods
-    public virtual void AddWorkers(List<Worker> workers)
+    public virtual void AddWorkers(List<Worker> workers, bool scheduled, DayPhase dayPhase)
     {
-        GetTimeEventArgs e = new GetTimeEventArgs();
-        GetTime?.Invoke(this, e);
+        
+        
+        if (scheduled)
+        {
+            switch (dayPhase)
+            {
+                case (DayPhase.DAY):
+                    DayShift.RefillShift(workers);
+                    break;
+                case (DayPhase.EVENING):
+                    EveningShift.RefillShift(workers);
+                    break;
+                case (DayPhase.NIGHT):
+                    NightShift.RefillShift(workers);
+                    break;
+                default:
+                    break;
+            }
+        } else
+        {
+            GetTimeEventArgs e = new GetTimeEventArgs { RoundToDayPhase = false };
+            GetTime?.Invoke(this, e);
+            float currTime = e.Time;
+            float startTime = e.Time; // mas lesz munkasbuszoknal
+            float endTime = e.Time + 28800; // = 8 oraval kesobb
 
-        float currTime = e.Time; 
-        float startTime = e.Time; // mas lesz munkasbuszoknal
-        float endTime = e.Time + 28800; // = 8 oraval kesobb
-
-        Shift newShift = Shift.CreateNewShift(currTime, startTime, endTime, workers);
-        newShift.WorkerChanged += NewShift_WorkerChanged;
-        shifts.Add(newShift);
+            Shift newShift = Shift.CreateNewShift(currTime, startTime, endTime, workers);
+            newShift.WorkerChanged += NewShift_WorkerChanged;
+            shifts.Add(newShift);
+        }
+        
     }
 
     private void NewShift_WorkerChanged(object sender, WorkerChangedEventArgs e)
@@ -269,13 +323,48 @@ public abstract class Industry : MonoBehaviour, ILocation
         if (e.Starts)
         {
             currentWorkers += e.WorkerCount;
-        } else
+        }
+        else // Munkaidõ vége
         {
             currentWorkers -= e.WorkerCount;
-            waitingForBus.AddRange(shift.Workers);
-            shifts.Remove(shift);
+
+            // Csak akkor adjuk hozzá õket, ha tényleg vannak benne munkások
+            if (shift.Workers != null && shift.Workers.Count > 0)
+            {
+                waitingForBus.AddRange(shift.Workers);
+
+                // FONTOS: Miután hazamentek, ürítsük ki a mûszak listáját, 
+                // hogy a következõ váltásnál ne duplikálódjanak!
+                shift.Workers.Clear();
+            }
+
+            // Ha ez egy dinamikusan létrehozott (nem fix) mûszak, takarítsunk el
+            if (shift != DayShift && shift != EveningShift && shift != NightShift)
+            {
+                shifts.Remove(shift);
+                Destroy(shift.gameObject);
+            }
         }
     }
+
+    //private void NewShift_WorkerChanged(object sender, WorkerChangedEventArgs e)
+    //{
+    //    Shift shift = sender as Shift;
+    //    if (e.Starts)
+    //    {
+    //        currentWorkers += e.WorkerCount;
+    //    } else if (shift == DayShift || shift == EveningShift || shift == NightShift)
+    //    {
+    //        currentWorkers -= e.WorkerCount;
+    //        waitingForBus.AddRange(shift.Workers);
+    //    } else
+    //    {
+    //        currentWorkers -= e.WorkerCount;
+    //        waitingForBus.AddRange(shift.Workers);
+    //        shifts.Remove(shift);
+    //        Destroy(shift);
+    //    } 
+    //}
 
     public int SpaceLeft()
     {
@@ -310,4 +399,65 @@ public abstract class Industry : MonoBehaviour, ILocation
         return Mathf.Max(0, maxWorkers - currentWorkers);
     }
     #endregion
+
+    private void UpdateStorageDebug()
+    {
+        inputStorage = 0;
+        outputStorage = 0;
+
+        if (recipe == null) return;
+
+        foreach (var item in inventory)
+        {
+            // Ha a nyersanyag benne van a recept bemenetei között, akkor input
+            if (recipe.Inputs.ContainsKey(item.Key))
+            {
+                inputStorage += item.Value;
+            }
+
+            // Ha a nyersanyag benne van a recept kimenetei között, akkor output
+            if (recipe.Outputs.ContainsKey(item.Key))
+            {
+                outputStorage += item.Value;
+            }
+        }
+    }
+
+    public List<Worker> GoingHome(List<BusStop> stops, int capacity)
+    {
+        List<City> cities = new List<City>();
+        foreach (BusStop stop in stops)
+        {
+            if (stop.City != null)
+            {
+                cities.Add(stop.City);
+            }
+        }
+
+        List<Worker> passangers = new List<Worker>();
+
+        for (int i = waitingForBus.Count - 1; i >= 0; i--)
+        {
+            if (cities.Contains(waitingForBus[i].HomeCity) && capacity > 0) // ha a busz megall a szulovarosuknal
+            {
+                passangers.Add(waitingForBus[i]);
+                capacity++;
+                waitingForBus.Remove(waitingForBus[i]);
+            }
+        }
+
+
+        return passangers;
+    }
+
+    public void UpdateShifts(float gameTime)
+    {
+        for (int i = shifts.Count - 1; i >= 0; i--)
+        {
+            if (i < shifts.Count && shifts[i].enabled)
+            {
+                shifts[i].ShiftUpdate(gameTime);
+            }
+        }
+    }
 }

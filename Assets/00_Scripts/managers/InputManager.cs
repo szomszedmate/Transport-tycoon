@@ -25,6 +25,7 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] private List<BuildHotkey> hotkeys;
 
+    public bool menuOpen;
     private const float doubleClickTime = 0.3f;
     private float lastClickTime;
     private RaycastHit hit;
@@ -43,12 +44,15 @@ public class InputManager : MonoBehaviour
             if (hotkey.Data is IData data)
                 buildShortcuts[hotkey.Key] = data;
         }
+        menuOpen = false;
     }
     void Update()
     {
 #if UNITY_EDITOR
         if (EditorWindow.focusedWindow == null || EditorWindow.focusedWindow.titleContent.text != "Game") return;
 #endif
+        if (menuOpen) return; // nincs input ha menu nyitva van
+
         Vector2 mousePos = Mouse.current.position.ReadValue();
         if (!EventSystem.current.IsPointerOverGameObject())
         {

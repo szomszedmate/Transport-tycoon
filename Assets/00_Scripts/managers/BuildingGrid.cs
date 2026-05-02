@@ -31,7 +31,7 @@ public class BuildingGrid : MonoBehaviour
     public int Height { get => height; set => height = value; } // for debug
     public List<ILocation> Locations { get => locations; set => locations = value; }
 
-    private void Start()
+    private void Awake()
     {
         Grid = new BuildingGridCell[Width, Height];
         treeVisuals = new TreeVisual[Width, Height];

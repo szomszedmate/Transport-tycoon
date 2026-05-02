@@ -9,6 +9,7 @@ public class PlayerTests
     [SetUp]
     public void SetUp()
     {
+
         GameObject gameObject = new GameObject();
         player = gameObject.AddComponent<Player>();
 

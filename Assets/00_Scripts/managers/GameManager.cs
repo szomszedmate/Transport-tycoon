@@ -9,8 +9,12 @@ public class Game : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private BuildingSystem buildingSystem;
-    private List<Shift> shifts;
-    private float globalTime;
+    [SerializeField] private float dayStart;
+    [SerializeField] private float eveningStart;
+    [SerializeField] private float nightStart;
+    private List<Industry> industries;
+    private List<City> cities;
+    private double globalTime;
     private float gameTime;
     private int day;
     private DayPhase dayPhase;
@@ -25,7 +29,7 @@ public class Game : MonoBehaviour
         }
         private set
         {
-            if (dayPhase != value) return;
+            if (dayPhase == value) return;
             dayPhase = value;
             if (BuildingSystem != null)
             {
@@ -33,7 +37,7 @@ public class Game : MonoBehaviour
                 {
                     if (location is City city)
                     {
-                        city.dayPhase = dayPhase;
+                        city.DayPhase = dayPhase;
                     }
                 }
             }
@@ -45,37 +49,59 @@ public class Game : MonoBehaviour
     public delegate void TimeChangedEventHandler(object sender, TimeChangedEventArgs e);
     public event TimeChangedEventHandler TimeChanged;
 
-    public void Start()
+    private void Awake()
     {
-        globalTime = 0;
-        gameTime = 0;
-        day = 1;
-        TimeMultiplier = 5144; // 1 day = 10 irl minutes (remove the 5)
-        shifts = new List<Shift>();
-
         if (BuildingSystem != null)
         {
             BuildingSystem.BuyRequest += BuildingSystem_BuyRequest;
             BuildingSystem.AnyBusMileageChanged += BuildingSystem_AnyBusMileageChanged;
+            BuildingSystem.Grid.LocationsRegistered += Grid_LocationsRegistered;
+            BuildingSystem.CancelCharge += BuildingSystem_CancelCharge;
         }
-        buildingSystem.Grid.LocationsRegistered += Grid_LocationsRegistered;
+    }
+
+    private void BuildingSystem_CancelCharge(object sender, CancelChargeEventArgs e)
+    {
+        Player.LoseMoney(e.Penalty);
+    }
+
+    private void Start()
+    {
+        globalTime = 0;
+        gameTime = 0;
+        day = 1;
+        TimeMultiplier = 144; // 1 day = 10 irl minutes
     }
 
     private void Grid_LocationsRegistered(object sender, LocationsRegisteredEventArgs e)
     {
+        industries = new List<Industry>();
+        cities = new List<City>();
         foreach (ILocation location in e.RegisteredLocations)
         {
             if (location is Industry industry)
             {
                 industry.GetTime += Industry_GetTime;
                 industry.Produced += Player.Industry_Produced;
+                industry.GetPhaseTimes += Industry_GetPhaseTimes;
+                industries.Add(industry);
+            } else if(location is City city)
+            {
+                cities.Add(city);
             }
         }
     }
 
+    private void Industry_GetPhaseTimes(object sender, GetPhaseTimesEventArgs e)
+    {
+        e.DayStart = dayStart;
+        e.EveningStart = eveningStart;
+        e.NightStart = nightStart;
+    }
+
     private void Industry_GetTime(object sender, GetTimeEventArgs e)
     {
-        e.Time = globalTime;
+        e.Time = gameTime;
     }
 
     private void BuildingSystem_AnyBusMileageChanged(object sender, MileageChangedEventArgs e)
@@ -104,7 +130,7 @@ public class Game : MonoBehaviour
                 //Debug.Log("Remaining money: " + player.Money);
             } else
             {
-                Debug.LogWarning("Insufficient funds, ramaining money: " + Player.Money + " (need " + e.Cost + " )");
+                // TODO jelzés, hogy nincs elég pénz
             }
         }
         if (Player.CanAfford(e.Cost))
@@ -123,27 +149,21 @@ public class Game : MonoBehaviour
         gameTime += Time.deltaTime * TimeMultiplier;
         ConvertTime();
         TimeChanged?.Invoke(this, new TimeChangedEventArgs { NewTime = gameTime, Day = day });
-        if (gameTime >= secondsInDay * 2/3)
-        {
-            DayPhase = DayPhase.EVENING;
-        } else if (gameTime >= secondsInDay / 3)
-        {
-            DayPhase = DayPhase.DAY;
-        } else
+        if (gameTime >= nightStart || gameTime < dayStart)
         {
             DayPhase = DayPhase.NIGHT;
-        }
-        foreach (Shift shift in shifts)
+        } else if (gameTime >= eveningStart)
         {
-            if (shift.EndTime <= globalTime)
-            {
-                shift.StopShift();
-            }
-            else if (shift.StartTime <= globalTime)
-            {
-                shift.StartShift();
-            }
+            DayPhase = DayPhase.EVENING;
+        } else
+        {
+            DayPhase = DayPhase.DAY;
         }
+        foreach (Industry industry in industries)
+        {
+            industry.UpdateShifts(gameTime);
+        }
+        
     }
 
     public void ConvertTime()
@@ -155,7 +175,7 @@ public class Game : MonoBehaviour
 
             if (player != null)
             {
-                if (day == player.NextTaxDay)
+                if (day >= player.NextTaxDay)
                 {
                     player.PayTaxes();
                 }

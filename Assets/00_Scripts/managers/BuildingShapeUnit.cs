@@ -9,10 +9,4 @@ public class BuildingShapeUnit : MonoBehaviour
         navMeshSurface = FindFirstObjectByType<NavMeshSurface>();
         navMeshSurface.BuildNavMesh();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

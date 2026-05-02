@@ -91,6 +91,7 @@ public class GameUiFunctions : MonoBehaviour
     public event EventHandler invopened ;
     public void openinvshop()
     {
+        game.InputManager.menuOpen = true;
         hud.SetActive(false);
         CanvasGroup cg = invshopmasterpanel.GetComponent<CanvasGroup>();
 
@@ -105,6 +106,7 @@ public class GameUiFunctions : MonoBehaviour
 
     public void closeinvshop()
     {
+        game.InputManager.menuOpen = false;
         hud.SetActive(true);
         CanvasGroup cg = invshopmasterpanel.GetComponent<CanvasGroup>();
         cg.alpha = 0f;
@@ -371,7 +373,6 @@ public class GameUiFunctions : MonoBehaviour
             }
             else if (newVehicle is TruckData truck)
             {
-                Debug.Log("Truck " + truck.Model);
                 inventory.trucks.Add(truck); // Feltételezve, hogy van ilyen listád a Player-ben
             }
 

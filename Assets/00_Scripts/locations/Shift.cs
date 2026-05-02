@@ -30,23 +30,50 @@ public class Shift : MonoBehaviour
     public void StopShift()
     {
         working = false;
+        enabled = false;
     }
 
-    public void Update()
+    public void ShiftUpdate(float gameTime)
     {
-        currTime += Time.deltaTime;
-        if (currTime >= endTime && working) // munkaido lejart
+        currTime = gameTime;
+        bool shouldBeWorking;
+
+        // Éjszakai mûszak (átnyúlik a napon, pl. 22:00 -> 06:00)
+        if (endTime < startTime)
+        {
+            shouldBeWorking = (currTime >= startTime || currTime < endTime);
+        }
+        else // Normál nappali mûszak
+        {
+            shouldBeWorking = (currTime >= startTime && currTime < endTime);
+        }
+
+        // CSAK AKKOR váltunk és küldünk eventet, ha változott az állapot
+        if (shouldBeWorking && !working)
+        {
+            working = true;
+            WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = true, WorkerCount = Workers.Count });
+        }
+        else if (!shouldBeWorking && working)
         {
             working = false;
-            WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = false, WorkerCount = Workers.Count }); // n munkas vegzett
+            WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = false, WorkerCount = Workers.Count });
+            enabled = false;
+            // Ha nem a fix 3 fõ mûszak egyike, akkor leállítjuk
+            // (A fix mûszakoknak 'enabled' kell maradniuk a következõ napra)
         }
-        else if (currTime >= startTime && !working)
-        { // munkaido kezdodik
-            {
-                working = true;
-                WorkerChanged?.Invoke(this, new WorkerChangedEventArgs { Starts = true, WorkerCount = Workers.Count }); // n munkas kezd
-            }
+    }
+
+    public void RefillShift(List<Worker> workers) // csak a 3 fo shiftnek
+    {
+        if (this.workers.Count > 0)
+        {
+            Debug.LogWarning(name + "nem ures: " + workers.Count);
+            return;
         }
+        Debug.Log("Refilling shift...");
+        this.workers = workers;
+        enabled = true;
     }
 
     public static Shift CreateNewShift(float curr, float start, float end, List<Worker> workers)
@@ -54,6 +81,7 @@ public class Shift : MonoBehaviour
         GameObject shiftObject = new GameObject("Shift_" + start);
         Shift newShift = shiftObject.AddComponent<Shift>();
 
+        newShift.working = false;
         newShift.StartTime = start;
         newShift.EndTime = end;
         newShift.currTime = curr;

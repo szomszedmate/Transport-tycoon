@@ -4,19 +4,33 @@ using System.Linq;
 
 public class City : MonoBehaviour, ILocation
 {
-    public event System.EventHandler<GetTimeEventArgs> GetTime;
-
+    //public event System.EventHandler<GetTimeEventArgs> GetTime;
+    public List<Bus> buses;
     public Vector3 Position => transform.position;
     public StopType Type => StopType.Universal;
     [SerializeField] private CityModel model;
     [SerializeField] private float height;
     [SerializeField] private float width;
     [SerializeField] private int population;
-    public DayPhase dayPhase;
+    private DayPhase dayPhase;
     public List<Worker> DayShift { get; private set; }
     public List<Worker> EveningShift { get; private set; }
     public List<Worker> NightShift { get; private set; }
-
+    public DayPhase DayPhase
+    {
+        get
+        {
+            return dayPhase;
+        }
+        set
+        {
+            if (value != DayPhase)
+            {
+                dayPhase = value;
+                StartBuses();
+            }
+        }
+    }
 
     void Start()
     {
@@ -24,17 +38,34 @@ public class City : MonoBehaviour, ILocation
         EveningShift = new List<Worker>();
         NightShift = new List<Worker>();
         DivideShifts();
-        dayPhase = DayPhase.NIGHT;
+        DayPhase = DayPhase.NIGHT;
+
+        buses = new();
     }
 
-    public Worker Load()
+    public void StartBuses()
     {
-        switch (dayPhase)
+        // Lista másolatot készítünk, mert a Resume hívás ki fogja venni a buszt a listából
+        List<Bus> busesToStart = new List<Bus>(buses);
+        buses.Clear();
+
+        foreach (Bus bus in busesToStart)
+        {
+            bus.ResumeFromWaiting(this);
+        }
+    }
+
+    public Worker Load(DayPhase phase) // parameter miatt nem valtozik felszallas kozben
+    {
+        Worker worker;
+        switch (phase)
         {
             case DayPhase.DAY:
                 if (DayShift.Count > 0)
                 {
-                    return (DayShift.First());
+                    worker = DayShift.First();
+                    DayShift.Remove(worker);
+                    return worker;
                 } else
                 {
                     return null;
@@ -42,7 +73,9 @@ public class City : MonoBehaviour, ILocation
             case DayPhase.EVENING:
                 if (EveningShift.Count > 0)
                 {
-                    return(EveningShift.First());
+                    worker = EveningShift.First();
+                    EveningShift.Remove(worker);
+                    return worker;
                 } else
                 {
                     return null;
@@ -50,7 +83,9 @@ public class City : MonoBehaviour, ILocation
             case DayPhase.NIGHT:
                 if (NightShift.Count > 0)
                 {
-                    return (NightShift.First());
+                    worker = NightShift.First();
+                    NightShift.Remove(worker);
+                    return worker;
                 } else
                 {
                     return null;
@@ -82,20 +117,29 @@ public class City : MonoBehaviour, ILocation
     {
         for (int i = 0; i < population / 3; i++)
         {
-            DayShift.Add(new Worker());
-            EveningShift.Add(new Worker());
-            NightShift.Add(new Worker());
+            DayShift.Add(new Worker(this, DayPhase.DAY));
+            EveningShift.Add(new Worker(this, DayPhase.EVENING));
+            NightShift.Add(new Worker(this, DayPhase.NIGHT));
         }
 
         int remains = population % 3;
         if (remains > 0)
         {
-            DayShift.Add(new Worker());
+            DayShift.Add(new Worker(this, DayPhase.DAY));
             remains--;
             if (remains > 0)
             {
-                EveningShift.Add(new Worker());
+                EveningShift.Add(new Worker(this, DayPhase.EVENING));
             }
+        }
+    }
+
+    public void RegisterWaitingBus(Bus bus)
+    {
+        if (!buses.Contains(bus))
+        {
+            buses.Add(bus);
+            Debug.Log($"{bus.name} várakozik a városban: {this.name}");
         }
     }
 

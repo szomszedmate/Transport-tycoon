@@ -53,6 +53,7 @@ public class BuildingSystem : MonoBehaviour
     public event EventHandler<IData> selectprev;
     public event EventHandler<BuyRequestEventArgs> BuyRequest; 
     public event VehicleBase.MileageChangedEventHandler AnyBusMileageChanged;
+    public event EventHandler<CancelChargeEventArgs> CancelCharge;
     public void InputUpdate(Vector2 mousePosition, bool leftClicked, bool rightClicked, bool leftHeld, bool rightHeld)
     {
         this.mousePosition = mousePosition;
@@ -176,6 +177,7 @@ public class BuildingSystem : MonoBehaviour
         if (Preview is not BusPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
         Bus bus = Instantiate(busPrefab, snappedPos, Quaternion.identity);
+        bus.CancelCharge += Bus_CancelCharge;
 
         var agent = bus.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
@@ -187,6 +189,11 @@ public class BuildingSystem : MonoBehaviour
         vehiclePlaced?.Invoke(this,bus);
         Preview = null;
 
+    }
+
+    private void Bus_CancelCharge(object sender, CancelChargeEventArgs e)
+    {
+        CancelCharge?.Invoke(this, e);
     }
 
     private void PlaceTruck(Vector3 truckPosition)
@@ -221,6 +228,11 @@ public class BuildingSystem : MonoBehaviour
     public GameObject panel;
     public void OpenVehicleInfo(VehicleBase hitVehicle)
     {
+        if (hitVehicle is null)
+        {
+            DeselectRoute(hitVehicle);
+            return;
+        }
         VehicleData data = hitVehicle.data;
         panel.SetActive(true);
         GameObject itemGo=Instantiate(uiitem, content.transform, false);
@@ -233,6 +245,27 @@ public class BuildingSystem : MonoBehaviour
         uiItem.placebuttontext.text = "Remove";
     }
 
+    public void DeselectRoute(VehicleBase hitVehicle)
+    {
+        if (hitVehicle == null)
+        {
+            if (lastVehicleSelected != null)
+            {
+                // Only reset the actual route data if that's your intended "Cancel" behavior
+                // lastVehicleSelected.ResetRoute(); 
+                lastVehicleSelected.ChangeState(VehicleBase.VehicleState.BUILT);
+                foreach(Road road in lastVehicleSelected.Route)
+                {
+                    road.ChangeState(RoadState.BUILT);
+                }
+            }
+
+            lastVehicleSelected = null;
+            vehicleSelected = null;
+            RoutePlanning = false;
+            return; // Exit early, we are done
+        }
+    }
 
     public void SelectVehicleForPlanning(VehicleBase hitVehicle)
     {
@@ -251,20 +284,7 @@ public class BuildingSystem : MonoBehaviour
         }
 
         // 2. TOGGLE/OFF: If we hit nothing OR hit the same bus again, turn planning OFF
-        if (hitVehicle == null)
-        {
-            if (lastVehicleSelected != null)
-            {
-                // Only reset the actual route data if that's your intended "Cancel" behavior
-                // lastVehicleSelected.ResetRoute(); 
-                lastVehicleSelected.ChangeState(VehicleBase.VehicleState.BUILT);
-            }
-
-            lastVehicleSelected = null;
-            vehicleSelected = null;
-            RoutePlanning = false;
-            return; // Exit early, we are done
-        }
+        DeselectRoute(hitVehicle);
 
         // 3. SELECTION: If we hit a NEW bus
         vehicleSelected = hitVehicle;
@@ -625,6 +645,7 @@ public class BuildingSystem : MonoBehaviour
 
                     var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
                     BuyRequest?.Invoke(this, checkNext);
+
                     canAfford = checkNext.IsApproved;
                 }
 
@@ -659,7 +680,6 @@ public class BuildingSystem : MonoBehaviour
                 else if (shouldIPlace)
                 {
                     float price = Preview.Data.Cost;    // update affordability
-
                     var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
                     BuyRequest?.Invoke(this, checkNext);
                     canAfford = checkNext.IsApproved;
@@ -757,7 +777,6 @@ public class BuildingSystem : MonoBehaviour
 
     private BusPreview CreateBusPreview(BusData data, Vector3 position)
     {
-        Debug.Log(data);
         BusPreview busPreview = Instantiate(busPreviewPrefab, position, Quaternion.identity);
         busPreview.Setup(data);
         return busPreview;
@@ -765,7 +784,6 @@ public class BuildingSystem : MonoBehaviour
 
     private TruckPreview CreateTruckPreview(TruckData data, Vector3 position)
     {
-        Debug.Log(data);
         TruckPreview truckPreview = Instantiate(truckPreviewPrefab, position, Quaternion.identity);
         truckPreview.Setup(data);
         return truckPreview;

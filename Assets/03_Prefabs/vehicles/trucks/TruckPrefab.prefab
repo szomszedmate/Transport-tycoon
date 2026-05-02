@@ -46,13 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd85048c77eeed54f8f97b21e77619c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Truck
-  type: 0
+  mainType: 0
+  types: 
   aiAgent: {fileID: 0}
   builtMaterial: {fileID: 0}
   destroyHoverMaterial: {fileID: 2100000, guid: 0e9f2a87bb7ef244b9657942a1167dbf, type: 2}
   selectHoverMaterial: {fileID: 2100000, guid: f43551bffa4588e43a3d2e7e559ffb31, type: 2}
   confirmMaterial: {fileID: 2100000, guid: fe4398b7ed890be44a1b5e342c4c8de1, type: 2}
   vehicleMaterials: {fileID: 11400000, guid: 5db1f922114762d4795f08cc814f341f, type: 2}
+  minimumLoad: 3
 --- !u!114 &1704306763281054142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,16 +69,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BusAiAgent
   targetpos: {fileID: 0}
   Route: []
+  nonStop: 0
   oda: 1
   isMoving: 0
   maxprogress: 0
   currprog: 0
   ontrack: 0
   righlane: 0
-  laneslected: 0
   movingtostart: 0
   startpoz: {fileID: 0}
-  type: 0
+  types: 
+  mainType: 0
   speed: 0
   next: {fileID: 0}
   last: {fileID: 0}

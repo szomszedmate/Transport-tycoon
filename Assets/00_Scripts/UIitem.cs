@@ -27,7 +27,7 @@ public class UIitem : MonoBehaviour
         buildingSystem= GameObject.FindWithTag("buildingsys").GetComponent<BuildingSystem>();
         invmenu = GameObject.FindWithTag("invmenu");
         
-        type = vehicle.Type;
+        type = vehicle.MainType;
         uiFunctions.invopened += invopenedcheck;
 
         string typestring= type.ToString();
@@ -135,7 +135,6 @@ public class UIitem : MonoBehaviour
     {
         if (!isplaced)
         {
-            
             buildingSystem.CreatePreview(vehicle);
             buildingSystem.vehiclePlaced += vehicleIsplaced;
             buildingSystem.vehiclePlacecancelled += cancelled;
@@ -145,7 +144,7 @@ public class UIitem : MonoBehaviour
         else
         {
             //TODO remove bus
-           // Debug.Log("destroooy");
+            //Debug.Log("destroooy");
             Destroy(vehicleObject.gameObject);
             isplaced = false;
             routebuton.SetActive(false);
@@ -171,7 +170,6 @@ public class UIitem : MonoBehaviour
     {
         vehicleObject = e;
         vehicleObject.sold += Sold;
-        buildingSystem.vehiclePlaced -= vehicleIsplaced;
         buildingSystem.vehiclePlaced -= vehicleIsplaced;
         isplaced = true;
         placebuttontext.text = "Remove";

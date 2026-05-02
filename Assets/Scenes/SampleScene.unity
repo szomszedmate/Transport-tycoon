@@ -923,9 +923,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   goldBarRequired: 1
   coinProduced: 3
   cycleTime: 9
@@ -6295,9 +6301,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -9826,9 +9838,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   ironRequired: 2
   coalRequired: 1
   ironBarProduced: 1
@@ -12216,9 +12234,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 1
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -15578,9 +15602,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   goldRequired: 2
   coalRequired: 1
   goldBarProduced: 1
@@ -17269,9 +17299,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedResource: 0
   producedAmount: 1
   cycleTime: 8
@@ -17301,7 +17337,7 @@ Transform:
   m_GameObject: {fileID: 1044908752}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 100}
+  m_LocalPosition: {x: -100, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17327,9 +17363,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 100
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 5
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedAmount: 1
   cycleTime: 6
 --- !u!1 &1046363384
@@ -19068,6 +19110,9 @@ MonoBehaviour:
   player: {fileID: 1838842538}
   inputManager: {fileID: 1893735394}
   buildingSystem: {fileID: 381348912}
+  dayStart: 21600
+  eveningStart: 50400
+  nightStart: 79200
 --- !u!1 &1135645616
 GameObject:
   m_ObjectHideFlags: 0
@@ -19868,11 +19913,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b98f896e33490c47b9187417f204871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::City
+  buses: []
   model: {fileID: 1185971881}
   height: 3
   width: 3
   population: 1500
-  dayPhase: 0
 --- !u!1 &1189395334
 GameObject:
   m_ObjectHideFlags: 0
@@ -24861,11 +24906,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b98f896e33490c47b9187417f204871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::City
+  buses: []
   model: {fileID: 1529481889}
   height: 3
   width: 3
   population: 1500
-  dayPhase: 0
 --- !u!1 &1535668596
 GameObject:
   m_ObjectHideFlags: 0
@@ -25455,6 +25500,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: BuyVehicle
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 5398352190d717a4787187851b8fc2d2, type: 2}
+          m_ObjectArgumentAssemblyTypeName: VehicleData, GameAssembly
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1888546980}
         m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
         m_MethodName: BuyVehicle
@@ -27083,9 +27140,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 3
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   producedAmount: 1
   cycleTime: 7
 --- !u!1 &1724693404
@@ -27753,9 +27816,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   flourRequired: 2
   waterRequired: 1
   breadProduced: 1
@@ -29401,7 +29470,7 @@ PrefabInstance:
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: 'truckdatas.Array.data[13]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5398352190d717a4787187851b8fc2d2, type: 2}
+      objectReference: {fileID: 11400000, guid: e015541472dfcaf45bc030304d9c928f, type: 2}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: 'truckdatas.Array.data[14]'
       value: 
@@ -31151,6 +31220,7 @@ MonoBehaviour:
     Data: {fileID: 11400000, guid: ae069bd7501938544959bb40b475b1c8, type: 2}
   - Key: 55
     Data: {fileID: 11400000, guid: 45b674948d60940428c774180af0e912, type: 2}
+  menuOpen: 0
 --- !u!1 &1901261246
 GameObject:
   m_ObjectHideFlags: 0
@@ -31355,7 +31425,7 @@ Transform:
   m_GameObject: {fileID: 1912118326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -100, y: 0, z: 100}
+  m_LocalPosition: {x: 0, y: 0, z: 100}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31381,9 +31451,15 @@ MonoBehaviour:
   productivityChangeInterval: 20
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
-  maxWorkers: 10
+  inputStorage: 0
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
+  waitingForBus: []
+  DayShift: {fileID: 0}
+  EveningShift: {fileID: 0}
+  NightShift: {fileID: 0}
   wheatRequired: 2
   flourProduced: 1
   cycleTime: 8
@@ -33254,11 +33330,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b98f896e33490c47b9187417f204871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::City
+  buses: []
   model: {fileID: 2025261107}
   height: 3
   width: 3
   population: 1500
-  dayPhase: 0
 --- !u!1 &2035388092
 GameObject:
   m_ObjectHideFlags: 0

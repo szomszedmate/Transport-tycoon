@@ -39,7 +39,7 @@ public class BusStop : MonoBehaviour, IBuildable
     private BusStopModel model;
     private BusStopData data;
     private List<Material> materials;
-    private ILocation location;
+    public ILocation location;
     public BusStopState State { get; private set; }
 
     [SerializeField]
