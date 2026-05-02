@@ -788,7 +788,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 10
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
   waitingForBus: []
@@ -6021,7 +6021,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 10
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
   waitingForBus: []
@@ -9480,7 +9480,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 10
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
   waitingForBus: []
@@ -11876,7 +11876,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 10
+  maxWorkers: 200
   currentWorkers: 1
   shifts: []
   waitingForBus: []
@@ -15059,7 +15059,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 10
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
   waitingForBus: []
@@ -16677,7 +16677,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 10
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
   waitingForBus: []
@@ -16741,7 +16741,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 100
+  maxWorkers: 200
   currentWorkers: 5
   shifts: []
   waitingForBus: []
@@ -26480,16 +26480,16 @@ MonoBehaviour:
   productivityLerpSpeed: 0.05
   defaultStorageCapacity: 50
   inputStorage: 0
-  outputStorage: 10
-  maxWorkers: 10
+  outputStorage: 0
+  maxWorkers: 200
   currentWorkers: 3
   shifts: []
   waitingForBus: []
   DayShift: {fileID: 0}
   EveningShift: {fileID: 0}
   NightShift: {fileID: 0}
-  producedAmount: 1
-  cycleTime: 7
+  producedAmount: 2
+  cycleTime: 1
 --- !u!1 &1724693404
 GameObject:
   m_ObjectHideFlags: 0
@@ -27157,7 +27157,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 10
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
   waitingForBus: []
@@ -30785,7 +30785,7 @@ MonoBehaviour:
   defaultStorageCapacity: 50
   inputStorage: 0
   outputStorage: 0
-  maxWorkers: 30
+  maxWorkers: 200
   currentWorkers: 10
   shifts: []
   waitingForBus: []

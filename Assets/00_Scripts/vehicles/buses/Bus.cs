@@ -4,11 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Bus : VehicleBase
 {
     public event System.EventHandler<CancelChargeEventArgs> CancelCharge;
     private DayPhase dayPhase;
+    private bool isWaitingForShift;
     public bool RouteIsLinear { get; private set; }
     private List<Worker> passangers;
     private List<ILocation> locations;
@@ -50,7 +52,8 @@ public class Bus : VehicleBase
     public void Setup(BusData data, float rotation)
     {
         this.data = data;
-        type = data.Type;
+        types = data.Types;
+        mainType = data.MainType;
         materials = GameObject.FindGameObjectWithTag("manager").GetComponent<InventoryManager>().materials;
 
         NonStop = false;
@@ -69,7 +72,7 @@ public class Bus : VehicleBase
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
         //buildmaterials in player inventori in managers
-        switch (type)
+        switch (mainType)
         {
             case StopType.None:
                 break;
@@ -119,7 +122,8 @@ public class Bus : VehicleBase
         locations = new List<ILocation>();
         locationIndex = 0;
         aiAgent = GetComponent<BusAiAgent>();
-        aiAgent.type = type;
+        aiAgent.types = types;
+        aiAgent.mainType = mainType;
         aiAgent.speed = data.Speed;
         aiAgent.Arrived += AiAgent_Arrived;
         aiAgent.Reversed += AiAgent_Reversed;
@@ -129,12 +133,41 @@ public class Bus : VehicleBase
     private void AiAgent_Reversed(object sender, EventArgs e)
     {
         locations.Reverse();
-        locationIndex = 0;
     }
 
     private void AiAgent_Arrived(object sender, ArrivedEventArgs e)
     {
         StartCoroutine(OnArrivedAtStop(e.Stop));
+    }
+
+    public void ResumeFromWaiting(ILocation location)
+    {
+        StartCoroutine(ResumeRoutine(location));
+    }
+
+    public IEnumerator ResumeRoutine(ILocation location)
+    {
+        if (location is City city)
+        {
+            isWaitingForShift = false;
+            while (passangers.Count < data.Capacity) // felszallnak
+            {
+                yield return new WaitForSeconds(1f / data.LoadingSpeed);
+                Worker worker = city.Load(dayPhase);
+                if (worker != null)
+                {
+                    passangers.Add(worker);
+                    //Debug.Log("Loading bus");
+                }
+                else
+                {
+                    Debug.Log("Couldnt load bus");
+                    break; // break ha ures a varos
+                }
+            }
+            aiAgent.startbusz();
+            aiAgent.ProcessNextPoint();
+        }
     }
 
     public override void ResetRoute()
@@ -181,7 +214,7 @@ public class Bus : VehicleBase
         aiAgent.stopbusz();
         if (stop.IsCityStop()) // ha varos, fel- es leszallnak
         {
-            dayPhase = stop.City.dayPhase;
+            dayPhase = stop.City.DayPhase;
             for (int i = passangers.Count-1; i >= 0; i--)
             {
                 if (passangers[i].HomeCity == stop.City)
@@ -192,26 +225,38 @@ public class Bus : VehicleBase
                 }
             }
 
-            while (passangers.Count < data.Capacity) // felszallnak
+            //while (passangers.Count < data.Capacity) // felszallnak
+            //{
+            //    yield return new WaitForSeconds(1f / data.LoadingSpeed);
+            //    Worker worker = stop.City.Load(dayPhase);
+            //    if (worker != null)
+            //    {
+            //        passangers.Add(worker);
+            //        //Debug.Log("Loading bus");
+            //    } else 
+            //    {
+            //        Debug.Log("Couldnt load bus");
+            //        break; // break ha ures a varos
+            //    }
+            //}
+
+            if (RouteIsLinear && (locationIndex == 0 || locationIndex >= locations.Count - 1))
             {
-                yield return new WaitForSeconds(1f / data.LoadingSpeed);
-                Worker worker = stop.City.Load(dayPhase);
-                if (worker != null)
+                City currentCity = stop.City;
+                if (currentCity != null)
                 {
-                    passangers.Add(worker);
-                    //Debug.Log("Loading bus");
-                } else 
-                {
-                    Debug.Log("Couldnt load bus");
-                    break; // break ha ures a varos
+                    yield return new WaitForSeconds(1f / data.LoadingSpeed);
+                    UpdateLocationIndex();
+                    isWaitingForShift = true;
+                    currentCity.RegisterWaitingBus(this); // Feliratkozás a városnál
+                    yield break; // Megállítjuk a Coroutine-t, nem hívunk ProcessNextPoint-ot
                 }
             }
         }
         else // ha industry, leszallnak
         {
             int canAccept = stop.Industry.SpaceLeft();
-            int gettingOffCount = PlanAhead();
-
+            int gettingOffCount = PlanAhead(); //bugged
             if (gettingOffCount > canAccept) // csak annyi szall le amennyi elfer
             {
                 gettingOffCount = canAccept;
@@ -235,28 +280,51 @@ public class Bus : VehicleBase
             }
         }
         yield return new WaitForSeconds(1f / data.LoadingSpeed);
-        locationIndex++;
+
+        UpdateLocationIndex();
+
         aiAgent.startbusz();
         aiAgent.ProcessNextPoint();
     }
 
+    private void UpdateLocationIndex()
+    {
+        if (NonStop)
+        {
+            locationIndex = (locationIndex + 1) % locations.Count;
+        }
+        else
+        {
+            if (locationIndex >= locations.Count - 1) locationIndex = 0;
+            else locationIndex++;
+        }
+    }
+
     public int PlanAhead() // elosztja egyenletesen a leszallo utasokat
     {
-        int industries = 0;
+        if (locationIndex >= locations.Count)
+        {
+            Debug.LogWarning("index out of rage");
+            return 0;
+        }
+
         if (locations[locationIndex] is City)
         {
             return 0;
         }
-        Debug.Log("# of locations: " + locations.Count);
+        int industries = 0;
         for (int i = locationIndex; i < locations.Count; i++)
         {
             if (locations[i] is City)
             {
-                Debug.Log("breaking");
                 break;
             }
             industries++;
-            Debug.Log("i: " + i + ", industries: " + industries);
+        }
+        if (industries == 0)
+        {
+            Debug.LogWarning("Megpróbált 0-val osztani");
+            return 0;
         }
         return (passangers.Count / industries);
     }

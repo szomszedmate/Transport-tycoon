@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Truck : VehicleBase
 {
+    [SerializeField] protected int minimumLoad;
     protected int currentLoad;
+    protected bool canCheckInventory = false;
     public TruckType TruckType
     {
         get
@@ -47,7 +50,8 @@ public class Truck : VehicleBase
     public void Setup(TruckData data, float rotation)
     {
         this.data = data;
-        type = data.Type;
+        mainType = data.MainType;
+        types = data.Types;
         materials = GameObject.FindGameObjectWithTag("manager").GetComponent<InventoryManager>().materials;
 
         lastPosition = transform.position;
@@ -59,7 +63,7 @@ public class Truck : VehicleBase
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
         //buildmaterials in player inventori in managers
-        switch (type)
+        switch (mainType)
         {
             case StopType.None:
                 break;
@@ -107,7 +111,8 @@ public class Truck : VehicleBase
         SetMaterial(VehicleState.BUILT);
         Route = new List<Road>();
         aiAgent = GetComponent<BusAiAgent>();
-        aiAgent.type = type;
+        aiAgent.types = types;
+        aiAgent.mainType = mainType;
         aiAgent.speed = data.Speed;
         aiAgent.Arrived += AiAgent_Arrived;
         currentLoad = 0;
@@ -132,39 +137,62 @@ public class Truck : VehicleBase
 
     private void AiAgent_Arrived(object sender, ArrivedEventArgs e)
     {
-        Debug.Log("truck arrived at " + e.Stop);
         StartCoroutine(OnArrivedAtStop(e.Stop));
     }
 
     public override IEnumerator OnArrivedAtStop(BusStop stop)
     {
-        aiAgent.stopbusz(); 
+        aiAgent.stopbusz();
+        TruckData truckData = (TruckData)data;
+        canCheckInventory = true;
+
         if (!stop.IsCityStop())
         {
-            TruckData truckData = (TruckData)data;
             int canAccept = stop.Industry.Accept(truckData.Resource, currentLoad);
-            Debug.Log("accepting: " + canAccept);
             for (int i = 0; i < canAccept; i++) 
             {
                 // Várunk a rakodási sebességnek megfelelõen
                 yield return new WaitForSeconds(1f / data.LoadingSpeed);
                 currentLoad--;
-                Debug.Log($"Lepakolás folyamatban... Maradt: {currentLoad}");
             }
-            int spaceLeft = truckData.Capacity - currentLoad;
-            Debug.Log("space left: " + spaceLeft);
-            if (spaceLeft > 0)
+
+            if (stop.Industry.Produces(truckData.Resource))
             {
-                int canPickup = stop.Industry.Pickup(truckData.Resource, spaceLeft);
-                Debug.Log("picking up: " + canPickup + " " + truckData.Resource);
-                for (int i = 0; i < canPickup; i++)
-                {
-                    yield return new WaitForSeconds(1f / data.LoadingSpeed);
-                    currentLoad++;
-                    Debug.Log($"Felvétel folyamatban... Rakomány: {currentLoad}");
+                canCheckInventory = true;
+                stop.Industry.Produced += Industry_Produced;
+                while (currentLoad < minimumLoad)
+                { 
+                    // Megvárjuk, amíg az esemény (vagy az érkezés) azt mondja: "van miért nézelõdni"
+                    yield return new WaitUntil(() => canCheckInventory);
+                    canCheckInventory = false;
+
+                    int spaceLeft = truckData.Capacity - currentLoad;
+                    int pickedUp = stop.Industry.Pickup(truckData.Resource, spaceLeft);
+                    if (pickedUp > 0)
+                    {
+                        for (int i = 0; i < pickedUp; i++)
+                        {
+                            yield return new WaitForSeconds(1f / data.LoadingSpeed);
+                            currentLoad++;
+                        }
+                        // Ha a rakodás után még mindig nem értük el a minimumot, 
+                        // de maradt még a raktárban, akkor ne várjunk újabb eventre
+                        if (currentLoad < minimumLoad)
+                        {
+                            // Itt egy gyors csekk: hátha maradt még az Industry-nál áru
+                            canCheckInventory = true;
+                        }
+                    }
                 }
+                stop.Industry.Produced -= Industry_Produced;
             }
         }
         aiAgent.startbusz();
+        aiAgent.ProcessNextPoint();
+    }
+
+    private void Industry_Produced(object sender, ProducedEventArgs e)
+    {
+        canCheckInventory = true;
     }
 }

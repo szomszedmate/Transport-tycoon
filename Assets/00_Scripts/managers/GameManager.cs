@@ -37,7 +37,7 @@ public class Game : MonoBehaviour
                 {
                     if (location is City city)
                     {
-                        city.dayPhase = dayPhase;
+                        city.DayPhase = dayPhase;
                     }
                 }
             }
@@ -130,7 +130,7 @@ public class Game : MonoBehaviour
                 //Debug.Log("Remaining money: " + player.Money);
             } else
             {
-                Debug.LogWarning("Insufficient funds, ramaining money: " + Player.Money + " (need " + e.Cost + " )");
+                // TODO jelzés, hogy nincs elég pénz
             }
         }
         if (Player.CanAfford(e.Cost))

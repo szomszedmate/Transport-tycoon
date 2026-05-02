@@ -4,19 +4,33 @@ using System.Linq;
 
 public class City : MonoBehaviour, ILocation
 {
-    public event System.EventHandler<GetTimeEventArgs> GetTime;
-    private List<Bus> buses;
+    //public event System.EventHandler<GetTimeEventArgs> GetTime;
+    public List<Bus> buses;
     public Vector3 Position => transform.position;
     public StopType Type => StopType.Universal;
     [SerializeField] private CityModel model;
     [SerializeField] private float height;
     [SerializeField] private float width;
     [SerializeField] private int population;
-    public DayPhase dayPhase;
+    private DayPhase dayPhase;
     public List<Worker> DayShift { get; private set; }
     public List<Worker> EveningShift { get; private set; }
     public List<Worker> NightShift { get; private set; }
-
+    public DayPhase DayPhase
+    {
+        get
+        {
+            return dayPhase;
+        }
+        set
+        {
+            if (value != DayPhase)
+            {
+                dayPhase = value;
+                StartBuses();
+            }
+        }
+    }
 
     void Start()
     {
@@ -24,9 +38,23 @@ public class City : MonoBehaviour, ILocation
         EveningShift = new List<Worker>();
         NightShift = new List<Worker>();
         DivideShifts();
-        dayPhase = DayPhase.NIGHT;
+        DayPhase = DayPhase.NIGHT;
 
         buses = new();
+    }
+
+    public void StartBuses()
+    {
+        Debug.Log($"{this.name} város indítja a buszokat a(z) {dayPhase} mûszakhoz.");
+
+        // Lista másolatot készítünk, mert a Resume hívás ki fogja venni a buszt a listából
+        List<Bus> busesToStart = new List<Bus>(buses);
+        buses.Clear();
+
+        foreach (Bus bus in busesToStart)
+        {
+            bus.ResumeFromWaiting(this);
+        }
     }
 
     public Worker Load(DayPhase phase) // parameter miatt nem valtozik felszallas kozben
@@ -105,6 +133,15 @@ public class City : MonoBehaviour, ILocation
             {
                 EveningShift.Add(new Worker(this, DayPhase.EVENING));
             }
+        }
+    }
+
+    public void RegisterWaitingBus(Bus bus)
+    {
+        if (!buses.Contains(bus))
+        {
+            buses.Add(bus);
+            Debug.Log($"{bus.name} várakozik a városban: {this.name}");
         }
     }
 

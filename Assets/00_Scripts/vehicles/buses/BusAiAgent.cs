@@ -24,18 +24,20 @@ public class BusAiAgent : MonoBehaviour
     [SerializeField]
     private bool righlane = false;
 
-    private bool lastwasrighlane = false;
-    [SerializeField]
-    private bool laneslected = false;
+    //private bool lastwasrighlane = false;
+    //[SerializeField]
+    //private bool laneslected = false;
     [SerializeField]
     private bool movingtostart = false;
     [SerializeField]
     private Road startpoz;
-    public StopType type = StopType.None;
+    public List<StopType> types = new List<StopType>();
+    public StopType mainType;
     [SerializeField]
     public float speed;
 
     private bool firstdone = false;
+    private bool isProcessingFree = false;
 
     void Start()
     {
@@ -46,15 +48,21 @@ public class BusAiAgent : MonoBehaviour
 
     public void RemoveRoute()
     {
-        //Not working yet
-        ai.ResetPath();
-        Route.Clear();
+        if (ai != null && ai.enabled)
+        {
+            ai.ResetPath();
+            ai.isStopped = true;
+        }
+        if (Route != null)
+        {
+            Route.Clear();
+        }
 
 
 
         oda = true;
         righlane = false;
-        laneslected = false;
+        //laneslected = false;
         movingtostart = false;
         isMoving = false;
         maxprogress = 0;
@@ -62,9 +70,15 @@ public class BusAiAgent : MonoBehaviour
         ontrack = false;
         firstdone = false;
         ai.isStopped = true;
-        transform.position = startpoz.transform.position;
 
-        ai.Warp(startpoz.transform.position);
+        if (startpoz != null)
+        {
+            transform.position = startpoz.transform.position;
+            if (ai != null && ai.enabled)
+            {
+                ai.Warp(startpoz.transform.position);
+            }
+        }
         transform.rotation = Quaternion.identity;
     }
 
@@ -184,7 +198,7 @@ public class BusAiAgent : MonoBehaviour
 
             if (max == bal)
             {
-                laneslected = true;
+                //laneslected = true;
                 return Route[progress].leftLane.gameObject;
             }
             else if (max == jobb)
@@ -194,13 +208,13 @@ public class BusAiAgent : MonoBehaviour
             }
             else if (max == also)
             {
-                laneslected = true;
+                //laneslected = true;
 
                 return Route[progress].bottomLane.gameObject;
             }
             else
             {
-                laneslected = true;
+                //laneslected = true;
 
                 return Route[progress].topLane.gameObject;
             }
@@ -327,27 +341,34 @@ public class BusAiAgent : MonoBehaviour
     //felszabaditja a last gameobjectet, azt a svot amit elhagyott
     public void SetFree()
     {
+        if (last == null) return;
 
-        if (last.GetComponentInParent<Road>().data.Description == "Straight Road" || last.GetComponentInParent<Road>().data.Description == "Right Turn")
+        Road lastRoad = last.GetComponentInParent<Road>();
+        if (lastRoad == null) return;
+
+        isProcessingFree = true;
+
+        if (lastRoad.data.Description == "Straight Road" || lastRoad.data.Description == "Right Turn")
         {
 
             //ha egyenes vagy sima kanyar volt
             if (last.gameObject.tag == "right")
             {
-                last.GetComponentInParent<Road>().rightlanefree = true;
+                lastRoad.rightlanefree = true;
             }
             else if (last.gameObject.tag == "left")
             {
-                last.GetComponentInParent<Road>().leftlanefree = true;
+                lastRoad.leftlanefree = true;
             }
 
         }
         else
         {
             //ha keresztezds volt
-            last.GetComponentInParent<Road>().RemBusz();
+            lastRoad.RemBusz();
         }
-        last.GetComponentInParent<Road>().OnFreeSetted();
+        lastRoad.OnFreeSetted();
+        
     }
 
 
@@ -378,27 +399,68 @@ public class BusAiAgent : MonoBehaviour
 
 
     //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy msik jrm felszabaditja azt
+    //public void TryFree()
+    //{
+    //    if (next == null)
+    //    {
+    //        Debug.LogWarning($"{gameObject.name}: Next is null in TryFree!");
+    //        return;
+    //    }
+    //    bool free = isFree();
+    //    if (free || GetBusIAmWaitingFor().GetBusIAmWaitingFor() == this) // ha free vagy egymsra vrnak
+    //    {
+    //        next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
+    //        SetNotFree();
+    //        if (last != null)
+    //        {
+    //            SetFree();
+    //        }
+    //        ai.SetDestination(next.transform.position);
+    //        ai.speed = speed * next.GetComponentInParent<Road>().speedmodifier;
+    //        isMoving = true;
+    //    }
+    //    else
+    //    {
+    //        next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
+    //        next.GetComponentInParent<Road>().OnSetFree += CheckifFreeAgain;
+    //    }
+    //}
+
+
     public void TryFree()
     {
-        if (isFree() || GetBusIAmWaitingFor().GetBusIAmWaitingFor() == this) // ha free vagy egymsra vrnak
+        if (isProcessingFree) return;
+        if (next == null) return;
+
+        Road nextRoad = next.GetComponentInParent<Road>();
+        if (nextRoad == null) return; // Ha nincs Road script a szülőn, megállunk.
+
+        // Szétbontjuk a láncolt hívást, mert ha az első null-t ad, a második elszáll
+        bool deadlock = false;
+        var waitingFor = GetBusIAmWaitingFor();
+        if (waitingFor != null)
         {
-            next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
+            var waitingForOther = waitingFor.GetBusIAmWaitingFor();
+            if (waitingForOther == this) deadlock = true;
+        }
+
+        if (isFree() || deadlock)
+        {
+            nextRoad.OnSetFree -= CheckifFreeAgain; // Most már biztonságos
             SetNotFree();
-            if (last != null)
-            {
-                SetFree();
-            }
+            if (last != null) SetFree();
+
             ai.SetDestination(next.transform.position);
-            ai.speed = speed * next.GetComponentInParent<Road>().speedmodifier;
+            ai.speed = speed * nextRoad.speedmodifier;
             isMoving = true;
         }
         else
         {
-            next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
-            next.GetComponentInParent<Road>().OnSetFree += CheckifFreeAgain;
+            nextRoad.OnSetFree -= CheckifFreeAgain;
+            nextRoad.OnSetFree += CheckifFreeAgain;
         }
+        isProcessingFree = false;
     }
-
 
 
     private void CheckifFreeAgain(object sender, EventArgs e)
@@ -412,24 +474,21 @@ public class BusAiAgent : MonoBehaviour
         if (next == null) return null;
 
         Road targetRoad = next.GetComponentInParent<Road>();
+        if (targetRoad == null || targetRoad.buszok == null || targetRoad.buszok.Count == 0) return null;
 
-        // Ha ez egy keresztezds s vannak benne msok
-        if (targetRoad.buszok != null && targetRoad.buszok.Count > 0)
+        // Ha mi is benne vagyunk a listban, akkor az elttnk lvt nzzk
+        int myIndex = targetRoad.buszok.IndexOf(this);
+        
+        if (myIndex > 0)
         {
-            // Ha mi is benne vagyunk a listban, akkor az elttnk lvt nzzk
-            int myIndex = targetRoad.buszok.IndexOf(this);
-
-            if (myIndex > 0)
-            {
-                // A listban kzvetlenl elttnk ll busz
-                return targetRoad.buszok[myIndex - 1];
-            }
-            else if (myIndex == -1)
-            {
-                // Ha mg nem vagyunk a listban (csak a TryFree-nl vrunk), 
-                // akkor az aktulisan bent lv utols buszra vrunk
-                return targetRoad.buszok[targetRoad.buszok.Count - 1];
-            }
+            // A listban kzvetlenl elttnk ll busz
+            return targetRoad.buszok[myIndex - 1];
+        }
+        else if (myIndex == -1)
+        {
+            // Ha mg nem vagyunk a listban (csak a TryFree-nl vrunk), 
+            // akkor az aktulisan bent lv utols buszra vrunk
+            return targetRoad.buszok[targetRoad.buszok.Count - 1];
         }
 
         return null; // Senkire nem vr
@@ -461,7 +520,8 @@ public class BusAiAgent : MonoBehaviour
                 bool hasBusStop = Route[currprog].Road_HasBusStop();
                 StopType roadStopType = Route[currprog].GetStopType();
 
-                if (hasBusStop && (roadStopType == type || roadStopType == StopType.Universal || type == StopType.Bus))
+
+                if (hasBusStop && (types.Contains(roadStopType) || roadStopType == StopType.Universal || mainType == StopType.Bus))
                 {
                     Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
                 }
@@ -482,7 +542,13 @@ public class BusAiAgent : MonoBehaviour
             {
                 if (next != null) { last = next; }
                 Route.Reverse();
-                currprog = 1;
+                currprog = 0;
+
+                if (Route[currprog].Road_HasBusStop())
+                {
+                    Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop }); // bug? kamion utvonal vegen 2x hivja az arrivedot
+                    return;
+                }
             } else
             {
                 if (next != null) { last = next; }

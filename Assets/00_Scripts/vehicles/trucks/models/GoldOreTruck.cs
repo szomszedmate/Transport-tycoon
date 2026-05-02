@@ -1,11 +1,8 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-public class InventoryManager : MonoBehaviour
+
+public class GoldOreTruck : TruckModel
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public int money;
-    public List<Material> materials;
     void Start()
     {
         

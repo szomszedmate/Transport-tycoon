@@ -267,12 +267,10 @@ public abstract class Industry : MonoBehaviour, ILocation
     {
         if (!Produces(type) || amount <= 0)
         {
-            Debug.Log(name + " doesnt produce " + type);
             return 0;
         }
 
         int available = GetStoredAmount(type);
-        Debug.Log(available);
         int pickedUp = Mathf.Min(amount, available);
 
         if (pickedUp > 0)

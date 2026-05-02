@@ -31,7 +31,8 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
     protected Vector3 lastPosition;
     protected VehicleModel model;
     protected VehicleData data;
-    public StopType type;
+    public StopType mainType;
+    public List<StopType> types;
     public BusAiAgent aiAgent;
     public VehicleState State { get; protected set; } = VehicleState.BUILT;
     [SerializeField]
@@ -65,7 +66,7 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
         if (newState == State) return;
         State = newState;
         SetMaterial(State);
-    }
+    }   
 
     protected void SetMaterial(VehicleState newState)
     {

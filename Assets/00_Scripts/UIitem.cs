@@ -25,7 +25,7 @@ public class UIitem : MonoBehaviour
         uiFunctions= GameObject.FindWithTag("UI").GetComponent<GameUiFunctions>();
         buildingSystem= GameObject.FindWithTag("buildingsys").GetComponent<BuildingSystem>();
         invmenu = GameObject.FindWithTag("invmenu");
-        type = vehicle.Type;
+        type = vehicle.MainType;
 
         string typestring= type.ToString();
         switch (type)
