@@ -15,7 +15,7 @@ if [ -f "$TEST_RESULTS_XML" ] && [ -f "$NUNIT_TRANSFORM_XSLT" ]; then
     apt-get install -y -q xsltproc
     
     xsltproc "$NUNIT_TRANSFORM_XSLT" "$TEST_RESULTS_XML" > "$JUNIT_REPORT_XML"
-    echo -e "\033[32JUnit report generated at $JUNIT_REPORT_XML\033[0m"
+    echo -e "\033[32mJUnit report generated at $JUNIT_REPORT_XML\033[0m"
 else
-    echo -e "\033[33WARNING: Test results XML ($TEST_RESULTS_XML) or NUnit transform ($NUNIT_TRANSFORM_XSLT) not found. Skipping transformation.\033[0m"
+    echo -e "\033[33mWARNING: Test results XML ($TEST_RESULTS_XML) or NUnit transform ($NUNIT_TRANSFORM_XSLT) not found. Skipping transformation.\033[0m"
 fi
