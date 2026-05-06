@@ -25,9 +25,9 @@ public class PlayerTests
     [Test]
     public void InitialValues_AreCorrect()
     {
-        Assert.AreEqual(500, player.Money, "A kezdõ pénznek 500-nak kell lennie.");
-        Assert.AreEqual(0, player.TaxToPay, "A kezdõ adónak 0-nak kell lennie.");
-        Assert.AreEqual(7, player.NextTaxDay, "Az elsõ adónapnak a 7. napnak kell lennie.");
+        Assert.AreEqual(500, player.Money, "A kezdï¿½ pï¿½nznek 500-nak kell lennie.");
+        Assert.AreEqual(0, player.TaxToPay, "A kezdï¿½ adï¿½nak 0-nak kell lennie.");
+        Assert.AreEqual(7, player.NextTaxDay, "Az elsï¿½ adï¿½napnak a 7. napnak kell lennie.");
     }
 
     [Test]
@@ -67,12 +67,12 @@ public class PlayerTests
     [Test]
     public void PayTaxes_DeductsMoney_AndResetsTax()
     {
-        player.IncreaseTax(100); // 500 pénz, 100 adó
+        player.IncreaseTax(100); // 500 pï¿½nz, 100 adï¿½
         player.PayTaxes();
 
-        Assert.AreEqual(400, player.Money, "A pénzbõl le kellett volna vonni az adót.");
-        Assert.AreEqual(0, player.TaxToPay, "Az adónak nullázódnia kell fizetés után.");
-        Assert.AreEqual(14, player.NextTaxDay, "A következõ adónapnak 7 nappal késõbbre kell tolódnia.");
+        Assert.AreEqual(400, player.Money, "A pï¿½nzbï¿½l le kellett volna vonni az adï¿½t.");
+        Assert.AreEqual(0, player.TaxToPay, "Az adï¿½nak nullï¿½zï¿½dnia kell fizetï¿½s utï¿½n.");
+        Assert.AreEqual(14, player.NextTaxDay, "A kï¿½vetkezï¿½ adï¿½napnak 7 nappal kï¿½sï¿½bbre kell tolï¿½dnia.");
     }
 
     [Test]
@@ -86,5 +86,38 @@ public class PlayerTests
 
         player.AddMoney(100);
         Assert.IsTrue(eventFired, "A MoneyChanged eventnek le kellene futnia.");
+    }
+
+    [Test]
+    public void UpdateInventory_SetsResourceAmount_AndFiresInventoryChangedEvent()
+    {
+        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+
+        bool eventFired = false;
+
+        player.InventoryChanged += (sender, e) =>
+        {
+            eventFired = true;
+            Assert.AreEqual(resource, e.Resource);
+            Assert.AreEqual(10, e.NewAmount);
+        };
+
+        player.UpdateInventory(resource, 10);
+
+        Assert.AreEqual(10, player.Resources[resource]);
+        Assert.IsTrue(eventFired, "Az InventoryChanged eventnek le kellett volna futnia.");
+    }
+
+    [Test]
+    public void SellResource_DecreasesResourceAmount_AndIncreasesMoney()
+    {
+        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+
+        player.UpdateInventory(resource, 10);
+
+        player.SellResource(resource, 4);
+
+        Assert.AreEqual(6, player.Resources[resource]);
+        Assert.AreEqual(540, player.Money);
     }
 }
