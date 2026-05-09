@@ -3121,7 +3121,7 @@ GameObject:
   - component: {fileID: 196173225}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: ironbar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5060,7 +5060,7 @@ GameObject:
   - component: {fileID: 315639627}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: bakrey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6719,7 +6719,7 @@ GameObject:
   - component: {fileID: 391006658}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: mint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7548,7 +7548,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 453422065}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: SellResource
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 315639627}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &453422065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7806,7 +7818,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 458356593}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: SellResource
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1901261248}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &458356593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8187,7 +8211,7 @@ GameObject:
   - component: {fileID: 493739364}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: coal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9092,7 +9116,7 @@ GameObject:
   - component: {fileID: 531190753}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: farm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10737,7 +10761,7 @@ GameObject:
   - component: {fileID: 640161925}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: goldore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11730,7 +11754,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 750095359}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: SellResource
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 531190753}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &750095359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13369,7 +13405,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 806530063}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: SellResource
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 196173225}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 0
 --- !u!114 &806530063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15333,7 +15381,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 883344998}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: SellResource
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 640161925}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &883344998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16893,7 +16953,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1009910675}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: SellResource
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 391006658}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1009910675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17208,7 +17280,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1029751589}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: SellResource
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1539212425}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1029751589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17626,7 +17710,7 @@ GameObject:
   - component: {fileID: 1054577567}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22639,7 +22723,7 @@ GameObject:
   - component: {fileID: 1349677378}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: ironore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25116,7 +25200,7 @@ GameObject:
   - component: {fileID: 1539212425}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: flour
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31235,7 +31319,7 @@ GameObject:
   - component: {fileID: 1901261248}
   m_Layer: 5
   m_Name: InputField (TMP)
-  m_TagString: Untagged
+  m_TagString: goldbar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32901,7 +32985,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1990647973}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1888546980}
+        m_TargetAssemblyTypeName: GameUiFunctions, GameAssembly
+        m_MethodName: SellResource
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1054577567}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1990647973
 MonoBehaviour:
   m_ObjectHideFlags: 0
