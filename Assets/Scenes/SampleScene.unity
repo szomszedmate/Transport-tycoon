@@ -309,7 +309,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Cross road
+  m_text: Bus stop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2600,7 +2600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 150$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3342,7 +3342,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 250$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7253,6 +7253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 1938092155}
   type: 1
+  amount: 0
 --- !u!1 &425656576
 GameObject:
   m_ObjectHideFlags: 0
@@ -7656,7 +7657,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 250$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7923,6 +7924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 355425786}
   type: 2
+  amount: 0
 --- !u!1 &476884767
 GameObject:
   m_ObjectHideFlags: 0
@@ -10747,6 +10749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 1442924950}
   type: 9
+  amount: 0
 --- !u!1 &640161923
 GameObject:
   m_ObjectHideFlags: 0
@@ -11999,7 +12002,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 150$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16311,7 +16314,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 130$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17113,7 +17116,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 250$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17651,6 +17654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 1096380847}
   type: 10
+  amount: 0
 --- !u!1 &1053479901
 GameObject:
   m_ObjectHideFlags: 0
@@ -18100,6 +18104,17 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1073234320 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4314240010058053331, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+  m_PrefabInstance: {fileID: 1859366671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1074040271
 GameObject:
   m_ObjectHideFlags: 0
@@ -20926,6 +20941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 1535668598}
   type: 7
+  amount: 0
 --- !u!1 &1244061057
 GameObject:
   m_ObjectHideFlags: 0
@@ -21767,7 +21783,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 150$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -22192,7 +22208,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 150$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -23305,6 +23321,17 @@ RectTransform:
   m_AnchoredPosition: {x: 114.875, y: -448.24606}
   m_SizeDelta: {x: 201.75, y: 26.924}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1390082802 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4457339211028018859, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+  m_PrefabInstance: {fileID: 1859366671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1390826657
 GameObject:
   m_ObjectHideFlags: 0
@@ -23635,7 +23662,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 250$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -23873,6 +23900,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 2035801326}
   type: 8
+  amount: 0
 --- !u!1 &1430789118
 GameObject:
   m_ObjectHideFlags: 0
@@ -23930,7 +23958,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 250$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24604,7 +24632,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 250$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24788,6 +24816,17 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1472645353 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8166943219436346559, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+  m_PrefabInstance: {fileID: 1859366671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1478234327
 GameObject:
   m_ObjectHideFlags: 0
@@ -24825,6 +24864,17 @@ Transform:
   - {fileID: 1130475781}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1503114310 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4935180133260268665, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+  m_PrefabInstance: {fileID: 1859366671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1517866092
 GameObject:
   m_ObjectHideFlags: 0
@@ -25186,6 +25236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 1335857957}
   type: 4
+  amount: 0
 --- !u!1 &1539212423
 GameObject:
   m_ObjectHideFlags: 0
@@ -25734,7 +25785,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 150$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -26502,7 +26553,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 150$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -26632,6 +26683,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 766094214}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1673640630 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 632422219736994762, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+  m_PrefabInstance: {fileID: 1859366671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1676824846
 GameObject:
   m_ObjectHideFlags: 0
@@ -27812,6 +27874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 2000047511}
   type: 5
+  amount: 0
 --- !u!1 &1776911468
 GameObject:
   m_ObjectHideFlags: 0
@@ -27827,7 +27890,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1776911469
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27843,9 +27906,9 @@ RectTransform:
   - {fileID: 1436599630}
   m_Father: {fileID: 404909466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 550, y: -34.1155}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1779899868
@@ -28521,7 +28584,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 150$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -29321,7 +29384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 298973979553625193, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00001525878
+      value: -0.000045776367
       objectReference: {fileID: 0}
     - target: {fileID: 306377721782707597, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchorMax.x
@@ -29485,7 +29548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: truckdatas.Array.size
@@ -29594,7 +29657,7 @@ PrefabInstance:
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[7].Data
       value: 
-      objectReference: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
+      objectReference: {fileID: 11400000, guid: 17547141c40e3594f82ce602dc4277e8, type: 2}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: inventoryResources.Array.size
       value: 10
@@ -29606,11 +29669,11 @@ PrefabInstance:
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[1].Price
       value: 
-      objectReference: {fileID: 702727731}
+      objectReference: {fileID: 1673640630}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[2].Price
       value: 
-      objectReference: {fileID: 1149474830}
+      objectReference: {fileID: 1503114310}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[3].Price
       value: 
@@ -29630,7 +29693,7 @@ PrefabInstance:
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[7].Price
       value: 
-      objectReference: {fileID: 657935547}
+      objectReference: {fileID: 1957056366}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: 'inventoryResources.Array.data[0]'
       value: 
@@ -29690,19 +29753,19 @@ PrefabInstance:
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[4].ButtonImage
       value: 
-      objectReference: {fileID: 587477090}
+      objectReference: {fileID: 1073234320}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[5].ButtonImage
       value: 
-      objectReference: {fileID: 1394527435}
+      objectReference: {fileID: 1390082802}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[6].ButtonImage
       value: 
-      objectReference: {fileID: 1436599632}
+      objectReference: {fileID: 1472645353}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: uiButtons.Array.data[7].ButtonImage
       value: 
-      objectReference: {fileID: 1436599632}
+      objectReference: {fileID: 1394527435}
     - target: {fileID: 1620456651685616428, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -30383,7 +30446,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 250$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -32644,7 +32707,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 200$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -32778,6 +32841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 476884769}
   type: 3
+  amount: 0
 --- !u!1 &1987180579
 GameObject:
   m_ObjectHideFlags: 0
@@ -33398,6 +33462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: GameAssembly::InventoryResource
   amountText: {fileID: 564261193}
   type: 6
+  amount: 0
 --- !u!1 &2025261106 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5424337711952795751, guid: e9abece64feef694596d981e5b665051, type: 3}
@@ -33488,7 +33553,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 150$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -34704,7 +34769,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999$
+  m_text: 250$
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
