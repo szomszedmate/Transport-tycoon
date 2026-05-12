@@ -28,6 +28,7 @@ default:
 .cache: &cache
   cache:
     key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
+    policy: pull
     paths:
       - $UNITY_DIR/Library/
 
