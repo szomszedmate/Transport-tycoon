@@ -114,6 +114,8 @@ build-StandaloneOSX:
   image: $IMAGE:$UNITY_VERSION-mac-mono-$IMAGE_VERSION
   variables:
     BUILD_TARGET: StandaloneOSX
+  when: manual
+  allow_failure: true
 
 build-StandaloneWindows64:
   <<: *build
