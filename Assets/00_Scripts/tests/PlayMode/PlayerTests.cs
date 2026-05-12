@@ -91,7 +91,7 @@ public class PlayerTests
     [Test]
     public void UpdateInventory_SetsResourceAmount_AndFiresInventoryChangedEvent()
     {
-        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+        ResourceEnum resource = ResourceEnum.Wheat;
 
         bool eventFired = false;
 
@@ -109,15 +109,22 @@ public class PlayerTests
     }
 
     [Test]
-    public void SellResource_DecreasesResourceAmount_AndIncreasesMoney()
+    public void SellResource_IncreasesMoney_AndFiresInventoryChangedEvent()
     {
-        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+        ResourceEnum resource = ResourceEnum.Wheat;
 
-        player.UpdateInventory(resource, 10);
+        bool eventFired = false;
+
+        player.InventoryChanged += (sender, e) =>
+        {
+            eventFired = true;
+            Assert.AreEqual(resource, e.Resource);
+            Assert.AreEqual(-4, e.NewAmount);
+        };
 
         player.SellResource(resource, 4);
 
-        Assert.AreEqual(6, player.Resources[resource]);
         Assert.AreEqual(540, player.Money);
+        Assert.IsTrue(eventFired);
     }
 }

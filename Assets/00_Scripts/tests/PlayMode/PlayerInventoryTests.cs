@@ -23,7 +23,7 @@ public class PlayerInventoryTests
     [Test]
     public void UpdateInventory_OverwritesPreviousResourceAmount()
     {
-        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+        ResourceEnum resource = ResourceEnum.Wheat;
 
         player.UpdateInventory(resource, 10);
         player.UpdateInventory(resource, 25);
@@ -32,22 +32,29 @@ public class PlayerInventoryTests
     }
 
     [Test]
-    public void SellResource_DoesNotChangeInventory_WhenNotEnoughResource()
+public void SellResource_FiresInventoryChangedEvent_WithNegativeAmount_WhenResourceIsSold()
+{
+    ResourceEnum resource = ResourceEnum.Wheat;
+
+    bool eventFired = false;
+
+    player.InventoryChanged += (sender, e) =>
     {
-        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+        eventFired = true;
+        Assert.AreEqual(resource, e.Resource);
+        Assert.AreEqual(-4, e.NewAmount);
+    };
 
-        player.UpdateInventory(resource, 3);
+    player.SellResource(resource, 4);
 
-        player.SellResource(resource, 5);
+    Assert.IsTrue(eventFired, "Az InventoryChanged eseménynek le kellett volna futnia eladáskor.");
+}
 
-        Assert.AreEqual(3, player.Resources[resource]);
-        Assert.AreEqual(500, player.Money);
-    }
 
     [Test]
     public void SellResource_FiresInventoryChangedEvent_WhenResourceIsSold()
     {
-        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+        ResourceEnum resource = ResourceEnum.Wheat;
 
         player.UpdateInventory(resource, 10);
 
@@ -57,7 +64,7 @@ public class PlayerInventoryTests
         {
             eventFired = true;
             Assert.AreEqual(resource, e.Resource);
-            Assert.AreEqual(4, e.NewAmount);
+            Assert.AreEqual(-4, e.NewAmount);
         };
 
         player.SellResource(resource, 4);

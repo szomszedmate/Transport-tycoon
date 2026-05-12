@@ -23,7 +23,7 @@ public class PlayerProductionTests
     [Test]
     public void IndustryProduced_UpdatesInventory()
     {
-        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+        ResourceEnum resource = ResourceEnum.Wheat;
 
         ProducedEventArgs producedEventArgs = new ProducedEventArgs
         {
@@ -39,7 +39,7 @@ public class PlayerProductionTests
     [Test]
     public void IndustryProduced_FiresInventoryChangedEvent()
     {
-        ResourceEnum resource = (ResourceEnum)System.Enum.GetValues(typeof(ResourceEnum)).GetValue(0);
+        ResourceEnum resource = ResourceEnum.Wheat;
 
         bool eventFired = false;
 
