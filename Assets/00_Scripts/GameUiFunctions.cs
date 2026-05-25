@@ -66,17 +66,25 @@ public class GameUiFunctions : MonoBehaviour
         public TextMeshProUGUI Price;
     }
 
-
-    void Start()
+    void Awake()
     {
         inventory = GameObject.FindWithTag("Player").GetComponent<Player>();
         lastMoney = game.Player.Money;
+
+
         game.TimeChanged += Game_TimeChanged;
         game.Player.MoneyChanged += HandleMoneyPop;
         game.Player.TaxChanged += Player_TaxChanged;
         game.Player.InventoryChanged += Player_InventoryChanged;
         game.InputManager.moneyDebugEvent += InputManager_moneyDebugEvent;
 
+        buildingSystem.prevdest += DeselectAllButtons;
+        buildingSystem.selectprev += SelectButton;
+        buildingSystem.destroymodeturn += DestroyButtonSelect;
+    }
+
+    void Start()
+    {
         foreach (ButtonDataPair button in uiButtons)
         {
             if (button.Data is not IData)
@@ -256,12 +264,6 @@ public class GameUiFunctions : MonoBehaviour
         taxText.text = "Tax to pay: $" + Math.Round(e.NewAmount, 1).ToString();
     }
 
-    void Awake()
-    {
-        buildingSystem.prevdest += DeselectAllButtons;
-        buildingSystem.selectprev += SelectButton;
-        buildingSystem.destroymodeturn += DestroyButtonSelect;
-    }
 
     private void InputManager_moneyDebugEvent(object sender, EventArgs e)
     {

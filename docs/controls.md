@@ -29,6 +29,10 @@
 - Q / Scroll down : Down
 - Middle click (Hold) : Rotate camera (Free look)
 - Middle click (Double) : Reset rotation
+- Left arrow : Rotate camera left
+- Right arrow : Rotate camera right
+- Down arrow : Rotate camera down
+- Up arrow : Rotate camera up
 - Left Shift (Hold) : Increase speed
 
 ## System

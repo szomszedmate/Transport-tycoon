@@ -172,6 +172,24 @@ public class InputManager : MonoBehaviour
             }
         }
 
+        if (Keyboard.current.leftArrowKey.isPressed)
+        {
+            MainCamera.RotateFreeLook(-0.5f, 0);
+        }
+        else if (Keyboard.current.rightArrowKey.isPressed)
+        {
+            MainCamera.RotateFreeLook(0.5f, 0);
+        }
+
+        if (Keyboard.current.upArrowKey.isPressed)
+        {
+            MainCamera.RotateFreeLook(0, 0.5f);
+        }
+        else if (Keyboard.current.downArrowKey.isPressed)
+        {
+            MainCamera.RotateFreeLook(0, -0.5f);
+        }
+
         #endregion
 
 
