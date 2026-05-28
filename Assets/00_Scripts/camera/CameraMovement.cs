@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -11,18 +12,25 @@ public class CameraMovement : MonoBehaviour
     public float maxdist;
     public float mousescrollmultiplier;
     public float rotationSensitivity = 5f;
-    private float verticalRotation = 0f;
+    [SerializeField] private float verticalRotation;
+    [SerializeField] private float horizontalRotation;
     public Camera minimapcam;
 
     public void RotateFreeLook(float mouseX, float mouseY)
     {
-        transform.Rotate(Vector3.up * mouseX * rotationSensitivity, Space.World); // yaw
+        // 1. Kï¿½lï¿½n vï¿½ltozï¿½kban adjuk hozzï¿½ az elmozdulï¿½st
+        horizontalRotation += mouseX * rotationSensitivity;
+        verticalRotation -= mouseY * rotationSensitivity;
 
-        verticalRotation -= mouseY * rotationSensitivity; // pitch
+        // 2. Clampeljï¿½k a fï¿½ggï¿½legest (a -148 ï¿½s 28 tartomï¿½nyod marad)
+        verticalRotation = Mathf.Clamp(verticalRotation, -148f, 28f);
 
-        verticalRotation = Mathf.Clamp(verticalRotation, -80f, 80f); // limit movement
+        // 3. EGYBEN ï¿½llï¿½tjuk be a rotï¿½ciï¿½t, nem rï¿½szenkï¿½nt
+        // Ez megakadï¿½lyozza, hogy a Unity "okoskodni" akarjon a tengelyekkel
+        transform.localRotation = Quaternion.Euler(verticalRotation, horizontalRotation, 0f);
 
-        transform.localEulerAngles = new Vector3(verticalRotation, transform.localEulerAngles.y, 0);
+        // Debug, hogy lï¿½sd: most mï¿½r nincsenek 180 fokos ugrï¿½sok az Y-ban (horizontalRotation)
+        // Debug.Log($"X: {verticalRotation}, Y: {horizontalRotation}");
     }
 
     public void MoveCameraHorizontally(Direction direction)
@@ -53,7 +61,7 @@ public class CameraMovement : MonoBehaviour
 
     public void MoveCameraVertically(bool up, float minHeight = 0)
     {
-        float effectiveMin = Mathf.Max(mindist, minHeight);
+        float effectiveMin = minHeight;
         if (up) // up
         {
             if (transform.position.y + speed * mousescrollmultiplier * Time.unscaledDeltaTime < maxdist)
@@ -71,7 +79,8 @@ public class CameraMovement : MonoBehaviour
             float nextY = transform.position.y - speed * mousescrollmultiplier * Time.unscaledDeltaTime;
             if (nextY > effectiveMin)
                 transform.position += Vector3.down * speed * mousescrollmultiplier * Time.unscaledDeltaTime;
-            // ha elérte a minimumot, ne csinálj semmit – ne snap-elj folyamatosan
+            else if (transform.position.y > effectiveMin)
+                transform.position = new Vector3(transform.position.x, effectiveMin, transform.position.z);
         }
     }
 
@@ -112,6 +121,8 @@ public class CameraMovement : MonoBehaviour
     public void ResetRotation()
     {
         transform.rotation = baseRotation;
+        verticalRotation = transform.localEulerAngles.x;
+        horizontalRotation = transform.localEulerAngles.y;
     }
 
     public void IncreaseSpeed()
@@ -132,6 +143,8 @@ public class CameraMovement : MonoBehaviour
     private void Start()
     {
         speed = baseSpeed;
+        verticalRotation = transform.localEulerAngles.x;
+        horizontalRotation = transform.localEulerAngles.y;
     }
 
     private bool TerrainHit(float terrainHeight, float newHeight)

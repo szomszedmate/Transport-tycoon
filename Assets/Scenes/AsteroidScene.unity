@@ -711,6 +711,10 @@ PrefabInstance:
       propertyPath: buildingSystem
       value: 
       objectReference: {fileID: 1686292126}
+    - target: {fileID: 5962956368974613459, guid: db42ee512c05d8048bb083cd22469dad, type: 3}
+      propertyPath: terrainLayerMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5805,6 +5809,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1426012951332021257, guid: ae6fa5256eba0dc4884aec7100c8c076, type: 3}
   m_PrefabInstance: {fileID: 505575803}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &508619850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2904719921167238644, guid: c98c8db99e34abd45bfd1ff4d39c746b, type: 3}
+  m_PrefabInstance: {fileID: 2091482925}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &512743789
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8140,6 +8149,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1426012951332021257, guid: ae6fa5256eba0dc4884aec7100c8c076, type: 3}
   m_PrefabInstance: {fileID: 695161052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &708868183 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3386372740444677288, guid: 53be50157f536b44aad6da5934a39f86, type: 3}
+  m_PrefabInstance: {fileID: 1094391566}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &726419452
 PrefabInstance:
@@ -16626,6 +16640,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 298973979553625193, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000045776367
+      objectReference: {fileID: 0}
     - target: {fileID: 306377721782707597, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -16811,6 +16829,10 @@ PrefabInstance:
     - target: {fileID: 1620456651685616428, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1741795025712342016, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000042951146
       objectReference: {fileID: 0}
     - target: {fileID: 1820481163683677060, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchorMax.y
@@ -17024,6 +17046,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3730403044728855581, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3825784945102055468, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 300
@@ -17052,6 +17078,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 4432047041223225441, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 508619850}
+    - target: {fileID: 4432047041223225441, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: minimapcamera
+      value: 
+      objectReference: {fileID: 708868183}
     - target: {fileID: 4503791128447256311, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -60
@@ -17074,6 +17108,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4583673457464504029, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598938527029762709, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598938527029762709, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5112911509324295162, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
@@ -17299,6 +17341,10 @@ PrefabInstance:
     - target: {fileID: 6214799270571749096, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6287610228163957520, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+      propertyPath: m_Name
+      value: Minimap
       objectReference: {fileID: 0}
     - target: {fileID: 6502498102046766956, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_SizeDelta.x
@@ -22512,7 +22558,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4541738483845767057, guid: c98c8db99e34abd45bfd1ff4d39c746b, type: 3}
   m_PrefabInstance: {fileID: 2091482925}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 508619850}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f41be3ef07e5d884aa32c627ddbd50f5, type: 3}
@@ -22523,7 +22569,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9084742041632855507, guid: c98c8db99e34abd45bfd1ff4d39c746b, type: 3}
   m_PrefabInstance: {fileID: 2091482925}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 508619850}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8fc1b1ac060024f4691f0d7d0f2f97ff, type: 3}

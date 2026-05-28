@@ -24,6 +24,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private CameraMovement MainCamera;
 
     [SerializeField] private List<BuildHotkey> hotkeys;
+    [SerializeField] private LayerMask terrainLayerMask = ~0;
 
     public bool menuOpen;
     private const float doubleClickTime = 0.3f;
@@ -238,18 +239,23 @@ public class InputManager : MonoBehaviour
     private void CheckAndMoveCamera(Direction direction, bool horizontally, bool up)
     {
         Vector3 refPos = horizontally ? MainCamera.NextPos(direction) : MainCamera.transform.position;
-        (int col, int row) = buildingSystem.Grid.WorldToGridPosition(refPos);
-        float terrainHeight = buildingSystem.Grid.GetTerrainHeightAtGrid(col, row);
-        float minHeight = terrainHeight + MainCamera.mindist;
+        float terrainHeight = SampleTerrainHeight(refPos.x, refPos.z) + MainCamera.mindist;
 
         if (horizontally)
         {
-            if (refPos.y < minHeight) MainCamera.SnapToHeight(minHeight);
+            if (refPos.y < terrainHeight) MainCamera.SnapToHeight(terrainHeight);
             MainCamera.MoveCameraHorizontally(direction);
         }
         else
         {
-            MainCamera.MoveCameraVertically(up, minHeight);
+            MainCamera.MoveCameraVertically(up, terrainHeight);
         }
+    }
+
+    private float SampleTerrainHeight(float x, float z)
+    {
+        if (Physics.Raycast(new Vector3(x, 2000f, z), Vector3.down, out RaycastHit hit, Mathf.Infinity, terrainLayerMask))
+            return hit.point.y;
+        return 0f;
     }
 }
