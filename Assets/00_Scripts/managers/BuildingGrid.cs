@@ -30,13 +30,17 @@ public class BuildingGrid : MonoBehaviour
     public int Width { get => width; set => width = value; } // for debug
     public int Height { get => height; set => height = value; } // for debug
     public List<ILocation> Locations { get => locations; set => locations = value; }
+    public Water water;
 
     private void Awake()
     {
         Grid = new BuildingGridCell[Width, Height];
         treeVisuals = new TreeVisual[Width, Height];
         waterVisuals = new GameObject[Width, Height];
+    }
 
+    private void Start()
+    {
         for (int i = 0; i < Grid.GetLength(0); i++)
         {
             for (int j = 0; j < Grid.GetLength(1); j++)
@@ -52,7 +56,22 @@ public class BuildingGrid : MonoBehaviour
         RefreshAllTreeVisuals();
     }
 
+    public bool IsRoad(Vector3 worldPos)
+    {
+        (int x, int y) = WorldToGridPosition(worldPos);
+        return (Grid[x, y].IsRoad());
+    }
 
+    public Road GetRoad(Vector3 worldPos)
+    {
+        (int x, int y) = WorldToGridPosition(worldPos);
+        if (Grid[x, y].IsRoad())
+        {
+            return Grid[x, y].Road;
+        }
+        return null;
+    }
+ 
     public ILocation GetLocationAt(Vector3 worldPos)
     {
         (int x, int y) = WorldToGridPosition(worldPos);
@@ -75,9 +94,11 @@ public class BuildingGrid : MonoBehaviour
     private void RegisterExistingObjects()
     {
         Locations = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ILocation>().ToList();
+        //Debug.Log(Locations.Count);
         // init buildings to grid
         foreach (var location in Locations)
         {
+            //Debug.Log(location + ", " + location.GetAllBuildingPositions().Count);
             foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
                 (int x, int y) = WorldToGridPosition(pos);
@@ -90,9 +111,11 @@ public class BuildingGrid : MonoBehaviour
         }
 
         // init base map roads to grid
-        roads = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<Road>().ToList();
+        roads = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None).OfType<Road>().ToList();
         foreach (var road in roads)
         {
+            road.ForceSetup();
+
             Vector3 pos = ((MonoBehaviour)road).transform.position;
             (int x, int y) = WorldToGridPosition(pos);
 
@@ -101,7 +124,7 @@ public class BuildingGrid : MonoBehaviour
                 Grid[x, y].SetRoad(road);
             }
         }
-        LocationsRegistered?.Invoke(this, new LocationsRegisteredEventArgs { RegisteredLocations = Locations });
+        LocationsRegistered?.Invoke(this, new LocationsRegisteredEventArgs { RegisteredLocations = Locations, RegisteredRoads  = roads});
     }
 
     public void SetRoad(Road road, Vector3 roadPosition)
@@ -158,7 +181,7 @@ public class BuildingGrid : MonoBehaviour
     {
         float x = transform.position.x + col * BuildingSystem.CellSize + BuildingSystem.CellSize / 2f;
         float z = transform.position.z + row * BuildingSystem.CellSize + BuildingSystem.CellSize / 2f;
-        return new Vector3(x, 0f, z);
+        return new Vector3(x, 100f, z);
     }
 
     public int GetWidth()
@@ -218,6 +241,7 @@ public class BuildingGrid : MonoBehaviour
         {
             foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
+                //Debug.Log(Vector3.Distance(pos, position) + ", " + BuildingSystem.CellSize);
                 if (Vector3.Distance(pos, position) < BuildingSystem.CellSize * 0.76f)
                 {
                     return false;
@@ -252,7 +276,7 @@ public class BuildingGrid : MonoBehaviour
     {
         (int x, int y) = WorldToGridPosition(busStopPosition);
         if (x < 0 || x >= Width || y < 0 || y >= Height) return false; // out of bounds
-        if (!Grid[x, y].IsRoad()) return false; // false if not road
+        if (!Grid[x, y].IsRoad() || Grid[x, y].IsCorner()) return false; // false if not road
 
         for (int i = -1; i <= 1; i++) // check tiles around it
         {
@@ -277,6 +301,7 @@ public class BuildingGrid : MonoBehaviour
         if (!IsInsideGrid(col, row)) return false;
 
         if (!Grid[col, row].IsWater()) return false;
+
         if (!Grid[col, row].IsEmpty()) return false;
 
         bool horizontal = IsHorizontalRotation(rotation);
@@ -499,7 +524,8 @@ public class BuildingGrid : MonoBehaviour
             }
 
             Vector3 position = GridToWorldCenterPosition(col, row);
-            TreeVisual visual = Instantiate(treeVisualPrefab, position, Quaternion.identity, treeContainer);
+            Vector3 surfacePoint = FindSurfaceAt(position);
+            TreeVisual visual = Instantiate(treeVisualPrefab, surfacePoint, Quaternion.identity, treeContainer);
             treeVisuals[col, row] = visual;
         }
 
@@ -527,36 +553,124 @@ public class BuildingGrid : MonoBehaviour
     #endregion
     #region TerrainMethods
 
-    private void InitializeWater()
+    public Vector3 FindSurfaceAt(Vector3 worldPos)
     {
-        SetWater(10, 10);
-        SetWater(10, 11);
-        SetWater(11, 10);
-        SetWater(11, 11);
-
-        for (int i = 0; i < Height; i++)
+        if (Physics.Raycast(worldPos, Vector3.down, out RaycastHit hit))
         {
-            SetWater(15, i);
+            return hit.point;
+        }
+        Debug.LogWarning("Nem talalta meg a felszint! " + worldPos);
+        return worldPos;
+    }
+
+    //private void InitializeWater()
+    //{
+
+
+    //    SetWater(10, 10);
+    //    SetWater(10, 11);
+    //    SetWater(11, 10);
+    //    SetWater(11, 11);
+
+    //    for (int i = 0; i < Height; i++)
+    //    {
+    //        SetWater(15, i);
+    //    }
+
+    //    SetWater(20, 40);
+    //    SetWater(20, 41);
+    //    SetWater(21, 40);
+    //    SetWater(21, 41);
+    //    SetWater(22, 40);
+    //    SetWater(22, 41);
+
+    //    SetWater(20, 50);
+    //    SetWater(20, 51);
+    //    SetWater(20, 52);
+    //    SetWater(21, 50);
+    //    SetWater(21, 51);
+    //    SetWater(21, 52);
+    //    SetWater(22, 50);
+    //    SetWater(22, 51);
+    //    SetWater(22, 52);
+
+    //}
+
+    public float GetTerrainHeightAtGrid(int col, int row)
+    {
+        Vector3 worldPos = GridToWorldCenterPosition(col, row);
+        // 100f-ről indítjuk a sugarat lefelé (ahogy a GridToWorldCenterPosition-ben is van)
+        if (Physics.Raycast(new Vector3(worldPos.x, 100f, worldPos.z), Vector3.down, out RaycastHit hit, Mathf.Infinity))
+        {
+            return hit.point.y;
+        }
+        return 0f; // Alapértelmezett, ha nincs találat
+    }
+
+    public float CalculateBridgeHeight(Vector3 currentPos, float rotation, RoadData roadData)
+    {
+        (int col, int row) = WorldToGridPosition(currentPos);
+        bool horizontal = IsHorizontalRotation(rotation);
+
+        int dCol = horizontal ? 1 : 0;
+        int dRow = horizontal ? 0 : 1;
+
+        // 1. Keressük meg a híd két végét (a partokat)
+        // Visszafelé keressük az egyik partot
+        int startCol = col;
+        int startRow = row;
+        while (IsInsideGrid(startCol - dCol, startRow - dRow) && IsWater(startCol - dCol, startRow - dRow))
+        {
+            startCol -= dCol;
+            startRow -= dRow;
         }
 
-        SetWater(20, 40);
-        SetWater(20, 41);
-        SetWater(21, 40);
-        SetWater(21, 41);
-        SetWater(22, 40);
-        SetWater(22, 41);
+        // Előre keressük a másik partot
+        int endCol = col;
+        int endRow = row;
+        while (IsInsideGrid(endCol + dCol, endRow + dRow) && IsWater(endCol + dCol, endRow + dRow))
+        {
+            endCol += dCol;
+            endRow += dRow;
+        }
 
-        SetWater(20, 50);
-        SetWater(20, 51);
-        SetWater(20, 52);
-        SetWater(21, 50);
-        SetWater(21, 51);
-        SetWater(21, 52);
-        SetWater(22, 50);
-        SetWater(22, 51);
-        SetWater(22, 52);
+        // 2. Kérjük le a két part magasságát (a víz melletti utolsó szárazföldi cella)
+        float heightA = GetTerrainHeightAtGrid(startCol - dCol, startRow - dRow);
+        float heightB = GetTerrainHeightAtGrid(endCol + dCol, endRow + dRow);
 
+        // 3. Számoljuk ki a távolságot és az arányt (t)
+        // Hányadik elem a híd a sorban?
+        float totalDist = Vector3.Distance(GridToWorldCenterPosition(startCol - dCol, startRow - dRow),
+                                           GridToWorldCenterPosition(endCol + dCol, endRow + dRow));
+        float currentDist = Vector3.Distance(GridToWorldCenterPosition(startCol - dCol, startRow - dRow),
+                                             GridToWorldCenterPosition(col, row));
+
+        float t = currentDist / totalDist;
+
+        // 4. Lineáris interpoláció a két magasság között
+        float floatHeight = 2.0f;
+        float baseHeight = Mathf.Lerp(heightA, heightB, t);
+        return baseHeight + floatHeight;
     }
+
+    private void InitializeWater()
+    {
+        List<GameObject> waterTiles = GameObject.FindGameObjectsWithTag("WaterTile").ToList();
+        int count = 0; // debug
+        foreach (GameObject waterTile in waterTiles)
+        {
+            (int x, int z) = WorldToGridPosition(waterTile.transform.position);
+            if (IsInsideGrid(x, z))
+            {
+                count++;
+                Grid[x, z].SetTerrainType(TerrainType.Water);
+                Grid[x, z].ClearTrees();
+
+                waterVisuals[x, z] = waterTile;
+            }
+        }
+    }
+
     public void SetWater(int col, int row)
     {
         if (!IsInsideGrid(col, row)) return;
@@ -961,6 +1075,12 @@ public class BuildingGrid : MonoBehaviour
         public bool Cell_IsCityRoad()
         {
             return Road.IsCityRoad;
+        }
+
+        public bool IsCorner()
+        {
+            if (Road is null) return false;
+            return (Road.IsCorner);
         }
 
         public void Cell_RemRoad()

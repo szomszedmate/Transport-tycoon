@@ -129,27 +129,27 @@ public class InputManager : MonoBehaviour
 
         if (Keyboard.current.wKey.isPressed)
         {
-            MainCamera.MoveCameraHorizontally(Direction.N);
+            CheckAndMoveCamera(Direction.N, true, false);
         }
         if (Keyboard.current.aKey.isPressed)
         {
-            MainCamera.MoveCameraHorizontally(Direction.W);
+            CheckAndMoveCamera(Direction.W, true, false);
         }
         if (Keyboard.current.sKey.isPressed)
         {
-            MainCamera.MoveCameraHorizontally(Direction.S);
+            CheckAndMoveCamera(Direction.S, true, false);
         }
         if (Keyboard.current.dKey.isPressed)
         {
-            MainCamera.MoveCameraHorizontally(Direction.E);
+            CheckAndMoveCamera(Direction.E, true, false);
         }
         
         if (Mouse.current.scroll.ReadValue().y < 0 || Keyboard.current.eKey.isPressed)
         {
-            MainCamera.MoveCameraVertically(true); // up
+            CheckAndMoveCamera(Direction.NONE, false, true); // up
         } else if (Mouse.current.scroll.ReadValue().y > 0 || Keyboard.current.qKey.isPressed)
         {
-            MainCamera.MoveCameraVertically(false); // down
+            CheckAndMoveCamera(Direction.NONE, false, false); // down
         }
 
         if (Mouse.current.middleButton.wasPressedThisFrame) // reset angle on double click
@@ -233,5 +233,23 @@ public class InputManager : MonoBehaviour
             BuildingSystem.BS_ConfirmRoute();
         }
         
+    }
+
+    private void CheckAndMoveCamera(Direction direction, bool horizontally, bool up)
+    {
+        Vector3 refPos = horizontally ? MainCamera.NextPos(direction) : MainCamera.transform.position;
+        (int col, int row) = buildingSystem.Grid.WorldToGridPosition(refPos);
+        float terrainHeight = buildingSystem.Grid.GetTerrainHeightAtGrid(col, row);
+        float minHeight = terrainHeight + MainCamera.mindist;
+
+        if (horizontally)
+        {
+            if (refPos.y < minHeight) MainCamera.SnapToHeight(minHeight);
+            MainCamera.MoveCameraHorizontally(direction);
+        }
+        else
+        {
+            MainCamera.MoveCameraVertically(up, minHeight);
+        }
     }
 }

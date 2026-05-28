@@ -7,7 +7,7 @@ public class CameraMovement : MonoBehaviour
     private readonly float speedMultiplier = 3f;
 
     public float speed;
-    public float mindist = 10;
+    public float mindist;
     public float maxdist;
     public float mousescrollmultiplier;
     public float rotationSensitivity = 5f;
@@ -47,12 +47,13 @@ public class CameraMovement : MonoBehaviour
                 transform.position += right * speed * Time.unscaledDeltaTime;
                 break;
             default:
-                break;
+                return;
         }
     }
 
-    public void MoveCameraVertically(bool up)
+    public void MoveCameraVertically(bool up, float minHeight = 0)
     {
+        float effectiveMin = Mathf.Max(mindist, minHeight);
         if (up) // up
         {
             if (transform.position.y + speed * mousescrollmultiplier * Time.unscaledDeltaTime < maxdist)
@@ -64,17 +65,48 @@ public class CameraMovement : MonoBehaviour
             {
                 transform.position = new Vector3(transform.position.x, maxdist, transform.position.z);
             }
-        } else // down
-        {
-            if (transform.position.y - speed * mousescrollmultiplier * Time.unscaledDeltaTime > mindist)
-            {
-                transform.position += Vector3.down * speed * mousescrollmultiplier * Time.unscaledDeltaTime;
-            }
-            else
-            {
-                transform.position = new Vector3(transform.position.x, mindist, transform.position.z);
-            }
         }
+        else // down
+        {
+            float nextY = transform.position.y - speed * mousescrollmultiplier * Time.unscaledDeltaTime;
+            if (nextY > effectiveMin)
+                transform.position += Vector3.down * speed * mousescrollmultiplier * Time.unscaledDeltaTime;
+            // ha elérte a minimumot, ne csinálj semmit – ne snap-elj folyamatosan
+        }
+    }
+
+    public void SnapToHeight(float height)
+    {
+        transform.position = new Vector3(transform.position.x, height, transform.position.z);
+    }
+
+    public Vector3 NextPos(Direction direction)
+    {
+        Vector3 forward = transform.forward;
+        forward.y = 0;
+        Vector3 right = transform.right;
+        right.y = 0; // only move horizontally
+
+        Vector3 newPos = transform.position;
+
+        switch (direction)
+        {
+            case Direction.N:
+                newPos = transform.position + forward * speed * Time.unscaledDeltaTime;
+                break;
+            case Direction.W:
+                newPos = transform.position + -right * speed * Time.unscaledDeltaTime;
+                break;
+            case Direction.S:
+                newPos = transform.position + -forward * speed * Time.unscaledDeltaTime;
+                break;
+            case Direction.E:
+                newPos = transform.position + right * speed * Time.unscaledDeltaTime;
+                break;
+            default:
+                break;
+        }
+        return newPos;
     }
 
     public void ResetRotation()
@@ -100,5 +132,10 @@ public class CameraMovement : MonoBehaviour
     private void Start()
     {
         speed = baseSpeed;
+    }
+
+    private bool TerrainHit(float terrainHeight, float newHeight)
+    {
+        return (terrainHeight >= newHeight);
     }
 }

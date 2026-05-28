@@ -27072,6 +27072,10 @@ PrefabInstance:
       propertyPath: verticalRotation
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 9084742041632855507, guid: c98c8db99e34abd45bfd1ff4d39c746b, type: 3}
+      propertyPath: mindist
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
