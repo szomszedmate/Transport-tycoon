@@ -30,6 +30,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BusStopPreview busStopPreviewPrefab;
     [SerializeField] private BusStop busStopPrefab;
     [SerializeField] private BusStopData BusStopData;
+    [SerializeField] private LayerMask terrainLayer = ~0;
     public bool RoutePlanning { get; private set; } = false;
     private Road hovered;
     public IPreview Preview { get; set; }
@@ -182,7 +183,7 @@ public class BuildingSystem : MonoBehaviour
         var agent = bus.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
 
-        bus.Setup((BusData)((BusPreview)Preview).Data, ((BusPreview)Preview).Model.Rotation);
+        bus.Setup((BusData)((BusPreview)Preview).Data, ((BusPreview)Preview).Model.Rotation, terrainLayer);
         bus.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
         Grid.SetVehicle(bus, snappedPos);
         Destroy(((MonoBehaviour)Preview).gameObject);

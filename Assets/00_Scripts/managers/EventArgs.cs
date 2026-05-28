@@ -52,6 +52,7 @@ public class WorkerChangedEventArgs : EventArgs
 public class LocationsRegisteredEventArgs : EventArgs
 {
     public List<ILocation> RegisteredLocations { get; set; }
+    public List<Road> RegisteredRoads { get; set; }
 }
 
 public class InventoryChangedEventArgs : EventArgs

@@ -26,6 +26,7 @@ public class Road : MonoBehaviour, IBuildable
     [SerializeField]
     private bool isCityRoad;
     public bool IsCityRoad => isCityRoad;
+    public bool IsCorner => model is RoadLModel;
     private List<Renderer> renderers = new();
     public bool IsBridge => data != null && data.Kind == RoadKind.Bridge;
     public RoadKind Kind => data != null ? data.Kind : RoadKind.NormalRoad;
