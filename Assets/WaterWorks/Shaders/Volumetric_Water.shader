@@ -277,7 +277,63 @@ Shader "GapperGames/Volumetric_Water"
     }
 
 #include "Water_Volume.hlsl"
-#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
+
+    // Custom BuildVaryings compatible with WaterWorks Varyings struct
+    Varyings BuildVaryings(Attributes input)
+    {
+        Varyings output = (Varyings)0;
+        UNITY_SETUP_INSTANCE_ID(input);
+        UNITY_TRANSFER_INSTANCE_ID(input, output);
+        UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+        #if defined(FEATURES_GRAPH_VERTEX)
+            VertexDescriptionInputs vertexDescriptionInputs = BuildVertexDescriptionInputs(input);
+            VertexDescription vertexDescription = VertexDescriptionFunction(vertexDescriptionInputs);
+            input.positionOS = vertexDescription.Position;
+            input.normalOS = vertexDescription.Normal;
+            input.tangentOS.xyz = vertexDescription.Tangent.xyz;
+        #endif
+
+        VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+        float3 positionWS = vertexInput.positionWS;
+        float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
+        float4 tangentWS = float4(TransformObjectToWorldDir(input.tangentOS.xyz), input.tangentOS.w);
+
+        output.positionCS = TransformWorldToHClip(positionWS);
+        output.positionWS = positionWS;
+        output.normalWS = normalWS;
+        output.tangentWS = tangentWS;
+        output.viewDirectionWS = GetWorldSpaceNormalizeViewDir(positionWS);
+
+        #if defined(LIGHTMAP_ON)
+            OUTPUT_LIGHTMAP_UV(input.uv1, unity_LightmapST, output.lightmapUV);
+        #else
+            output.sh = SampleSHVertex(normalWS);
+        #endif
+
+        #ifdef VARYINGS_NEED_FOG_AND_VERTEX_LIGHT
+            half fogFactor = 0;
+            #if !defined(_FOG_FRAGMENT)
+                fogFactor = ComputeFogFactor(output.positionCS.z);
+            #endif
+            half3 vertexLight = VertexLighting(positionWS, normalWS);
+            output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+        #endif
+
+        #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+            output.shadowCoord = GetShadowCoord(vertexInput);
+        #endif
+
+        return output;
+    }
+
+    SurfaceDescription BuildSurfaceDescription(Varyings varyings)
+    {
+        SurfaceDescriptionInputs surfaceDescriptionInputs = BuildSurfaceDescriptionInputs(varyings);
+        SurfaceDescription surfaceDescription = SurfaceDescriptionFunction(surfaceDescriptionInputs);
+        return surfaceDescription;
+    }
+
 #include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/UnlitPass.hlsl"
 
     ENDHLSL
