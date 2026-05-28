@@ -13,6 +13,12 @@ namespace Assets._00_Scripts.locations.industries
         [SerializeField] private int wheatRequired = 2;
         [SerializeField] private int flourProduced = 1;
         [SerializeField] private float cycleTime = 8f;
+        [SerializeField] private WindMillFan fan;
+
+        public void RotateFan(float deltaTime)
+        {
+            fan.Rotate(deltaTime * productivityFactor);
+        }
 
         protected override void InitializeRecipe()
         {

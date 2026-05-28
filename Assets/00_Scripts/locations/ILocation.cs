@@ -8,4 +8,6 @@ public interface ILocation
     Vector3 Position { get;}
     StopType Type { get; }
     List<Vector3> GetAllBuildingPositions();
+    void AdjustVisualToGround(Vector3 surfacePoint);
+    GameObject Visual {  get; }
 }

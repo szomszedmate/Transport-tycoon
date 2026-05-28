@@ -40,14 +40,12 @@ public class Truck : VehicleBase
 
         if (distance > 0)
         {
-            OnMileageChanged(distance, this.NonStop); // Ez mûködni fog!
-
-            WeeklyMileage += distance;
             lastPosition = transform.position;
+            model.AdjustVisualPosition();
         }
     }
 
-    public void Setup(TruckData data, float rotation)
+    public void Setup(TruckData data, float rotation, LayerMask terrainLayer)
     {
         this.data = data;
         mainType = data.MainType;
@@ -57,56 +55,56 @@ public class Truck : VehicleBase
         lastPosition = transform.position;
         WeeklyMileage = 0;
 
-        model = Instantiate(data.Model, transform.position, Quaternion.Euler(-90, 0, rotation), transform);
+        model = Instantiate(data.Model, transform.position, Quaternion.Euler(0, rotation, 0), transform);
         
         renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
         //buildmaterials in player inventori in managers
-        switch (mainType)
-        {
-            case StopType.None:
-                break;
-            case StopType.Bus:
-                builtMaterial = materials[0];
-                break;
-            case StopType.Universal:
-                builtMaterial = materials[0];
-                break;
-            case StopType.Coal:
-                builtMaterial = vehicleMaterials.Materials[3];
-                break;
-            case StopType.IronOre:
-                builtMaterial = vehicleMaterials.Materials[11];
-                break;
-            case StopType.GoldOre:
-                builtMaterial = vehicleMaterials.Materials[13];
-                break;
-            case StopType.Flour:
-                builtMaterial = vehicleMaterials.Materials[7];
-                break;
-            case StopType.Water:
-                builtMaterial = vehicleMaterials.Materials[15];
-                break;
-            case StopType.Farm:
-                builtMaterial = vehicleMaterials.Materials[5];
-                break;
-            case StopType.IronBar:
-                builtMaterial = vehicleMaterials.Materials[11];
-                break;
-            case StopType.GoldBar:
-                builtMaterial = vehicleMaterials.Materials[9];
-                break;
-            case StopType.Mint:
-                builtMaterial = vehicleMaterials.Materials[13];
-                break;
-            case StopType.Bakery:
-                builtMaterial = vehicleMaterials.Materials[1];
-                break;
-            default:
-                builtMaterial = materials[0];
-                break;
-        }
+        //switch (mainType)
+        //{
+        //    case StopType.None:
+        //        break;
+        //    case StopType.Bus:
+        //        //builtMaterial = materials[0];
+        //        break;
+        //    case StopType.Universal:
+        //        builtMaterial = materials[0];
+        //        break;
+        //    case StopType.Coal:
+        //        builtMaterial = vehicleMaterials.Materials[3];
+        //        break;
+        //    case StopType.IronOre:
+        //        builtMaterial = vehicleMaterials.Materials[11];
+        //        break;
+        //    case StopType.GoldOre:
+        //        builtMaterial = vehicleMaterials.Materials[13];
+        //        break;
+        //    case StopType.Flour:
+        //        builtMaterial = vehicleMaterials.Materials[7];
+        //        break;
+        //    case StopType.Water:
+        //        builtMaterial = vehicleMaterials.Materials[15];
+        //        break;
+        //    case StopType.Farm:
+        //        builtMaterial = vehicleMaterials.Materials[5];
+        //        break;
+        //    case StopType.IronBar:
+        //        builtMaterial = vehicleMaterials.Materials[11];
+        //        break;
+        //    case StopType.GoldBar:
+        //        builtMaterial = vehicleMaterials.Materials[9];
+        //        break;
+        //    case StopType.Mint:
+        //        builtMaterial = vehicleMaterials.Materials[13];
+        //        break;
+        //    case StopType.Bakery:
+        //        builtMaterial = vehicleMaterials.Materials[1];
+        //        break;
+        //    default:
+        //        builtMaterial = materials[0];
+        //        break;
+        //}
         // Set the default material
         SetMaterial(VehicleState.BUILT);
         Route = new List<Road>();
@@ -116,6 +114,10 @@ public class Truck : VehicleBase
         aiAgent.speed = data.Speed;
         aiAgent.Arrived += AiAgent_Arrived;
         currentLoad = 0;
+
+        model.CalculateOffsets();
+        model.terrainLayer = terrainLayer;
+        model.AdjustVisualPosition();
     }
 
     public void ConfirmRoute()

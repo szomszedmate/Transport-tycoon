@@ -6,8 +6,8 @@ public class DayNighCycle : MonoBehaviour
     [SerializeField] private Game game;
     [SerializeField] private Light sunLight;
     [SerializeField] private GameObject sun;
-    [SerializeField] private Light moonLight;
-    [SerializeField] private GameObject moon;
+    [SerializeField] private Light earthLight;
+    [SerializeField] private GameObject earth;
 
     [Header("Settings")]
     [SerializeField] private float rotationOffset = -90f; // Éjfélkor a föld alatt legyen
@@ -19,21 +19,25 @@ public class DayNighCycle : MonoBehaviour
 
     void Start()
     {
+
         game.TimeChanged += UpdateAtmosphere;        
     }
 
     private void UpdateAtmosphere(object sender, TimeChangedEventArgs e)
     {
         float dayPercent = (float)(e.NewTime / 86400.0);
-        float sunRotation = (dayPercent * 360f) + rotationOffset;
+        float sunRotation = (dayPercent * 360f)  % 360 + rotationOffset;
+        float earthRotation = dayPercent * 360f % 360;
+
+        RotateEarth(earthRotation);
 
         // Lámpák forgatása
         sunLight.transform.rotation = Quaternion.Euler(sunRotation, 170f, 0f);
-        moonLight.transform.rotation = Quaternion.Euler(sunRotation + 180f, 170f, 0f);
+        earthLight.transform.rotation = Quaternion.Euler(sunRotation + 180f, 170f, 0f);
 
         Vector3 camPos = Camera.main.transform.position;
         if (sun != null) sun.transform.position = camPos + (sunLight.transform.forward * -distance);
-        if (moon != null) moon.transform.position = camPos + (moonLight.transform.forward * -distance);
+        if (earth != null) earth.transform.position = camPos + (earthLight.transform.forward * -distance);
 
         // --- MAGASSÁG SZÁMÍTÁSA A FORGÓ LÁMPÁBÓL ---
         // A sunLight.transform.forward.y értéke -1 (ha pont lefelé néz) és 1 (ha felfelé) között van.
@@ -57,10 +61,10 @@ public class DayNighCycle : MonoBehaviour
 
         // Intenzitás állítás (simább átmenet, ha a napHeight-et nézzük)
         sunLight.intensity = (sunHeight > 0) ? 1.2f : 0f;
-        moonLight.intensity = (sunHeight == 0) ? 0.3f : 0f;
+        earthLight.intensity = (sunHeight == 0) ? 0.3f : 0f;
 
         sunLight.color = sunColor.Evaluate(dayPercent);
-        moonLight.color = moonColor.Evaluate(dayPercent);
+        earthLight.color = moonColor.Evaluate(dayPercent);
 
         // Ambient szín és intenzitás
         RenderSettings.ambientLight = (sunHeight > 0) ? sunColor.Evaluate(dayPercent) : moonColor.Evaluate(dayPercent);
@@ -73,11 +77,16 @@ public class DayNighCycle : MonoBehaviour
         Color currentSkyColor = (sunHeight > 0) ? sunColor.Evaluate(dayPercent) : moonColor.Evaluate(dayPercent);
         RenderSettings.skybox.SetColor("_SkyTint", currentSkyColor);
 
-        RenderSettings.sun = (sunHeight > 0) ? sunLight : moonLight;
+        RenderSettings.sun = (sunHeight > 0) ? sunLight : earthLight;
 
         if (e.NewTime % 600 == 0)
         {
             DynamicGI.UpdateEnvironment();
         }
+    }
+
+    public void RotateEarth(float earthRotation)
+    {
+        earth.transform.rotation = Quaternion.Euler(0f, earthRotation, -23.5f);
     }
 }

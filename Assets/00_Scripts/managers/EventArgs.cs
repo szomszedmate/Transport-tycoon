@@ -78,3 +78,20 @@ public class CancelChargeEventArgs : EventArgs
 {
     public float Penalty { get; set; }
 }
+
+public class RoadStateChangedEventArgs : EventArgs
+{
+    public Vector3 SnappedPosition { get; set; }
+    public RoadState NewState { get; set; }
+    public RoadState PrevState { get; set; }
+    public float Rotation { get; set; }
+    public RoadType RoadType { get; set; }
+}
+
+public class PreviewStateChangedEventArgs : EventArgs
+{
+    public Vector3 SnappedPosition { get; set; }
+    public PreviewState NewState { get; set; }
+    public float Rotation { get; set; }
+    public RoadType RoadType { get; set; }
+}

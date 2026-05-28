@@ -17,10 +17,12 @@ public class RoadData : ScriptableObject, IData
     public string Description { get; private set; }
     [field: SerializeField]
     public RoadKind Kind { get; private set; }
+    public GameObject bridgeEffect;
 
     [SerializeField] private int maxBridgeLength = 1;
     public int MaxBridgeLength => maxBridgeLength;
 
     [SerializeField] private float speedModifier = 1f;
     public float SpeedModifier => speedModifier;
+    public RoadType RoadType { get; private set; }
 }

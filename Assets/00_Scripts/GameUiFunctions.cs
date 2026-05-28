@@ -176,68 +176,10 @@ public class GameUiFunctions : MonoBehaviour
 
     public void SellResource(TMP_InputField input)
     {
-        ResourceEnum res = ResourceEnum.Coin;
-        switch (input.gameObject.tag)
-
-        {
-
-            //nics mint és farmcucc
-            case "coal":
-                 res = ResourceEnum.Coal;
-                break;
-            case "ironore":
-                res = ResourceEnum.Iron;
-                break;
-            case "ironbar":
-                res = ResourceEnum.IronBar;
-                break;
-            case "goldore":
-                res = ResourceEnum.Gold;
-                break;
-            case "goldbar":
-                res = ResourceEnum.GoldBar;
-                break;
-            case "water":
-                res = ResourceEnum.Water;
-                break;
-            case "mint":
-                res = ResourceEnum.Wheat;
-                break;
-            case "flour":
-                res = ResourceEnum.Flour;
-                break;
-            case "farm":
-                res = ResourceEnum.Wheat;
-                break;
-            case "bakrey":
-                res = ResourceEnum.Bread;
-                break;
-            default:
-                res = ResourceEnum.Coin;
-                break;
-        }
-        int amount = Convert.ToInt32(input.text);
-        foreach (InventoryResource resource in inventoryResources)
-        {
-            if (resource.Type == res)
-            {
-                if (resource.Amount>= amount)
-                {
-                    int newamount = resource.Amount - amount;
-                    Debug.Log(newamount);
-                    //resource.Amount = newamount;
-                    game.Player.SellResource(res, amount);
-                }
-                else
-                {
-                    Debug.Log("nincs elegnyersanyag");
-                }
-                
-            }
-        }
-
-        
-        
+        ResourceEnum res =  ResourceEnum.Iron;
+       
+        int amount = Convert.ToInt32( input.text);
+        game.Player.SellResource(res,amount);
 
     }
     public void Player_InventoryChanged(object sender, InventoryChangedEventArgs e)

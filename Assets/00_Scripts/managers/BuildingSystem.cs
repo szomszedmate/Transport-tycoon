@@ -6,11 +6,26 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 using static Bus;
+using static UnityEngine.Rendering.DebugUI.Table;
 public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 10f;
+    [Header("Terrain")]
+    [SerializeField] private LayerMask terrainLayer;
+    [SerializeField] private LayerMask invisibleButPhysicalLayer;
+    [SerializeField] private LayerMask vehicleLayer;
+    [SerializeField] private TerrainPainter painter;
+    [SerializeField] private int builtLayerIndex = 4;
+    [SerializeField] private int positiveIndex = 5;
+    [SerializeField] private int negativeIndex = 6;
+    [SerializeField] private int destroyHoverIndex = 7;
+    [SerializeField] private int selectedIndex = 8;
+    [SerializeField] private int confirmedIndex = 9;
+    [SerializeField] private List<int> mainLayers;
+    [SerializeField] private GameObject bridgeEffect;
+    private bool justPlaced = false;
 
-
+    [Header("Roads")]
     [SerializeField] private RoadData RoadData1;
     [SerializeField] private RoadData RoadData2;
     [SerializeField] private RoadData RoadData3;
@@ -30,7 +45,6 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BusStopPreview busStopPreviewPrefab;
     [SerializeField] private BusStop busStopPrefab;
     [SerializeField] private BusStopData BusStopData;
-    [SerializeField] private LayerMask terrainLayer = ~0;
     public bool RoutePlanning { get; private set; } = false;
     private Road hovered;
     public IPreview Preview { get; set; }
@@ -73,7 +87,7 @@ public class BuildingSystem : MonoBehaviour
             if (leftHeld)
             {
                 Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit routeHit))
+                if (Physics.Raycast(ray, out RaycastHit routeHit, 1000f, terrainLayer))
                 {
                     AddToRoute(routeHit);
                 }
@@ -81,7 +95,7 @@ public class BuildingSystem : MonoBehaviour
             else if (rightHeld)
             {
                 Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit routeHit))
+                if (Physics.Raycast(ray, out RaycastHit routeHit, 1000f, terrainLayer))
                 {
                     RemFromRoute(routeHit);
                 }
@@ -127,10 +141,15 @@ public class BuildingSystem : MonoBehaviour
         }
         else if (Preview != null)
         {
+            if (!Grid.IsRoad(lastSnappedPos) && (Preview is RoadPreview rp))
+            {
+                painter.ResetLayer(lastSnappedPos, mainLayers, rp.RoadModel.RoadType, rp.RoadModel.Rotation);
+            } 
             // If we have a preview, just kill the preview and leave destroy mode alone
             Destroy(((MonoBehaviour)Preview).gameObject);
             Preview = null;
             prevdest?.Invoke(this, EventArgs.Empty);
+
         }
 
     }
@@ -149,6 +168,7 @@ public class BuildingSystem : MonoBehaviour
         if (build is RoadData roadData)
         {
             Preview = CreateRoadPreview(roadData, mousePosition);
+            ((RoadPreview)Preview).PreviewStateChanged += BuildingSystem_PreviewStateChanged;
         }
         else if (build is BusData busData)
         {
@@ -169,6 +189,26 @@ public class BuildingSystem : MonoBehaviour
         canAfford = args.IsApproved;
     }
 
+    private void BuildingSystem_PreviewStateChanged(object sender, PreviewStateChangedEventArgs e)
+    {
+        int index = negativeIndex;
+        int lastIndex = negativeIndex;
+        switch (e.NewState)
+        {
+            case PreviewState.NEGATIVE:
+                index = negativeIndex;
+                lastIndex = positiveIndex;
+                break;
+            case PreviewState.POSITIVE:
+                index = positiveIndex;
+                lastIndex = negativeIndex;
+                break;
+            default:
+                break;
+        }
+        painter.PaintRoadAt(GetSnappedCenterPosition(e.SnappedPosition), e.RoadType, e.Rotation, index, mainLayers, true, lastIndex);
+    }
+
     #region Buses
 
     public event EventHandler<VehicleBase> vehiclePlaced;
@@ -181,15 +221,46 @@ public class BuildingSystem : MonoBehaviour
         bus.CancelCharge += Bus_CancelCharge;
 
         var agent = bus.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
-        if (agent != null) agent.enabled = false;
-
-        bus.Setup((BusData)((BusPreview)Preview).Data, ((BusPreview)Preview).Model.Rotation, terrainLayer);
+        if (agent != null)
+        {
+            agent.enabled = false;
+            agent.Warp(snappedPos);
+        }
+        bus.Setup((BusData)((BusPreview)Preview).Data, ((BusPreview)Preview).Model.Rotation, terrainLayer, grid);
         bus.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
+
+        Vector3 surfaceLocation = FindSurfaceAt(busPosition);
+        //busstop.model.adjustvisualtoground(surfacelocation, offset, rot); todo
+
         Grid.SetVehicle(bus, snappedPos);
         Destroy(((MonoBehaviour)Preview).gameObject);
         vehiclePlaced?.Invoke(this,bus);
         Preview = null;
 
+        /*
+          
+        if (Preview is not BusStopPreview) return;
+        
+        Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
+        ILocation foundLocation = Grid.GetLocationAt(snappedPos);
+        //Debug.Log("Surface: " + surfaceLocation + ", snapped:" + snappedPos);
+        BusStop busStop = Instantiate(busStopPrefab, snappedPos, Quaternion.identity);
+        busStop.Type = type;
+
+        var agent = busStop.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
+        if (agent != null) agent.enabled = false;
+
+        busStop.SetUp(((BusStopPreview)Preview).Data, ((BusStopPreview)Preview).BusStopModel.Rotation, foundLocation);
+
+        (Vector3 offset, Quaternion rot) = FindBSVisualOffset(snappedPos, foundLocation);
+        Vector3 surfaceLocation = FindSurfaceAt(busPosition + offset);
+        Debug.Log($"Snapped: {snappedPos}, corrected: {surfaceLocation}");
+        busStop.model.AdjustVisualToGround(surfaceLocation, offset, rot);
+        Grid.SetBusStop(busStop, snappedPos);
+        Destroy(((BusStopPreview)Preview).gameObject);
+        Preview = null;
+
+        */
     }
 
     private void Bus_CancelCharge(object sender, CancelChargeEventArgs e)
@@ -206,20 +277,37 @@ public class BuildingSystem : MonoBehaviour
         var agent = truck.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
 
-        truck.Setup((TruckData)((TruckPreview)Preview).Data, ((TruckPreview)Preview).Model.Rotation);
+        truck.Setup((TruckData)((TruckPreview)Preview).Data, ((TruckPreview)Preview).Model.Rotation, terrainLayer);
         truck.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
         Grid.SetVehicle(truck, snappedPos);
         Destroy(((MonoBehaviour)Preview).gameObject);
         vehiclePlaced?.Invoke(this, truck);
         Preview = null;
-    } 
+    }
 
 
     public void SelectVehicleByHit(RaycastHit hit)
     {
-        VehicleBase hitVehicle = hit.collider.GetComponentInParent<VehicleBase>();
-      
-        OpenVehicleInfo(hitVehicle);
+        VehicleVisual visual = hit.collider.GetComponentInParent<VehicleVisual>(); // megkeressuk a vizualis reszt amire kattintottunk
+
+        if (visual != null)
+        {
+            Debug.Log("Visual hit");
+            Ray ray = new Ray(visual.transform.position, Vector3.up);
+
+            if (Physics.Raycast(ray, out RaycastHit upHit, 1000f, vehicleLayer))
+            {
+                VehicleBase baseVehicle = upHit.collider.GetComponentInParent<VehicleBase>();
+
+                if (baseVehicle != null)
+                {
+                    OpenVehicleInfo(baseVehicle);
+                }
+            }
+        } else
+        {
+            OpenVehicleInfo(null); // null kikapcsolja
+        }
     }
 
 
@@ -252,7 +340,6 @@ public class BuildingSystem : MonoBehaviour
         {
             if (lastVehicleSelected != null)
             {
-                // Only reset the actual route data if that's your intended "Cancel" behavior
                 // lastVehicleSelected.ResetRoute(); 
                 lastVehicleSelected.ChangeState(VehicleBase.VehicleState.BUILT);
                 foreach(Road road in lastVehicleSelected.Route)
@@ -315,7 +402,8 @@ public class BuildingSystem : MonoBehaviour
     public void AddToRoute(RaycastHit hit)
     {
         if (vehicleSelected.RouteConfirmed) return; // TODO display message: route needs reset
-        roadSelected = hit.collider.GetComponentInParent<Road>();
+        //roadSelected = hit.collider.GetComponentInParent<Road>();
+        roadSelected = Grid.GetRoad(GetSnappedCenterPosition(hit.point));
         if (roadSelected is null) return;
 
         if (lastRoadSelected is null) // Just add the first road
@@ -323,6 +411,7 @@ public class BuildingSystem : MonoBehaviour
             if (roadSelected.Road_HasBusStop()) // first road must have bus stop
             {
                 if (!vehicleSelected.AddToRoute(roadSelected)) return;
+                Debug.Log("Added to route");
                 roadSelected.ChangeState(RoadState.SELECTED);
                 lastRoadSelected = roadSelected;
             } else
@@ -410,10 +499,10 @@ public class BuildingSystem : MonoBehaviour
     private void PlaceBusStop(Vector3 busPosition, StopType type)
     {
         if (Preview is not BusStopPreview) return;
-
+        
         Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
         ILocation foundLocation = Grid.GetLocationAt(snappedPos);
-
+        //Debug.Log("Surface: " + surfaceLocation + ", snapped:" + snappedPos);
         BusStop busStop = Instantiate(busStopPrefab, snappedPos, Quaternion.identity);
         busStop.Type = type;
 
@@ -422,10 +511,44 @@ public class BuildingSystem : MonoBehaviour
 
         busStop.SetUp(((BusStopPreview)Preview).Data, ((BusStopPreview)Preview).BusStopModel.Rotation, foundLocation);
 
+        (Vector3 offset, Quaternion rot) = FindBSVisualOffset(snappedPos, foundLocation);
+        Vector3 surfaceLocation = FindSurfaceAt(busPosition + offset);
+        Debug.Log($"Snapped: {snappedPos}, corrected: {surfaceLocation}");
+        busStop.model.AdjustVisualToGround(surfaceLocation, offset, rot);
         Grid.SetBusStop(busStop, snappedPos);
         Destroy(((BusStopPreview)Preview).gameObject);
         Preview = null;
 
+    }
+
+    public (Vector3, Quaternion) FindBSVisualOffset(Vector3 position, ILocation location)
+    {
+        // Csak az X és Z síkon nézzük a különbséget
+        float diffX = location.Position.x - position.x;
+        float diffZ = location.Position.z - position.z;
+
+        float absX = Mathf.Abs(diffX);
+        float absZ = Mathf.Abs(diffZ);
+
+        float offsetAmount = painter.roadWidth;
+        Vector3 finalOffset = Vector3.zero;
+        float targetAngle = 0;
+
+        // Csak X és Z között döntünk
+        if (absX > absZ)
+        {
+            // X irányba toljuk el a modell-t
+            finalOffset.x = Mathf.Sign(diffX) * offsetAmount;
+            targetAngle = (diffX > 0) ? 90f : 270f;
+        }
+        else
+        {
+            // Z irányba toljuk el a modell-t
+            finalOffset.z = Mathf.Sign(diffZ) * offsetAmount;
+            targetAngle = (diffZ > 0) ? 0f : 180f;
+        }
+
+        return (finalOffset, Quaternion.Euler(0, targetAngle, 0));
     }
 
     #endregion
@@ -439,11 +562,12 @@ public class BuildingSystem : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         // Raycast to find road under mouse
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, terrainLayer))
         {
-            hovered = hit.collider.GetComponentInParent<Road>();
+            Vector3 snappedPos = GetSnappedCenterPosition(hit.point);
+            hovered = Grid.GetRoad(snappedPos);
 
-            if (hovered != lastHovered)
+            if (hovered is not null && hovered != lastHovered)
             {
                 // Reset previous hover
                 if (lastHovered != null)
@@ -451,20 +575,22 @@ public class BuildingSystem : MonoBehaviour
 
                 // Set new hover
                 if (hovered != null)
+                {
                     hovered.ChangeState(RoadState.DESTROYHOVER);
+                }
 
                 lastHovered = hovered;
             }
-            if (shouldIDestroy) Destroy();
-        }
-        else
-        {
-            // No road under cursor  reset lastHovered
-            if (lastHovered != null)
+            else if (hovered != lastHovered)
             {
-                lastHovered.ChangeState(RoadState.BUILT);
-                lastHovered = null;
+                // No road under cursor  reset lastHovered
+                if (lastHovered != null)
+                {
+                    lastHovered.ChangeState(RoadState.BUILT);
+                    lastHovered = null;
+                }
             }
+            if (shouldIDestroy && hovered is not null) Destroy();
         }
     }
 
@@ -473,6 +599,11 @@ public class BuildingSystem : MonoBehaviour
         if (Preview != null) return;
         if (hovered is null) return;
         if (Grid.IsCityRoad(hovered.transform.position)) return; // dont destroy built in roads
+
+        Vector3 pos = hovered.transform.position;
+        
+        painter.ResetLayer(pos, mainLayers, hovered.Type, hovered.Model.Rotation);
+
         Grid.RemRoad(hovered.transform.position); // remove from grid
         Destroy(hovered.gameObject);
         lastHovered = null; // clear hover since its gone
@@ -483,22 +614,85 @@ public class BuildingSystem : MonoBehaviour
         if (Preview is not RoadPreview) return;
         Vector3 snappedPos = GetSnappedCenterPosition(roadPosition);
 
-        //if (grid.HasTrees(snappedPos))
-        //{
-        //    grid.ClearTrees(snappedPos);
-        //}
-        Road road = Instantiate(RoadPrefab, snappedPos, Quaternion.identity);
-
-        TerrainShaper shaper = FindFirstObjectByType<TerrainShaper>();
-        if (shaper != null)
+        if (grid.HasTrees(snappedPos))
         {
-            shaper.FlattenTerrainUnderRoad(snappedPos);
+            grid.ClearTrees(snappedPos);
         }
+        Road road = Instantiate(RoadPrefab, snappedPos, Quaternion.identity);
+        road.RoadStateChangedEventHandler += Road_RoadStateChangedEventHandler;
 
+        Debug.Log("Setting up");
         road.Setup(((RoadPreview)Preview).Data, ((RoadPreview)Preview).RoadModel.Rotation);
+        if (road.data.Kind == RoadKind.Bridge)
+        {
+            //Vector3 surfacePoint = FindSurfaceAt(snappedPos);
+            //surfacePoint += new Vector3(0, 2, 0);
+            float bridgeY = grid.CalculateBridgeHeight(snappedPos, road.Model.Rotation, road.data);
+            Vector3 finalPos = snappedPos;
+            finalPos.y = bridgeY;
+            road.Model.bridgeEffect.transform.position = finalPos;
+        }
         Grid.SetRoad(road, snappedPos);
+
+        //painter.PaintRoadAt(snappedPos, road.Type, ((RoadPreview)Preview).RoadModel.Rotation, builtLayerIndex);
         // Destroy(((RoadPreview)preview).gameObject);
         //preview = null;
+    }
+
+    public void Road_RoadStateChangedEventHandler(object sender, RoadStateChangedEventArgs e)
+    {
+        int lIndex;
+        int prevIndex = 0;
+        switch (e.NewState)
+        {
+            case RoadState.BUILT:
+                lIndex = builtLayerIndex;
+                break;
+            case RoadState.DESTROYHOVER:
+                lIndex = destroyHoverIndex;
+                break;
+            case RoadState.SELECTED:
+                lIndex = selectedIndex;
+                break;
+            case RoadState.CONFIRMED:
+                lIndex = confirmedIndex;
+                break;
+            default:
+                return;
+
+        }
+        //Debug.Log("Placing, prev state: " + e.PrevState);
+        switch(e.PrevState)
+        {
+            case RoadState.BUILT:
+                if (e.NewState == RoadState.BUILT)
+                {
+                    prevIndex = positiveIndex;
+                    break;
+                }
+                prevIndex = builtLayerIndex;
+                break;
+            case RoadState.DESTROYHOVER:
+                prevIndex = destroyHoverIndex;
+                break;
+            case RoadState.SELECTED:
+                prevIndex = selectedIndex;
+                break;
+            case RoadState.CONFIRMED:
+                prevIndex = confirmedIndex;
+                break;
+            default:
+                return;
+        }
+        painter.PaintRoadAt(GetSnappedCenterPosition(e.SnappedPosition), e.RoadType, e.Rotation, lIndex, mainLayers, false, prevIndex);
+    }
+
+    public void PaintRegisteredRoads(List<Road> roads)
+    {
+        foreach (Road road in roads)
+        {
+            painter.PaintRoadAt(road.transform.position, road.Type, road.Model.Rotation, builtLayerIndex, mainLayers, true, 0);
+        }
     }
 
     private void RemoveRoad(Vector3 mouseWorldPosition)
@@ -521,7 +715,7 @@ public class BuildingSystem : MonoBehaviour
         // Snap to nearest grid cell center
         float snappedX = Mathf.Floor(buildingPosition.x / CellSize) * CellSize + CellSize / 2f;
         float snappedZ = Mathf.Floor(buildingPosition.z / CellSize) * CellSize + CellSize / 2f;
-        return new Vector3(snappedX, 0, snappedZ);
+        return new Vector3(snappedX, Grid.transform.position.y, snappedZ);
     }
 
     public Vector3 GetMouseWorldPosition()
@@ -529,11 +723,10 @@ public class BuildingSystem : MonoBehaviour
         if (mousePosition == null) return Vector3.zero; // Check if the mouse actually exists and is on screen
 
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-        Plane groundPlane = new(Vector3.up, Vector3.zero);
 
-        if (groundPlane.Raycast(ray, out float distance))
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, terrainLayer))
         {
-            return ray.GetPoint(distance);
+            return hit.point;
         }
         return Vector3.zero;
     }
@@ -558,7 +751,7 @@ public class BuildingSystem : MonoBehaviour
 
     private void CheckRoadsForMatch(RoadPreview preview)
     {
-        (int x, int y) = grid.WorldToGridPosition(preview.transform.position);
+        (int x, int y) = Grid.WorldToGridPosition(preview.transform.position);
         for (int i = -1; i <= 1;  i++)
         {
             for (int j = -1; j <= 1; j++)
@@ -585,8 +778,27 @@ public class BuildingSystem : MonoBehaviour
 
     public void RotatePreview(int rotation)
     {
+        if (Preview == null) return;
+
         Preview.Rotate(rotation);
         doneRotating = true;
+        int lastLayer = Grid.CanBuild(transform.position) ? positiveIndex : negativeIndex;
+
+        if (Preview is RoadPreview rp)
+        {
+            if (Grid.IsRoad(lastSnappedPos))
+            {
+                Road road = Grid.GetRoad(lastSnappedPos);
+                //painter.PaintRoadAt(lastSnappedPos, road.Type, road.Model.Rotation, builtLayerIndex, mainLayers, true, lastLayer);
+            }
+            else
+            {
+                painter.ResetLayer(lastSnappedPos, mainLayers, rp.RoadModel.RoadType, rp.RoadModel.Rotation);
+            }
+
+            //int colorIndex = canAfford ? positiveIndex : negativeIndex;
+            painter.PaintRoadAt(lastSnappedPos, rp.RoadModel.RoadType, rp.RoadModel.Rotation, lastLayer, mainLayers, true, lastLayer);
+        }
     }
 
 
@@ -605,20 +817,92 @@ public class BuildingSystem : MonoBehaviour
         }
         if (Preview is RoadPreview roadPreview) // roads
         {
-            roadPreview.transform.position = mouseWorldPosition;
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition); // Vagy ahol az egér pozícióját tárolod
+            Vector3 hitPosition = mouseWorldPosition; // Alapértelmezett érték, ha nem találna semmit
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, terrainLayer))
+            {
+                hitPosition = hit.point;
+            }
+            roadPreview.transform.position = hitPosition;
 
             Vector3 buildPosition = roadPreview.RoadModel.GetAllBuildingPositions().First(); //road is only 1 tile
             Vector3 currentSnappedPos = GetSnappedCenterPosition(buildPosition); // for pre rotation
 
+            bool canBuild = false;
+
+            if (roadPreview.Data.Kind == RoadKind.Bridge)
+            {
+                float bridgeY = grid.CalculateBridgeHeight(buildPosition, roadPreview.RoadModel.Rotation, roadPreview.Data);
+
+                canBuild = Grid.CanBuildBridge(buildPosition, roadPreview.Data, roadPreview.RoadModel.Rotation);
+                if (canBuild && !destroy)
+                {
+                    //roadPreview.transform.position = currentSnappedPos;
+                    //Vector3 effectPos = FindSurfaceAt(currentSnappedPos);
+
+                    Vector3 effectPos = currentSnappedPos;
+                    effectPos.y = bridgeY;
+                    effectPos += new Vector3(0, 2, 0);
+                    roadPreview.RoadModel.bridgeEffect.transform.position = effectPos;
+                    if (!doneRotating)
+                    {
+                        CheckRoadsForMatch((RoadPreview)Preview);
+                    }
+
+                    if (canAfford)
+                    {
+                        roadPreview.ChangeState(PreviewState.POSITIVE);
+                        if (shouldIPlace)   // placing the road
+                        {
+                            PlaceRoad(buildPosition);
+
+                            float price = Preview.Data.Cost;    // update affordability
+
+                            var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
+                            BuyRequest?.Invoke(this, checkNext);
+                            canAfford = checkNext.IsApproved;
+                            justPlaced = true;
+                        }
+                    }
+                    else if (shouldIPlace)
+                    {
+                        float price = Preview.Data.Cost;    // update affordability
+
+                        var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
+                        BuyRequest?.Invoke(this, checkNext);
+
+                        canAfford = checkNext.IsApproved;
+                    }
+
+                }
+                else
+                {
+                    roadPreview.ChangeState(PreviewState.NEGATIVE);
+                }
+                if (currentSnappedPos != lastSnappedPos)
+                {
+                    lastSnappedPos = currentSnappedPos;
+                }
+
+                return;
+            }
+
+
             if (currentSnappedPos != lastSnappedPos)
             {
+                if (!justPlaced && !Grid.IsRoad(lastSnappedPos))
+                {
+                    painter.ResetLayer(lastSnappedPos, mainLayers, roadPreview.RoadModel.RoadType, roadPreview.RoadModel.Rotation);
+                } else
+                {
+                    justPlaced = false;
+                }
                 doneRotating = false;
-                lastSnappedPos = currentSnappedPos;
             }
 
             roadPreview.transform.position = mouseWorldPosition;
 
-            bool canBuild = roadPreview.Data.Kind == RoadKind.Bridge ? Grid.CanBuildBridge(buildPosition, roadPreview.Data, roadPreview.RoadModel.Rotation) : Grid.CanBuildRoad(buildPosition);
+            canBuild = Grid.CanBuildRoad(buildPosition);
             if (canBuild && !destroy)
             {
                 roadPreview.transform.position = currentSnappedPos;
@@ -630,15 +914,20 @@ public class BuildingSystem : MonoBehaviour
                 if (canAfford)
                 {
 					roadPreview.ChangeState(PreviewState.POSITIVE);
+                    if (currentSnappedPos != lastSnappedPos)
+                    {
+                        painter.PaintRoadAt(currentSnappedPos, roadPreview.Data.Model.RoadType, roadPreview.RoadModel.Rotation, positiveIndex, mainLayers, true, 0);
+                    }
                     if (shouldIPlace)   // placing the road
                     {
-                            PlaceRoad(buildPosition);
+                        PlaceRoad(buildPosition);
 
-						    float price = Preview.Data.Cost;    // update affordability
+						float price = Preview.Data.Cost;    // update affordability
 
-						    var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
-						    BuyRequest?.Invoke(this, checkNext);
-						    canAfford = checkNext.IsApproved;
+						var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true }; // check for next item
+						BuyRequest?.Invoke(this, checkNext);
+						canAfford = checkNext.IsApproved;
+                        justPlaced = true;
 					}
 				} else if (shouldIPlace)
                 {
@@ -655,15 +944,20 @@ public class BuildingSystem : MonoBehaviour
             {
                 roadPreview.ChangeState(PreviewState.NEGATIVE);
             }
+            if (currentSnappedPos != lastSnappedPos)
+            {
+                lastSnappedPos = currentSnappedPos;
+            }
         }
         else if (Preview is BusPreview busPreview) // buses
         {
             busPreview.transform.position = mouseWorldPosition;
-            Vector3 busPosition = busPreview.Model.GetPosition();
+            //Vector3 busPosition = busPreview.Model.GetPosition();
+            Vector3 busPosition = mouseWorldPosition;
             bool canBuild = Grid.CanBuildBus(busPosition);
             if (canBuild && !destroy)
             {
-                busPreview.transform.position = GetSnappedCenterPosition(busPosition);
+                //busPreview.transform.position = GetSnappedCenterPosition(busPosition);
 
                 if (canAfford)
                 {
@@ -698,7 +992,7 @@ public class BuildingSystem : MonoBehaviour
             bool canBuild = Grid.CanBuildBus(truckPosition);
             if (canBuild && !destroy)
             {
-                truckPreview.transform.position = GetSnappedCenterPosition(truckPosition);
+                //truckPreview.transform.position = GetSnappedCenterPosition(truckPosition);
 
                 if (canAfford)
                 {
@@ -724,23 +1018,29 @@ public class BuildingSystem : MonoBehaviour
         }
         else if (Preview is BusStopPreview busStopPreview) // bus stops
         {
-            busStopPreview.transform.position = mouseWorldPosition;
-            Vector3 busStopPosition = busStopPreview.BusStopModel.GetBusStopPosition();
             //Debug.Log(Grid.WorldToGridPosition(busStopPosition));
-            bool canBuild = Grid.CanBuildBusStop(busStopPosition);
+            busStopPreview.transform.position = mouseWorldPosition;
+            Vector3 snappedPos = GetSnappedCenterPosition(mouseWorldPosition);
+            bool canBuild = Grid.CanBuildBusStop(snappedPos);
 
             if (canBuild && !destroy)
             {
-                StopType stopType = Grid.GetStopType(busStopPosition);
-                busStopPreview.transform.position = GetSnappedCenterPosition(busStopPosition);
+                StopType stopType = Grid.GetStopType(snappedPos);
+                ILocation location = Grid.GetLocationAt(snappedPos);
 
+                Vector3 surfacePoint = FindSurfaceAt(snappedPos);
+
+                (Vector3 offset, Quaternion rotation) = FindBSVisualOffset(surfacePoint, location);
+
+                //busStopPreview.BusStopModel.AdjustVisualToGround(surfacePoint, offset, rotation);
+                //busStopPreview.transform.position = busStopPreview.BusStopModel.transform.position;
                 if (canAfford)
                 {
 
                     busStopPreview.ChangeState(PreviewState.POSITIVE);
                     if (shouldIPlace)
                     {
-                        PlaceBusStop(busStopPosition, stopType);
+                        PlaceBusStop(snappedPos, stopType);
 
                         float price = busStopPreview.Data.Cost;    // checking costs
                         BuyRequestEventArgs checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
@@ -759,6 +1059,7 @@ public class BuildingSystem : MonoBehaviour
             }
             else
             {
+                busStopPreview.transform.position = mouseWorldPosition;
                 busStopPreview.ChangeState(PreviewState.NEGATIVE);
             }
         }
@@ -773,12 +1074,18 @@ public class BuildingSystem : MonoBehaviour
     {
         RoadPreview roadPreview = Instantiate(RoadPreviewPrefab, position, Quaternion.identity);
         roadPreview.Setup(data);
+        var renderers = roadPreview.GetComponentsInChildren<Renderer>(); // todo? kicsit eroforrasigenyes
+        foreach (var r in renderers)
+        {
+            r.enabled = false;
+        }
+
         return roadPreview;
     }
 
     private BusPreview CreateBusPreview(BusData data, Vector3 position)
     {
-        BusPreview busPreview = Instantiate(busPreviewPrefab, position, Quaternion.identity);
+        BusPreview busPreview = Instantiate(busPreviewPrefab, position, Quaternion.identity); 
         busPreview.Setup(data);
         return busPreview;
     }
@@ -797,5 +1104,34 @@ public class BuildingSystem : MonoBehaviour
         return busStopPreview;
     }
     #endregion
+
+    #region Terrain
+    
+    public Vector3 FindSurfaceAt(Vector3 worldPos)
+    {
+        if (Physics.Raycast(worldPos, Vector3.down, out RaycastHit hit))
+        {
+            return hit.point;
+        }
+        Debug.LogWarning("Nem talalta meg a felszint! " + worldPos);
+        return worldPos;
+    }
+
+    public void LocationsRegistered(List<ILocation> locations)
+    {
+        Vector3 surfacePoint;
+        foreach (ILocation location in locations)
+        {
+            if (location.Visual is null) continue;
+
+            Debug.Log("Pozíció: " + location.Position);
+            surfacePoint = FindSurfaceAt(location.Position);
+            location.AdjustVisualToGround(surfacePoint);
+        }
+    }
+
+    #endregion
+
+
 }
 

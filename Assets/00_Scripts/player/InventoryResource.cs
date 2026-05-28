@@ -6,7 +6,6 @@ public class InventoryResource : MonoBehaviour
 {
     [SerializeField] private TMP_Text amountText;
     [SerializeField] private ResourceEnum type;
-    [SerializeField]
     private int amount;
     public int Amount
     {
@@ -17,7 +16,7 @@ public class InventoryResource : MonoBehaviour
         set
         {
             amount = value;
-            amountText.text = /*Type.ToString() + ": " +*/ Amount.ToString();
+            amountText.text = Type.ToString() + ": " + Amount;
         }
 
     }

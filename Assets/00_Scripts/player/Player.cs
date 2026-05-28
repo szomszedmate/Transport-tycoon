@@ -22,11 +22,17 @@ public class  Player : MonoBehaviour
 
     public void SellResource(ResourceEnum resource, int amount)
     {
-        
-            //TODO ára a nyersanyagoknak nem mindig 10
+        if (Resources[resource] >=amount)
+        {
+            //sell
+            Resources[resource] -= amount;
             Money += amount * 10;
-            InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = resource, NewAmount = -amount });
-       
+            InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = resource, NewAmount = amount });
+        }
+        else
+        {
+            Debug.Log("Nincs ennyi ebböl a resource ból:"+ Resources[resource]);
+        }
     }
 
     public void UpdateInventory(ResourceEnum changedResource, int amount)

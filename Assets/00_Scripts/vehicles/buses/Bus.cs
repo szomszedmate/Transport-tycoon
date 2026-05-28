@@ -51,12 +51,14 @@ public class Bus : VehicleBase
         }
     }
 
-    public void Setup(BusData data, float rotation, LayerMask terrainLayer)
+    public void Setup(BusData data, float rotation, LayerMask terrainLayer, BuildingGrid grid)
     {
         this.data = data;
+        model = data.Model;
         types = data.Types;
         mainType = data.MainType;
         materials = GameObject.FindGameObjectWithTag("manager").GetComponent<InventoryManager>().materials;
+        model.grid = grid;
 
         NonStop = false;
         lastPosition = transform.position;

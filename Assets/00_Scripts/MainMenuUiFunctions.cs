@@ -10,8 +10,7 @@ public class MainMenuUiFunctions : MonoBehaviour
     
     public void StartGame()
     {
-        
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("AsteroidScene");
     }
     public void Quit()
     {

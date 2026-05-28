@@ -32,6 +32,10 @@ public abstract class Industry : MonoBehaviour, ILocation
     public Shift EveningShift;
     public Shift NightShift;
 
+    [Header("Terrain")]
+    [SerializeField] private GameObject visual;
+    public GameObject Visual => visual;
+
     protected Dictionary<ResourceEnum, int> inventory = new();
     protected float productionTimer;
     protected float productivityTimer;
@@ -459,5 +463,15 @@ public abstract class Industry : MonoBehaviour, ILocation
                 shifts[i].ShiftUpdate(gameTime);
             }
         }
+    }
+
+    public void AdjustVisualToGround(Vector3 surfacePoint)
+    {
+        //if (Visual != null)
+        //{
+        //    float yOffset = surfacePoint.y - transform.position.y;
+
+        //    Visual.transform.localPosition = new Vector3(0, yOffset + 0.01f, 0);
+        //}
     }
 }

@@ -36,8 +36,8 @@ public class BusStop : MonoBehaviour, IBuildable
     public StopType Type = StopType.None;
 
     public int Cost => data.Cost;
-    private BusStopModel model;
-    private BusStopData data;
+    public BusStopModel model;
+    public BusStopData data;
     private List<Material> materials;
     public ILocation location;
     public BusStopState State { get; private set; }
@@ -75,53 +75,54 @@ public class BusStop : MonoBehaviour, IBuildable
         if (location is City city) this.city = city;
         else if (location is Industry industry) this.industry = industry;
 
-            renderers.Clear();
+        renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
-        switch (Type)
-        {
-            case StopType.None:
-                break;
-            case StopType.Bus:
-                builtMaterial = materials[0];
-                break;
-            case StopType.Universal:
-                builtMaterial = materials[9];
-                break;
-            case StopType.Coal:
-                builtMaterial = materials[3];
-                break;
-            case StopType.IronOre:
-                builtMaterial = materials[7];
-                break;
-            case StopType.GoldOre:
-                builtMaterial = materials[6];
-                break;
-            case StopType.Flour:
-                builtMaterial = materials[5];
-                break;
-            case StopType.Water:
-                builtMaterial = materials[1];
-                break;
-            case StopType.Farm:
-                builtMaterial = materials[4];
-                break;
-            case StopType.IronBar:
-                builtMaterial = materials[7];
-                break;
-            case StopType.GoldBar:
-                builtMaterial = materials[6];
-                break;
-            case StopType.Mint:
-                builtMaterial = materials[8];
-                break;
-            case StopType.Bakery:
-                builtMaterial = materials[2];
-                break;
-            default:
-                builtMaterial = materials[0];
-                break;
-        }
+        builtMaterial = materials[9];
+        //switch (Type)
+        //{
+        //    case StopType.None:
+        //        break;
+        //    case StopType.Bus:
+        //        builtMaterial = materials[0];
+        //        break;
+        //    case StopType.Universal:
+        //        builtMaterial = materials[9];
+        //        break;
+        //    case StopType.Coal:
+        //        builtMaterial = materials[3];
+        //        break;
+        //    case StopType.IronOre:
+        //        builtMaterial = materials[7];
+        //        break;
+        //    case StopType.GoldOre:
+        //        builtMaterial = materials[6];
+        //        break;
+        //    case StopType.Flour:
+        //        builtMaterial = materials[5];
+        //        break;
+        //    case StopType.Water:
+        //        builtMaterial = materials[1];
+        //        break;
+        //    case StopType.Farm:
+        //        builtMaterial = materials[4];
+        //        break;
+        //    case StopType.IronBar:
+        //        builtMaterial = materials[7];
+        //        break;
+        //    case StopType.GoldBar:
+        //        builtMaterial = materials[6];
+        //        break;
+        //    case StopType.Mint:
+        //        builtMaterial = materials[8];
+        //        break;
+        //    case StopType.Bakery:
+        //        builtMaterial = materials[2];
+        //        break;
+        //    default:
+        //        builtMaterial = materials[0];
+        //        break;
+        //}
 
         SetBusStateMaterial(BusStopState.BUILT);
        
@@ -161,4 +162,7 @@ public class BusStop : MonoBehaviour, IBuildable
             rend.materials = mats; // assigns a runtime instance
         }
     }
+    #region Terrain
+
+    #endregion
 }

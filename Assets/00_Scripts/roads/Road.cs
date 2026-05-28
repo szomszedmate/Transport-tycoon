@@ -26,7 +26,7 @@ public class Road : MonoBehaviour, IBuildable
     [SerializeField]
     private bool isCityRoad;
     public bool IsCityRoad => isCityRoad;
-    public bool IsCorner => model is RoadLModel;
+    [SerializeField] private bool isCorner;
     private List<Renderer> renderers = new();
     public bool IsBridge => data != null && data.Kind == RoadKind.Bridge;
     public RoadKind Kind => data != null ? data.Kind : RoadKind.NormalRoad;
@@ -44,6 +44,7 @@ public class Road : MonoBehaviour, IBuildable
     public List<BusAiAgent> buszok=new List<BusAiAgent>();
 
     public float speedmodifier = 1;
+    public event System.EventHandler<RoadStateChangedEventArgs> RoadStateChangedEventHandler;
 
     public BuildCategory BuildCategory
     {
@@ -66,6 +67,7 @@ public class Road : MonoBehaviour, IBuildable
     }
 
     public BusStop BusStop { get => busStop; private set => busStop = value; }
+    public bool IsCorner { get => isCorner; private set => isCorner = value; }
 
     public void Awake()
     {
@@ -128,7 +130,6 @@ public class Road : MonoBehaviour, IBuildable
 
     public void Setup(RoadData data, float rotation)
     {
-        
         this.data = data;
         speedmodifier = data.SpeedModifier;
 
@@ -139,8 +140,8 @@ public class Road : MonoBehaviour, IBuildable
         // Grab all renderers from the instantiated model
         renderers.Clear();
         renderers.AddRange(Model.GetComponentsInChildren<Renderer>());
-
         // Set the default material
+        RoadStateChangedEventHandler?.Invoke(this, new RoadStateChangedEventArgs { NewState = State, Rotation = Model.Rotation, SnappedPosition = transform.position, RoadType = Model.RoadType });
         SetRoadMaterial(RoadState.BUILT);
         SetupLanes();
     }
@@ -150,8 +151,11 @@ public class Road : MonoBehaviour, IBuildable
         if (newState == State) return;
         if (newState == RoadState.DESTROYHOVER && isCityRoad) return;
 
+        RoadState prevState = State;
         State = newState;
         SetRoadMaterial(State);
+        Debug.Log("New state: " +  newState);
+        RoadStateChangedEventHandler?.Invoke(this, new RoadStateChangedEventArgs { NewState = newState, Rotation = Model.Rotation, SnappedPosition = transform.position, RoadType = Model.RoadType, PrevState =  prevState});
     }
 
     private void SetRoadMaterial(RoadState newState)
@@ -254,8 +258,6 @@ public class Road : MonoBehaviour, IBuildable
 
         // Refresh the material
         SetRoadMaterial(RoadState.BUILT);
-
-        Debug.Log($"{gameObject.name} has been manually initialized!");
     }
 
     public void SetBusStop(BusStop busStop)

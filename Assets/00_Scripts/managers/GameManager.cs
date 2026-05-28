@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using NUnit.Framework;
 using System.Collections.Generic;
-
+using Assets._00_Scripts.locations.industries;
 public class Game : MonoBehaviour
 {
     private const int secondsInDay = 86400; // 24 ora
@@ -12,7 +12,7 @@ public class Game : MonoBehaviour
     [SerializeField] private float dayStart;
     [SerializeField] private float eveningStart;
     [SerializeField] private float nightStart;
-    private List<Industry> industries;
+    private List<Industry> industries = new List<Industry>();
     private List<City> cities;
     private double globalTime;
     private float gameTime;
@@ -75,7 +75,6 @@ public class Game : MonoBehaviour
 
     private void Grid_LocationsRegistered(object sender, LocationsRegisteredEventArgs e)
     {
-        industries = new List<Industry>();
         cities = new List<City>();
         foreach (ILocation location in e.RegisteredLocations)
         {
@@ -90,6 +89,13 @@ public class Game : MonoBehaviour
                 cities.Add(city);
             }
         }
+
+        foreach (Road road in e.RegisteredRoads)
+        {
+            road.RoadStateChangedEventHandler += buildingSystem.Road_RoadStateChangedEventHandler;
+        }
+        buildingSystem.PaintRegisteredRoads(e.RegisteredRoads);
+        buildingSystem.LocationsRegistered(e.RegisteredLocations);
     }
 
     private void Industry_GetPhaseTimes(object sender, GetPhaseTimesEventArgs e)
@@ -162,6 +168,10 @@ public class Game : MonoBehaviour
         foreach (Industry industry in industries)
         {
             industry.UpdateShifts(gameTime);
+            if (industry is Mill mill)
+            {
+                mill.RotateFan(Time.deltaTime);
+            }
         }
         
     }

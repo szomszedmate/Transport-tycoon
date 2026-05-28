@@ -6,4 +6,6 @@ public class RoadCrossModel : RoadModel
 {
     public override Direction[] Inputs { get; set; } = { Direction.W, Direction.S, Direction.E, Direction.N }; // vehicles going N, W, E, S can enter
     public override Direction[] Outputs { get; set; } = { Direction.W, Direction.S, Direction.E, Direction.N }; // vehicles going N, W, E, S can leave
+    private readonly RoadType roadType = RoadType.CROSS;
+    public override RoadType RoadType { get { return roadType; } }
 }

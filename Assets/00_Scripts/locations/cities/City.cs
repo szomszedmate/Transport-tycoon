@@ -6,6 +6,8 @@ public class City : MonoBehaviour, ILocation
 {
     //public event System.EventHandler<GetTimeEventArgs> GetTime;
     public List<Bus> buses;
+    [SerializeField] private GameObject visual;
+    public GameObject Visual => visual;
     public Vector3 Position => transform.position;
     public StopType Type => StopType.Universal;
     [SerializeField] private CityModel model;
@@ -160,6 +162,16 @@ public class City : MonoBehaviour, ILocation
 
         //Debug.Log($"City {name} has {positions.Count} building positions.");
         return positions;
+    }
+
+    public void AdjustVisualToGround(Vector3 surfacePoint)
+    {
+        if (Visual != null)
+        {
+            float yOffset = surfacePoint.y - transform.position.y;
+
+            Visual.transform.localPosition = new Vector3(0, yOffset + 0.01f, 0);
+        }
     }
 
 }

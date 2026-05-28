@@ -7,17 +7,19 @@ public abstract class RoadModel : MonoBehaviour
 {
     [SerializeField]
     private Transform wrapper;
-    public float Rotation => wrapper.transform.eulerAngles.y;
+    public float Rotation => transform.eulerAngles.y;
     private BuildingShapeUnit[] roadShapeUnits;
     public abstract Direction[] Inputs { get; set; }
     public abstract Direction[] Outputs { get; set; }
+    public abstract RoadType RoadType { get; }
+    public GameObject bridgeEffect;
     private void Awake()
     {
         roadShapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
     }
     public void Rotate(float rotationStep)
     {
-        wrapper.Rotate(new Vector3(0, rotationStep, 0));
+        transform.Rotate(new Vector3(0, rotationStep, 0));
 
         int steps = Mathf.RoundToInt(rotationStep / 90f);
 
