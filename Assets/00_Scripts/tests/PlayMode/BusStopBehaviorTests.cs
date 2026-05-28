@@ -87,5 +87,6 @@ public class BusStopBehaviorTests
         }
 
         public void AdjustVisualToGround(Vector3 surfacePoint) { }
+        public GameObject Visual => gameObject;
     }
 }
