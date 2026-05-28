@@ -16,10 +16,18 @@ public class TerrainPainter : MonoBehaviour
 
     private void Awake()
     {
-        // KÚszÝtŘnk egy mßsolatot a terepadatokrˇl a memˇrißban
-        TerrainData runtimeData = Instantiate(terrain.terrainData);
+        if (terrain == null)
+        {
+            terrain = Terrain.activeTerrain;
+            if (terrain == null)
+            {
+                Debug.LogWarning("TerrainPainter: no terrain assigned, disabling.");
+                enabled = false;
+                return;
+            }
+        }
 
-        // ┴tadjuk a Terrainnek Ús a Collidernek is az ˙j, ideiglenes adatokat
+        TerrainData runtimeData = Instantiate(terrain.terrainData);
         terrain.terrainData = runtimeData;
         if (GetComponent<TerrainCollider>())
         {
