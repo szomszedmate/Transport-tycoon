@@ -46,11 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fabc5507b40337c4ab532229bcc7c681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bus
+  data: {fileID: 0}
+  mainType: 0
+  types: 
   aiAgent: {fileID: 0}
-  builtMaterial: {fileID: 2100000, guid: 99778bb32a22e7045bee29507ccb8644, type: 2}
+  builtMaterial: {fileID: 2100000, guid: fd27b17b004522d4e809a3dd5982510d, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: 0e9f2a87bb7ef244b9657942a1167dbf, type: 2}
   selectHoverMaterial: {fileID: 2100000, guid: f43551bffa4588e43a3d2e7e559ffb31, type: 2}
   confirmMaterial: {fileID: 2100000, guid: fe4398b7ed890be44a1b5e342c4c8de1, type: 2}
+  vehicleMaterials: {fileID: 0}
 --- !u!195 &3583464162540983701
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -86,3 +90,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   targetpos: {fileID: 0}
+  Route: []
+  nonStop: 0
+  oda: 1
+  isMoving: 0
+  maxprogress: 0
+  currprog: 0
+  ontrack: 0
+  righlane: 0
+  movingtostart: 0
+  startpoz: {fileID: 0}
+  types: 
+  mainType: 0
+  speed: 0
+  next: {fileID: 0}
+  last: {fileID: 0}
+  lastLaneWasRight: 0

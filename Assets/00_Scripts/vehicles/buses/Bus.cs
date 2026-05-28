@@ -46,10 +46,12 @@ public class Bus : VehicleBase
 
             WeeklyMileage += distance;
             lastPosition = transform.position;
+
+            model.AdjustVisualPosition();
         }
     }
 
-    public void Setup(BusData data, float rotation)
+    public void Setup(BusData data, float rotation, LayerMask terrainLayer)
     {
         this.data = data;
         types = data.Types;
@@ -72,52 +74,51 @@ public class Bus : VehicleBase
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
         //buildmaterials in player inventori in managers
-        switch (mainType)
-        {
-            case StopType.None:
-                break;
-            case StopType.Bus:
-                builtMaterial = materials[0];
-                break;
-            case StopType.Universal:
-                builtMaterial = materials[9];
-                break;
-            case StopType.Coal:
-                builtMaterial = materials[3];
-                break;
-            case StopType.IronOre:
-                builtMaterial = materials[7];
-                break;
-            case StopType.GoldOre:
-                builtMaterial = materials[6];
-                break;
-            case StopType.Flour:
-                builtMaterial = materials[5];
-                break;
-            case StopType.Water:
-                builtMaterial = materials[1];
-                break;
-            case StopType.Farm:
-                builtMaterial = materials[4];
-                break;
-            case StopType.IronBar:
-                builtMaterial = materials[7];
-                break;
-            case StopType.GoldBar:
-                builtMaterial = materials[6];
-                break;
-            case StopType.Mint:
-                builtMaterial = materials[8];
-                break;
-            case StopType.Bakery:
-                builtMaterial = materials[2];
-                break;
-            default:
-                builtMaterial = materials[0];
-                break;
-        }
+        //switch (mainType)
+        //{
+        //    case StopType.None:
+        //        break;
+        //    case StopType.Bus:
+        //        builtMaterial = materials[0];
+        //        break;
+        //    case StopType.Universal:
+        //        builtMaterial = materials[9];
+        //        break;
+        //    case StopType.Coal:
+        //        builtMaterial = materials[3];
+        //        break;
+        //    case StopType.IronOre:
+        //        builtMaterial = materials[7];
+        //        break;
+        //    case StopType.GoldOre:
+        //        builtMaterial = materials[6];
+        //        break;
+        //    case StopType.Flour:
+        //        builtMaterial = materials[5];
+        //        break;
+        //    case StopType.Water:
+        //        builtMaterial = materials[1];
+        //        break;
+        //    case StopType.Farm:
+        //        builtMaterial = materials[4];
+        //        break;
+        //    case StopType.IronBar:
+        //        builtMaterial = materials[7];
+        //        break;
+        //    case StopType.GoldBar:
+        //        builtMaterial = materials[6];
+        //        break;
+        //    case StopType.Mint:
+        //        builtMaterial = materials[8];
+        //        break;
+        //    case StopType.Bakery:
+        //        builtMaterial = materials[2];
+        //        break;
+        //    default:
+        //        builtMaterial = materials[0];
+        //        break;
+        //}
         // Set the default material
-        SetMaterial(VehicleState.BUILT);
         Route = new List<Road>();
         locations = new List<ILocation>();
         locationIndex = 0;
@@ -128,6 +129,10 @@ public class Bus : VehicleBase
         aiAgent.Arrived += AiAgent_Arrived;
         aiAgent.Reversed += AiAgent_Reversed;
         passangers = new List<Worker>();
+
+        model.CalculateOffsets();
+        model.terrainLayer = terrainLayer;
+        model.AdjustVisualPosition();
     }
 
     private void AiAgent_Reversed(object sender, EventArgs e)
@@ -206,6 +211,7 @@ public class Bus : VehicleBase
         }
         locationIndex = 0;
         ChangeState(RouteConfirmed ? VehicleState.CONFIRMED : VehicleState.SELECTHOVER);
+        Debug.Log("Giving route");
         if (RouteConfirmed) aiAgent.GiveRoute(Route, !linear);
     }
 

@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3394755370568901529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5836624605226717878}
+  - component: {fileID: 5962956368974613459}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5836624605226717878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3394755370568901529}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -22.99525}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5962956368974613459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3394755370568901529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6996129f208f845428396db78e68d132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  buildingSystem: {fileID: 0}
+  ui: {fileID: 0}
+  MainCamera: {fileID: 0}
+  hotkeys:
+  - Key: 49
+    Data: {fileID: 11400000, guid: 60f56d5d733a13e4f9af61dc345d4999, type: 2}
+  - Key: 50
+    Data: {fileID: 11400000, guid: c772f38e88d145149b8d020a37b9156c, type: 2}
+  - Key: 51
+    Data: {fileID: 11400000, guid: 8d6f9d68753f03b479fcf0e438707ea5, type: 2}
+  - Key: 52
+    Data: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
+  - Key: 98
+    Data: {fileID: 11400000, guid: f4797bac68b4dba4b9e642a858cdcbff, type: 2}
+  - Key: 116
+    Data: {fileID: 11400000, guid: 17547141c40e3594f82ce602dc4277e8, type: 2}
+  - Key: 53
+    Data: {fileID: 11400000, guid: 51b3adcc9f92a3944b939f7ee6cdbbc2, type: 2}
+  - Key: 54
+    Data: {fileID: 11400000, guid: ae069bd7501938544959bb40b475b1c8, type: 2}
+  - Key: 55
+    Data: {fileID: 11400000, guid: 45b674948d60940428c774180af0e912, type: 2}
+  menuOpen: 0

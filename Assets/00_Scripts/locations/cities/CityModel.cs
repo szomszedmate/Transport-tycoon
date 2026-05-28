@@ -13,7 +13,7 @@ public class CityModel : MonoBehaviour
     public List<Vector3> GetAllBuildingPositions()
     {
         if (shapeUnits == null || shapeUnits.Length == 0)
-            shapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
+            shapeUnits = GetComponentsInChildren<BuildingShapeUnit>(true); // true = inaktivakat is
 
         if (shapeUnits == null)
         {

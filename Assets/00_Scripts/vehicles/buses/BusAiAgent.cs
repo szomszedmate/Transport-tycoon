@@ -90,6 +90,7 @@ public class BusAiAgent : MonoBehaviour
         startpoz = route[0];
         maxprogress = Route.Count - 1;
         currprog = 0;
+        Debug.Log("Moving to start");
         MoveToStart();
     }
     private bool IsBetween(float value, float min, float max)
@@ -264,11 +265,31 @@ public class BusAiAgent : MonoBehaviour
     }
     public void MoveToStart()
     {
+        //transform.position = startpoz.transform.position;
+        //ontrack = true;
+        //ai.enabled = true;
+        //MoveToNewDest();
 
+        // 1. Először kikapcsoljuk az ágenst, hogy ne vitatkozzon a pozícióváltással
+        ai.enabled = false;
+
+        // 2. Beállítjuk a pozíciót
         transform.position = startpoz.transform.position;
-        ontrack = true;
-        MoveToNewDest();
 
+        // 3. Visszakapcsoljuk
+        ai.enabled = true;
+
+        // 4. KRITIKUS: A Warp kényszeríti az ágenst a hálóra!
+        // Ha ezt nem hívod meg, a SetDestination "not placed on NavMesh" hibát dob.
+        if (ai.Warp(startpoz.transform.position))
+        {
+            ontrack = true;
+            MoveToNewDest();
+        }
+        else
+        {
+            Debug.LogError($"Súlyos hiba: A buszt ({gameObject.name}) nem sikerült a NavMesh-re rakni a startponton: {startpoz.transform.position}");
+        }
     }
 
     // Update is called once per frame
