@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 258552541137499780}
   - component: {fileID: 2383794928318383345}
-  m_Layer: 7
+  m_Layer: 10
   m_Name: Road
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,3 +55,7 @@ MonoBehaviour:
   rightLane: {fileID: 0}
   topLane: {fileID: 0}
   bottomLane: {fileID: 0}
+  rightlanefree: 1
+  leftlanefree: 1
+  buszok: []
+  speedmodifier: 1

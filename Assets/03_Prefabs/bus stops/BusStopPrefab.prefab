@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3b12833ebdced4f9e2b593693cf43b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BusStop
+  Type: 0
+  Visual: {fileID: 919132149155446097, guid: f9cdb3d199eddf4458b96aad89a0eace, type: 3}
   builtMaterial: {fileID: 2100000, guid: e614a67ab0da6dd48ade1c2eabf4ec06, type: 2}
   destroyHoverMaterial: {fileID: 2100000, guid: 101f7aef5362090459f0027c227ed97c, type: 2}
