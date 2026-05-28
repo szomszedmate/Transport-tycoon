@@ -85,5 +85,7 @@ public class BusStopBehaviorTests
         {
             return new List<Vector3>();
         }
+
+        public void AdjustVisualToGround(Vector3 surfacePoint) { }
     }
 }
