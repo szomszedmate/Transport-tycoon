@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UIElements;
 #if UNITY_EDITOR
@@ -31,6 +32,7 @@ public class BuildingGrid : MonoBehaviour
     public int Height { get => height; set => height = value; } // for debug
     public List<ILocation> Locations { get => locations; set => locations = value; }
     public Water water;
+    [SerializeField] private LayerMask terrainLayer;
 
     private void Awake()
     {
@@ -370,10 +372,35 @@ public class BuildingGrid : MonoBehaviour
     #region TreeMethods
     private void InitializeTrees()
     {
-        SetTreeCount(GridToWorldCenterPosition(2, 2), 2);
-        SetTreeCount(GridToWorldCenterPosition(3, 2), 4);
-        SetTreeCount(GridToWorldCenterPosition(6, 5), 1);
-        SetTreeCount(GridToWorldCenterPosition(7, 5), 3);
+        //SetTreeCount(GridToWorldCenterPosition(2, 2), 2);
+        //SetTreeCount(GridToWorldCenterPosition(3, 2), 4);
+        //SetTreeCount(GridToWorldCenterPosition(6, 5), 1);
+        //SetTreeCount(GridToWorldCenterPosition(7, 5), 3);
+
+        int startingCount = 5;
+
+        int row;
+        int col;
+        int amount;
+
+        int attempts = 0; //for debug
+        for (int i = 0; i < startingCount; i++)
+        {
+
+            do
+            {
+                row = RandomNumberGenerator.GetInt32(0, Height);
+                col = RandomNumberGenerator.GetInt32(0, Width);
+                attempts++;
+                if (attempts > 1000)
+                {
+                    Debug.LogWarning("Couldnt find position for tree!");
+                }
+            } while (!CanTreeGrowHere(col, row));
+
+            amount = RandomNumberGenerator.GetInt32(1, 4);
+            SetTreeCount(GridToWorldCenterPosition(col, row), amount);
+        }
     }
 
 
@@ -394,6 +421,14 @@ public class BuildingGrid : MonoBehaviour
 
     private bool CanTreeGrowHere(int col, int row)
     {
+        Vector3 worldPos = GridToWorldCenterPosition(col, row);
+        
+        if (!Physics.Raycast(worldPos, Vector3.down, out RaycastHit hit, Mathf.Infinity, terrainLayer))
+        {
+            Debug.Log($"Raycast missed at col: {col}, row: {row}!");
+            return false;
+        }
+
         if (!IsInsideGrid(col, row))
         {
             return false;
