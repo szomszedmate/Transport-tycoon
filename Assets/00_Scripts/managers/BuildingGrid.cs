@@ -33,6 +33,7 @@ public class BuildingGrid : MonoBehaviour
     public List<ILocation> Locations { get => locations; set => locations = value; }
     public Water water;
     [SerializeField] private LayerMask terrainLayer;
+    [SerializeField] private bool skipTerrainCheck = false;
 
     private void Awake()
     {
@@ -421,20 +422,19 @@ public class BuildingGrid : MonoBehaviour
 
     private bool CanTreeGrowHere(int col, int row)
     {
+        if (!IsInsideGrid(col, row)) return false;
+        if (!Grid[col, row].IsEmpty() || Grid[col, row].HasTrees() || Grid[col, row].IsWater()) return false;
+
+        if (skipTerrainCheck) return true;
+
         Vector3 worldPos = GridToWorldCenterPosition(col, row);
-        
         if (!Physics.Raycast(worldPos, Vector3.down, out RaycastHit hit, Mathf.Infinity, terrainLayer))
         {
             Debug.Log($"Raycast missed at col: {col}, row: {row}!");
             return false;
         }
 
-        if (!IsInsideGrid(col, row))
-        {
-            return false;
-        }
-
-        return Grid[col, row].IsEmpty() && !Grid[col, row].HasTrees() && !Grid[col, row].IsWater();
+        return true;
     }
 
     public int GetTreeCount(Vector3 position)
@@ -598,39 +598,6 @@ public class BuildingGrid : MonoBehaviour
         return worldPos;
     }
 
-    //private void InitializeWater()
-    //{
-
-
-    //    SetWater(10, 10);
-    //    SetWater(10, 11);
-    //    SetWater(11, 10);
-    //    SetWater(11, 11);
-
-    //    for (int i = 0; i < Height; i++)
-    //    {
-    //        SetWater(15, i);
-    //    }
-
-    //    SetWater(20, 40);
-    //    SetWater(20, 41);
-    //    SetWater(21, 40);
-    //    SetWater(21, 41);
-    //    SetWater(22, 40);
-    //    SetWater(22, 41);
-
-    //    SetWater(20, 50);
-    //    SetWater(20, 51);
-    //    SetWater(20, 52);
-    //    SetWater(21, 50);
-    //    SetWater(21, 51);
-    //    SetWater(21, 52);
-    //    SetWater(22, 50);
-    //    SetWater(22, 51);
-    //    SetWater(22, 52);
-
-    //}
-
     public float GetTerrainHeightAtGrid(int col, int row)
     {
         Vector3 worldPos = GridToWorldCenterPosition(col, row);
@@ -650,8 +617,6 @@ public class BuildingGrid : MonoBehaviour
         int dCol = horizontal ? 1 : 0;
         int dRow = horizontal ? 0 : 1;
 
-        // 1. Keressük meg a híd két végét (a partokat)
-        // Visszafelé keressük az egyik partot
         int startCol = col;
         int startRow = row;
         while (IsInsideGrid(startCol - dCol, startRow - dRow) && IsWater(startCol - dCol, startRow - dRow))
@@ -660,7 +625,6 @@ public class BuildingGrid : MonoBehaviour
             startRow -= dRow;
         }
 
-        // Előre keressük a másik partot
         int endCol = col;
         int endRow = row;
         while (IsInsideGrid(endCol + dCol, endRow + dRow) && IsWater(endCol + dCol, endRow + dRow))
@@ -669,12 +633,9 @@ public class BuildingGrid : MonoBehaviour
             endRow += dRow;
         }
 
-        // 2. Kérjük le a két part magasságát (a víz melletti utolsó szárazföldi cella)
         float heightA = GetTerrainHeightAtGrid(startCol - dCol, startRow - dRow);
         float heightB = GetTerrainHeightAtGrid(endCol + dCol, endRow + dRow);
 
-        // 3. Számoljuk ki a távolságot és az arányt (t)
-        // Hányadik elem a híd a sorban?
         float totalDist = Vector3.Distance(GridToWorldCenterPosition(startCol - dCol, startRow - dRow),
                                            GridToWorldCenterPosition(endCol + dCol, endRow + dRow));
         float currentDist = Vector3.Distance(GridToWorldCenterPosition(startCol - dCol, startRow - dRow),
@@ -682,7 +643,6 @@ public class BuildingGrid : MonoBehaviour
 
         float t = currentDist / totalDist;
 
-        // 4. Lineáris interpoláció a két magasság között
         float floatHeight = 2.0f;
         float baseHeight = Mathf.Lerp(heightA, heightB, t);
         return baseHeight + floatHeight;
@@ -777,6 +737,11 @@ public class BuildingGrid : MonoBehaviour
                 RefreshWaterVisual(col, row);
             }
         }
+    }
+
+    public void SetSkipTerrainCheck(bool skip)
+    {
+        skipTerrainCheck = skip;
     }
     #endregion
 

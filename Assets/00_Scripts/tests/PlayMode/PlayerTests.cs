@@ -112,6 +112,7 @@ public class PlayerTests
     public void SellResource_IncreasesMoney_AndFiresInventoryChangedEvent()
     {
         ResourceEnum resource = ResourceEnum.Wheat;
+        player.UpdateInventory(resource, 10);
 
         bool eventFired = false;
 

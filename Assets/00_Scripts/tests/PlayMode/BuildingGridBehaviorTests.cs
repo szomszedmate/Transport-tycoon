@@ -17,6 +17,7 @@ public class BuildingGridBehaviorTests
         buildingGrid.Width = 5;
         buildingGrid.Height = 5;
         buildingGrid.Locations = new List<ILocation>();
+        buildingGrid.SetSkipTerrainCheck(true);
 
         BuildingGrid.BuildingGridCell[,] grid = new BuildingGrid.BuildingGridCell[5, 5];
 

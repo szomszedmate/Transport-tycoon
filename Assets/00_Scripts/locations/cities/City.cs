@@ -36,13 +36,13 @@ public class City : MonoBehaviour, ILocation
 
     void Start()
     {
+        buses = new();
         DayShift = new List<Worker>();
         EveningShift = new List<Worker>();
         NightShift = new List<Worker>();
         DivideShifts();
         DayPhase = DayPhase.NIGHT;
 
-        buses = new();
     }
 
     public void StartBuses()

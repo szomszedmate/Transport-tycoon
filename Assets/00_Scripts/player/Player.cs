@@ -27,11 +27,11 @@ public class  Player : MonoBehaviour
             //sell
             Resources[resource] -= amount;
             Money += amount * 10;
-            InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = resource, NewAmount = amount });
+            InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = resource, NewAmount = -amount });
         }
         else
         {
-            Debug.Log("Nincs ennyi ebböl a resource ból:"+ Resources[resource]);
+            Debug.Log("Nincs ennyi ebbï¿½l a resource bï¿½l:"+ Resources[resource]);
         }
     }
 

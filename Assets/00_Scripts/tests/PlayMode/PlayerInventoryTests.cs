@@ -35,9 +35,9 @@ public class PlayerInventoryTests
 public void SellResource_FiresInventoryChangedEvent_WithNegativeAmount_WhenResourceIsSold()
 {
     ResourceEnum resource = ResourceEnum.Wheat;
+    player.UpdateInventory(resource, 10);
 
     bool eventFired = false;
-
     player.InventoryChanged += (sender, e) =>
     {
         eventFired = true;
