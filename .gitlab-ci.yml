@@ -57,6 +57,7 @@ get-activation-file:
 
 .test: &test
   stage: build_and_test
+  timeout: 60m
   <<: *unity_before_script
   <<: *cache
   <<: *license
@@ -95,6 +96,7 @@ test-playmode:
 
 .build: &build
   stage: build_and_test
+  timeout: 60m
   <<: *unity_before_script
   <<: *cache
   <<: *license
