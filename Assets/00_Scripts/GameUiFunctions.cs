@@ -26,7 +26,7 @@ public class GameUiFunctions : MonoBehaviour
     public Button pauseButton;
   
     public GameObject PauseMenu;
-    public bool isPauseMenuActive;
+    public bool isPauseMenuActive = false;
 
     [Header("ScrollView")]
     public Color selectedColor;
@@ -39,6 +39,15 @@ public class GameUiFunctions : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private List<ButtonDataPair> uiButtons;
 
+    [Header("Settings")]
+    private bool isSettingsMenuActive = false;
+    public GameObject settingsPanel;
+    [SerializeField] private Toggle muteToggle;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private MusicControl musicControl;
+    [SerializeField] private Toggle sfxMuteToggle;
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private SFXControl sfxControl;
 
     [Header("Iventory/Shop")]
     public GameObject invshopmasterpanel;
@@ -278,7 +287,7 @@ public class GameUiFunctions : MonoBehaviour
             if (pair.Data != null && (pair.Data as IData) == data)
             {
                 pair.ButtonImage.color = selectedColor;
-                break; // Megtaláltuk, megállunk
+                break; // Megtalï¿½ltuk, megï¿½llunk
             }
         }
     }
@@ -365,27 +374,27 @@ public class GameUiFunctions : MonoBehaviour
     {
         if (inventory.Money >= vehicleData.Cost)
         {
-            // ScriptableObject példányosítása, hogy egyedi adata legyen
+            // ScriptableObject pï¿½ldï¿½nyosï¿½tï¿½sa, hogy egyedi adata legyen
             VehicleData newVehicle = Instantiate(vehicleData);
 
-            // Hozzáadás az inventory-hoz (típus szerint)
+            // Hozzï¿½adï¿½s az inventory-hoz (tï¿½pus szerint)
             if (newVehicle is BusData bus)
             {
                 inventory.buszok.Add(bus);
             }
             else if (newVehicle is TruckData truck)
             {
-                inventory.trucks.Add(truck); // Feltételezve, hogy van ilyen listád a Player-ben
+                inventory.trucks.Add(truck); // Feltï¿½telezve, hogy van ilyen listï¿½d a Player-ben
             }
 
-            // UI elem létrehozása az inventory panelen
+            // UI elem lï¿½trehozï¿½sa az inventory panelen
             GameObject itemGo = Instantiate(inventoryitem, UIcontent, false);
             UIitem uiItem = itemGo.GetComponent<UIitem>();
 
-            // Beállítjuk az adatokat az UI elemen (az UIitem-et is érdemes VehicleData-ra állítani)
+            // Beï¿½llï¿½tjuk az adatokat az UI elemen (az UIitem-et is ï¿½rdemes VehicleData-ra ï¿½llï¿½tani)
             uiItem.vehicle = newVehicle;
 
-            // Pénz levonása a BuildingSystemen keresztül
+            // Pï¿½nz levonï¿½sa a BuildingSystemen keresztï¿½l
             var buyRequest = new BuyRequestEventArgs { Cost = vehicleData.Cost, Deduct = true };
             buildingSystem.invokeBuying(buyRequest);
         }
@@ -422,14 +431,35 @@ public class GameUiFunctions : MonoBehaviour
 
     public void Resume()
     {
-        isPauseMenuActive = false;
-        PauseTime();
-        PauseMenu.SetActive(false); 
+        if (isSettingsMenuActive)
+        {
+            isSettingsMenuActive = false;
+            settingsPanel.SetActive(false);
+            isPauseMenuActive = true;
+            PauseMenu.SetActive(true);
+        }
+        else if (isPauseMenuActive)
+        {
+            isPauseMenuActive = false;
+            PauseTime();
+            PauseMenu.SetActive(false);
+        }
     }
     public void Save()
     {
         //TODO
         Debug.Log("Save clicked");
+    }
+
+    public void Settings()
+    {
+        PauseMenu.SetActive(false);
+        isSettingsMenuActive = true;
+        settingsPanel.SetActive(true);
+        if (volumeSlider != null)
+            volumeSlider.SetValueWithoutNotify(game.Music.volume);
+        if (sfxSlider != null && game.SoundEffects.Count > 0)
+            sfxSlider.SetValueWithoutNotify(game.SoundEffects[0].volume);
     }
     public void ToMainMenu()
     {
@@ -449,6 +479,39 @@ public class GameUiFunctions : MonoBehaviour
             {
                 Resume();
             }
+    }
+
+    public void ChangeMusicVolume(float volume)
+    {
+        game.ChangeMusicVolume(volume);
+        if (muteToggle != null)
+            muteToggle.SetIsOnWithoutNotify(volume == 0);
+        musicControl?.UpdateIcon(volume);
+    }
+
+    public void ChangeSFXVolume(float volume)
+    {
+        game.ChangeSFXVolume(volume);
+        if (sfxMuteToggle != null)
+            sfxMuteToggle.SetIsOnWithoutNotify(volume == 0);
+        sfxControl?.UpdateIcon(volume);
+    }
+
+    public void MuteSFX()
+    {
+        game.MuteSFX();
+        float vol = game.SoundEffects.Count > 0 ? game.SoundEffects[0].volume : 0f;
+        if (sfxSlider != null)
+            sfxSlider.SetValueWithoutNotify(vol);
+        sfxControl?.UpdateIcon(vol);
+    }
+
+    public void MuteMusic()
+    {
+        game.MuteMusic();
+        if (volumeSlider != null)
+            volumeSlider.SetValueWithoutNotify(game.Music.volume);
+        musicControl?.UpdateIcon(game.Music.volume);
     }
 
     // Update is called once per frame

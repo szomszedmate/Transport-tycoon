@@ -3,6 +3,7 @@ using System;
 using NUnit.Framework;
 using System.Collections.Generic;
 using Assets._00_Scripts.locations.industries;
+using UnityEngine.Rendering;
 public class Game : MonoBehaviour
 {
     private const int secondsInDay = 86400; // 24 ora
@@ -12,6 +13,11 @@ public class Game : MonoBehaviour
     [SerializeField] private float dayStart;
     [SerializeField] private float eveningStart;
     [SerializeField] private float nightStart;
+    [SerializeField] private AudioSource music;
+    [SerializeField] private List<AudioSource> soundEffects;
+
+    private float lastMusicVolume;
+    private float lastSFXVolume;
     private List<Industry> industries = new List<Industry>();
     private List<City> cities;
     private double globalTime;
@@ -45,6 +51,8 @@ public class Game : MonoBehaviour
     }
 
     public BuildingSystem BuildingSystem { get => buildingSystem; set => buildingSystem = value; }
+    public AudioSource Music { get => music; set => music = value; }
+    public List<AudioSource> SoundEffects { get => soundEffects; set => soundEffects = value; }
 
     public delegate void TimeChangedEventHandler(object sender, TimeChangedEventArgs e);
     public event TimeChangedEventHandler TimeChanged;
@@ -136,7 +144,7 @@ public class Game : MonoBehaviour
                 //Debug.Log("Remaining money: " + player.Money);
             } else
             {
-                // TODO jelzés, hogy nincs elég pénz
+                // TODO jelzï¿½s, hogy nincs elï¿½g pï¿½nz
             }
         }
         if (Player.CanAfford(e.Cost))
@@ -192,8 +200,54 @@ public class Game : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Game: A Player referencia NULL! Ellenõrizd az Inspectort!");
+                Debug.LogError("Game: A Player referencia NULL! Ellenï¿½rizd az Inspectort!");
             }
+        }
+    }
+
+    public void MuteMusic()
+    {
+        if (music.volume > 0)
+        {
+            lastMusicVolume = music.volume;
+            music.volume = 0;
+        }
+        else
+        {
+            music.volume = lastMusicVolume > 0 ? lastMusicVolume : 1f;
+        }
+    }
+
+    public void ChangeMusicVolume(float volume)
+    {
+        music.volume = volume;
+        if (volume > 0) lastMusicVolume = volume;
+    }
+
+    public void ChangeSFXVolume(float volume)
+    {
+        foreach (AudioSource sfx in soundEffects)
+        {
+            if (sfx != null) sfx.volume = volume;
+        }
+        if (volume > 0) lastSFXVolume = volume;
+    }
+
+    public void MuteSFX()
+    {
+        if (soundEffects.Count == 0) return;
+        float currentVolume = soundEffects[0].volume;
+        if (currentVolume > 0)
+        {
+            lastSFXVolume = currentVolume;
+            foreach (AudioSource sfx in soundEffects)
+                if (sfx != null) sfx.volume = 0;
+        }
+        else
+        {
+            float restoreVolume = lastSFXVolume > 0 ? lastSFXVolume : 1f;
+            foreach (AudioSource sfx in soundEffects)
+                if (sfx != null) sfx.volume = restoreVolume;
         }
     }
 }

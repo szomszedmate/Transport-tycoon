@@ -9,6 +9,8 @@ public abstract class VehicleModel : MonoBehaviour
     protected float frontOffset;
     protected float backOffset;
     public BuildingGrid grid;
+    [SerializeField] private float heightSmoothSpeed = 5f;
+    private float smoothedY = float.MinValue;
 
     public float Rotation => transform.eulerAngles.y;
     public void Rotate(float degree)
@@ -26,19 +28,19 @@ public abstract class VehicleModel : MonoBehaviour
     {
         //if (Visual == null) return;
 
-        //// Megkeressük az összes MeshRenderer-t a modellben (lehet több darabból is)
+        //// Megkeressï¿½k az ï¿½sszes MeshRenderer-t a modellben (lehet tï¿½bb darabbï¿½l is)
         //Renderer[] renderers = Visual.GetComponentsInChildren<Renderer>();
         //if (renderers.Length == 0) return;
 
-        //// Létrehozunk egy befoglaló téglalapot (Bounds)
+        //// Lï¿½trehozunk egy befoglalï¿½ tï¿½glalapot (Bounds)
         //Bounds combinedBounds = renderers[0].bounds;
         //foreach (Renderer r in renderers)
         //{
         //    combinedBounds.Encapsulate(r.bounds);
         //}
 
-        //// A bounds.extents.z megadja a távolságot a középponttól az elejéig (Z tengely)
-        //// Ez a világkoordinátákban van, így a skálázást is figyelembe veszi
+        //// A bounds.extents.z megadja a tï¿½volsï¿½got a kï¿½zï¿½pponttï¿½l az elejï¿½ig (Z tengely)
+        //// Ez a vilï¿½gkoordinï¿½tï¿½kban van, ï¿½gy a skï¿½lï¿½zï¿½st is figyelembe veszi
         //frontOffset = combinedBounds.extents.z;
         //backOffset = combinedBounds.extents.z;
 
@@ -58,7 +60,7 @@ public abstract class VehicleModel : MonoBehaviour
 
         if (roadAtPos != null && roadAtPos.IsBridge)
         {
-            // --- HÍD LOGIKA ---
+            // --- Hï¿½D LOGIKA ---
             Vector3 frontPoint = currentPos + forward * frontOffset;
             Vector3 backPoint = currentPos - forward * backOffset;
 
@@ -72,27 +74,47 @@ public abstract class VehicleModel : MonoBehaviour
 
             if (direction.sqrMagnitude > 0.0001f)
             {
-                Visual.transform.rotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
+                Quaternion targetRot = Quaternion.LookRotation(direction.normalized, Vector3.up);
+                Visual.transform.rotation = Quaternion.Slerp(Visual.transform.rotation, targetRot, 5f * Time.deltaTime);
             }
-            Visual.transform.position = new Vector3(currentPos.x, finalY, currentPos.z);
+            if (smoothedY == float.MinValue) smoothedY = finalY;
+            smoothedY = Mathf.Lerp(smoothedY, finalY, heightSmoothSpeed * Time.deltaTime);
+            Visual.transform.position = new Vector3(currentPos.x, smoothedY, currentPos.z);
         }
         else
         {
-            // --- TALÁJ LOGIKA (Raycast) ---
-            // Két pontos raycast az út dõléséhez talajon is (opcionális, de ajánlott)
-            if (Physics.Raycast(currentPos + Vector3.up * 10f, Vector3.down, out RaycastHit hit, 1000f, terrainLayer))
-            {
-                finalY = hit.point.y;
+            // --- TALï¿½J LOGIKA (kï¿½t pontos raycast a dï¿½lï¿½s szï¿½gï¿½hez) ---
+            Vector3 frontPoint = currentPos + forward * frontOffset;
+            Vector3 backPoint  = currentPos - forward * backOffset;
 
-                // Itt a talajon egyszerûen a jármû eredeti Y forgatását használjuk, 
-                // vagy megtarthatod a régi két pontos raycastos dõlést is.
+            bool hitFront = Physics.Raycast(frontPoint  + Vector3.up * 10f, Vector3.down, out RaycastHit frontHit, 1000f, terrainLayer);
+            bool hitBack  = Physics.Raycast(backPoint   + Vector3.up * 10f, Vector3.down, out RaycastHit backHit,  1000f, terrainLayer);
+            bool hitCenter = Physics.Raycast(currentPos + Vector3.up * 10f, Vector3.down, out RaycastHit centerHit, 1000f, terrainLayer);
+
+            if (hitFront && hitBack)
+            {
+                finalY = (frontHit.point.y + backHit.point.y) / 2f;
+
+                Vector3 direction = new Vector3(frontPoint.x, frontHit.point.y, frontPoint.z) -
+                                    new Vector3(backPoint.x,  backHit.point.y,  backPoint.z);
+
+                if (direction.sqrMagnitude > 0.0001f)
+                {
+                    Quaternion targetRot = Quaternion.LookRotation(direction.normalized, Vector3.up);
+                    Visual.transform.rotation = Quaternion.Slerp(Visual.transform.rotation, targetRot, 5f * Time.deltaTime);
+                }
+            }
+            else if (hitCenter)
+            {
+                finalY = centerHit.point.y;
                 Quaternion flatRotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-                Visual.transform.rotation = flatRotation;
+                Visual.transform.rotation = Quaternion.Slerp(Visual.transform.rotation, flatRotation, 5f * Time.deltaTime);
             }
             else
             {
                 finalY = currentPos.y; // Fail-safe
             }
+            smoothedY = float.MinValue; // reset, hogy hï¿½d utï¿½n ne simï¿½tson
             Visual.transform.position = new Vector3(currentPos.x, finalY + floatingHeight, currentPos.z);
         }
 
@@ -117,7 +139,7 @@ public abstract class VehicleModel : MonoBehaviour
 
     //    if (hitFront && hitBack)
     //    {
-    //        // 2. Magasság beállítása (a két pont átlaga)
+    //        // 2. Magassï¿½g beï¿½llï¿½tï¿½sa (a kï¿½t pont ï¿½tlaga)
     //        float groundY = (frontHit.point.y + backHit.point.y) / 2f + floatingHeight;
     //        Visual.transform.position = new Vector3(transform.position.x, groundY, transform.position.z);
     //        Debug.Log(Visual.transform.position);
@@ -125,18 +147,18 @@ public abstract class VehicleModel : MonoBehaviour
 
     //        Vector3 direction = frontHit.point - backHit.point;
 
-    //        // sqrMagnitude-ot használunk, mert gyorsabb, mint a Distance
+    //        // sqrMagnitude-ot hasznï¿½lunk, mert gyorsabb, mint a Distance
     //        if (direction.sqrMagnitude > 0.0001f)
     //        {
-    //            // Normalizáljuk az irányt és a felfelé mutató vektort
+    //            // Normalizï¿½ljuk az irï¿½nyt ï¿½s a felfelï¿½ mutatï¿½ vektort
     //            Vector3 upVector = (frontHit.normal + backHit.normal).normalized;
 
-    //            // Csak akkor hívjuk meg, ha van érvényes irányunk
+    //            // Csak akkor hï¿½vjuk meg, ha van ï¿½rvï¿½nyes irï¿½nyunk
     //            Visual.transform.rotation = Quaternion.LookRotation(direction.normalized, upVector);
     //        }
     //        else
     //        {
-    //            // Ha a két pont azonos, nézzen a jármû eredeti elõre-irányába
+    //            // Ha a kï¿½t pont azonos, nï¿½zzen a jï¿½rmï¿½ eredeti elï¿½re-irï¿½nyï¿½ba
     //            Vector3 currentEuler = Visual.transform.eulerAngles;
     //            Visual.transform.rotation = Quaternion.Euler(currentEuler.x, transform.eulerAngles.y, currentEuler.z);
     //            Debug.LogWarning("Nem tudott forgatni, magnitude: " + direction.sqrMagnitude);

@@ -41,8 +41,9 @@ public class Truck : VehicleBase
         if (distance > 0)
         {
             lastPosition = transform.position;
-            model.AdjustVisualPosition();
         }
+
+        model.AdjustVisualPosition();
     }
 
     public void Setup(TruckData data, float rotation, LayerMask terrainLayer)
@@ -153,7 +154,7 @@ public class Truck : VehicleBase
             int canAccept = stop.Industry.Accept(truckData.Resource, currentLoad);
             for (int i = 0; i < canAccept; i++) 
             {
-                // Várunk a rakodási sebességnek megfelelõen
+                // Vï¿½runk a rakodï¿½si sebessï¿½gnek megfelelï¿½en
                 yield return new WaitForSeconds(1f / data.LoadingSpeed);
                 currentLoad--;
             }
@@ -164,7 +165,7 @@ public class Truck : VehicleBase
                 stop.Industry.Produced += Industry_Produced;
                 while (currentLoad < minimumLoad)
                 { 
-                    // Megvárjuk, amíg az esemény (vagy az érkezés) azt mondja: "van miért nézelõdni"
+                    // Megvï¿½rjuk, amï¿½g az esemï¿½ny (vagy az ï¿½rkezï¿½s) azt mondja: "van miï¿½rt nï¿½zelï¿½dni"
                     yield return new WaitUntil(() => canCheckInventory);
                     canCheckInventory = false;
 
@@ -177,11 +178,11 @@ public class Truck : VehicleBase
                             yield return new WaitForSeconds(1f / data.LoadingSpeed);
                             currentLoad++;
                         }
-                        // Ha a rakodás után még mindig nem értük el a minimumot, 
-                        // de maradt még a raktárban, akkor ne várjunk újabb eventre
+                        // Ha a rakodï¿½s utï¿½n mï¿½g mindig nem ï¿½rtï¿½k el a minimumot, 
+                        // de maradt mï¿½g a raktï¿½rban, akkor ne vï¿½rjunk ï¿½jabb eventre
                         if (currentLoad < minimumLoad)
                         {
-                            // Itt egy gyors csekk: hátha maradt még az Industry-nál áru
+                            // Itt egy gyors csekk: hï¿½tha maradt mï¿½g az Industry-nï¿½l ï¿½ru
                             canCheckInventory = true;
                         }
                     }

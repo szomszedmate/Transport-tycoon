@@ -189,17 +189,9 @@ public class Road : MonoBehaviour, IBuildable
 
         foreach (var rend in renderers)
         {
-            Material[] mats = new Material[rend.sharedMaterials.Length];
-            for (int i = 0; i < mats.Length; i++)
-            {
-                mats[i] = targetMat;
-            }
-            rend.materials = mats;
-        }
-    
+            // Skip particle system renderers (e.g. bridge portal effects)
+            if (rend is ParticleSystemRenderer) continue;
 
-        foreach (var rend in renderers)
-        {
             Material[] mats = new Material[rend.sharedMaterials.Length]; // keep same number of slots
             for (int i = 0; i < mats.Length; i++)
             {

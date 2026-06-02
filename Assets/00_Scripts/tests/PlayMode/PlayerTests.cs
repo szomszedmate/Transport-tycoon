@@ -25,7 +25,7 @@ public class PlayerTests
     [Test]
     public void InitialValues_AreCorrect()
     {
-        Assert.AreEqual(500, player.Money, "A kezd� p�nznek 500-nak kell lennie.");
+        Assert.AreEqual(5000, player.Money, "A kezd� p�nznek 5000-nak kell lennie.");
         Assert.AreEqual(0, player.TaxToPay, "A kezd� ad�nak 0-nak kell lennie.");
         Assert.AreEqual(7, player.NextTaxDay, "Az els� ad�napnak a 7. napnak kell lennie.");
     }

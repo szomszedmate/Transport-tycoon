@@ -16,6 +16,12 @@ public class MainMenuUiFunctions : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void Credits()
+    {
+        SceneManager.LoadScene("CreditScene");
+    }
+
     public void OpenSettings()
     {
         //TODO

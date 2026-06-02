@@ -70,7 +70,7 @@ public class  Player : MonoBehaviour
 
     public void Start()
     {
-        Money = 500;
+        Money = 5000;
         TaxToPay = 0;
         NextTaxDay = 7;
         Resources = new Dictionary<ResourceEnum, int>();

@@ -42,13 +42,13 @@ public class Bus : VehicleBase
 
         if (distance > 0)
         {
-            OnMileageChanged(distance, this.NonStop); // Ez mûködni fog!
+            OnMileageChanged(distance, this.NonStop); // Ez mï¿½kï¿½dni fog!
 
             WeeklyMileage += distance;
             lastPosition = transform.position;
-
-            model.AdjustVisualPosition();
         }
+
+        model.AdjustVisualPosition(); // mindig fusson, hogy a Slerp visszasimÃ­tson Ã¡llÃ¡s kÃ¶zben is
     }
 
     public void Setup(BusData data, float rotation, LayerMask terrainLayer, BuildingGrid grid)
@@ -259,8 +259,8 @@ public class Bus : VehicleBase
                     yield return new WaitForSeconds(1f / data.LoadingSpeed);
                     UpdateLocationIndex();
                     isWaitingForShift = true;
-                    currentCity.RegisterWaitingBus(this); // Feliratkozás a városnál
-                    yield break; // Megállítjuk a Coroutine-t, nem hívunk ProcessNextPoint-ot
+                    currentCity.RegisterWaitingBus(this); // Feliratkozï¿½s a vï¿½rosnï¿½l
+                    yield break; // Megï¿½llï¿½tjuk a Coroutine-t, nem hï¿½vunk ProcessNextPoint-ot
                 }
             }
         }
@@ -276,10 +276,10 @@ public class Bus : VehicleBase
 
             if (gettingOffCount > 0 && passangers.Count >= gettingOffCount)
             {
-                // 1. Kivesszük a leszállókat egy külön listába
+                // 1. Kivesszï¿½k a leszï¿½llï¿½kat egy kï¿½lï¿½n listï¿½ba
                 List<Worker> off = passangers.GetRange(0, gettingOffCount);
 
-                // 2. Töröljük õket az eredeti listából
+                // 2. Tï¿½rï¿½ljï¿½k ï¿½ket az eredeti listï¿½bï¿½l
                 passangers.RemoveRange(0, gettingOffCount);
 
                 stop.Industry.AddWorkers(off, RouteIsLinear, dayPhase);
@@ -330,7 +330,7 @@ public class Bus : VehicleBase
         }
         if (industries == 0)
         {
-            Debug.LogWarning("Megpróbált 0-val osztani");
+            Debug.LogWarning("Megprï¿½bï¿½lt 0-val osztani");
             return 0;
         }
         return (passangers.Count / industries);
