@@ -20,5 +20,59 @@
 *.opendb
 *.VC.db
 
-#Annoying
+# Annoying
 UserSettings/Layouts/default-6000.dwlt
+
+# === NAGY BINÁRIS FÁJLOK - NEM KERÜLNEK GITBE ===
+# (Ezeket manuálisan kell letölteni az Asset Store-ból)
+
+# Textúrák
+*.png
+*.jpg
+*.jpeg
+*.tga
+*.tif
+*.tiff
+*.exr
+*.hdr
+*.psd
+*.bmp
+
+# 3D modellek
+*.fbx
+*.FBX
+*.obj
+*.OBJ
+*.blend
+*.dae
+*.3ds
+
+# Hang
+*.mp3
+*.wav
+*.ogg
+*.aiff
+*.aif
+
+# Videó
+*.mp4
+*.mov
+*.avi
+
+# Harmadik fél asset mappák (Asset Store csomagok)
+Assets/3D_Sci-fi_asteroid_belt_group_01/
+Assets/Sci-fi_asteroid_belt_group_01/
+Assets/Free Skyboxes - Space/
+Assets/Cool Visual Effects - Part 1/
+Assets/WaterWorks/
+Assets/Sci-Fi UI/
+Assets/Space_Exploration_GUI_Kit/
+Assets/LOWPOLY-Spaceship/
+Assets/Lunar Landscape 3D/
+Assets/Medieval_Gold/
+Assets/Mnostva_Art/
+Assets/PurePoly/
+
+# Misc
+bfg-1.15.0.jar
+$null

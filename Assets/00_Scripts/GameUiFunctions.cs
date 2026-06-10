@@ -37,13 +37,14 @@ public class GameUiFunctions : MonoBehaviour
     [SerializeField] public Game game;
 
     [Header("UI References")]
+    [SerializeField] private GameObject minimap;
     [SerializeField] private List<ButtonDataPair> uiButtons;
 
     [Header("Settings")]
     private bool isSettingsMenuActive = false;
     public GameObject settingsPanel;
     [SerializeField] private Toggle muteToggle;
-    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Slider musicSlider;
     [SerializeField] private MusicControl musicControl;
     [SerializeField] private Toggle sfxMuteToggle;
     [SerializeField] private Slider sfxSlider;
@@ -60,6 +61,10 @@ public class GameUiFunctions : MonoBehaviour
     public Image invbutton;
     public GameObject invpanel;
     public GameObject infomenupanel;
+
+    [Header("Vehicle Inventory Blocks")]
+    [SerializeField] private GameObject vehicleInventoryBlockPrefab;
+    [SerializeField] private Transform vehicleInventoryContent;
     [SerializeField] public List<InventoryResource> inventoryResources;
     
     public Image shopbutton;
@@ -102,6 +107,20 @@ public class GameUiFunctions : MonoBehaviour
             }
             button.Price.text = "$" + ((IData)button.Data).Cost.ToString();
         }
+
+        SetupUi();
+    }
+
+    private void SetupUi()
+    {
+        hud.SetActive(true);
+        minimap.SetActive(true);
+        invshopmasterpanel.SetActive(true);
+
+        closeinvshop();
+        settingsPanel.SetActive(false);
+        PauseMenu.SetActive(false);
+
     }
 
     #region inv/shop
@@ -115,8 +134,9 @@ public class GameUiFunctions : MonoBehaviour
         cg.alpha = 1f;
         cg.interactable = true;
         cg.blocksRaycasts = true;
+        minimap.SetActive(false);
 
-        string moneyStr = "Money: $" + Math.Round(game.Player.Money, 1).ToString();
+        string moneyStr = Math.Round(game.Player.Money, 1).ToString();
         shopMoneyText.text = moneyStr;
         invopened?.Invoke(this,EventArgs.Empty);
     }
@@ -125,6 +145,7 @@ public class GameUiFunctions : MonoBehaviour
     {
         game.InputManager.menuOpen = false;
         hud.SetActive(true);
+        minimap.SetActive(true);
         CanvasGroup cg = invshopmasterpanel.GetComponent<CanvasGroup>();
         cg.alpha = 0f;
         cg.interactable = false;
@@ -183,13 +204,12 @@ public class GameUiFunctions : MonoBehaviour
         cg.blocksRaycasts = false;
     }
 
+    public ResourceEnum selectedResource = ResourceEnum.Iron;
+
     public void SellResource(TMP_InputField input)
     {
-        ResourceEnum res =  ResourceEnum.Iron;
-       
-        int amount = Convert.ToInt32( input.text);
-        game.Player.SellResource(res,amount);
-
+        int amount = Convert.ToInt32(input.text);
+        game.Player.SellResource(selectedResource, amount);
     }
     public void Player_InventoryChanged(object sender, InventoryChangedEventArgs e)
     {
@@ -226,15 +246,10 @@ public class GameUiFunctions : MonoBehaviour
         double difference = e.NewAmount - lastMoney;
 
         if (difference == 0) return; // do nothing if no changes
-        GameObject popup;
-        if (shoppanel.activeInHierarchy)
-        {
-            popup = Instantiate(moneyPopup, shopMoneyText.transform.position, Quaternion.identity, transform);
-        }
-        else
-        {
-            popup = Instantiate(moneyPopup, mainMoneyText.transform.position, Quaternion.identity, transform);
-        }
+        TMP_Text sourceText = shoppanel.activeInHierarchy ? shopMoneyText : mainMoneyText;
+        GameObject popup = Instantiate(moneyPopup, transform);
+        RectTransform popupRt = popup.GetComponent<RectTransform>();
+        popupRt.position = popupSpawnPosition != null ? popupSpawnPosition.position : sourceText.GetComponent<RectTransform>().position;
 
         var txt = popup.GetComponent<TMPro.TextMeshProUGUI>();
         Animator anim = popup.GetComponent<Animator>();
@@ -249,7 +264,7 @@ public class GameUiFunctions : MonoBehaviour
         }
         else
         {
-            string moneyStr = "Money: $" + Math.Round(e.NewAmount, 1).ToString();
+            string moneyStr = Math.Round(e.NewAmount, 1).ToString();
             mainMoneyText.text = moneyStr;
             shopMoneyText.text = moneyStr;
                 
@@ -264,7 +279,7 @@ public class GameUiFunctions : MonoBehaviour
     private System.Collections.IEnumerator UpdateMoneyDelayed(double targetAmount, float delay)
     {
         yield return new WaitForSeconds(delay);
-        string moneyStr = "Money: $" + Math.Round(targetAmount, 1).ToString();
+        string moneyStr = Math.Round(targetAmount, 1).ToString();
         mainMoneyText.text = moneyStr;
         shopMoneyText.text = moneyStr;  
     }
@@ -339,9 +354,9 @@ public class GameUiFunctions : MonoBehaviour
             ispaused = false;
             Time.timeScale = 1;
             pauseButton.GetComponent<Image>().sprite = pauseSprite;
-            timeText.text = "Time: " + Time.timeScale + "x";
+            timeText.text = Time.timeScale + "x";
         }
-        
+
     }
 
     public void FastForwardTime()
@@ -349,12 +364,12 @@ public class GameUiFunctions : MonoBehaviour
         if (Time.timeScale < maxTimeSpeed)
         {
             Time.timeScale += 1;
-            timeText.text = "Time: " + Time.timeScale + "x";
+            timeText.text = Time.timeScale + "x";
         }
         else
         {
             Time.timeScale = 1;
-            timeText.text = "Time: " + Time.timeScale + "x";
+            timeText.text = Time.timeScale + "x";
         }
     }
     /* public void SlowTime()
@@ -387,12 +402,25 @@ public class GameUiFunctions : MonoBehaviour
                 inventory.trucks.Add(truck); // Felt�telezve, hogy van ilyen list�d a Player-ben
             }
 
-            // UI elem l�trehoz�sa az inventory panelen
+            // UIitem létrehozása (logika: place/sell)
             GameObject itemGo = Instantiate(inventoryitem, UIcontent, false);
             UIitem uiItem = itemGo.GetComponent<UIitem>();
-
-            // Be�ll�tjuk az adatokat az UI elemen (az UIitem-et is �rdemes VehicleData-ra �ll�tani)
             uiItem.vehicle = newVehicle;
+
+            // Inventory block létrehozása a vehicle panelen (ikon megjelenítéshez)
+
+            if (vehicleInventoryBlockPrefab != null && vehicleInventoryContent != null)
+            {
+                GameObject blockGo = Instantiate(vehicleInventoryBlockPrefab, vehicleInventoryContent, false);
+                VehicleInventoryBlock block = blockGo.GetComponent<VehicleInventoryBlock>();
+                if (block != null)
+                    block.Init(newVehicle, uiItem);
+
+            }
+            else
+            {
+                Debug.LogWarning($"[BuyVehicle] Nincs prefab vagy content beállítva!");
+            }
 
             // P�nz levon�sa a BuildingSystemen kereszt�l
             var buyRequest = new BuyRequestEventArgs { Cost = vehicleData.Cost, Deduct = true };
@@ -443,6 +471,8 @@ public class GameUiFunctions : MonoBehaviour
             isPauseMenuActive = false;
             PauseTime();
             PauseMenu.SetActive(false);
+            minimap.SetActive(true);
+            hud.SetActive(true);
         }
     }
     public void Save()
@@ -456,8 +486,8 @@ public class GameUiFunctions : MonoBehaviour
         PauseMenu.SetActive(false);
         isSettingsMenuActive = true;
         settingsPanel.SetActive(true);
-        if (volumeSlider != null)
-            volumeSlider.SetValueWithoutNotify(game.Music.volume);
+        if (musicSlider != null)
+            musicSlider.SetValueWithoutNotify(game.Music.volume * 17f);
         if (sfxSlider != null && game.SoundEffects.Count > 0)
             sfxSlider.SetValueWithoutNotify(game.SoundEffects[0].volume);
     }
@@ -471,6 +501,10 @@ public class GameUiFunctions : MonoBehaviour
             if (!isPauseMenuActive)
             {
                 isPauseMenuActive = true;
+
+                hud.SetActive(false);
+                minimap.SetActive(false);    
+
                 PauseTime();
                 PauseMenu.SetActive(true);
 
@@ -509,9 +543,28 @@ public class GameUiFunctions : MonoBehaviour
     public void MuteMusic()
     {
         game.MuteMusic();
-        if (volumeSlider != null)
-            volumeSlider.SetValueWithoutNotify(game.Music.volume);
+        if (musicSlider != null)
+            musicSlider.SetValueWithoutNotify(game.Music.volume * 17f);
         musicControl?.UpdateIcon(game.Music.volume);
+    }
+
+    private bool uiTextVisible = true;
+    public void ToggleUIText()
+    {
+        uiTextVisible = !uiTextVisible;
+        foreach (var tmp in FindObjectsByType<TMPro.TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            tmp.enabled = uiTextVisible;
+    }
+
+    [SerializeField] private int hideTextDropdownIndex = 0;
+    [SerializeField] private TMPro.TMP_Dropdown languageDropdown;
+    public void OnLanguageDropdown(int value)
+    {
+        bool showText = value != hideTextDropdownIndex;
+        PlayerPrefs.SetInt("hideText", showText ? 0 : 1);
+        PlayerPrefs.SetInt("languageIndex", value);
+        foreach (var tmp in FindObjectsByType<TMPro.TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            tmp.enabled = showText;
     }
 
     // Update is called once per frame

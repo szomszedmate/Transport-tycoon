@@ -50,8 +50,11 @@ public abstract class VehicleModel : MonoBehaviour
         //Debug.Log("Kalkulalt: " + frontOffset + ", " + backOffset);
     }
 
+    public bool adjustEnabled = true;
+
     public void AdjustVisualPosition()
     {
+        if (!adjustEnabled) return;
         Vector3 currentPos = transform.position;
         Vector3 forward = Quaternion.Euler(0, transform.eulerAngles.y, 0) * Vector3.forward;
 

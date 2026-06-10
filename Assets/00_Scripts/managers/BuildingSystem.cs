@@ -45,6 +45,9 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BusStopPreview busStopPreviewPrefab;
     [SerializeField] private BusStop busStopPrefab;
     [SerializeField] private BusStopData BusStopData;
+
+    [SerializeField] private Cat catPrefab;
+    [SerializeField] private CatData catData;
     public bool RoutePlanning { get; private set; } = false;
     private Road hovered;
     public IPreview Preview { get; set; }
@@ -182,6 +185,10 @@ public class BuildingSystem : MonoBehaviour
         {
             Preview = CreateBusStopPreview(busStopData, worldPos);
         }
+        else if (build is CatData catData)
+        {
+            Preview = CreateCatPreview(catData, mousePosition);
+        }
         else return;
         float price = Preview.Data.Cost;    // checking costs for preview material
         var args = new BuyRequestEventArgs { Cost = price, Deduct = false };
@@ -236,6 +243,7 @@ public class BuildingSystem : MonoBehaviour
         Destroy(((MonoBehaviour)Preview).gameObject);
         vehiclePlaced?.Invoke(this,bus);
         Preview = null;
+        VehicleSpawnAnimation.Play(bus, snappedPos);
 
         /*
           
@@ -277,12 +285,13 @@ public class BuildingSystem : MonoBehaviour
         var agent = truck.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
 
-        truck.Setup((TruckData)((TruckPreview)Preview).Data, ((TruckPreview)Preview).Model.Rotation, terrainLayer);
+        truck.Setup((TruckData)((TruckPreview)Preview).Data, ((TruckPreview)Preview).Model.Rotation, terrainLayer, grid);
         truck.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
         Grid.SetVehicle(truck, snappedPos);
         Destroy(((MonoBehaviour)Preview).gameObject);
         vehiclePlaced?.Invoke(this, truck);
         Preview = null;
+        VehicleSpawnAnimation.Play(truck, snappedPos);
     }
 
 
@@ -523,7 +532,7 @@ public class BuildingSystem : MonoBehaviour
 
     public (Vector3, Quaternion) FindBSVisualOffset(Vector3 position, ILocation location)
     {
-        // Csak az X és Z síkon nézzük a különbséget
+        // Csak az X ï¿½s Z sï¿½kon nï¿½zzï¿½k a kï¿½lï¿½nbsï¿½get
         float diffX = location.Position.x - position.x;
         float diffZ = location.Position.z - position.z;
 
@@ -534,16 +543,16 @@ public class BuildingSystem : MonoBehaviour
         Vector3 finalOffset = Vector3.zero;
         float targetAngle = 0;
 
-        // Csak X és Z között döntünk
+        // Csak X ï¿½s Z kï¿½zï¿½tt dï¿½ntï¿½nk
         if (absX > absZ)
         {
-            // X irányba toljuk el a modell-t
+            // X irï¿½nyba toljuk el a modell-t
             finalOffset.x = Mathf.Sign(diffX) * offsetAmount;
             targetAngle = (diffX > 0) ? 90f : 270f;
         }
         else
         {
-            // Z irányba toljuk el a modell-t
+            // Z irï¿½nyba toljuk el a modell-t
             finalOffset.z = Mathf.Sign(diffZ) * offsetAmount;
             targetAngle = (diffZ > 0) ? 0f : 180f;
         }
@@ -817,8 +826,8 @@ public class BuildingSystem : MonoBehaviour
         }
         if (Preview is RoadPreview roadPreview) // roads
         {
-            Ray ray = Camera.main.ScreenPointToRay(mousePosition); // Vagy ahol az egér pozícióját tárolod
-            Vector3 hitPosition = mouseWorldPosition; // Alapértelmezett érték, ha nem találna semmit
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition); // Vagy ahol az egï¿½r pozï¿½ciï¿½jï¿½t tï¿½rolod
+            Vector3 hitPosition = mouseWorldPosition; // Alapï¿½rtelmezett ï¿½rtï¿½k, ha nem talï¿½lna semmit
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, terrainLayer))
             {
                 hitPosition = hit.point;
@@ -1063,6 +1072,23 @@ public class BuildingSystem : MonoBehaviour
                 busStopPreview.ChangeState(PreviewState.NEGATIVE);
             }
         }
+        else if (Preview is Cat cat)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, terrainLayer))
+            {
+                Vector3 pos = hit.point;
+                cat.transform.position = pos;
+                cat.visual.transform.position = pos;
+            }
+
+            cat.ChangeState(PreviewState.POSITIVE);
+            if (shouldIPlace)
+            {
+                DestroyPreview();
+                vehiclePlaced?.Invoke(this, null);
+            }
+        }
 
     }
 
@@ -1103,6 +1129,13 @@ public class BuildingSystem : MonoBehaviour
         busStopPreview.Setup(data);
         return busStopPreview;
     }
+
+    private Cat CreateCatPreview(CatData data, Vector3 position)
+    {
+        Cat cat = Instantiate(catPrefab, position, Quaternion.identity);
+        cat.Setup(data);
+        return cat;
+    }
     #endregion
 
     #region Terrain
@@ -1124,7 +1157,6 @@ public class BuildingSystem : MonoBehaviour
         {
             if (location.Visual is null) continue;
 
-            Debug.Log("Pozíció: " + location.Position);
             surfacePoint = FindSurfaceAt(location.Position);
             location.AdjustVisualToGround(surfacePoint);
         }

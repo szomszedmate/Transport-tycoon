@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:611fba410839ea86552501603cab8426149fc4be3b57aa6fd90f211024a66732
-size 738
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fb8b1dd0dc40c489220c45705487af, type: 3}
+  m_Name: FarmTruckBasic
+  m_EditorClassIdentifier: Assembly-CSharp::TruckData
+  <Name>k__BackingField: Wheat Truck
+  <Description>k__BackingField: Capable of delivering wheat, slow and has a capacity
+    of 50.
+  <Model>k__BackingField: {fileID: 8837894262010904835, guid: f11e6d4dcf2358a4cbbd1c61cc9f5679, type: 3}
+  <Cost>k__BackingField: 200
+  <Types>k__BackingField: 06000000
+  <MainType>k__BackingField: 8
+  <Speed>k__BackingField: 5
+  <LoadingSpeed>k__BackingField: 1
+  <Capacity>k__BackingField: 50
+  <Icon>k__BackingField: {fileID: 21300000, guid: 8a909483d97a55e499f6f59bc62d5c4f, type: 3}
+  resource: 4

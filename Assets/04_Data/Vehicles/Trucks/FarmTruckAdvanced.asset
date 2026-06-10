@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:13de0fe9e9d579c1c002165c3f28f60c11b7045964b3d67a8037075b7e78c870
-size 742
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fb8b1dd0dc40c489220c45705487af, type: 3}
+  m_Name: FarmTruckAdvanced
+  m_EditorClassIdentifier: Assembly-CSharp::TruckData
+  <Name>k__BackingField: Wheat Truck (Advanced)
+  <Description>k__BackingField: Upgraded version of the wheat truck, capable of higher
+    speeds and a capacity of 80.
+  <Model>k__BackingField: {fileID: -9063112537789794431, guid: f4b8d304f7e11ea49b8bc9ab2b49bd62, type: 3}
+  <Cost>k__BackingField: 300
+  <Types>k__BackingField: 06000000
+  <MainType>k__BackingField: 8
+  <Speed>k__BackingField: 5
+  <LoadingSpeed>k__BackingField: 1
+  <Capacity>k__BackingField: 80
+  <Icon>k__BackingField: {fileID: 21300000, guid: ad0e7a3a2b3ad0a49bbe9f69ddb6548a, type: 3}
+  resource: 4

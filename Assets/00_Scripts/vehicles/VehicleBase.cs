@@ -81,10 +81,7 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
     protected void SetMaterial(VehicleState newState)
     {
         if (builtMaterial == null || destroyHoverMaterial == null || selectHoverMaterial == null)
-        {
-            Debug.LogWarning("Materials not assigned!");
             return;
-        }
 
         Material targetMat = (newState == VehicleState.BUILT) ? builtMaterial : destroyHoverMaterial;
 
@@ -154,18 +151,18 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
     }
 
 
-    // Közös logika: Anyagok beállítása, futásteljesítmény mérése
+    // Kï¿½zï¿½s logika: Anyagok beï¿½llï¿½tï¿½sa, futï¿½steljesï¿½tmï¿½ny mï¿½rï¿½se
     protected virtual void Update()
     {
-        // Távolságmérés kódja...
+        // Tï¿½volsï¿½gmï¿½rï¿½s kï¿½dja...
     }
 
     protected virtual void Setup(VehicleData data, float rotation)
     {
-        // Alapmodell betöltése, anyagok beállítása...
+        // Alapmodell betï¿½ltï¿½se, anyagok beï¿½llï¿½tï¿½sa...
     }
 
-    // Absztrakt metódus, amit a gyerekeknek kötelezõ kifejteniük, 
-    // ha másképp mûködnek (pl. a kamion máshogy áll meg)
+    // Absztrakt metï¿½dus, amit a gyerekeknek kï¿½telezï¿½ kifejteniï¿½k, 
+    // ha mï¿½skï¿½pp mï¿½kï¿½dnek (pl. a kamion mï¿½shogy ï¿½ll meg)
     public abstract IEnumerator OnArrivedAtStop(BusStop stop);
 }

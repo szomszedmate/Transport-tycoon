@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8059fd0f6d2cb6b4b982c25a9e07bf0a, type: 3}
+  m_Name: Cat
+  m_EditorClassIdentifier: GameAssembly::CatData
+  <Name>k__BackingField: Cat
+  <Prefab>k__BackingField: {fileID: 1092414001481713198, guid: c00b8bd54732e224b88375e901ca8159, type: 3}
+  <Sounds>k__BackingField:
+  - {fileID: 8300000, guid: c968a71487d1efa4da0de8141be96745, type: 3}
+  - {fileID: 8300000, guid: f52f94df874427f48a0ff57412196dc6, type: 3}
+  - {fileID: 8300000, guid: f52f94df874427f48a0ff57412196dc6, type: 3}
+  - {fileID: 8300000, guid: edb53d2e810e82841aea2e4c9400f411, type: 3}
+  - {fileID: 8300000, guid: f52f94df874427f48a0ff57412196dc6, type: 3}
+  - {fileID: 8300000, guid: 3cab1b72ced6e3043b7e20e454c99d25, type: 3}
+  - {fileID: 8300000, guid: 3e0c36102b35baf48a46ce6e74ab61c0, type: 3}
+  - {fileID: 8300000, guid: 3e0c36102b35baf48a46ce6e74ab61c0, type: 3}
+  - {fileID: 8300000, guid: f52f94df874427f48a0ff57412196dc6, type: 3}
+  - {fileID: 8300000, guid: f52f94df874427f48a0ff57412196dc6, type: 3}
+  - {fileID: 8300000, guid: edb53d2e810e82841aea2e4c9400f411, type: 3}
+  - {fileID: 8300000, guid: f52f94df874427f48a0ff57412196dc6, type: 3}
+  <Cost>k__BackingField: 0

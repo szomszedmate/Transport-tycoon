@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f4b3dbbd21cdbea927edbfc1f2afa9e084f4944f66fcce736b09e549d4791697
-size 730
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fb8b1dd0dc40c489220c45705487af, type: 3}
+  m_Name: IronTruckBasic
+  m_EditorClassIdentifier: Assembly-CSharp::TruckData
+  <Name>k__BackingField: Iron Truck
+  <Description>k__BackingField: Capable of delivering iron bars, slow and has a capacity
+    of 50.
+  <Model>k__BackingField: {fileID: 8837894262010904835, guid: 6f93bd7c878d46046a06ef63a0059465, type: 3}
+  <Cost>k__BackingField: 200
+  <Types>k__BackingField: 
+  <MainType>k__BackingField: 9
+  <Speed>k__BackingField: 5
+  <LoadingSpeed>k__BackingField: 1
+  <Capacity>k__BackingField: 50
+  <Icon>k__BackingField: {fileID: 21300000, guid: 4dad6f494399fdb48bd3cf57cfcb5c45, type: 3}
+  resource: 3

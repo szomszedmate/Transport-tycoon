@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8447284679568051851}
   - component: {fileID: 7343275279844197874}
   - component: {fileID: 5537641090166361277}
-  - component: {fileID: 8837894262010904835}
+  - component: {fileID: -5800442156450229114}
   m_Layer: 0
   m_Name: IronOreTruckAdvanced
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: 0, z: 5}
-  m_LocalScale: {x: 1.5, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8890573332231990068}
@@ -116,7 +116,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &8837894262010904835
+--- !u!114 &-5800442156450229114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,14 +125,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1010306101590201744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5715392da19a4e344b87ad5e62af7e5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 03defc58e72aa1a44b62485fb314a11f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BusBasicModel
-  floatingHeight: 3
-  Visual: {fileID: 2535554494946831088}
+  m_EditorClassIdentifier: GameAssembly::BusAdvancedModel
+  floatingHeight: 1
+  Visual: {fileID: 6343392289374227042, guid: 594c240d8a3788345a1b24b4a00c1044, type: 3}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 512
+  grid: {fileID: 0}
+  heightSmoothSpeed: 5
 --- !u!1001 &8878944301726900370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -190,11 +192,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 594c240d8a3788345a1b24b4a00c1044, type: 3}
---- !u!1 &2535554494946831088 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6343392289374227042, guid: 594c240d8a3788345a1b24b4a00c1044, type: 3}
-  m_PrefabInstance: {fileID: 8878944301726900370}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8890573332231990068 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 25316924604189606, guid: 594c240d8a3788345a1b24b4a00c1044, type: 3}

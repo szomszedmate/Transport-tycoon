@@ -46,7 +46,7 @@ public class Truck : VehicleBase
         model.AdjustVisualPosition();
     }
 
-    public void Setup(TruckData data, float rotation, LayerMask terrainLayer)
+    public void Setup(TruckData data, float rotation, LayerMask terrainLayer, BuildingGrid grid)
     {
         this.data = data;
         mainType = data.MainType;
@@ -57,7 +57,8 @@ public class Truck : VehicleBase
         WeeklyMileage = 0;
 
         model = Instantiate(data.Model, transform.position, Quaternion.Euler(0, rotation, 0), transform);
-        
+        model.grid = grid;
+
         renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 

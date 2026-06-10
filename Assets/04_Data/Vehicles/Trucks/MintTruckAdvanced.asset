@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4be56b2ba72cb1534c115e4eabb3185bf87dc9c65435f63cd9933ac0988160d3
-size 735
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fb8b1dd0dc40c489220c45705487af, type: 3}
+  m_Name: MintTruckAdvanced
+  m_EditorClassIdentifier: Assembly-CSharp::TruckData
+  <Name>k__BackingField: Coin Truck (Advanced)
+  <Description>k__BackingField: Upgraded version of the coin truck, capable of higher
+    speeds and a capacity of 80.
+  <Model>k__BackingField: {fileID: -7941801999222859609, guid: 75abfb9721205854492931ad9425c70d, type: 3}
+  <Cost>k__BackingField: 300
+  <Types>k__BackingField: 
+  <MainType>k__BackingField: 11
+  <Speed>k__BackingField: 5
+  <LoadingSpeed>k__BackingField: 1
+  <Capacity>k__BackingField: 80
+  <Icon>k__BackingField: {fileID: 21300000, guid: 3625712fb9787934096b7ab720d98bc2, type: 3}
+  resource: 8

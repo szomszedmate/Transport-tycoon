@@ -220,8 +220,8 @@ public class Game : MonoBehaviour
 
     public void ChangeMusicVolume(float volume)
     {
-        music.volume = volume;
-        if (volume > 0) lastMusicVolume = volume;
+        music.volume = volume / 17f;
+        if (volume > 0) lastMusicVolume = volume / 17f;
     }
 
     public void ChangeSFXVolume(float volume)

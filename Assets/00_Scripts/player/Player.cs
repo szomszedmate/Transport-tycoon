@@ -17,28 +17,49 @@ public class  Player : MonoBehaviour
     public List<BusData> buszok = new List<BusData>();
     public List<TruckData> trucks = new List<TruckData>();
     public Dictionary<ResourceEnum, int> Resources;
+    public Dictionary<ResourceEnum, List<(Industry industry, int amount)>> ResourceSources = new();
     
 
 
     public void SellResource(ResourceEnum resource, int amount)
     {
-        if (Resources[resource] >=amount)
+        if (Resources.ContainsKey(resource) && Resources[resource] >= amount)
         {
-            //sell
             Resources[resource] -= amount;
             Money += amount * 10;
             InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = resource, NewAmount = -amount });
+
+            // Industry storage csökkentése
+            if (ResourceSources.ContainsKey(resource))
+            {
+                int remaining = amount;
+                var sources = ResourceSources[resource];
+                for (int i = sources.Count - 1; i >= 0 && remaining > 0; i--)
+                {
+                    var (industry, stored) = sources[i];
+                    int toTake = Mathf.Min(stored, remaining);
+                    industry.TakeResource(resource, toTake);
+                    remaining -= toTake;
+                    if (stored <= toTake)
+                        sources.RemoveAt(i);
+                    else
+                        sources[i] = (industry, stored - toTake);
+                }
+            }
         }
         else
         {
-            Debug.Log("Nincs ennyi ebb�l a resource b�l:"+ Resources[resource]);
+            int current = Resources.ContainsKey(resource) ? Resources[resource] : 0;
+            Debug.Log($"Nincs ennyi ebből a resource ból: {resource}, darab: " + current);
         }
     }
 
     public void UpdateInventory(ResourceEnum changedResource, int amount)
     {
-        Resources[changedResource] = amount;
-        InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = changedResource, NewAmount = amount });
+        if (!Resources.ContainsKey(changedResource))
+            Resources[changedResource] = 0;
+        Resources[changedResource] += amount;
+        InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = changedResource, NewAmount = Resources[changedResource] });
     }
 
     public double TaxToPay
@@ -111,5 +132,11 @@ public class  Player : MonoBehaviour
     public void Industry_Produced(object sender, ProducedEventArgs e)
     {
         UpdateInventory(e.Resouce, e.Amount);
+        if (sender is Industry industry)
+        {
+            if (!ResourceSources.ContainsKey(e.Resouce))
+                ResourceSources[e.Resouce] = new List<(Industry, int)>();
+            ResourceSources[e.Resouce].Add((industry, e.Amount));
+        }
     }
 }

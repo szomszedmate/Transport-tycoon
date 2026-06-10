@@ -25,7 +25,7 @@ public abstract class Industry : MonoBehaviour, ILocation
 
     [Header("Workers")]
     [SerializeField] protected int maxWorkers = 100;
-    [SerializeField] protected int currentWorkers = 10; // csak azért nem 0, hogy lehessen vizsgálni a termelékenységet buszok nélkül
+    [SerializeField] protected int currentWorkers = 10; // csak azï¿½rt nem 0, hogy lehessen vizsgï¿½lni a termelï¿½kenysï¿½get buszok nï¿½lkï¿½l
     public List<Shift> shifts;
     public List<Worker> waitingForBus;
     public Shift DayShift; // ezt a 3at hasznaljak a linear munkasbuszok
@@ -212,6 +212,8 @@ public abstract class Industry : MonoBehaviour, ILocation
         inventory[type] += amount;
     }
 
+    public bool TakeResource(ResourceEnum type, int amount) => RemoveResource(type, amount);
+
     protected bool RemoveResource(ResourceEnum type, int amount)
     {
         if (type == ResourceEnum.None || amount <= 0)
@@ -328,21 +330,21 @@ public abstract class Industry : MonoBehaviour, ILocation
         {
             currentWorkers += e.WorkerCount;
         }
-        else // Munkaidõ vége
+        else // Munkaidï¿½ vï¿½ge
         {
             currentWorkers -= e.WorkerCount;
 
-            // Csak akkor adjuk hozzá õket, ha tényleg vannak benne munkások
+            // Csak akkor adjuk hozzï¿½ ï¿½ket, ha tï¿½nyleg vannak benne munkï¿½sok
             if (shift.Workers != null && shift.Workers.Count > 0)
             {
                 waitingForBus.AddRange(shift.Workers);
 
-                // FONTOS: Miután hazamentek, ürítsük ki a mûszak listáját, 
-                // hogy a következõ váltásnál ne duplikálódjanak!
+                // FONTOS: Miutï¿½n hazamentek, ï¿½rï¿½tsï¿½k ki a mï¿½szak listï¿½jï¿½t, 
+                // hogy a kï¿½vetkezï¿½ vï¿½ltï¿½snï¿½l ne duplikï¿½lï¿½djanak!
                 shift.Workers.Clear();
             }
 
-            // Ha ez egy dinamikusan létrehozott (nem fix) mûszak, takarítsunk el
+            // Ha ez egy dinamikusan lï¿½trehozott (nem fix) mï¿½szak, takarï¿½tsunk el
             if (shift != DayShift && shift != EveningShift && shift != NightShift)
             {
                 shifts.Remove(shift);
@@ -413,13 +415,13 @@ public abstract class Industry : MonoBehaviour, ILocation
 
         foreach (var item in inventory)
         {
-            // Ha a nyersanyag benne van a recept bemenetei között, akkor input
+            // Ha a nyersanyag benne van a recept bemenetei kï¿½zï¿½tt, akkor input
             if (recipe.Inputs.ContainsKey(item.Key))
             {
                 inputStorage += item.Value;
             }
 
-            // Ha a nyersanyag benne van a recept kimenetei között, akkor output
+            // Ha a nyersanyag benne van a recept kimenetei kï¿½zï¿½tt, akkor output
             if (recipe.Outputs.ContainsKey(item.Key))
             {
                 outputStorage += item.Value;
