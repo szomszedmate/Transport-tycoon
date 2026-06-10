@@ -215,6 +215,7 @@ public class GameUiFunctions : MonoBehaviour
     {
         foreach (InventoryResource resource in inventoryResources)
         {
+            if (resource == null) continue;
             if (resource.Type == e.Resource)
             {
                 resource.Amount += e.NewAmount;
