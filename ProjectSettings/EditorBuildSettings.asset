@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:11f6f784fb71137fd4bca4a87f5a5bb60cc571213c43990c2503f7978a0d98a1
-size 600
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 957b1ef46d7fe4341a423f3297f7cafb
+  - enabled: 1
+    path: Assets/Scenes/AsteroidScene.unity
+    guid: 4f07f85a01b1d6640b76cf917cb0d58d
+  - enabled: 1
+    path: Assets/Scenes/CreditScene.unity
+    guid: 7f5cd20523a0b0f4ea0c488b87907e69
+  - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: 4133469ac5c3aed48a8d4f598206454e
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_UseUCBPForAssetBundles: 0
