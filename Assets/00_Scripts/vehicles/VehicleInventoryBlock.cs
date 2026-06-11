@@ -17,7 +17,7 @@ public class VehicleInventoryBlock : MonoBehaviour
         PlacedVehicle = vehicle;
     }
 
-    public void Init(VehicleData data, UIitem linkedItem)
+    public void Init(VehicleData data)
     {
         vehicleData = data;
 

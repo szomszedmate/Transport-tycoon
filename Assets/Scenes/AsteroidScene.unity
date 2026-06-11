@@ -873,7 +873,7 @@ PrefabInstance:
     - target: {fileID: 5962956368974613459, guid: db42ee512c05d8048bb083cd22469dad, type: 3}
       propertyPath: hotkeys.Array.data[7].Data
       value: 
-      objectReference: {fileID: 11400000, guid: 51b3adcc9f92a3944b939f7ee6cdbbc2, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5962956368974613459, guid: db42ee512c05d8048bb083cd22469dad, type: 3}
       propertyPath: hotkeys.Array.data[8].Data
       value: 
@@ -11055,6 +11055,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1426012951332021257, guid: ae6fa5256eba0dc4884aec7100c8c076, type: 3}
   m_PrefabInstance: {fileID: 865285570}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &866168154 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1365225057797940560, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
+  m_PrefabInstance: {fileID: 1417406518}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!114 &866417607 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1179681816265976429, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
@@ -19432,11 +19443,11 @@ PrefabInstance:
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: UIcontent
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 231073521}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: invbutton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 866168154}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: inventory
       value: 
@@ -19460,7 +19471,7 @@ PrefabInstance:
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: shopbutton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 866168154}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: musicSlider
       value: 
@@ -19472,7 +19483,7 @@ PrefabInstance:
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: vehiclepanel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 12301962}
     - target: {fileID: 1457079704577944100, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: volumeSlider
       value: 
@@ -20114,7 +20125,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2129623234941622301, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_HorizontalAlignment
-      value: 16
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2143504547935291118, guid: e66d5a5d2ed493846abc6ea035105228, type: 3}
       propertyPath: m_AnchorMax.x

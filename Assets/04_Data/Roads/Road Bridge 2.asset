@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:01e35e6d126fdd076c0bc1b95ff623d3b4c01151ec9b1fc8e57587262f3f70a0
-size 789
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 465662d00c5d7324bad869d81695ead3, type: 3}
+  m_Name: Road Bridge 2
+  m_EditorClassIdentifier: Assembly-CSharp::RoadData
+  <Model>k__BackingField: {fileID: 7041345635971559195, guid: 51f92db4dd9338d41a5697a33356c07b, type: 3}
+  <Cost>k__BackingField: 200
+  <Description>k__BackingField: Can bridge over 3 tiles.
+  <Kind>k__BackingField: 1
+  bridgeEffect: {fileID: 8450232341041507689, guid: bf4c5512d957d7f43a449eea7e6a2e4d, type: 3}
+  maxBridgeLength: 3
+  speedModifier: 0.5

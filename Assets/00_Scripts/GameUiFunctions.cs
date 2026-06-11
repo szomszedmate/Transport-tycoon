@@ -58,7 +58,6 @@ public class GameUiFunctions : MonoBehaviour
     public Player inventory;
     public GameObject inventoryitem;
     public Transform UIcontent;
-    public Image invbutton;
     public GameObject invpanel;
     public GameObject infomenupanel;
 
@@ -169,7 +168,6 @@ public class GameUiFunctions : MonoBehaviour
     public void vehicleclicked()
     {
         vehiclebutton.color = selectedColor;
-        invbutton.color = defaultcolor;
         shopbutton.color = defaultcolor;
         invpanel.SetActive(false);
         shoppanel.SetActive(false);
@@ -182,7 +180,6 @@ public class GameUiFunctions : MonoBehaviour
     public void invclicked()
     {
         vehiclebutton.color = defaultcolor;
-        invbutton.color = selectedColor;
         shopbutton.color = defaultcolor;
         invpanel.SetActive(true);
         shoppanel.SetActive(false);
@@ -194,7 +191,6 @@ public class GameUiFunctions : MonoBehaviour
     public void shopclicked()
     {
         vehiclebutton.color = defaultcolor;
-        invbutton.color = defaultcolor;
         shopbutton.color = selectedColor;
         invpanel.SetActive(false);
         shoppanel.SetActive(true);
@@ -213,14 +209,14 @@ public class GameUiFunctions : MonoBehaviour
     }
     public void Player_InventoryChanged(object sender, InventoryChangedEventArgs e)
     {
-        foreach (InventoryResource resource in inventoryResources)
-        {
-            if (resource == null) continue;
-            if (resource.Type == e.Resource)
-            {
-                resource.Amount += e.NewAmount;
-            }
-        }
+        //foreach (InventoryResource resource in inventoryResources)
+        //{
+        //    if (resource == null) continue;
+        //    if (resource.Type == e.Resource)
+        //    {
+        //        resource.Amount += e.NewAmount;
+        //    }
+        //}
     }
     #endregion
 
@@ -403,19 +399,13 @@ public class GameUiFunctions : MonoBehaviour
                 inventory.trucks.Add(truck); // Felt�telezve, hogy van ilyen list�d a Player-ben
             }
 
-            // UIitem létrehozása (logika: place/sell)
-            GameObject itemGo = Instantiate(inventoryitem, UIcontent, false);
-            UIitem uiItem = itemGo.GetComponent<UIitem>();
-            uiItem.vehicle = newVehicle;
-
             // Inventory block létrehozása a vehicle panelen (ikon megjelenítéshez)
-
             if (vehicleInventoryBlockPrefab != null && vehicleInventoryContent != null)
             {
                 GameObject blockGo = Instantiate(vehicleInventoryBlockPrefab, vehicleInventoryContent, false);
                 VehicleInventoryBlock block = blockGo.GetComponent<VehicleInventoryBlock>();
                 if (block != null)
-                    block.Init(newVehicle, uiItem);
+                    block.Init(newVehicle);
 
             }
             else
