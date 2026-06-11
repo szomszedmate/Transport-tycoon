@@ -348,7 +348,7 @@ public class GameUiFunctions : MonoBehaviour
             Time.timeScale = 0;
             ispaused = true;
             pauseButton.GetComponent<Image>().sprite = StartSprite;
-            timeText.text = "Paused";
+            timeText.text = "0x";
         }
         else if(!isPauseMenuActive)
         {

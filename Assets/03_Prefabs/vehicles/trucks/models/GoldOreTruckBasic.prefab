@@ -128,13 +128,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5715392da19a4e344b87ad5e62af7e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BusBasicModel
-  floatingHeight: 3
+  floatingHeight: 2
   Visual: {fileID: 8795533446500751292}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 512
   grid: {fileID: 0}
   heightSmoothSpeed: 5
+  adjustEnabled: 1
 --- !u!1001 &8795533446500787802
 PrefabInstance:
   m_ObjectHideFlags: 0

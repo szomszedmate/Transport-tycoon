@@ -64,7 +64,7 @@ public class Bus : VehicleBase
         lastPosition = transform.position;
         WeeklyMileage = 0;
         // Instantiate the actual model first
-        model = Instantiate(data.Model, transform.position, Quaternion.Euler(-90, 0, rotation), transform);
+        model = Instantiate(data.Model, transform.position, Quaternion.Euler(0, rotation, 0), transform);
         //model.transform.localPosition = Vector3.zero;
         //model.Rotate(rotation);
         //model = Instantiate(data.Model, transform);

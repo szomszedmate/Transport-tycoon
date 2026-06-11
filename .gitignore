@@ -20,8 +20,13 @@
 *.opendb
 *.VC.db
 
-# Annoying
-UserSettings/Layouts/default-6000.dwlt
+# UserSettings
+UserSettings/
+
+# Harmadik fél asset .meta fájlok
+Assets/Sci-Fi UI.meta
+Assets/Sci-fi_asteroid_belt_group_01.meta
+Assets/Space_Exploration_GUI_Kit.meta
 
 # === NAGY BINÁRIS FÁJLOK - NEM KERÜLNEK GITBE ===
 # (Ezeket manuálisan kell letölteni az Asset Store-ból)

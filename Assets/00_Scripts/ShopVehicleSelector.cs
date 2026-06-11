@@ -2,21 +2,22 @@ using UnityEngine;
 
 public class ShopVehicleSelector : MonoBehaviour
 {
+    [SerializeField] private ShopItemButton defaultButton;
+
+    private ShopItemButton Active => ShopItemButton.Current ?? defaultButton;
+
     public void SelectBasic()
     {
-        if (ShopItemButton.Current != null)
-            ShopItemButton.Current.SelectBasic();
+        Active?.SelectBasic();
     }
 
     public void SelectAdvanced()
     {
-        if (ShopItemButton.Current != null)
-            ShopItemButton.Current.SelectAdvanced();
+        Active?.SelectAdvanced();
     }
 
     public void Buy()
     {
-        if (ShopItemButton.Current != null)
-            ShopItemButton.Current.Buy();
+        Active?.Buy();
     }
 }

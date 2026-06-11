@@ -141,10 +141,9 @@ public class Game : MonoBehaviour
             if (Player.CanAfford(e.Cost))
             {
                 Player.LoseMoney(e.Cost);
-                //Debug.Log("Remaining money: " + player.Money);
             } else
             {
-                // TODO jelz�s, hogy nincs el�g p�nz
+                // TODO notification
             }
         }
         if (Player.CanAfford(e.Cost))

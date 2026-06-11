@@ -24,12 +24,16 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private List<int> mainLayers;
     [SerializeField] private GameObject bridgeEffect;
     private bool justPlaced = false;
+    private JokerRoadData activeJoker = null;
+    private RoadType lastJokerType = RoadType.UNKNOWN;
+    private Dictionary<Vector3, JokerRoadData> jokerPositions = new();
 
     [Header("Roads")]
     [SerializeField] private RoadData RoadData1;
     [SerializeField] private RoadData RoadData2;
     [SerializeField] private RoadData RoadData3;
     [SerializeField] private RoadData RoadData4;
+    [SerializeField] private JokerRoadData JokerRoad;
 
     [SerializeField] private RoadPreview roadPreviewPrefab;
     [SerializeField] private Road roadPrefab;
@@ -147,10 +151,11 @@ public class BuildingSystem : MonoBehaviour
             if (!Grid.IsRoad(lastSnappedPos) && (Preview is RoadPreview rp))
             {
                 painter.ResetLayer(lastSnappedPos, mainLayers, rp.RoadModel.RoadType, rp.RoadModel.Rotation);
-            } 
+            }
             // If we have a preview, just kill the preview and leave destroy mode alone
             Destroy(((MonoBehaviour)Preview).gameObject);
             Preview = null;
+            activeJoker = null;
             prevdest?.Invoke(this, EventArgs.Empty);
 
         }
@@ -168,8 +173,16 @@ public class BuildingSystem : MonoBehaviour
         Vector3 worldPos = GetMouseWorldPosition();
         selectprev?.Invoke(this, build);
 
-        if (build is RoadData roadData)
+        if (build is JokerRoadData jokerData)
         {
+            activeJoker = jokerData;
+            lastJokerType = RoadType.UNKNOWN;
+            Preview = CreateRoadPreview(jokerData.StraightRoad, mousePosition);
+            ((RoadPreview)Preview).PreviewStateChanged += BuildingSystem_PreviewStateChanged;
+        }
+        else if (build is RoadData roadData)
+        {
+            activeJoker = null;
             Preview = CreateRoadPreview(roadData, mousePosition);
             ((RoadPreview)Preview).PreviewStateChanged += BuildingSystem_PreviewStateChanged;
         }
@@ -233,42 +246,23 @@ public class BuildingSystem : MonoBehaviour
             agent.enabled = false;
             agent.Warp(snappedPos);
         }
-        bus.Setup((BusData)((BusPreview)Preview).Data, ((BusPreview)Preview).Model.Rotation, terrainLayer, grid);
+        float busRotation = ((BusPreview)Preview).Model.Rotation;
+        Road busRoad = Grid.GetRoad(snappedPos);
+        if (busRoad != null && busRoad.Road_HasBusStop() && busRoad.BusStop.location != null)
+        {
+            (_, Quaternion stopRot) = FindBSVisualOffset(snappedPos, busRoad.BusStop.location);
+            busRotation = stopRot.eulerAngles.y + 90f;
+        }
+        bus.Setup((BusData)((BusPreview)Preview).Data, busRotation, terrainLayer, grid);
         bus.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
 
         Vector3 surfaceLocation = FindSurfaceAt(busPosition);
-        //busstop.model.adjustvisualtoground(surfacelocation, offset, rot); todo
 
         Grid.SetVehicle(bus, snappedPos);
         Destroy(((MonoBehaviour)Preview).gameObject);
         vehiclePlaced?.Invoke(this,bus);
         Preview = null;
         VehicleSpawnAnimation.Play(bus, snappedPos);
-
-        /*
-          
-        if (Preview is not BusStopPreview) return;
-        
-        Vector3 snappedPos = GetSnappedCenterPosition(busPosition);
-        ILocation foundLocation = Grid.GetLocationAt(snappedPos);
-        //Debug.Log("Surface: " + surfaceLocation + ", snapped:" + snappedPos);
-        BusStop busStop = Instantiate(busStopPrefab, snappedPos, Quaternion.identity);
-        busStop.Type = type;
-
-        var agent = busStop.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
-        if (agent != null) agent.enabled = false;
-
-        busStop.SetUp(((BusStopPreview)Preview).Data, ((BusStopPreview)Preview).BusStopModel.Rotation, foundLocation);
-
-        (Vector3 offset, Quaternion rot) = FindBSVisualOffset(snappedPos, foundLocation);
-        Vector3 surfaceLocation = FindSurfaceAt(busPosition + offset);
-        Debug.Log($"Snapped: {snappedPos}, corrected: {surfaceLocation}");
-        busStop.model.AdjustVisualToGround(surfaceLocation, offset, rot);
-        Grid.SetBusStop(busStop, snappedPos);
-        Destroy(((BusStopPreview)Preview).gameObject);
-        Preview = null;
-
-        */
     }
 
     private void Bus_CancelCharge(object sender, CancelChargeEventArgs e)
@@ -285,7 +279,14 @@ public class BuildingSystem : MonoBehaviour
         var agent = truck.GetComponentInChildren<UnityEngine.AI.NavMeshAgent>(); // turn navmesh off
         if (agent != null) agent.enabled = false;
 
-        truck.Setup((TruckData)((TruckPreview)Preview).Data, ((TruckPreview)Preview).Model.Rotation, terrainLayer, grid);
+        float truckRotation = ((TruckPreview)Preview).Model.Rotation;
+        Road truckRoad = Grid.GetRoad(snappedPos);
+        if (truckRoad != null && truckRoad.Road_HasBusStop() && truckRoad.BusStop.location != null)
+        {
+            (_, Quaternion stopRot) = FindBSVisualOffset(snappedPos, truckRoad.BusStop.location);
+            truckRotation = stopRot.eulerAngles.y + 90f;
+        }
+        truck.Setup((TruckData)((TruckPreview)Preview).Data, truckRotation, terrainLayer, grid);
         truck.MileageChanged += (dist, nonStop) => AnyBusMileageChanged?.Invoke(dist, nonStop);
         Grid.SetVehicle(truck, snappedPos);
         Destroy(((MonoBehaviour)Preview).gameObject);
@@ -613,9 +614,11 @@ public class BuildingSystem : MonoBehaviour
         
         painter.ResetLayer(pos, mainLayers, hovered.Type, hovered.Model.Rotation);
 
+        jokerPositions.Remove(pos);
         Grid.RemRoad(hovered.transform.position); // remove from grid
         Destroy(hovered.gameObject);
         lastHovered = null; // clear hover since its gone
+        UpdateNeighborJokers(pos);
     }
 
     public void PlaceRoad(Vector3 roadPosition)
@@ -643,9 +646,51 @@ public class BuildingSystem : MonoBehaviour
         }
         Grid.SetRoad(road, snappedPos);
 
-        //painter.PaintRoadAt(snappedPos, road.Type, ((RoadPreview)Preview).RoadModel.Rotation, builtLayerIndex);
-        // Destroy(((RoadPreview)preview).gameObject);
-        //preview = null;
+        // Track joker position
+        if (activeJoker != null)
+            jokerPositions[snappedPos] = activeJoker;
+
+        // Update neighboring joker roads
+        UpdateNeighborJokers(snappedPos);
+    }
+
+    private void UpdateNeighborJokers(Vector3 pos)
+    {
+        Vector3[] offsets = {
+            new Vector3(0, 0,  CellSize),
+            new Vector3(0, 0, -CellSize),
+            new Vector3( CellSize, 0, 0),
+            new Vector3(-CellSize, 0, 0),
+        };
+
+        foreach (var offset in offsets)
+        {
+            Vector3 neighborPos = pos + offset;
+            if (jokerPositions.TryGetValue(neighborPos, out JokerRoadData jokerData))
+            {
+                ReplaceJokerRoad(neighborPos, jokerData);
+            }
+        }
+    }
+
+    private void ReplaceJokerRoad(Vector3 worldPos, JokerRoadData jokerData)
+    {
+        Road existing = Grid.GetRoad(worldPos);
+        if (existing == null) return;
+
+        var (resolvedData, resolvedRotation) = jokerData.Resolve(grid, worldPos);
+
+        painter.ResetLayer(worldPos, mainLayers, existing.Type, existing.Model.Rotation);
+        Grid.RemRoad(worldPos);
+        Destroy(existing.gameObject);
+
+        Road newRoad = Instantiate(RoadPrefab, worldPos, Quaternion.identity);
+        newRoad.RoadStateChangedEventHandler += Road_RoadStateChangedEventHandler;
+        newRoad.Setup(resolvedData, resolvedRotation);
+        Grid.SetRoad(newRoad, worldPos);
+        jokerPositions[worldPos] = jokerData;
+
+        painter.PaintRoadAt(worldPos, newRoad.Type, newRoad.Model.Rotation, builtLayerIndex, mainLayers, true, 0);
     }
 
     public void Road_RoadStateChangedEventHandler(object sender, RoadStateChangedEventArgs e)
@@ -836,6 +881,33 @@ public class BuildingSystem : MonoBehaviour
 
             Vector3 buildPosition = roadPreview.RoadModel.GetAllBuildingPositions().First(); //road is only 1 tile
             Vector3 currentSnappedPos = GetSnappedCenterPosition(buildPosition); // for pre rotation
+
+            // Joker: resolve road type based on neighbors
+            if (activeJoker != null && currentSnappedPos != lastSnappedPos)
+            {
+                var (resolvedData, resolvedRotation) = activeJoker.Resolve(grid, currentSnappedPos);
+                if (resolvedData.Model.RoadType != lastJokerType)
+                {
+                    lastJokerType = resolvedData.Model.RoadType;
+                    if (!Grid.IsRoad(lastSnappedPos))
+                        painter.ResetLayer(lastSnappedPos, mainLayers, roadPreview.RoadModel.RoadType, roadPreview.RoadModel.Rotation);
+                    Destroy(((MonoBehaviour)Preview).gameObject);
+                    Preview = CreateRoadPreview(resolvedData, currentSnappedPos);
+                    roadPreview = (RoadPreview)Preview;
+                    ((RoadPreview)Preview).PreviewStateChanged += BuildingSystem_PreviewStateChanged;
+                    doneRotating = false;
+                }
+                // Apply computed rotation
+                int currentRot = Mathf.RoundToInt(roadPreview.RoadModel.Rotation) % 360;
+                int targetRot = resolvedRotation % 360;
+                if (currentRot != targetRot)
+                {
+                    int steps = ((targetRot - currentRot) / 90 + 4) % 4;
+                    for (int r = 0; r < steps; r++)
+                        roadPreview.Rotate(90);
+                }
+                doneRotating = true;
+            }
 
             bool canBuild = false;
 

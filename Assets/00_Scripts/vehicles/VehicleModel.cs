@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public abstract class VehicleModel : MonoBehaviour
 {
     public float floatingHeight = 2f;
-    public GameObject Visual;
+    public VehicleVisual Visual;
     public LayerMask terrainLayer;
     protected float frontOffset;
     protected float backOffset;
@@ -26,28 +26,8 @@ public abstract class VehicleModel : MonoBehaviour
 
     public void CalculateOffsets()
     {
-        //if (Visual == null) return;
-
-        //// Megkeress�k az �sszes MeshRenderer-t a modellben (lehet t�bb darabb�l is)
-        //Renderer[] renderers = Visual.GetComponentsInChildren<Renderer>();
-        //if (renderers.Length == 0) return;
-
-        //// L�trehozunk egy befoglal� t�glalapot (Bounds)
-        //Bounds combinedBounds = renderers[0].bounds;
-        //foreach (Renderer r in renderers)
-        //{
-        //    combinedBounds.Encapsulate(r.bounds);
-        //}
-
-        //// A bounds.extents.z megadja a t�vols�got a k�z�ppontt�l az elej�ig (Z tengely)
-        //// Ez a vil�gkoordin�t�kban van, �gy a sk�l�z�st is figyelembe veszi
-        //frontOffset = combinedBounds.extents.z;
-        //backOffset = combinedBounds.extents.z;
-
         frontOffset = 2f;
         backOffset = 2f;
-
-        //Debug.Log("Kalkulalt: " + frontOffset + ", " + backOffset);
     }
 
     public bool adjustEnabled = true;
@@ -55,6 +35,7 @@ public abstract class VehicleModel : MonoBehaviour
     public void AdjustVisualPosition()
     {
         if (!adjustEnabled) return;
+        if (Visual == null) return;
         Vector3 currentPos = transform.position;
         Vector3 forward = Quaternion.Euler(0, transform.eulerAngles.y, 0) * Vector3.forward;
 
@@ -63,7 +44,6 @@ public abstract class VehicleModel : MonoBehaviour
 
         if (roadAtPos != null && roadAtPos.IsBridge)
         {
-            // --- H�D LOGIKA ---
             Vector3 frontPoint = currentPos + forward * frontOffset;
             Vector3 backPoint = currentPos - forward * backOffset;
 
@@ -86,7 +66,6 @@ public abstract class VehicleModel : MonoBehaviour
         }
         else
         {
-            // --- TAL�J LOGIKA (k�t pontos raycast a d�l�s sz�g�hez) ---
             Vector3 frontPoint = currentPos + forward * frontOffset;
             Vector3 backPoint  = currentPos - forward * backOffset;
 
@@ -122,50 +101,4 @@ public abstract class VehicleModel : MonoBehaviour
         }
 
     }
-
-    //public void AdjustVisualPosition()
-    //{
-    //    Vector3 currentPos = transform.position;
-    //    (int col, int row) = grid.WorldToGridPosition(currentPos);
-
-    //    Vector3 forward = Quaternion.Euler(0, transform.eulerAngles.y, 0) * Vector3.forward;
-
-    //    Vector3 frontStart = transform.position + forward * frontOffset + Vector3.up * 10f;
-    //    Vector3 backStart = transform.position - forward * backOffset + Vector3.up * 10f;
-
-    //    bool hitFront = Physics.Raycast(frontStart, Vector3.down, out RaycastHit frontHit, 1000f, terrainLayer);
-    //    bool hitBack = Physics.Raycast(backStart, Vector3.down, out RaycastHit backHit, 1000f, terrainLayer);
-
-    //    Debug.Log("Front: " + frontStart + ", back: " + backStart);
-
-    //    Debug.Log("Raycast talalt: " + frontHit.point + ", " + backHit.point);
-
-    //    if (hitFront && hitBack)
-    //    {
-    //        // 2. Magass�g be�ll�t�sa (a k�t pont �tlaga)
-    //        float groundY = (frontHit.point.y + backHit.point.y) / 2f + floatingHeight;
-    //        Visual.transform.position = new Vector3(transform.position.x, groundY, transform.position.z);
-    //        Debug.Log(Visual.transform.position);
-    //        //Debug.Log(frontHit.point.y + ", " + backHit.point.y);
-
-    //        Vector3 direction = frontHit.point - backHit.point;
-
-    //        // sqrMagnitude-ot haszn�lunk, mert gyorsabb, mint a Distance
-    //        if (direction.sqrMagnitude > 0.0001f)
-    //        {
-    //            // Normaliz�ljuk az ir�nyt �s a felfel� mutat� vektort
-    //            Vector3 upVector = (frontHit.normal + backHit.normal).normalized;
-
-    //            // Csak akkor h�vjuk meg, ha van �rv�nyes ir�nyunk
-    //            Visual.transform.rotation = Quaternion.LookRotation(direction.normalized, upVector);
-    //        }
-    //        else
-    //        {
-    //            // Ha a k�t pont azonos, n�zzen a j�rm� eredeti el�re-ir�ny�ba
-    //            Vector3 currentEuler = Visual.transform.eulerAngles;
-    //            Visual.transform.rotation = Quaternion.Euler(currentEuler.x, transform.eulerAngles.y, currentEuler.z);
-    //            Debug.LogWarning("Nem tudott forgatni, magnitude: " + direction.sqrMagnitude);
-    //        }
-    //    }
-    //}
 }

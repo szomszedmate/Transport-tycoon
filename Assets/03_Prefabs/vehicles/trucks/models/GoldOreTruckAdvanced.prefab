@@ -129,12 +129,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::BusAdvancedModel
   floatingHeight: 1
-  Visual: {fileID: 6343392289374227042, guid: c18cd8c9a26f8b04bac34d78e1a310d7, type: 3}
+  Visual: {fileID: 2134630071831474793, guid: c18cd8c9a26f8b04bac34d78e1a310d7, type: 3}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 512
   grid: {fileID: 0}
   heightSmoothSpeed: 5
+  adjustEnabled: 1
 --- !u!1001 &4813409545112221905
 PrefabInstance:
   m_ObjectHideFlags: 0

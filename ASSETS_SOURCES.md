@@ -19,6 +19,7 @@ Manuálisan kell letölteni és az `Assets/` mappába kicsomagolni.
 | Assets/Medieval_Gold/ | Medieval Gold | Unity Asset Store |
 | Assets/Mnostva_Art/ | Mnostva Art | Unity Asset Store |
 | Assets/PurePoly/ | PurePoly | Unity Asset Store |
+| Assets/Mirza Beig/ | Mirza Beig | Unity Asset Store |
 
 ## Fontok
 

@@ -127,12 +127,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BusAdvancedModel
   floatingHeight: 2
-  Visual: {fileID: 5978455732262239391}
+  Visual: {fileID: 1684424051278775444}
   terrainLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   grid: {fileID: 0}
   heightSmoothSpeed: 5
+  adjustEnabled: 1
 --- !u!1001 &792629675891963645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -143,7 +144,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.40197343
+      value: 0.4019734
       objectReference: {fileID: 0}
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -155,31 +156,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.32449946
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.20865361
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.9008634
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.19902019
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 12.895
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -136.765
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 31.21
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6343392289374227042, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
       propertyPath: m_Name
@@ -195,8 +196,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 25316924604189606, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
   m_PrefabInstance: {fileID: 792629675891963645}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5978455732262239391 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6343392289374227042, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
+--- !u!114 &1684424051278775444 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2134630071831474793, guid: f3115e237253b2e488ba5fe249a9d0d6, type: 3}
   m_PrefabInstance: {fileID: 792629675891963645}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8190ff3eaebb51f47b722531a4114162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::VehicleVisual

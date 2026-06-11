@@ -373,11 +373,6 @@ public class BuildingGrid : MonoBehaviour
     #region TreeMethods
     private void InitializeTrees()
     {
-        //SetTreeCount(GridToWorldCenterPosition(2, 2), 2);
-        //SetTreeCount(GridToWorldCenterPosition(3, 2), 4);
-        //SetTreeCount(GridToWorldCenterPosition(6, 5), 1);
-        //SetTreeCount(GridToWorldCenterPosition(7, 5), 3);
-
         int startingCount = 5;
 
         int row;
@@ -490,7 +485,7 @@ public class BuildingGrid : MonoBehaviour
         RefreshTreeVisual(col, row);
     }
 
-    //ugyanezek, csak grid poz�ci�kkal
+    //same but with grid positions
     public int GetTreeCount(int col, int row)
     {
         if (!IsInsideGrid(col, row)) return 0;
@@ -541,7 +536,7 @@ public class BuildingGrid : MonoBehaviour
         Grid[col, row].IncreaseTreeCount();
         RefreshTreeVisual(col, row);
     }
-    //vizualiz�vi�
+    //visualization
     private void RefreshTreeVisual(int col, int row)
     {
         if (!IsInsideGrid(col, row))

@@ -128,13 +128,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5715392da19a4e344b87ad5e62af7e5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BusBasicModel
-  floatingHeight: 3
-  Visual: {fileID: 1381731461959147184}
+  floatingHeight: 2
+  Visual: {fileID: 4692309577683504567}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 512
   grid: {fileID: 0}
   heightSmoothSpeed: 5
+  adjustEnabled: 1
 --- !u!1001 &1381731461959249750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,8 +198,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 486654, guid: 905df43a7f3ecd84f867a417a6779b58, type: 3}
   m_PrefabInstance: {fileID: 1381731461959249750}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1381731461959147184 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 111078, guid: 905df43a7f3ecd84f867a417a6779b58, type: 3}
+--- !u!114 &4692309577683504567 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3300421909070290207, guid: 905df43a7f3ecd84f867a417a6779b58, type: 3}
   m_PrefabInstance: {fileID: 1381731461959249750}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8190ff3eaebb51f47b722531a4114162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::VehicleVisual

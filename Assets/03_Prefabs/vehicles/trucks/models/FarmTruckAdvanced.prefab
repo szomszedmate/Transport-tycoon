@@ -130,12 +130,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GameAssembly::BusAdvancedModel
   floatingHeight: 1
-  Visual: {fileID: 8648551614018252974}
+  Visual: {fileID: 4436653451602790565}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 512
   grid: {fileID: 0}
   heightSmoothSpeed: 5
+  adjustEnabled: 1
 --- !u!65 &912019226027614413
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -219,8 +220,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 25316924604189606, guid: f568365cfcdaa0b419a8e5b6031c964e, type: 3}
   m_PrefabInstance: {fileID: 2309663208008989388}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8648551614018252974 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6343392289374227042, guid: f568365cfcdaa0b419a8e5b6031c964e, type: 3}
+--- !u!114 &4436653451602790565 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2134630071831474793, guid: f568365cfcdaa0b419a8e5b6031c964e, type: 3}
   m_PrefabInstance: {fileID: 2309663208008989388}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8190ff3eaebb51f47b722531a4114162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::VehicleVisual
