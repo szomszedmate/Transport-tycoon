@@ -19,10 +19,12 @@ public struct BuildHotkey
 
 public class InputManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private BuildingSystem buildingSystem;
     [SerializeField] private GameUiFunctions ui;
     [SerializeField] private CameraMovement MainCamera;
 
+    [Header("Settings")]
     [SerializeField] private List<BuildHotkey> hotkeys;
     [SerializeField] private LayerMask terrainLayerMask = ~0;
 

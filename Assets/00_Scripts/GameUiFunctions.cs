@@ -65,7 +65,8 @@ public class GameUiFunctions : MonoBehaviour
     [SerializeField] private GameObject vehicleInventoryBlockPrefab;
     [SerializeField] private Transform vehicleInventoryContent;
     [SerializeField] public List<InventoryResource> inventoryResources;
-    
+
+
     public Image shopbutton;
     public GameObject shoppanel;
     public Image vehiclebutton;
@@ -88,12 +89,12 @@ public class GameUiFunctions : MonoBehaviour
         game.TimeChanged += Game_TimeChanged;
         game.Player.MoneyChanged += HandleMoneyPop;
         game.Player.TaxChanged += Player_TaxChanged;
-        game.Player.InventoryChanged += Player_InventoryChanged;
         game.InputManager.moneyDebugEvent += InputManager_moneyDebugEvent;
 
         buildingSystem.prevdest += DeselectAllButtons;
         buildingSystem.selectprev += SelectButton;
         buildingSystem.destroymodeturn += DestroyButtonSelect;
+        buildingSystem.VehicleInfoRequested += OnVehicleInfoRequested;
     }
 
     void Start()
@@ -106,7 +107,6 @@ public class GameUiFunctions : MonoBehaviour
             }
             button.Price.text = "$" + ((IData)button.Data).Cost.ToString();
         }
-
         SetupUi();
     }
 
@@ -149,7 +149,6 @@ public class GameUiFunctions : MonoBehaviour
         cg.alpha = 0f;
         cg.interactable = false;
         cg.blocksRaycasts = false;
-        //invshopmasterpanel.SetActive(false);
         GameObject objects=null;
         GameObject content = infomenupanel.transform.Find("content").gameObject;
         if (content.transform.childCount>0)
@@ -207,18 +206,20 @@ public class GameUiFunctions : MonoBehaviour
         int amount = Convert.ToInt32(input.text);
         game.Player.SellResource(selectedResource, amount);
     }
-    public void Player_InventoryChanged(object sender, InventoryChangedEventArgs e)
-    {
-        //foreach (InventoryResource resource in inventoryResources)
-        //{
-        //    if (resource == null) continue;
-        //    if (resource.Type == e.Resource)
-        //    {
-        //        resource.Amount += e.NewAmount;
-        //    }
-        //}
-    }
     #endregion
+
+    private void OnVehicleInfoRequested(object sender, VehicleBase hitVehicle)
+    {
+        infomenupanel.SetActive(true);
+        GameObject content = infomenupanel.transform.Find("content").gameObject;
+        GameObject itemGo = Instantiate(inventoryitem, content.transform, false);
+        UIitem uiItem = itemGo.GetComponent<UIitem>();
+        uiItem.vehicle = hitVehicle.data;
+        uiItem.routebuton.SetActive(true);
+        uiItem.isplaced = true;
+        uiItem.vehicleObject = hitVehicle;
+        uiItem.placebuttontext.text = "Remove";
+    }
 
     private void Game_TimeChanged(object sender, TimeChangedEventArgs e)
     {
@@ -299,7 +300,7 @@ public class GameUiFunctions : MonoBehaviour
             if (pair.Data != null && (pair.Data as IData) == data)
             {
                 pair.ButtonImage.color = selectedColor;
-                break; // Megtal�ltuk, meg�llunk
+                break;
             }
         }
     }
@@ -369,16 +370,6 @@ public class GameUiFunctions : MonoBehaviour
             timeText.text = Time.timeScale + "x";
         }
     }
-    /* public void SlowTime()
-     {
-         if (Time.timeScale>minTimeSpeed)
-         {
-             Time.timeScale -= 1;
-             timeText.text = "Time: " + Time.timeScale+"x";
-         }
-     }*/
-
-
 
     #region buyvehicles
 
@@ -386,20 +377,20 @@ public class GameUiFunctions : MonoBehaviour
     {
         if (inventory.Money >= vehicleData.Cost)
         {
-            // ScriptableObject p�ld�nyos�t�sa, hogy egyedi adata legyen
+            // ScriptableObject for unique data
             VehicleData newVehicle = Instantiate(vehicleData);
 
-            // Hozz�ad�s az inventory-hoz (t�pus szerint)
+            // Add to inventory (by type)
             if (newVehicle is BusData bus)
             {
                 inventory.buszok.Add(bus);
             }
             else if (newVehicle is TruckData truck)
             {
-                inventory.trucks.Add(truck); // Felt�telezve, hogy van ilyen list�d a Player-ben
+                inventory.trucks.Add(truck);
             }
 
-            // Inventory block létrehozása a vehicle panelen (ikon megjelenítéshez)
+            // Create inventory block on the vehicle panel (for icon display)
             if (vehicleInventoryBlockPrefab != null && vehicleInventoryContent != null)
             {
                 GameObject blockGo = Instantiate(vehicleInventoryBlockPrefab, vehicleInventoryContent, false);
@@ -410,10 +401,10 @@ public class GameUiFunctions : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"[BuyVehicle] Nincs prefab vagy content beállítva!");
+                Debug.LogWarning($"[BuyVehicle] No prefab or content set!");
             }
 
-            // P�nz levon�sa a BuildingSystemen kereszt�l
+            // Deduct money
             var buyRequest = new BuyRequestEventArgs { Cost = vehicleData.Cost, Deduct = true };
             buildingSystem.invokeBuying(buyRequest);
         }
@@ -421,31 +412,7 @@ public class GameUiFunctions : MonoBehaviour
         {
             Debug.Log("Not enough money for: " + vehicleData.name);
         }
-    }
-
-
-    //public void buyBus1(BusData busdata)
-    //{
-    //    if (inventory.Money>=busdata.Cost)
-    //    {
-    //        BusData svb = Instantiate(busdata);
-    //        //svb.Type = StopType.Bus;
-    //        inventory.buszok.Add(svb);
-    //        GameObject sv = Instantiate(inventoryitem, UIcontent, false);
-    //        UIitem svitem = sv.GetComponent<UIitem>();
-    //        svitem.vehicle = svb;
-    //        float price = busdata.Cost;    // checking costs
-    //        var checkNext = new BuyRequestEventArgs { Cost = price, Deduct = true };
-    //        buildingSystem.invokeBuying(checkNext);
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("Not enough money!");
-    //    }
-       
-        
-    //}
-    
+    }   
     #endregion
 
     public void Resume()
@@ -478,7 +445,7 @@ public class GameUiFunctions : MonoBehaviour
         isSettingsMenuActive = true;
         settingsPanel.SetActive(true);
         if (musicSlider != null)
-            musicSlider.SetValueWithoutNotify(game.Music.volume * 17f);
+            musicSlider.SetValueWithoutNotify(game.Music.volume * game.sliderScale);
         if (sfxSlider != null && game.SoundEffects.Count > 0)
             sfxSlider.SetValueWithoutNotify(game.SoundEffects[0].volume);
     }
@@ -535,7 +502,7 @@ public class GameUiFunctions : MonoBehaviour
     {
         game.MuteMusic();
         if (musicSlider != null)
-            musicSlider.SetValueWithoutNotify(game.Music.volume * 17f);
+            musicSlider.SetValueWithoutNotify(game.Music.volume * game.sliderScale);
         musicControl?.UpdateIcon(game.Music.volume);
     }
 
@@ -556,11 +523,5 @@ public class GameUiFunctions : MonoBehaviour
         PlayerPrefs.SetInt("languageIndex", value);
         foreach (var tmp in FindObjectsByType<TMPro.TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             tmp.enabled = showText;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

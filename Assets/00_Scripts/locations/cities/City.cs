@@ -4,16 +4,19 @@ using System.Linq;
 
 public class City : MonoBehaviour, ILocation
 {
-    //public event System.EventHandler<GetTimeEventArgs> GetTime;
-    public List<Bus> buses;
+    [Header("References")]
     [SerializeField] private GameObject visual;
-    public GameObject Visual => visual;
-    public Vector3 Position => transform.position;
-    public StopType Type => StopType.Universal;
     [SerializeField] private CityModel model;
+
+    [Header("Settings")]
     [SerializeField] private float height;
     [SerializeField] private float width;
     [SerializeField] private int population;
+
+    public List<Bus> buses;
+    public GameObject Visual => visual;
+    public Vector3 Position => transform.position;
+    public StopType Type => StopType.Universal;
     private DayPhase dayPhase;
     public List<Worker> DayShift { get; private set; }
     public List<Worker> EveningShift { get; private set; }
@@ -47,7 +50,7 @@ public class City : MonoBehaviour, ILocation
 
     public void StartBuses()
     {
-        // Lista másolatot készítünk, mert a Resume hívás ki fogja venni a buszt a listából
+        // Lista mï¿½solatot kï¿½szï¿½tï¿½nk, mert a Resume hï¿½vï¿½s ki fogja venni a buszt a listï¿½bï¿½l
         List<Bus> busesToStart = new List<Bus>(buses);
         buses.Clear();
 
@@ -141,7 +144,6 @@ public class City : MonoBehaviour, ILocation
         if (!buses.Contains(bus))
         {
             buses.Add(bus);
-            Debug.Log($"{bus.name} várakozik a városban: {this.name}");
         }
     }
 
@@ -149,18 +151,15 @@ public class City : MonoBehaviour, ILocation
     {
         if (model == null)
         {
-            //Debug.LogError($"City {name} has no model assigned!");
             return new List<Vector3>();
         }
 
         var positions = model.GetAllBuildingPositions();
         if (positions == null)
         {
-            //Debug.LogError($"City {name} model returned null positions!");
             return new List<Vector3>();
         }
 
-        //Debug.Log($"City {name} has {positions.Count} building positions.");
         return positions;
     }
 

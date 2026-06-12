@@ -15,7 +15,6 @@ public class RoadPreview : MonoBehaviour, IPreview
 
     private List<Renderer> renderers = new();
     private List<Collider> colliders = new();
-    public event System.EventHandler<PreviewStateChangedEventArgs> PreviewStateChanged;
 
     public void Setup(RoadData data)
     {
@@ -37,7 +36,6 @@ public class RoadPreview : MonoBehaviour, IPreview
         if (newState == State ) { return; }
         State = newState;
         SetPreviewMaterial(State);
-        //PreviewStateChanged?.Invoke(this, new PreviewStateChangedEventArgs { NewState = newState, RoadType = RoadModel.RoadType, Rotation = RoadModel.Rotation, SnappedPosition = transform.position });
     }
     public void Rotate(int degrees)
     {
@@ -51,7 +49,7 @@ public class RoadPreview : MonoBehaviour, IPreview
         {
             if (rend.gameObject.TryGetComponent<UnityEngine.VFX.VisualEffect>(out _))
             {
-                continue; // Ha ez egy VFX objektum, ne nyúljunk a materiáltömbhöz
+                continue; // Ha ez egy VFX objektum, ne nyï¿½ljunk a materiï¿½ltï¿½mbhï¿½z
             }
             if (rend.GetType().Name.Contains("VFX"))
             {

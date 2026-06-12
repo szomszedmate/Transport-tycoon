@@ -10,7 +10,6 @@ public class Bus : VehicleBase
 {
     public event System.EventHandler<CancelChargeEventArgs> CancelCharge;
     private DayPhase dayPhase;
-    private bool isWaitingForShift;
     public bool RouteIsLinear { get; private set; }
     private List<Worker> passangers;
     private List<ILocation> locations;
@@ -48,7 +47,7 @@ public class Bus : VehicleBase
             lastPosition = transform.position;
         }
 
-        model.AdjustVisualPosition(); // mindig fusson, hogy a Slerp visszasimítson állás közben is
+        model.AdjustVisualPosition(); // always run so the Slerp smooths back while standing still
     }
 
     public void Setup(BusData data, float rotation, LayerMask terrainLayer, BuildingGrid grid)
@@ -65,62 +64,10 @@ public class Bus : VehicleBase
         WeeklyMileage = 0;
         // Instantiate the actual model first
         model = Instantiate(data.Model, transform.position, Quaternion.Euler(0, rotation, 0), transform);
-        //model.transform.localPosition = Vector3.zero;
-        //model.Rotate(rotation);
-        //model = Instantiate(data.Model, transform);
-        //model.transform.localPosition = Vector3.zero;
-        //model.transform.localRotation = Quaternion.Euler(-90, 0, 0);
 
         // Grab all renderers from the instantiated model
         renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
-
-        //buildmaterials in player inventori in managers
-        //switch (mainType)
-        //{
-        //    case StopType.None:
-        //        break;
-        //    case StopType.Bus:
-        //        builtMaterial = materials[0];
-        //        break;
-        //    case StopType.Universal:
-        //        builtMaterial = materials[9];
-        //        break;
-        //    case StopType.Coal:
-        //        builtMaterial = materials[3];
-        //        break;
-        //    case StopType.IronOre:
-        //        builtMaterial = materials[7];
-        //        break;
-        //    case StopType.GoldOre:
-        //        builtMaterial = materials[6];
-        //        break;
-        //    case StopType.Flour:
-        //        builtMaterial = materials[5];
-        //        break;
-        //    case StopType.Water:
-        //        builtMaterial = materials[1];
-        //        break;
-        //    case StopType.Farm:
-        //        builtMaterial = materials[4];
-        //        break;
-        //    case StopType.IronBar:
-        //        builtMaterial = materials[7];
-        //        break;
-        //    case StopType.GoldBar:
-        //        builtMaterial = materials[6];
-        //        break;
-        //    case StopType.Mint:
-        //        builtMaterial = materials[8];
-        //        break;
-        //    case StopType.Bakery:
-        //        builtMaterial = materials[2];
-        //        break;
-        //    default:
-        //        builtMaterial = materials[0];
-        //        break;
-        //}
-        // Set the default material
         Route = new List<Road>();
         locations = new List<ILocation>();
         locationIndex = 0;
@@ -156,7 +103,6 @@ public class Bus : VehicleBase
     {
         if (location is City city)
         {
-            isWaitingForShift = false;
             while (passangers.Count < data.Capacity) // felszallnak
             {
                 yield return new WaitForSeconds(1f / data.LoadingSpeed);
@@ -164,7 +110,6 @@ public class Bus : VehicleBase
                 if (worker != null)
                 {
                     passangers.Add(worker);
-                    //Debug.Log("Loading bus");
                 }
                 else
                 {
@@ -242,7 +187,6 @@ public class Bus : VehicleBase
                     if (worker != null)
                     {
                         passangers.Add(worker);
-                        //Debug.Log("Loading bus");
                     }
                     else
                     {
@@ -258,7 +202,6 @@ public class Bus : VehicleBase
                 {
                     yield return new WaitForSeconds(1f / data.LoadingSpeed);
                     UpdateLocationIndex();
-                    isWaitingForShift = true;
                     currentCity.RegisterWaitingBus(this); // Feliratkoz�s a v�rosn�l
                     yield break; // Meg�ll�tjuk a Coroutine-t, nem h�vunk ProcessNextPoint-ot
                 }
@@ -330,7 +273,7 @@ public class Bus : VehicleBase
         }
         if (industries == 0)
         {
-            Debug.LogWarning("Megpr�b�lt 0-val osztani");
+            Debug.LogWarning("Tried to divide by 0!");
             return 0;
         }
         return (passangers.Count / industries);

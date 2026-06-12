@@ -57,7 +57,7 @@ public class TerrainOvalMask : EditorWindow
         int hRes = data.heightmapResolution;
         int holesRes = data.holesResolution;
 
-        // Magasságok: sima lejtő az oval szélén
+        // Heights: smooth slope at the oval edge
         float[,] heights = new float[hRes, hRes];
         for (int z = 0; z < hRes; z++)
         {
@@ -72,7 +72,7 @@ public class TerrainOvalMask : EditorWindow
         }
         data.SetHeights(0, 0, heights);
 
-        // Lyukak: csak az ovalon kívül
+        // Holes: only outside the oval
         bool[,] holes = new bool[holesRes, holesRes];
         for (int z = 0; z < holesRes; z++)
         {

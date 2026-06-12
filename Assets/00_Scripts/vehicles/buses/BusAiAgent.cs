@@ -24,9 +24,6 @@ public class BusAiAgent : MonoBehaviour
     [SerializeField]
     private bool righlane = false;
 
-    //private bool lastwasrighlane = false;
-    //[SerializeField]
-    //private bool laneslected = false;
     [SerializeField]
     private bool movingtostart = false;
     [SerializeField]
@@ -62,7 +59,6 @@ public class BusAiAgent : MonoBehaviour
 
         oda = true;
         righlane = false;
-        //laneslected = false;
         movingtostart = false;
         isMoving = false;
         maxprogress = 0;
@@ -126,12 +122,10 @@ public class BusAiAgent : MonoBehaviour
     //de ez csak vizulis bug, logikailag jo svot vlaszt
     public GameObject SelectLane()
     {
-
-        //Debug.Log("SelectLaneStarted");
-        /*        
+        /*
         right a menetirany szeriont jobb oldal
         a to...lane hogy az adott pont az ut kozepetol melyik iranyba van
-       vector.dot eldonti h melyik pont van legjobbrabb 
+       vector.dot eldonti h melyik pont van legjobbrabb
         */
 
         Vector3 forward = new Vector3();
@@ -145,7 +139,7 @@ public class BusAiAgent : MonoBehaviour
         {
             forward = (Route[0].transform.position - Route[progress].transform.position).normalized;
         }
-        else // Minden más esetben (pl. megállás a végén)
+        else // All other cases (e.g. stopping at the end)
         {
             forward = transform.forward;
         }
@@ -199,24 +193,18 @@ public class BusAiAgent : MonoBehaviour
 
             if (max == bal)
             {
-                //laneslected = true;
                 return Route[progress].leftLane.gameObject;
             }
             else if (max == jobb)
             {
-
                 return Route[progress].rightLane.gameObject;
             }
             else if (max == also)
             {
-                //laneslected = true;
-
                 return Route[progress].bottomLane.gameObject;
             }
             else
             {
-                //laneslected = true;
-
                 return Route[progress].topLane.gameObject;
             }
 
@@ -265,22 +253,17 @@ public class BusAiAgent : MonoBehaviour
     }
     public void MoveToStart()
     {
-        //transform.position = startpoz.transform.position;
-        //ontrack = true;
-        //ai.enabled = true;
-        //MoveToNewDest();
-
-        // 1. Először kikapcsoljuk az ágenst, hogy ne vitatkozzon a pozícióváltással
+        // 1. Disable the agent first so it doesn't fight the position change
         ai.enabled = false;
 
-        // 2. Beállítjuk a pozíciót
+        // 2. Set the position
         transform.position = startpoz.transform.position;
 
         // 3. Visszakapcsoljuk
         ai.enabled = true;
 
-        // 4. KRITIKUS: A Warp kényszeríti az ágenst a hálóra!
-        // Ha ezt nem hívod meg, a SetDestination "not placed on NavMesh" hibát dob.
+        // 4. CRITICAL: Warp forces the agent onto the NavMesh!
+        // Without this, SetDestination throws "not placed on NavMesh".
         if (ai.Warp(startpoz.transform.position))
         {
             ontrack = true;
@@ -420,43 +403,15 @@ public class BusAiAgent : MonoBehaviour
 
 
     //megnezi hogy szabad e a cella ahova menni akar, ha igen beallitja az ai nak, hanem feliratkozik a cella esemenyere ami akkor hivodik meg ha egy msik jrm felszabaditja azt
-    //public void TryFree()
-    //{
-    //    if (next == null)
-    //    {
-    //        Debug.LogWarning($"{gameObject.name}: Next is null in TryFree!");
-    //        return;
-    //    }
-    //    bool free = isFree();
-    //    if (free || GetBusIAmWaitingFor().GetBusIAmWaitingFor() == this) // ha free vagy egymsra vrnak
-    //    {
-    //        next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
-    //        SetNotFree();
-    //        if (last != null)
-    //        {
-    //            SetFree();
-    //        }
-    //        ai.SetDestination(next.transform.position);
-    //        ai.speed = speed * next.GetComponentInParent<Road>().speedmodifier;
-    //        isMoving = true;
-    //    }
-    //    else
-    //    {
-    //        next.GetComponentInParent<Road>().OnSetFree -= CheckifFreeAgain;
-    //        next.GetComponentInParent<Road>().OnSetFree += CheckifFreeAgain;
-    //    }
-    //}
-
-
     public void TryFree()
     {
         if (isProcessingFree) return;
         if (next == null) return;
 
         Road nextRoad = next.GetComponentInParent<Road>();
-        if (nextRoad == null) return; // Ha nincs Road script a szülőn, megállunk.
+        if (nextRoad == null) return; // No Road script on parent, stop here.
 
-        // Szétbontjuk a láncolt hívást, mert ha az első null-t ad, a második elszáll
+        // Split the chained call — if the first returns null, the second would crash
         bool deadlock = false;
         var waitingFor = GetBusIAmWaitingFor();
         if (waitingFor != null)
@@ -467,7 +422,7 @@ public class BusAiAgent : MonoBehaviour
 
         if (isFree() || deadlock)
         {
-            nextRoad.OnSetFree -= CheckifFreeAgain; // Most már biztonságos
+            nextRoad.OnSetFree -= CheckifFreeAgain; // Safe to unsubscribe now
             SetNotFree();
             if (last != null) SetFree();
 
@@ -523,13 +478,10 @@ public class BusAiAgent : MonoBehaviour
 
             if (distance < 0.2f && isMoving)
             {
-                //isMoving = false;
-
-                // Csak a legelső indulásnál (amikor lerakod a buszt) kell ez a sávváltó logika
-                // Ha már úton van (nem null a last), akkor kezeljük rendes megállóként
+                // Lane-switch logic only needed on first departure (when the bus is placed)
+                // If already moving (last != null), treat it as a normal stop
                 if (currprog == 0 && !firstdone && last == null)
                 {
-                    //Debug.Log($"Start megállóhoz ért (Index: {currprog})");
                     Arrived?.Invoke(this, new ArrivedEventArgs { Stop = Route[currprog].BusStop });
                     firstdone = true;
                     currprog = 1;
@@ -537,7 +489,7 @@ public class BusAiAgent : MonoBehaviour
                     return;
                 }
 
-                // Megálló ellenőrzése
+                // Check for bus stop
                 bool hasBusStop = Route[currprog].Road_HasBusStop();
                 StopType roadStopType = Route[currprog].GetStopType();
 

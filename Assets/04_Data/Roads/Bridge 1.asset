@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 465662d00c5d7324bad869d81695ead3, type: 3}
-  m_Name: Road Bridge 1
+  m_Name: Bridge 1
   m_EditorClassIdentifier: GameAssembly::RoadData
   <Model>k__BackingField: {fileID: 7041345635971559195, guid: 236e0125f7cb34243a6fd531c5461b54, type: 3}
   <Cost>k__BackingField: 100

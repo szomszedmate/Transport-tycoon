@@ -6,15 +6,26 @@ using Assets._00_Scripts.locations.industries;
 using UnityEngine.Rendering;
 public class Game : MonoBehaviour
 {
-    private const int secondsInDay = 86400; // 24 ora
+    private const int secondsInDay = 86400; // 24 hours
+
+    [Header("References")]
     [SerializeField] private Player player;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private BuildingSystem buildingSystem;
+
+    [Header("Day/Night Timing")]
     [SerializeField] private float dayStart;
     [SerializeField] private float eveningStart;
     [SerializeField] private float nightStart;
+
+    [Header("Audio")]
     [SerializeField] private AudioSource music;
     [SerializeField] private List<AudioSource> soundEffects;
+
+    [Header("Economy")]
+    [SerializeField] private float nonstopMultiplier;
+    [SerializeField] private float linearMultiplier;
+    public int sliderScale = 17;
 
     private float lastMusicVolume;
     private float lastSFXVolume;
@@ -103,6 +114,7 @@ public class Game : MonoBehaviour
             road.RoadStateChangedEventHandler += buildingSystem.Road_RoadStateChangedEventHandler;
         }
         buildingSystem.PaintRegisteredRoads(e.RegisteredRoads);
+        buildingSystem.RegisterCityRoadsAsJokers(e.RegisteredRoads);
         buildingSystem.LocationsRegistered(e.RegisteredLocations);
     }
 
@@ -123,13 +135,13 @@ public class Game : MonoBehaviour
         double dist = e.NewAmount;
         bool nonStop = e.NonStop;
         double cost;
-        if (nonStop) // nonstop sokkal dragabb
+        if (nonStop) // nonstop more expensive
         {
-            cost = dist * 0.15;
+            cost = dist * nonstopMultiplier;
             player.IncreaseTax(cost);
         } else
         {
-            cost = dist * 0.05;
+            cost = dist * linearMultiplier;
             player.IncreaseTax(cost);
         }
     }
@@ -199,7 +211,7 @@ public class Game : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Game: A Player referencia NULL! Ellen�rizd az Inspectort!");
+                Debug.LogError("Game: Player reference is null!");
             }
         }
     }
@@ -219,17 +231,17 @@ public class Game : MonoBehaviour
 
     public void ChangeMusicVolume(float volume)
     {
-        music.volume = volume / 17f;
-        if (volume > 0) lastMusicVolume = volume / 17f;
+        music.volume = volume / sliderScale;
+        if (volume > 0) lastMusicVolume = volume / sliderScale;
     }
 
     public void ChangeSFXVolume(float volume)
     {
         foreach (AudioSource sfx in soundEffects)
         {
-            if (sfx != null) sfx.volume = volume;
+            if (sfx != null) sfx.volume = volume / sliderScale;
         }
-        if (volume > 0) lastSFXVolume = volume;
+        if (volume > 0) lastSFXVolume = volume / sliderScale;
     }
 
     public void MuteSFX()

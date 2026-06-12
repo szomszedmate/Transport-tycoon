@@ -1,13 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class MainMenuUiFunctions : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-    
+{    
     public void StartGame()
     {
         SpaceLoadingManager.LoadScene("AsteroidScene");
@@ -20,20 +14,5 @@ public class MainMenuUiFunctions : MonoBehaviour
     public void Credits()
     {
         SceneManager.LoadScene("CreditScene");
-    }
-
-    public void OpenSettings()
-    {
-        //TODO
-    }
-    public void Load()
-    {
-        //TODO
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

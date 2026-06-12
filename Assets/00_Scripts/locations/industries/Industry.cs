@@ -10,6 +10,8 @@ public abstract class Industry : MonoBehaviour, ILocation
     public event System.EventHandler<ProducedEventArgs> Produced;
     public Vector3 Position => transform.position;
     public abstract StopType Type { get; }
+
+    [Header("References")]
     [SerializeField] protected IndustryModel model;
 
     [Header("Production")]
@@ -17,6 +19,8 @@ public abstract class Industry : MonoBehaviour, ILocation
     [SerializeField] protected float productivityTarget = 1f;
     [SerializeField] protected float productivityChangeInterval = 20f;
     [SerializeField] protected float productivityLerpSpeed = 0.05f;
+    [SerializeField] protected float minProductivity = 0.7f;
+    [SerializeField] protected float maxProductivity = 1.5f;
 
     [Header("Storage")]
     [SerializeField] protected int defaultStorageCapacity = 50;
@@ -101,7 +105,7 @@ public abstract class Industry : MonoBehaviour, ILocation
         if (productivityTimer >= productivityChangeInterval)
         {
             productivityTimer = 0f;
-            productivityTarget = Random.Range(0.7f, 1.3f);
+            productivityTarget = Random.Range(minProductivity, maxProductivity);
         }
 
         productivityFactor = Mathf.MoveTowards(
@@ -131,14 +135,11 @@ public abstract class Industry : MonoBehaviour, ILocation
         }
 
         productionTimer += deltaTime * effectiveProductivity;
-        //Debug.Log("Prod time: " + productionTimer + ", cycle time: " + recipe.CycleTime + " workerFactor: " + workerFactor + ", name: " + name);
         if (productionTimer >= recipe.CycleTime)
         {
             productionTimer -= recipe.CycleTime;
             ConsumeInputs();
             ProduceOutputs();
-
-            //Debug.Log($"{name} produced: {string.Join(", ", recipe.Outputs.Select(o => $"{o.Key} x{o.Value}"))}");
         }
     }
 
@@ -290,8 +291,7 @@ public abstract class Industry : MonoBehaviour, ILocation
     #region WorkerMethods
     public virtual void AddWorkers(List<Worker> workers, bool scheduled, DayPhase dayPhase)
     {
-        
-        
+
         if (scheduled)
         {
             switch (dayPhase)
@@ -320,7 +320,7 @@ public abstract class Industry : MonoBehaviour, ILocation
             newShift.WorkerChanged += NewShift_WorkerChanged;
             shifts.Add(newShift);
         }
-        
+
     }
 
     private void NewShift_WorkerChanged(object sender, WorkerChangedEventArgs e)
@@ -339,7 +339,7 @@ public abstract class Industry : MonoBehaviour, ILocation
             {
                 waitingForBus.AddRange(shift.Workers);
 
-                // FONTOS: Miut�n hazamentek, �r�ts�k ki a m�szak list�j�t, 
+                // FONTOS: Miut�n hazamentek, �r�ts�k ki a m�szak list�j�t,
                 // hogy a k�vetkez� v�lt�sn�l ne duplik�l�djanak!
                 shift.Workers.Clear();
             }
@@ -352,25 +352,6 @@ public abstract class Industry : MonoBehaviour, ILocation
             }
         }
     }
-
-    //private void NewShift_WorkerChanged(object sender, WorkerChangedEventArgs e)
-    //{
-    //    Shift shift = sender as Shift;
-    //    if (e.Starts)
-    //    {
-    //        currentWorkers += e.WorkerCount;
-    //    } else if (shift == DayShift || shift == EveningShift || shift == NightShift)
-    //    {
-    //        currentWorkers -= e.WorkerCount;
-    //        waitingForBus.AddRange(shift.Workers);
-    //    } else
-    //    {
-    //        currentWorkers -= e.WorkerCount;
-    //        waitingForBus.AddRange(shift.Workers);
-    //        shifts.Remove(shift);
-    //        Destroy(shift);
-    //    } 
-    //}
 
     public int SpaceLeft()
     {
@@ -415,13 +396,13 @@ public abstract class Industry : MonoBehaviour, ILocation
 
         foreach (var item in inventory)
         {
-            // Ha a nyersanyag benne van a recept bemenetei k�z�tt, akkor input
+            // If recipe inputs contain the resource, then input
             if (recipe.Inputs.ContainsKey(item.Key))
             {
                 inputStorage += item.Value;
             }
 
-            // Ha a nyersanyag benne van a recept kimenetei k�z�tt, akkor output
+            // If recipe outputs contain the resource, then output
             if (recipe.Outputs.ContainsKey(item.Key))
             {
                 outputStorage += item.Value;
@@ -469,11 +450,5 @@ public abstract class Industry : MonoBehaviour, ILocation
 
     public void AdjustVisualToGround(Vector3 surfacePoint)
     {
-        //if (Visual != null)
-        //{
-        //    float yOffset = surfacePoint.y - transform.position.y;
-
-        //    Visual.transform.localPosition = new Vector3(0, yOffset + 0.01f, 0);
-        //}
     }
 }

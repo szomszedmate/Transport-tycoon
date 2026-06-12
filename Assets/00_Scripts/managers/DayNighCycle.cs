@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 public class DayNighCycle : MonoBehaviour
 {
     [Header("References")]
@@ -10,11 +11,12 @@ public class DayNighCycle : MonoBehaviour
     [SerializeField] private GameObject earth;
 
     [Header("Settings")]
-    [SerializeField] private float rotationOffset = -90f; // Éjfélkor a föld alatt legyen
-    [SerializeField] private Gradient sunColor; // Nappali színek (narancs -> fehér -> narancs)
-    [SerializeField] private Gradient moonColor; // Éjszakai színek (sötétkék -> kék)
+    [SerializeField] private float rotationOffset = -90f;
+    [SerializeField] private Gradient sunColor;
+    [FormerlySerializedAs("moonColor")]
+    [SerializeField] private Gradient earthColor;
     [SerializeField] private float distance = 1000f;
-    public float nightExposure = 0.7f; // a skyboxnak
+    public float nightExposure = 0.7f; // for the skybox
     public float dayExposure = 1.5f;
 
     void Start()
@@ -31,7 +33,7 @@ public class DayNighCycle : MonoBehaviour
 
         RotateEarth(earthRotation);
 
-        // Lámpák forgatása
+        // Rotating the lights
         sunLight.transform.rotation = Quaternion.Euler(sunRotation, 170f, 0f);
         earthLight.transform.rotation = Quaternion.Euler(sunRotation + 180f, 170f, 0f);
 
@@ -39,42 +41,27 @@ public class DayNighCycle : MonoBehaviour
         if (sun != null) sun.transform.position = camPos + (sunLight.transform.forward * -distance);
         if (earth != null) earth.transform.position = camPos + (earthLight.transform.forward * -distance);
 
-        // --- MAGASSÁG SZÁMÍTÁSA A FORGÓ LÁMPÁBÓL ---
-        // A sunLight.transform.forward.y értéke -1 (ha pont lefelé néz) és 1 (ha felfelé) között van.
-        // A negatív elõjel miatt a sunHeight 1 lesz délben és 0 éjszaka.
-        // 1. Megnézzük, mennyire néz lefelé a nap. 
-        // -1 = függõlegesen lefelé (dél), 0 = horizont (naplemente), 1 = felfelé (éjszaka)
         float rawHeight = -sunLight.transform.forward.y;
-
-        // 2. Skálázzuk! Azt mondjuk, hogy ha a nap már 20 fokos szögben (0.34-es érték) fent van, 
-        // az már legyen nekünk "teljes nappal" (sunHeight = 1).
-        // Ezzel kényszerítjük, hogy a Lerp elérje a dayExposure-t (0.3).
         float sunHeight = Mathf.Clamp01(rawHeight / 0.34f);
 
-        // --- INNENTÕL A KÓDOD TÖBBI RÉSZE MARAD ---
         float currentExposure = Mathf.Lerp(nightExposure, dayExposure, sunHeight);
         RenderSettings.skybox.SetFloat("_Exposure", currentExposure);
 
-        // Nappal vastagabb atmoszféra (elmosódottabb), este vékonyabb (tisztább csillagok)
         float thickness = Mathf.Lerp(3.0f, 1.0f, sunHeight);
         RenderSettings.skybox.SetFloat("_AtmosphereThickness", thickness);
 
-        // Intenzitás állítás (simább átmenet, ha a napHeight-et nézzük)
         sunLight.intensity = (sunHeight > 0) ? 1.2f : 0f;
         earthLight.intensity = (sunHeight == 0) ? 0.3f : 0f;
 
         sunLight.color = sunColor.Evaluate(dayPercent);
-        earthLight.color = moonColor.Evaluate(dayPercent);
+        earthLight.color = earthColor.Evaluate(dayPercent);
 
-        // Ambient szín és intenzitás
-        RenderSettings.ambientLight = (sunHeight > 0) ? sunColor.Evaluate(dayPercent) : moonColor.Evaluate(dayPercent);
+        RenderSettings.ambientLight = (sunHeight > 0) ? sunColor.Evaluate(dayPercent) : earthColor.Evaluate(dayPercent);
 
 
-        // Ambient Intensity: Este (1.2), Nappal (0.5)
         RenderSettings.ambientIntensity = Mathf.Lerp(1.2f, 0.5f, sunHeight);
 
-        // Sky Tint frissítése
-        Color currentSkyColor = (sunHeight > 0) ? sunColor.Evaluate(dayPercent) : moonColor.Evaluate(dayPercent);
+        Color currentSkyColor = (sunHeight > 0) ? sunColor.Evaluate(dayPercent) : earthColor.Evaluate(dayPercent);
         RenderSettings.skybox.SetColor("_SkyTint", currentSkyColor);
 
         RenderSettings.sun = (sunHeight > 0) ? sunLight : earthLight;

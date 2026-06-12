@@ -33,7 +33,14 @@ public class BusStop : MonoBehaviour, IBuildable
         DESTROYHOVER
     }
 
+    [Header("Settings")]
     public StopType Type = StopType.None;
+
+    [Header("Materials")]
+    [SerializeField]
+    private Material builtMaterial;
+    [SerializeField]
+    private Material destroyHoverMaterial;
 
     public int Cost => data.Cost;
     public BusStopModel model;
@@ -41,11 +48,6 @@ public class BusStop : MonoBehaviour, IBuildable
     private List<Material> materials;
     public ILocation location;
     public BusStopState State { get; private set; }
-
-    [SerializeField]
-    private Material builtMaterial;
-    [SerializeField]
-    private Material destroyHoverMaterial;
     private List<Renderer> renderers = new();
     private City city;
     private Industry industry;
@@ -78,54 +80,11 @@ public class BusStop : MonoBehaviour, IBuildable
         renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
-        builtMaterial = materials[9];
-        //switch (Type)
-        //{
-        //    case StopType.None:
-        //        break;
-        //    case StopType.Bus:
-        //        builtMaterial = materials[0];
-        //        break;
-        //    case StopType.Universal:
-        //        builtMaterial = materials[9];
-        //        break;
-        //    case StopType.Coal:
-        //        builtMaterial = materials[3];
-        //        break;
-        //    case StopType.IronOre:
-        //        builtMaterial = materials[7];
-        //        break;
-        //    case StopType.GoldOre:
-        //        builtMaterial = materials[6];
-        //        break;
-        //    case StopType.Flour:
-        //        builtMaterial = materials[5];
-        //        break;
-        //    case StopType.Water:
-        //        builtMaterial = materials[1];
-        //        break;
-        //    case StopType.Farm:
-        //        builtMaterial = materials[4];
-        //        break;
-        //    case StopType.IronBar:
-        //        builtMaterial = materials[7];
-        //        break;
-        //    case StopType.GoldBar:
-        //        builtMaterial = materials[6];
-        //        break;
-        //    case StopType.Mint:
-        //        builtMaterial = materials[8];
-        //        break;
-        //    case StopType.Bakery:
-        //        builtMaterial = materials[2];
-        //        break;
-        //    default:
-        //        builtMaterial = materials[0];
-        //        break;
-        //}
+        if (builtMaterial == null)
+            Debug.LogError($"BusStop {name}: builtMaterial is not assigned in Inspector!", this);
 
         SetBusStateMaterial(BusStopState.BUILT);
-       
+
     }
 
     public void SetBusStateMaterial(BusStopState newState)
@@ -135,9 +94,9 @@ public class BusStop : MonoBehaviour, IBuildable
             Debug.LogWarning("Materials not assigned!");
             return;
         }
-       
 
-        
+
+
         Material targetMat = (newState == BusStopState.BUILT) ? builtMaterial : destroyHoverMaterial;
 
         switch (newState)

@@ -1,5 +1,150 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5133983681148534495
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3717645903787910322}
+  - component: {fileID: 2046158748610284447}
+  m_Layer: 0
+  m_Name: VehiclePlacer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3717645903787910322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5133983681148534495}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3640959165914136456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2046158748610284447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5133983681148534495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38a402566ed214409a21318744088e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::VehiclePlacer
+  truckPrefab: {fileID: 6376993659063926084, guid: 4cb7ce76c2c127247a05ef87fd6a5481, type: 3}
+  busPrefab: {fileID: 3880707210839052634, guid: f307c4216b144e243a70f8bda98ac27d, type: 3}
+  busStopPrefab: {fileID: -1240028291409653652, guid: 8d216704bbc79eb459c525b9b5ec1967, type: 3}
+  BusStopData: {fileID: 11400000, guid: 17547141c40e3594f82ce602dc4277e8, type: 2}
+--- !u!1 &5429099980981748966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3907081591156852242}
+  - component: {fileID: 2792538824040464137}
+  m_Layer: 0
+  m_Name: RoutePlanner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3907081591156852242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5429099980981748966}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3640959165914136456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2792538824040464137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5429099980981748966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be8d453b195c2c4d94b710b4ded7507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::RoutePlanner
+--- !u!1 &5821177880575730113
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3445050016867830655}
+  - component: {fileID: 5751151075127254204}
+  m_Layer: 0
+  m_Name: RoadPlacer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3445050016867830655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5821177880575730113}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3640959165914136456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5751151075127254204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5821177880575730113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e798409c929ff3c4a88e6e13e3cb9eee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::RoadPlacer
+  straightRoad: {fileID: 11400000, guid: 60f56d5d733a13e4f9af61dc345d4999, type: 2}
+  lRoad: {fileID: 11400000, guid: c772f38e88d145149b8d020a37b9156c, type: 2}
+  tRoad: {fileID: 11400000, guid: 8d6f9d68753f03b479fcf0e438707ea5, type: 2}
+  crossRoad: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
+  jokerRoad: {fileID: 11400000, guid: 9d21998e2fe6e1948a97f06c75c690e9, type: 2}
+  bridgeRoad1: {fileID: 11400000, guid: 51b3adcc9f92a3944b939f7ee6cdbbc2, type: 2}
+  bridgeRoad2: {fileID: 11400000, guid: ae069bd7501938544959bb40b475b1c8, type: 2}
+  bridgeRoad3: {fileID: 11400000, guid: 45b674948d60940428c774180af0e912, type: 2}
+  roadPrefab: {fileID: 2383794928318383345, guid: edac8ca26d30c3a4c9ba5e61b008eff3, type: 3}
 --- !u!1 &8637939249489377442
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,7 +174,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3445050016867830655}
+  - {fileID: 3717645903787910322}
+  - {fileID: 6773164892051738630}
+  - {fileID: 3907081591156852242}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7632304443356832515
@@ -44,22 +193,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e381a254ed64834685ca35161a6ae8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingSystem
+  terrainLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  invisibleButPhysicalLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  vehicleLayer:
+    serializedVersion: 2
+    m_Bits: 0
   painter: {fileID: 0}
-  RoadData1: {fileID: 11400000, guid: 60f56d5d733a13e4f9af61dc345d4999, type: 2}
-  RoadData2: {fileID: 11400000, guid: c772f38e88d145149b8d020a37b9156c, type: 2}
-  RoadData3: {fileID: 11400000, guid: da961307a3e160a47b4ac4e6a4fbeadf, type: 2}
-  RoadData4: {fileID: 11400000, guid: 8d6f9d68753f03b479fcf0e438707ea5, type: 2}
-  roadPreviewPrefab: {fileID: 4501084694000386825, guid: baeef1379d13a494e80731c61809ea7a, type: 3}
-  roadPrefab: {fileID: 2383794928318383345, guid: edac8ca26d30c3a4c9ba5e61b008eff3, type: 3}
+  builtLayerIndex: 4
+  positiveIndex: 5
+  negativeIndex: 6
+  destroyHoverIndex: 7
+  selectedIndex: 8
+  confirmedIndex: 9
+  mainLayers: 
+  bridgeEffect: {fileID: 0}
   grid: {fileID: 0}
-  truckPreviewPrefab: {fileID: 2888533896809786281, guid: e2ed9371909d04e4a8d175d4a15d452c, type: 3}
-  truckPrefab: {fileID: 6376993659063926084, guid: 4cb7ce76c2c127247a05ef87fd6a5481, type: 3}
-  busPreviewPrefab: {fileID: -3809811765662860722, guid: d93ae9e7d8b47a341918bef3b9d575ad, type: 3}
-  busPrefab: {fileID: 3880707210839052634, guid: f307c4216b144e243a70f8bda98ac27d, type: 3}
-  busStopPreviewPrefab: {fileID: 1665727641338218824, guid: f54d0f88787aef946b413a1b252becf7, type: 3}
-  busStopPrefab: {fileID: -1240028291409653652, guid: 8d216704bbc79eb459c525b9b5ec1967, type: 3}
-  BusStopData: {fileID: 11400000, guid: 17547141c40e3594f82ce602dc4277e8, type: 2}
+  roadPlacer: {fileID: 0}
+  vehiclePlacer: {fileID: 0}
+  previewController: {fileID: 0}
+  routePlanner: {fileID: 0}
   destroy: 0
-  uiitem: {fileID: 8251331419364813769, guid: 394290416b5ffb54ab39ac1674fea95d, type: 3}
-  content: {fileID: 0}
-  panel: {fileID: 0}
+--- !u!1 &8843578710699875178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6773164892051738630}
+  - component: {fileID: 5507430561149264454}
+  m_Layer: 0
+  m_Name: PreviewController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6773164892051738630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8843578710699875178}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3640959165914136456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5507430561149264454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8843578710699875178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e287bd45c65334bac98490dbc161cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameAssembly::PreviewController
+  roadPreviewPrefab: {fileID: 4501084694000386825, guid: baeef1379d13a494e80731c61809ea7a, type: 3}
+  busPreviewPrefab: {fileID: -3809811765662860722, guid: d93ae9e7d8b47a341918bef3b9d575ad, type: 3}
+  truckPreviewPrefab: {fileID: 2888533896809786281, guid: e2ed9371909d04e4a8d175d4a15d452c, type: 3}
+  busStopPreviewPrefab: {fileID: 1665727641338218824, guid: f54d0f88787aef946b413a1b252becf7, type: 3}
+  catPrefab: {fileID: 7853415890822878104, guid: c00b8bd54732e224b88375e901ca8159, type: 3}
+  catData: {fileID: 11400000, guid: 8cad4e6d57306da4fa28d65e6c34cbe2, type: 2}

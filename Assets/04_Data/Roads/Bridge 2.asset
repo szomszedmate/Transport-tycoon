@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 465662d00c5d7324bad869d81695ead3, type: 3}
-  m_Name: Road Bridge 3
+  m_Name: Bridge 2
   m_EditorClassIdentifier: Assembly-CSharp::RoadData
-  <Model>k__BackingField: {fileID: 7041345635971559195, guid: e5b8676dabd590543b093a23b5cdd16f, type: 3}
-  <Cost>k__BackingField: 300
-  <Description>k__BackingField: Can bridge over 4 tiles.
+  <Model>k__BackingField: {fileID: 7041345635971559195, guid: 51f92db4dd9338d41a5697a33356c07b, type: 3}
+  <Cost>k__BackingField: 200
+  <Description>k__BackingField: Can bridge over 3 tiles.
   <Kind>k__BackingField: 1
-  bridgeEffect: {fileID: 1007038020390161899, guid: ff564a3cea9365544b77e6905a5ea43c, type: 3}
-  maxBridgeLength: 4
-  speedModifier: 0.8
+  bridgeEffect: {fileID: 8450232341041507689, guid: bf4c5512d957d7f43a449eea7e6a2e4d, type: 3}
+  maxBridgeLength: 3
+  speedModifier: 0.5

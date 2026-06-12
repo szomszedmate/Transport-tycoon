@@ -22,7 +22,7 @@ public class VehicleInventoryBlock : MonoBehaviour
         vehicleData = data;
 
         if (infoPanel == null)
-            infoPanel = GameObject.FindObjectOfType<VehicleInfoPanel>(true);
+            infoPanel = Object.FindFirstObjectByType<VehicleInfoPanel>(FindObjectsInactive.Include);
 
         if (iconImage != null && data.Icon != null)
             iconImage.sprite = data.Icon;

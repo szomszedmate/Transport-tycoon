@@ -7,26 +7,32 @@ using static RoadPreview;
 
 public class Road : MonoBehaviour, IBuildable
 {
-    public string Description => data.Description;
-    public int Cost => data.Cost;
-    private RoadModel model;
+    [Header("Data")]
     [SerializeField]
     public RoadData data;
-    public RoadState State { get; private set; } = RoadState.BUILT;
+
+    [Header("Materials")]
     [SerializeField]
     private Material builtMaterial;
-    [SerializeField] 
+    [SerializeField]
     private Material bridgeBuiltMaterial;
     [SerializeField]
     private Material destroyHoverMaterial;
-    [SerializeField] 
+    [SerializeField]
     private Material selectMaterial;
-    [SerializeField] 
+    [SerializeField]
     private Material confirmedMaterial;
+
+    [Header("Settings")]
     [SerializeField]
     private bool isCityRoad;
-    public bool IsCityRoad => isCityRoad;
     [SerializeField] private bool isCorner;
+
+    public string Description => data.Description;
+    public int Cost => data.Cost;
+    private RoadModel model;
+    public RoadState State { get; private set; } = RoadState.BUILT;
+    public bool IsCityRoad => isCityRoad;
     private List<Renderer> renderers = new();
     public bool IsBridge => data != null && data.Kind == RoadKind.Bridge;
     public RoadKind Kind => data != null ? data.Kind : RoadKind.NormalRoad;
@@ -154,7 +160,6 @@ public class Road : MonoBehaviour, IBuildable
         RoadState prevState = State;
         State = newState;
         SetRoadMaterial(State);
-        Debug.Log("New state: " +  newState);
         RoadStateChangedEventHandler?.Invoke(this, new RoadStateChangedEventArgs { NewState = newState, Rotation = Model.Rotation, SnappedPosition = transform.position, RoadType = Model.RoadType, PrevState =  prevState});
     }
 

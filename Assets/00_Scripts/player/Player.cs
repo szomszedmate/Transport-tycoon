@@ -12,7 +12,7 @@ public class  Player : MonoBehaviour
     public delegate void InventoryChangedEventHandler(object sender, InventoryChangedEventArgs e);
     public event InventoryChangedEventHandler InventoryChanged;
 
-    private double money;
+    [SerializeField] private double money = 5000;
     private double taxToPay;
     public List<BusData> buszok = new List<BusData>();
     public List<TruckData> trucks = new List<TruckData>();
@@ -29,7 +29,7 @@ public class  Player : MonoBehaviour
             Money += amount * 10;
             InventoryChanged?.Invoke(this, new InventoryChangedEventArgs { Resource = resource, NewAmount = -amount });
 
-            // Industry storage csökkentése
+            // Decrease industry storage
             if (ResourceSources.ContainsKey(resource))
             {
                 int remaining = amount;
@@ -50,7 +50,7 @@ public class  Player : MonoBehaviour
         else
         {
             int current = Resources.ContainsKey(resource) ? Resources[resource] : 0;
-            Debug.Log($"Nincs ennyi ebből a resource ból: {resource}, darab: " + current);
+            Debug.Log($"Not enough resource of: {resource}, count: " + current);
         }
     }
 
@@ -91,7 +91,6 @@ public class  Player : MonoBehaviour
 
     public void Start()
     {
-        Money = 5000;
         TaxToPay = 0;
         NextTaxDay = 7;
         Resources = new Dictionary<ResourceEnum, int>();

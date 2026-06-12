@@ -35,7 +35,6 @@ public class InventoryItemButton : MonoBehaviour
 
     private void OnInventoryChanged(object sender, InventoryChangedEventArgs e)
     {
-        //Debug.Log($"Updated {e.Resource}, new amount: {e.NewAmount}");
         if (e.Resource == resourceType && isSelected)
             UpdateAmount();
     }

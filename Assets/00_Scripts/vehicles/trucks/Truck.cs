@@ -62,51 +62,6 @@ public class Truck : VehicleBase
         renderers.Clear();
         renderers.AddRange(model.GetComponentsInChildren<Renderer>());
 
-        //buildmaterials in player inventori in managers
-        //switch (mainType)
-        //{
-        //    case StopType.None:
-        //        break;
-        //    case StopType.Bus:
-        //        //builtMaterial = materials[0];
-        //        break;
-        //    case StopType.Universal:
-        //        builtMaterial = materials[0];
-        //        break;
-        //    case StopType.Coal:
-        //        builtMaterial = vehicleMaterials.Materials[3];
-        //        break;
-        //    case StopType.IronOre:
-        //        builtMaterial = vehicleMaterials.Materials[11];
-        //        break;
-        //    case StopType.GoldOre:
-        //        builtMaterial = vehicleMaterials.Materials[13];
-        //        break;
-        //    case StopType.Flour:
-        //        builtMaterial = vehicleMaterials.Materials[7];
-        //        break;
-        //    case StopType.Water:
-        //        builtMaterial = vehicleMaterials.Materials[15];
-        //        break;
-        //    case StopType.Farm:
-        //        builtMaterial = vehicleMaterials.Materials[5];
-        //        break;
-        //    case StopType.IronBar:
-        //        builtMaterial = vehicleMaterials.Materials[11];
-        //        break;
-        //    case StopType.GoldBar:
-        //        builtMaterial = vehicleMaterials.Materials[9];
-        //        break;
-        //    case StopType.Mint:
-        //        builtMaterial = vehicleMaterials.Materials[13];
-        //        break;
-        //    case StopType.Bakery:
-        //        builtMaterial = vehicleMaterials.Materials[1];
-        //        break;
-        //    default:
-        //        builtMaterial = materials[0];
-        //        break;
-        //}
         // Set the default material
         SetMaterial(VehicleState.BUILT);
         Route = new List<Road>();
@@ -153,7 +108,7 @@ public class Truck : VehicleBase
         if (!stop.IsCityStop())
         {
             int canAccept = stop.Industry.Accept(truckData.Resource, currentLoad);
-            for (int i = 0; i < canAccept; i++) 
+            for (int i = 0; i < canAccept; i++)
             {
                 // V�runk a rakod�si sebess�gnek megfelel�en
                 yield return new WaitForSeconds(1f / data.LoadingSpeed);
@@ -165,7 +120,7 @@ public class Truck : VehicleBase
                 canCheckInventory = true;
                 stop.Industry.Produced += Industry_Produced;
                 while (currentLoad < minimumLoad)
-                { 
+                {
                     // Megv�rjuk, am�g az esem�ny (vagy az �rkez�s) azt mondja: "van mi�rt n�zel�dni"
                     yield return new WaitUntil(() => canCheckInventory);
                     canCheckInventory = false;
@@ -179,7 +134,7 @@ public class Truck : VehicleBase
                             yield return new WaitForSeconds(1f / data.LoadingSpeed);
                             currentLoad++;
                         }
-                        // Ha a rakod�s ut�n m�g mindig nem �rt�k el a minimumot, 
+                        // Ha a rakod�s ut�n m�g mindig nem �rt�k el a minimumot,
                         // de maradt m�g a rakt�rban, akkor ne v�rjunk �jabb eventre
                         if (currentLoad < minimumLoad)
                         {

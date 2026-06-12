@@ -69,7 +69,6 @@ public class ShopItemButton : MonoBehaviour
 
         if (!gameUI.game.Player.CanAfford(idata.Cost))
         {
-            Debug.Log("Nincs elég pénz!");
             return;
         }
 
@@ -83,7 +82,5 @@ public class ShopItemButton : MonoBehaviour
             gameUI.buildingSystem.CreatePreview(busStopData);
             gameUI.closeinvshop();
         }
-
-        Debug.Log("Megvásárolva: " + selectedData.name);
     }
 }

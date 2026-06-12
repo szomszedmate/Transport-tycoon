@@ -3,13 +3,18 @@ using UnityEngine.AI;
 
 public abstract class VehicleModel : MonoBehaviour
 {
-    public float floatingHeight = 2f;
+    [Header("References")]
     public VehicleVisual Visual;
+    public BuildingGrid grid;
     public LayerMask terrainLayer;
+
+    [Header("Settings")]
+    public float floatingHeight = 2f;
+    [SerializeField] private float heightSmoothSpeed = 5f;
+    public bool adjustEnabled = true;
+
     protected float frontOffset;
     protected float backOffset;
-    public BuildingGrid grid;
-    [SerializeField] private float heightSmoothSpeed = 5f;
     private float smoothedY = float.MinValue;
 
     public float Rotation => transform.eulerAngles.y;
@@ -29,8 +34,6 @@ public abstract class VehicleModel : MonoBehaviour
         frontOffset = 2f;
         backOffset = 2f;
     }
-
-    public bool adjustEnabled = true;
 
     public void AdjustVisualPosition()
     {

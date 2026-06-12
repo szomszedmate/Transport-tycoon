@@ -38,13 +38,7 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
     public float WeeklyMileage { get; protected set; }
     public bool NonStop { get; protected set; }
 
-    protected Vector3 lastPosition;
-    protected VehicleModel model;
-    public VehicleData data;
-    public StopType mainType;
-    public List<StopType> types;
-    public BusAiAgent aiAgent;
-    public VehicleState State { get; protected set; } = VehicleState.BUILT;
+    [Header("Materials")]
     [SerializeField]
     protected Material builtMaterial;
     [SerializeField]
@@ -55,6 +49,14 @@ public abstract class VehicleBase : MonoBehaviour, IVehicle
     protected Material confirmMaterial;
     [SerializeField]
     protected VehicleMaterials vehicleMaterials;
+
+    protected Vector3 lastPosition;
+    protected VehicleModel model;
+    public VehicleData data;
+    public StopType mainType;
+    public List<StopType> types;
+    public BusAiAgent aiAgent;
+    public VehicleState State { get; protected set; } = VehicleState.BUILT;
 
 
     protected List<Material> materials;

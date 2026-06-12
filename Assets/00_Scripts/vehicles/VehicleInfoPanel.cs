@@ -41,7 +41,7 @@ public class VehicleInfoPanel : MonoBehaviour
         if (vehicleDescription != null) vehicleDescription.text = data.Description;
         if (vehiclePrice != null) vehiclePrice.text = "Price: $" + data.Cost;
 
-        // Route gomb csak akkor aktív ha a jármű már le van rakva
+        // Route button is only active if the vehicle has already been placed
         if (planRouteButton != null)
             planRouteButton.interactable = block.IsPlaced;
     }
@@ -50,7 +50,7 @@ public class VehicleInfoPanel : MonoBehaviour
     {
         if (currentData == null) return;
 
-        // Ha már le van rakva, először eltávolítja
+        // If already placed, remove it first
         if (currentBlock != null && currentBlock.IsPlaced && currentBlock.PlacedVehicle != null)
         {
             Destroy(currentBlock.PlacedVehicle.gameObject);

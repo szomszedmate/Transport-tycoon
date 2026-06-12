@@ -89,8 +89,6 @@ namespace Barmetler
 
             for (var steps = 0; openSet.Count > 0; ++steps)
             {
-                if (steps == maxSteps)
-                    _ = 0; // for debugging
                 if (steps > maxSteps)
                     throw new Exception("Too many steps!");
 
@@ -98,7 +96,6 @@ namespace Barmetler
                 openSet.Remove(current);
                 if (current == goal)
                 {
-                    // Debug.Log("Steps taken: " + steps);
                     return ReconstructPath(cameFrom, current);
                 }
 

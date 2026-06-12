@@ -13,27 +13,36 @@ public class BuildingGrid : MonoBehaviour
     public delegate void LocationsRegisteredEventHandler(object sender, LocationsRegisteredEventArgs e);
     public event LocationsRegisteredEventHandler LocationsRegistered;
 
+    [Header("Grid Size")]
     [SerializeField]
     private int width;
     [SerializeField]
     private int height;
+
+    [Header("Prefabs")]
     [SerializeField] private TreeVisual treeVisualPrefab;
+    [SerializeField] private GameObject waterTilePrefab;
+
+    [Header("Containers")]
     [SerializeField] private Transform treeContainer;
     [SerializeField] private Transform waterContainer;
-    [SerializeField] private GameObject waterTilePrefab;
+
+    [Header("Settings")]
+    [SerializeField] private int maxTreeAttempts = 1000;
+    [SerializeField] private LayerMask terrainLayer;
+    [SerializeField] private bool skipTerrainCheck = false;
+
+    public Water water;
     private BuildingGridCell[,] grid;
     private List<ILocation> locations;
     private List<Road> roads;
     private TreeVisual[,] treeVisuals;
     private GameObject[,] waterVisuals;
-
-    public BuildingGridCell[,] Grid { get => grid; private set => grid = value; } // for debug
-    public int Width { get => width; set => width = value; } // for debug
-    public int Height { get => height; set => height = value; } // for debug
+    private const float occupancyCheckRadius = BuildingSystem.CellSize * 0.76f;
+    public BuildingGridCell[,] Grid { get => grid; private set => grid = value; }
+    public int Width { get => width; set => width = value; }
+    public int Height { get => height; set => height = value; }
     public List<ILocation> Locations { get => locations; set => locations = value; }
-    public Water water;
-    [SerializeField] private LayerMask terrainLayer;
-    [SerializeField] private bool skipTerrainCheck = false;
 
     private void Awake()
     {
@@ -97,11 +106,9 @@ public class BuildingGrid : MonoBehaviour
     private void RegisterExistingObjects()
     {
         Locations = GameObject.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ILocation>().ToList();
-        //Debug.Log(Locations.Count);
         // init buildings to grid
         foreach (var location in Locations)
         {
-            //Debug.Log(location + ", " + location.GetAllBuildingPositions().Count);
             foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
                 (int x, int y) = WorldToGridPosition(pos);
@@ -173,7 +180,7 @@ public class BuildingGrid : MonoBehaviour
     {
         return col >= 0 && col < Width && row >= 0 && row < Height;
     }
-    public (int x, int y) WorldToGridPosition(Vector3 worldPosition) // public for debugging
+    public (int x, int y) WorldToGridPosition(Vector3 worldPosition)
     {
         int x = Mathf.FloorToInt((worldPosition - transform.position).x / BuildingSystem.CellSize);
         int y = Mathf.FloorToInt((worldPosition - transform.position).z / BuildingSystem.CellSize);
@@ -244,8 +251,7 @@ public class BuildingGrid : MonoBehaviour
         {
             foreach (Vector3 pos in location.GetAllBuildingPositions())
             {
-                //Debug.Log(Vector3.Distance(pos, position) + ", " + BuildingSystem.CellSize);
-                if (Vector3.Distance(pos, position) < BuildingSystem.CellSize * 0.76f)
+                if (Vector3.Distance(pos, position) < occupancyCheckRadius)
                 {
                     return false;
                 }
@@ -341,7 +347,7 @@ public class BuildingGrid : MonoBehaviour
         if (!reachesLand1 && !reachesLand2)
             return false;
 
-        int totalSpan = span1 + span2 + 1; // +1 az aktuális új elem
+        int totalSpan = span1 + span2 + 1; // +1 for the current new element
 
         return totalSpan <= roadData.MaxBridgeLength;
     }
@@ -379,18 +385,18 @@ public class BuildingGrid : MonoBehaviour
         int col;
         int amount;
 
-        int attempts = 0; //for debug
         for (int i = 0; i < startingCount; i++)
         {
-
+            int attempts = 0;
             do
             {
                 row = RandomNumberGenerator.GetInt32(0, Height);
                 col = RandomNumberGenerator.GetInt32(0, Width);
                 attempts++;
-                if (attempts > 1000)
+                if (attempts > maxTreeAttempts)
                 {
                     Debug.LogWarning("Couldnt find position for tree!");
+                    break;
                 }
             } while (!CanTreeGrowHere(col, row));
 
@@ -425,7 +431,6 @@ public class BuildingGrid : MonoBehaviour
         Vector3 worldPos = GridToWorldCenterPosition(col, row);
         if (!Physics.Raycast(worldPos, Vector3.down, out RaycastHit hit, Mathf.Infinity, terrainLayer))
         {
-            Debug.Log($"Raycast missed at col: {col}, row: {row}!");
             return false;
         }
 
@@ -589,19 +594,19 @@ public class BuildingGrid : MonoBehaviour
         {
             return hit.point;
         }
-        Debug.LogWarning("Nem talalta meg a felszint! " + worldPos);
+        Debug.LogWarning("Couldnt find surface at: " + worldPos);
         return worldPos;
     }
 
     public float GetTerrainHeightAtGrid(int col, int row)
     {
         Vector3 worldPos = GridToWorldCenterPosition(col, row);
-        // 100f-ről indítjuk a sugarat lefelé (ahogy a GridToWorldCenterPosition-ben is van)
+        // Ray starts at 100f and goes downward (same as in GridToWorldCenterPosition)
         if (Physics.Raycast(new Vector3(worldPos.x, 100f, worldPos.z), Vector3.down, out RaycastHit hit, Mathf.Infinity))
         {
             return hit.point.y;
         }
-        return 0f; // Alapértelmezett, ha nincs találat
+        return 0f; // Default if no raycast hit
     }
 
     public float CalculateBridgeHeight(Vector3 currentPos, float rotation, RoadData roadData)
@@ -646,13 +651,11 @@ public class BuildingGrid : MonoBehaviour
     private void InitializeWater()
     {
         List<GameObject> waterTiles = GameObject.FindGameObjectsWithTag("WaterTile").ToList();
-        int count = 0; // debug
         foreach (GameObject waterTile in waterTiles)
         {
             (int x, int z) = WorldToGridPosition(waterTile.transform.position);
             if (IsInsideGrid(x, z))
             {
-                count++;
                 Grid[x, z].SetTerrainType(TerrainType.Water);
                 Grid[x, z].ClearTrees();
 
