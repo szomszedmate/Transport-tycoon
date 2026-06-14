@@ -7,7 +7,6 @@ They need to be downloaded manually and extracted into the `Assets/` folder.
 
 | Folder | Asset Name | Link |
 |--------|-----------|------|
-| Assets/3D_Sci-fi_asteroid_belt_group_01/ | 3D Sci-fi Asteroid Belt Group 01 | Unity Asset Store |
 | Assets/Sci-fi_asteroid_belt_group_01/ | Sci-fi Asteroid Belt Group | Unity Asset Store |
 | Assets/Free Skyboxes - Space/ | Free Skyboxes - Space | [Unity Asset Store](https://assetstore.unity.com/packages/p/free-skyboxes-space-178953) |
 | Assets/Cool Visual Effects - Part 1/ | Cool Visual Effects Part 1 | Unity Asset Store |
