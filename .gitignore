@@ -32,9 +32,6 @@ Assets/Space_Exploration_GUI_Kit.meta
 # (Ezeket manuálisan kell letölteni az Asset Store-ból)
 
 # Textúrák
-*.png
-*.jpg
-*.jpeg
 *.tga
 *.tif
 *.tiff
@@ -44,20 +41,11 @@ Assets/Space_Exploration_GUI_Kit.meta
 *.bmp
 
 # 3D modellek
-*.fbx
-*.FBX
 *.obj
 *.OBJ
 *.blend
 *.dae
 *.3ds
-
-# Hang
-*.mp3
-*.wav
-*.ogg
-*.aiff
-*.aif
 
 # Videó
 *.mp4
@@ -80,4 +68,6 @@ Assets/PurePoly/
 
 # Misc
 bfg-1.15.0.jar
-$null
+
+# Meta
+!**/*.meta

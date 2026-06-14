@@ -1,15 +1,15 @@
-# Külső Asset-ek forrásai
+# External Assets
 
-Ezek az asset-ek nincsenek a git repóban (túl nagy binárisok).
-Manuálisan kell letölteni és az `Assets/` mappába kicsomagolni.
+These assets are not included in the git repository (for copyright reasons).
+They need to be downloaded manually and extracted into the `Assets/` folder.
 
 ## Unity Asset Store
 
-| Mappa | Asset neve | Link |
-|-------|-----------|------|
+| Folder | Asset Name | Link |
+|--------|-----------|------|
 | Assets/3D_Sci-fi_asteroid_belt_group_01/ | 3D Sci-fi Asteroid Belt Group 01 | Unity Asset Store |
 | Assets/Sci-fi_asteroid_belt_group_01/ | Sci-fi Asteroid Belt Group | Unity Asset Store |
-| Assets/Free Skyboxes - Space/ | Free Skyboxes - Space | Unity Asset Store |
+| Assets/Free Skyboxes - Space/ | Free Skyboxes - Space | [Unity Asset Store](https://assetstore.unity.com/packages/p/free-skyboxes-space-178953) |
 | Assets/Cool Visual Effects - Part 1/ | Cool Visual Effects Part 1 | Unity Asset Store |
 | Assets/WaterWorks/ | WaterWorks | Unity Asset Store |
 | Assets/Sci-Fi UI/ | Sci-Fi UI | Unity Asset Store |
@@ -21,17 +21,17 @@ Manuálisan kell letölteni és az `Assets/` mappába kicsomagolni.
 | Assets/PurePoly/ | PurePoly | Unity Asset Store |
 | Assets/Mirza Beig/ | Mirza Beig | Unity Asset Store |
 
-## Fontok
+## Fonts
 
-| Mappa | Font neve | Link |
-|-------|-----------|------|
+| Folder | Font Name | Link |
+|--------|-----------|------|
 | Assets/09_Fonts/ | Orbitron | https://fonts.google.com/specimen/Orbitron |
 
-## Saját média (Google Drive)
+## Custom Media (Google Drive)
 
-A saját képek, ikonok, sprite-ok itt érhetők el:
+Custom images, icons, and sprites are available here:
 https://drive.google.com/drive/folders/1Tc4sq_zLpBR2A-VuYG6AWKbZEoR3-3eC?usp=drive_link
 
-Tartalmazza:
+Includes:
 - Assets/06_Sprites/
 - Assets/02_Materials/01_Media/Pictures/
