@@ -1,5 +1,8 @@
 # Controls
 
+## UI
+- U : toggle UI
+
 ## Building
 - 1–4 : Select road type (Preview)
 - 5-7 : Select bridge type (Preview)
@@ -7,14 +10,14 @@
 - R : Rotate preview
 - Left click : Place
 - Right click : Cancel preview
-
+- O : Cat
 
 ## Destroy Mode
 - X : Toggle destroy mode
 - Left click : Destroy building
 
 ## Vehicles
-- C : Start / Cancel planning route
+- C : Cancel planning route
 - Left Click (Hold) : Add road to route
 - Right Click (Hold) : Remove road from route
 - Enter : Confirm route
@@ -37,4 +40,6 @@
 
 ## System
 - Escape : Open menu
-- 9 : Debug Grid (Log locations)
+
+## Misc
+- Escape : End credits
