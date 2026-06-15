@@ -48,6 +48,7 @@ public class VehicleSpawnAnimation : MonoBehaviour
         }
 
         visual.transform.position = groundTarget;
+        visual.transform.localRotation = Quaternion.identity;
 
         if (model != null) model.adjustEnabled = true;
     }
