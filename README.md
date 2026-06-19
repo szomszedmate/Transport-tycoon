@@ -28,6 +28,7 @@ See [controls.md](controls.md)
 
 - Unity 6003.7f1 required
 - Clone the repo: `https://szofttech.inf.elte.hu/szofttech-ab-2026/group-12/transzporterek/transport-tycoon.git`
+- Manually download the packages listed [here](ASSETS_SOURCES.md)
 
 ## License
 
