@@ -8,7 +8,7 @@ You've begun your journey to a far asteroid where you plan on building a colony 
 
 ## Trailer
 
-Check out the trailer here: [trailer](https://youtu.be/PFHadp9hscM?si=p1yeDsveUCuPFQb)
+Check out the trailer here: [![Trailer](https://img.youtube.com/vi/PFHadp9hscM/hqdefault.jpg)](https://youtu.be/PFHadp9hscM)
 
 ## Screenhots
 
